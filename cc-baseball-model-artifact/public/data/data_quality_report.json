@@ -1,0 +1,501 @@
+{
+  "generated_at": "2026-07-10T17:30:45+00:00",
+  "source_context": {
+    "season": 2026,
+    "start_date": "2026-03-25",
+    "end_date": "2026-07-10",
+    "probables_date": "2026-07-10",
+    "last_updated": "2026-07-10T17:30:45+00:00",
+    "source_priority": [
+      "Baseball Savant Statcast CSV",
+      "MLB StatsAPI"
+    ],
+    "statcast_pitcher_count": 738,
+    "statsapi_pitcher_count": 742,
+    "probable_pitcher_count": 30,
+    "statcast_pitcher_ids_are_numeric": true,
+    "people_info_count": 742,
+    "probable_start_game_log_count": 30,
+    "bullpen_availability_team_count": 30,
+    "probable_pitchers": [
+      {
+        "player_id": 519242,
+        "player_name": "Chris Sale",
+        "team": "ATL"
+      },
+      {
+        "player_id": 543243,
+        "player_name": "Sonny Gray",
+        "team": "BOS"
+      },
+      {
+        "player_id": 592662,
+        "player_name": "Robbie Ray",
+        "team": "SF"
+      },
+      {
+        "player_id": 593958,
+        "player_name": "Eduardo Rodriguez",
+        "team": "AZ"
+      },
+      {
+        "player_id": 605400,
+        "player_name": "Aaron Nola",
+        "team": "PHI"
+      },
+      {
+        "player_id": 607259,
+        "player_name": "Nick Martinez",
+        "team": "TB"
+      },
+      {
+        "player_id": 615698,
+        "player_name": "Cal Quantrill",
+        "team": "TEX"
+      },
+      {
+        "player_id": 622491,
+        "player_name": "Luis Castillo",
+        "team": "SEA"
+      },
+      {
+        "player_id": 645261,
+        "player_name": "Sandy Alcantara",
+        "team": "MIA"
+      },
+      {
+        "player_id": 656427,
+        "player_name": "Jack Flaherty",
+        "team": "DET"
+      },
+      {
+        "player_id": 660271,
+        "player_name": "Shohei Ohtani",
+        "team": "LAD"
+      },
+      {
+        "player_id": 668881,
+        "player_name": "Hunter Greene",
+        "team": "CIN"
+      },
+      {
+        "player_id": 669456,
+        "player_name": "Shane Bieber",
+        "team": "TOR"
+      },
+      {
+        "player_id": 676664,
+        "player_name": "JP Sears",
+        "team": "SD"
+      },
+      {
+        "player_id": 677952,
+        "player_name": "Braxton Ashcraft",
+        "team": "PIT"
+      },
+      {
+        "player_id": 677960,
+        "player_name": "Ryan Weathers",
+        "team": "NYY"
+      },
+      {
+        "player_id": 679883,
+        "player_name": "Luinder Avila",
+        "team": "KC"
+      },
+      {
+        "player_id": 680570,
+        "player_name": "Grayson Rodriguez",
+        "team": "LAA"
+      },
+      {
+        "player_id": 680732,
+        "player_name": "Sean Burke",
+        "team": "CWS"
+      },
+      {
+        "player_id": 681517,
+        "player_name": "Kyle Leahy",
+        "team": "STL"
+      },
+      {
+        "player_id": 682052,
+        "player_name": "Jacob Lopez",
+        "team": "ATH"
+      },
+      {
+        "player_id": 684007,
+        "player_name": "Shota Imanaga",
+        "team": "CHC"
+      },
+      {
+        "player_id": 685299,
+        "player_name": "Tanner Gordon",
+        "team": "COL"
+      },
+      {
+        "player_id": 686613,
+        "player_name": "Hunter Brown",
+        "team": "HOU"
+      },
+      {
+        "player_id": 687064,
+        "player_name": "Brandon Young",
+        "team": "BAL"
+      },
+      {
+        "player_id": 687075,
+        "player_name": "Brandon Sproat",
+        "team": "MIL"
+      },
+      {
+        "player_id": 687223,
+        "player_name": "Carson Palmquist",
+        "team": "WSH"
+      },
+      {
+        "player_id": 690997,
+        "player_name": "Nolan McLean",
+        "team": "NYM"
+      },
+      {
+        "player_id": 800048,
+        "player_name": "Parker Messick",
+        "team": "CLE"
+      },
+      {
+        "player_id": 805673,
+        "player_name": "Zebby Matthews",
+        "team": "MIN"
+      }
+    ],
+    "player_universe_count": 742,
+    "statsapi_ids_missing_from_statcast": [
+      605156,
+      624512,
+      663967,
+      681432
+    ],
+    "statcast_ids_missing_from_statsapi": []
+  },
+  "row_counts": {
+    "starter_damage_allowed": 742,
+    "pitcher_pitch_type_damage_allowed": 3691,
+    "pitcher_chase_generation": 742,
+    "bullpen_availability": 30
+  },
+  "missing_field_counts": {
+    "starter_damage_allowed": {
+      "era": 1,
+      "game_log_starts": 712,
+      "avg_start_innings": 580,
+      "avg_start_pitches": 712,
+      "avg_start_batters_faced": 712,
+      "barrel_allowed_rate": 5,
+      "hard_hit_allowed_rate": 5,
+      "avg_exit_velocity_allowed": 5,
+      "launch_angle_allowed": 5,
+      "hr_fb_allowed": 24,
+      "slg_allowed": 1,
+      "xslg_allowed": 5,
+      "xba_allowed": 5,
+      "xwoba_allowed": 4,
+      "sample_batted_balls": 4
+    },
+    "pitcher_pitch_type_damage_allowed": {
+      "pitch_type": 305,
+      "pitch_name": 305,
+      "ba_allowed": 501,
+      "slg_allowed": 501,
+      "iso_allowed": 501,
+      "woba_allowed": 459,
+      "xslg_allowed": 578,
+      "xwoba_allowed": 459,
+      "barrel_allowed_rate": 577,
+      "hard_hit_allowed_rate": 577,
+      "avg_exit_velocity_allowed": 577,
+      "launch_angle_allowed": 577,
+      "whiff_rate": 411,
+      "chase_rate_generated": 344,
+      "out_of_zone_swing_rate_generated": 344,
+      "out_of_zone_whiff_rate": 638,
+      "zone_whiff_rate": 515
+    },
+    "pitcher_chase_generation": {
+      "out_of_zone_pitches": 4,
+      "out_of_zone_swings": 4,
+      "out_of_zone_whiffs": 4,
+      "zone_pitches": 4,
+      "zone_swings": 4,
+      "zone_whiffs": 4,
+      "chase_rate_generated": 5,
+      "out_of_zone_whiff_rate": 10,
+      "zone_whiff_rate": 4,
+      "called_strike_rate": 4,
+      "first_pitch_strike_rate": 5,
+      "swinging_strike_rate": 4,
+      "chase_k_share_if_available": 742,
+      "slider_splitter_change_usage": 4,
+      "chase_reliance_score": 742
+    },
+    "bullpen_availability": {}
+  },
+  "null_reasons": {
+    "starter_damage_allowed": {
+      "era": {
+        "null_count": 1,
+        "reason": "No official MLB StatsAPI ERA was available."
+      },
+      "game_log_starts": {
+        "null_count": 712,
+        "reason": "No MLB StatsAPI pitching game-log starts were available for this pitcher."
+      },
+      "avg_start_innings": {
+        "null_count": 580,
+        "reason": "No MLB StatsAPI pitching game-log starts or clean season-start denominator were available."
+      },
+      "avg_start_pitches": {
+        "null_count": 712,
+        "reason": "No MLB StatsAPI pitching game-log starts with pitch counts were available."
+      },
+      "avg_start_batters_faced": {
+        "null_count": 712,
+        "reason": "No MLB StatsAPI pitching game-log starts with batters-faced counts were available."
+      },
+      "barrel_allowed_rate": {
+        "null_count": 5,
+        "reason": "No tracked in-play batted balls were available from Statcast for the denominator."
+      },
+      "hard_hit_allowed_rate": {
+        "null_count": 5,
+        "reason": "No tracked in-play batted balls were available from Statcast for the denominator."
+      },
+      "avg_exit_velocity_allowed": {
+        "null_count": 5,
+        "reason": "No tracked in-play batted balls with Statcast launch_speed were available."
+      },
+      "launch_angle_allowed": {
+        "null_count": 5,
+        "reason": "No tracked in-play batted balls with Statcast launch_angle were available."
+      },
+      "hr_fb_allowed": {
+        "null_count": 24,
+        "reason": "No Statcast fly balls were available for the HR/fly-ball denominator."
+      },
+      "slg_allowed": {
+        "null_count": 1,
+        "reason": "No official MLB StatsAPI at-bat denominator was available, and no Statcast at-bat fallback was available."
+      },
+      "xslg_allowed": {
+        "null_count": 5,
+        "reason": "No eligible Statcast estimated_slg_using_speedangle values were available."
+      },
+      "xba_allowed": {
+        "null_count": 5,
+        "reason": "No eligible Statcast estimated_ba_using_speedangle values were available."
+      },
+      "xwoba_allowed": {
+        "null_count": 4,
+        "reason": "No eligible Statcast estimated_woba_using_speedangle values with a wOBA denominator were available."
+      },
+      "sample_batted_balls": {
+        "null_count": 4,
+        "reason": "No Statcast pitch-level rows were available for this pitcher."
+      }
+    },
+    "pitcher_pitch_type_damage_allowed": {
+      "pitch_type": {
+        "null_count": 305,
+        "reason": "Savant did not classify the pitch_type for these pitch rows."
+      },
+      "pitch_name": {
+        "null_count": 305,
+        "reason": "Savant did not provide a pitch_name for these pitch rows."
+      },
+      "ba_allowed": {
+        "null_count": 501,
+        "reason": "No at-bat denominator was available for this split."
+      },
+      "slg_allowed": {
+        "null_count": 501,
+        "reason": "No official MLB StatsAPI at-bat denominator was available, and no Statcast at-bat fallback was available."
+      },
+      "iso_allowed": {
+        "null_count": 501,
+        "reason": "BA or SLG was unavailable for this split."
+      },
+      "woba_allowed": {
+        "null_count": 459,
+        "reason": "No Statcast woba_denom denominator was available for this split."
+      },
+      "xslg_allowed": {
+        "null_count": 578,
+        "reason": "No eligible Statcast estimated_slg_using_speedangle values were available."
+      },
+      "xwoba_allowed": {
+        "null_count": 459,
+        "reason": "No eligible Statcast estimated_woba_using_speedangle values with a wOBA denominator were available."
+      },
+      "barrel_allowed_rate": {
+        "null_count": 577,
+        "reason": "No tracked in-play batted balls were available from Statcast for the denominator."
+      },
+      "hard_hit_allowed_rate": {
+        "null_count": 577,
+        "reason": "No tracked in-play batted balls were available from Statcast for the denominator."
+      },
+      "avg_exit_velocity_allowed": {
+        "null_count": 577,
+        "reason": "No tracked in-play batted balls with Statcast launch_speed were available."
+      },
+      "launch_angle_allowed": {
+        "null_count": 577,
+        "reason": "No tracked in-play batted balls with Statcast launch_angle were available."
+      },
+      "whiff_rate": {
+        "null_count": 411,
+        "reason": "No swing denominator was available for this split."
+      },
+      "chase_rate_generated": {
+        "null_count": 344,
+        "reason": "No out-of-zone pitch denominator was available from Statcast zone data."
+      },
+      "out_of_zone_swing_rate_generated": {
+        "null_count": 344,
+        "reason": "No out-of-zone pitch denominator was available from Statcast zone data."
+      },
+      "out_of_zone_whiff_rate": {
+        "null_count": 638,
+        "reason": "No out-of-zone swing denominator was available."
+      },
+      "zone_whiff_rate": {
+        "null_count": 515,
+        "reason": "No in-zone swing denominator was available."
+      }
+    },
+    "pitcher_chase_generation": {
+      "out_of_zone_pitches": {
+        "null_count": 4,
+        "reason": "No Statcast pitch-level rows were available for this pitcher."
+      },
+      "out_of_zone_swings": {
+        "null_count": 4,
+        "reason": "No Statcast pitch-level rows were available for this pitcher."
+      },
+      "out_of_zone_whiffs": {
+        "null_count": 4,
+        "reason": "No Statcast pitch-level rows were available for this pitcher."
+      },
+      "zone_pitches": {
+        "null_count": 4,
+        "reason": "No Statcast pitch-level rows were available for this pitcher."
+      },
+      "zone_swings": {
+        "null_count": 4,
+        "reason": "No Statcast pitch-level rows were available for this pitcher."
+      },
+      "zone_whiffs": {
+        "null_count": 4,
+        "reason": "No Statcast pitch-level rows were available for this pitcher."
+      },
+      "chase_rate_generated": {
+        "null_count": 5,
+        "reason": "No out-of-zone pitch denominator was available from Statcast zone data."
+      },
+      "out_of_zone_whiff_rate": {
+        "null_count": 10,
+        "reason": "No out-of-zone swing denominator was available."
+      },
+      "zone_whiff_rate": {
+        "null_count": 4,
+        "reason": "No in-zone swing denominator was available."
+      },
+      "called_strike_rate": {
+        "null_count": 4,
+        "reason": "No Statcast pitch total was available for the denominator."
+      },
+      "first_pitch_strike_rate": {
+        "null_count": 5,
+        "reason": "No first-pitch denominator was available from Statcast pitch_number data."
+      },
+      "swinging_strike_rate": {
+        "null_count": 4,
+        "reason": "No Statcast pitch total was available for the denominator."
+      },
+      "chase_k_share_if_available": {
+        "null_count": 742,
+        "reason": "No direct Baseball Savant or MLB StatsAPI field was available; left null by design."
+      },
+      "slider_splitter_change_usage": {
+        "null_count": 4,
+        "reason": "No Statcast pitch total was available for the denominator."
+      },
+      "chase_reliance_score": {
+        "null_count": 742,
+        "reason": "No official source field or user-specified formula was provided; left null to avoid inventing a metric."
+      }
+    },
+    "bullpen_availability": {}
+  },
+  "small_sample_counts": {
+    "pitcher_pitch_type_damage_allowed": 1775,
+    "threshold_pitches": 50
+  },
+  "pitchers_missing_from_each_table": {
+    "starter_damage_allowed": [],
+    "pitcher_pitch_type_damage_allowed": [
+      {
+        "player_id": 605156,
+        "player_name": "Aaron Brooks",
+        "team": "TB"
+      },
+      {
+        "player_id": 624512,
+        "player_name": "Reese McGuire",
+        "team": "CWS"
+      },
+      {
+        "player_id": 663967,
+        "player_name": "César Salazar",
+        "team": "HOU"
+      },
+      {
+        "player_id": 681432,
+        "player_name": "Luke Little",
+        "team": "CHC"
+      }
+    ],
+    "pitcher_chase_generation": []
+  },
+  "validations": {
+    "no_invented_values": {
+      "passed": true,
+      "note": "Values are sourced from Baseball Savant / MLB StatsAPI or computed from documented formulas; unavailable values remain null."
+    },
+    "mlbam_savant_id": {
+      "passed": true,
+      "statcast_pitcher_ids_are_numeric": true,
+      "statsapi_ids_missing_from_statcast_count": 4,
+      "statcast_ids_missing_from_statsapi_count": 0
+    },
+    "usage_pct_by_pitcher": {
+      "scale": "0_to_100_percentage",
+      "pitcher_count_checked": 738,
+      "min_sum": 99.999998,
+      "max_sum": 100.000002,
+      "violation_count": 0,
+      "violations": []
+    },
+    "rate_bounds": {
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    },
+    "pitch_type_small_samples_flagged": {
+      "passed": true
+    },
+    "starter_damage_sample_fields_present": {
+      "passed": true
+    }
+  }
+}

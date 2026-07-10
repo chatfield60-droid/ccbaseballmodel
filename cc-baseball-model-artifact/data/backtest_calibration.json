@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-07-10T17:34:57+00:00",
+  "status": "no_graded_bets_available",
+  "input": "data/graded_bets.json",
+  "required_fields": [
+    "market",
+    "probability",
+    "result"
+  ],
+  "optional_fields": [
+    "book_odds",
+    "closing_odds"
+  ],
+  "note": "No calibration was estimated because no graded bets file exists."
+}
