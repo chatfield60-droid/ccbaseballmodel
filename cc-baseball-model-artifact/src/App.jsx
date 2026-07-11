@@ -4428,6 +4428,14 @@ function blankOdds() {
   return { k: {}, batter: {}, teamTotals: [], h2h: {}, totals: [], f5H2h: {}, f5Totals: [] };
 }
 
+function defaultGameIndex(games) {
+  const index = (games || []).findIndex((game) => {
+    const status = normal(game?.status);
+    return !status.includes("in progress") && !status.includes("final") && !status.includes("completed") && !status.includes("game over");
+  });
+  return index >= 0 ? index : 0;
+}
+
 function favoriteForGame(game) {
   const homeProbability = Number(game?.home_win_probability);
   if (!Number.isFinite(homeProbability)) return null;
@@ -4512,13 +4520,13 @@ function summarizeSynthesis(game) {
 }
 
 function CustomerBoard() {
+  const games = BOARD.games || [];
   const [night, setNight] = useState(false);
-  const [gameIndex, setGameIndex] = useState(0);
+  const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
   const [kMode, setKMode] = useState("sharp");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [odds, setOdds] = useState(blankOdds);
-  const games = BOARD.games || [];
   const game = games[gameIndex] || games[0] || null;
   const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
   const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
