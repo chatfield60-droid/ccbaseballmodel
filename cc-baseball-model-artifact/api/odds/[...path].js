@@ -14,7 +14,8 @@ export default async function handler(req, res) {
     return;
   }
 
-  const pathParts = Array.isArray(req.query.path) ? req.query.path : [];
+  const rawPath = req.query.path;
+  const pathParts = Array.isArray(rawPath) ? rawPath : rawPath ? [rawPath] : [];
   const path = pathParts.join("/");
   if (!path || path.includes("..") || path.startsWith("/")) {
     sendJson(res, 400, { error: "Invalid odds path" });
