@@ -4567,7 +4567,7 @@ function CustomerBoard() {
       const nextF5H2h = {};
       const nextGameTotals = [];
       const nextF5Totals = [];
-      const warnings = [];
+      const warnings = new Set();
       const setTeamPrice = (store, side, candidate) => {
         if (!side) return;
         if (quoteIsBetter(candidate, store[side])) store[side] = candidate;
@@ -4577,7 +4577,15 @@ function CustomerBoard() {
         const params = new URLSearchParams({ regions: "us", oddsFormat: "american", markets });
         const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
         if (response.ok) return response.json();
+        if (response.status === 401) {
+          warnings.add("sportsbook odds key rejected");
+          return null;
+        }
         const fallbackResponse = await fetch(oddsUrl("sports/baseball_mlb/odds", params));
+        if (fallbackResponse.status === 401) {
+          warnings.add("sportsbook odds key rejected");
+          return null;
+        }
         if (!fallbackResponse.ok) return null;
         const fallbackOdds = await fallbackResponse.json();
         if (!Array.isArray(fallbackOdds)) return null;
@@ -4650,26 +4658,27 @@ function CustomerBoard() {
 
       const mainOdds = await fetchOddsPayload("h2h,totals");
       if (mainOdds) parseStandardOdds(mainOdds);
-      else warnings.push("moneyline/total prices unavailable");
+      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("moneyline/total prices unavailable");
 
       const teamTotalOdds = await fetchOddsPayload("team_totals");
       if (teamTotalOdds) parseStandardOdds(teamTotalOdds);
-      else warnings.push("team total prices unavailable");
+      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("team total prices unavailable");
 
       const f5Odds = await fetchOddsPayload("h2h_1st_5_innings,totals_1st_5_innings");
       if (f5Odds) parseStandardOdds(f5Odds);
-      else warnings.push("F5 prices unavailable");
+      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("F5 prices unavailable");
 
       const pitcherKOdds = await fetchOddsPayload("pitcher_strikeouts");
       if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
-      else warnings.push("pitcher K prices unavailable");
+      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("pitcher K prices unavailable");
 
       const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases");
       if (propOdds) parseBatterOdds(propOdds);
-      else warnings.push("batter prop prices unavailable");
+      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
 
       setOdds({ k: nextK, batter: nextBatter, teamTotals: nextTotals, h2h: nextH2h, totals: nextGameTotals, f5H2h: nextF5H2h, f5Totals: nextF5Totals });
-      setMessage(`Live odds updated. A price must clear the displayed play-to number before any consideration.${warnings.length ? ` Some markets are not returned by the sportsbook feed: ${warnings.join(", ")}.` : ""}`);
+      const warningList = [...warnings];
+      setMessage(`Live odds updated. A price must clear the displayed play-to number before any consideration.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so live book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
       setOdds(blankOdds());
       setMessage(error instanceof Error ? error.message : "Live odds are unavailable right now.");
