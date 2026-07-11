@@ -11,13 +11,31 @@ const BOARD = {
       "home_name": "Pittsburgh Pirates",
       "away_starter": "Brandon Sproat",
       "home_starter": "Braxton Ashcraft",
-      "status": "Scheduled",
+      "status": "Pre-Game",
       "time": "12:05 PM ET",
       "day_night": "day",
       "away_score": 4.8,
       "home_score": 4.6,
       "total": 9.4,
       "home_win_probability": 0.46,
+      "moneyline_fairs": {
+        "away_probability": 0.54,
+        "home_probability": 0.46,
+        "away_fair": -117,
+        "home_fair": 117
+      },
+      "team_total_fairs": {
+        "away": 4.8,
+        "home": 4.6
+      },
+      "f5": {
+        "away_score": 2.5,
+        "home_score": 2.3,
+        "total": 4.8,
+        "home_win_probability": 0.448,
+        "away_fair": -123,
+        "home_fair": 123
+      },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -51,9 +69,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
+          "projected": 6.4,
+          "base_projected": 5.8,
           "fair": 113,
+          "under_fair": -113,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 123,
+          "under_play_to": -103,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -62,9 +88,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 7.5,
+          "projected": 7.9,
+          "base_projected": 7.3,
           "fair": -140,
+          "under_fair": 140,
+          "base_fair": 121,
+          "base_under_fair": -121,
           "book": null,
           "play_to": -130,
+          "under_play_to": 150,
+          "base_play_to": 131,
+          "base_under_play_to": -111,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -85,6 +119,24 @@ const BOARD = {
       "home_score": 5.0,
       "total": 9.4,
       "home_win_probability": 0.618,
+      "moneyline_fairs": {
+        "away_probability": 0.382,
+        "home_probability": 0.618,
+        "away_fair": 162,
+        "home_fair": -162
+      },
+      "team_total_fairs": {
+        "away": 4.4,
+        "home": 5.0
+      },
+      "f5": {
+        "away_score": 2.2,
+        "home_score": 2.5,
+        "total": 4.7,
+        "home_win_probability": 0.578,
+        "away_fair": 137,
+        "home_fair": -137
+      },
       "synthesis": "The board sees a higher-scoring game script. PIT has the clearer projected scoring path.",
       "k_targets": [
         {
@@ -130,9 +182,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.4,
+          "base_projected": 4.8,
           "fair": 105,
+          "under_fair": -105,
+          "base_fair": 182,
+          "base_under_fair": -182,
           "book": null,
           "play_to": 115,
+          "under_play_to": -95,
+          "base_play_to": 192,
+          "base_under_play_to": -172,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -141,9 +201,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
+          "projected": 4.9,
+          "base_projected": 4.3,
           "fair": -139,
+          "under_fair": 139,
+          "base_fair": 122,
+          "base_under_fair": -122,
           "book": null,
           "play_to": -129,
+          "under_play_to": 149,
+          "base_play_to": 132,
+          "base_under_play_to": -112,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -164,6 +232,24 @@ const BOARD = {
       "home_score": 4.3,
       "total": 8.9,
       "home_win_probability": 0.44,
+      "moneyline_fairs": {
+        "away_probability": 0.56,
+        "home_probability": 0.44,
+        "away_fair": -127,
+        "home_fair": 127
+      },
+      "team_total_fairs": {
+        "away": 4.6,
+        "home": 4.3
+      },
+      "f5": {
+        "away_score": 2.4,
+        "home_score": 2.1,
+        "total": 4.5,
+        "home_win_probability": 0.422,
+        "away_fair": -137,
+        "home_fair": 137
+      },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -209,9 +295,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
+          "projected": 4.3,
+          "base_projected": 3.7,
           "fair": 117,
+          "under_fair": -117,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 127,
+          "under_play_to": -107,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -220,9 +314,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 7.5,
+          "projected": 7.5,
+          "base_projected": 6.9,
           "fair": 102,
+          "under_fair": -102,
+          "base_fair": 175,
+          "base_under_fair": -175,
           "book": null,
           "play_to": 112,
+          "under_play_to": -92,
+          "base_play_to": 185,
+          "base_under_play_to": -165,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -236,13 +338,31 @@ const BOARD = {
       "home_name": "Chicago White Sox",
       "away_starter": "Gage Jump",
       "home_starter": "Bryan Hudson",
-      "status": "Scheduled",
+      "status": "Pre-Game",
       "time": "2:10 PM ET",
       "day_night": "day",
       "away_score": 4.7,
       "home_score": 4.9,
       "total": 9.6,
       "home_win_probability": 0.54,
+      "moneyline_fairs": {
+        "away_probability": 0.46,
+        "home_probability": 0.54,
+        "away_fair": 117,
+        "home_fair": -117
+      },
+      "team_total_fairs": {
+        "away": 4.7,
+        "home": 4.9
+      },
+      "f5": {
+        "away_score": 2.2,
+        "home_score": 2.5,
+        "total": 4.7,
+        "home_win_probability": 0.578,
+        "away_fair": 137,
+        "home_fair": -137
+      },
       "synthesis": "The board sees a higher-scoring game script. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -264,9 +384,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.9,
+          "base_projected": 5.3,
           "fair": -144,
+          "under_fair": 144,
+          "base_fair": 118,
+          "base_under_fair": -118,
           "book": null,
           "play_to": -134,
+          "under_play_to": 154,
+          "base_play_to": 128,
+          "base_under_play_to": -108,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -274,10 +402,18 @@ const BOARD = {
           "player": "Bryan Hudson",
           "market": "Pitcher strikeouts",
           "side": "Over",
-          "line": 1.5,
-          "fair": -129,
+          "line": 2.5,
+          "projected": 2.1,
+          "base_projected": 1.5,
+          "fair": 143,
+          "under_fair": -143,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
-          "play_to": -119,
+          "play_to": 153,
+          "under_play_to": -133,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -298,6 +434,24 @@ const BOARD = {
       "home_score": 3.8,
       "total": 8.2,
       "home_win_probability": 0.382,
+      "moneyline_fairs": {
+        "away_probability": 0.618,
+        "home_probability": 0.382,
+        "away_fair": -162,
+        "home_fair": 162
+      },
+      "team_total_fairs": {
+        "away": 4.4,
+        "home": 3.8
+      },
+      "f5": {
+        "away_score": 2.2,
+        "home_score": 1.9,
+        "total": 4.1,
+        "home_win_probability": 0.422,
+        "away_fair": -137,
+        "home_fair": 137
+      },
       "synthesis": "The board sees a balanced run environment. COL has the clearer projected scoring path.",
       "k_targets": [
         {
@@ -319,9 +473,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
+          "projected": 4.7,
+          "base_projected": 4.1,
           "fair": -121,
+          "under_fair": 121,
+          "base_fair": 140,
+          "base_under_fair": -140,
           "book": null,
           "play_to": -111,
+          "under_play_to": 131,
+          "base_play_to": 150,
+          "base_under_play_to": -130,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -330,82 +492,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.5,
+          "base_projected": 4.9,
           "fair": -104,
+          "under_fair": 104,
+          "base_fair": 165,
+          "base_under_fair": -165,
           "book": null,
           "play_to": -94,
-          "designation": "Watch price",
-          "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
-        }
-      ]
-    },
-    {
-      "id": 822711,
-      "away": "NYY",
-      "home": "WSH",
-      "away_name": "New York Yankees",
-      "home_name": "Washington Nationals",
-      "away_starter": "Cam Schlittler",
-      "home_starter": "Miles Mikolas",
-      "status": "Scheduled",
-      "time": "4:05 PM ET",
-      "day_night": "day",
-      "away_score": 4.7,
-      "home_score": 4.9,
-      "total": 9.6,
-      "home_win_probability": 0.54,
-      "synthesis": "The board sees a higher-scoring game script. Neither side has a meaningful projected scoring edge.",
-      "k_targets": [],
-      "prop_angles": [
-        {
-          "player": "Cam Schlittler",
-          "market": "Pitcher strikeouts",
-          "side": "Over",
-          "line": 8.5,
-          "fair": 132,
-          "book": null,
-          "play_to": 142,
-          "designation": "Watch price",
-          "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
-        },
-        {
-          "player": "Miles Mikolas",
-          "market": "Pitcher strikeouts",
-          "side": "Over",
-          "line": 3.5,
-          "fair": 121,
-          "book": null,
-          "play_to": 131,
-          "designation": "Watch price",
-          "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
-        }
-      ]
-    },
-    {
-      "id": 823603,
-      "away": "BOS",
-      "home": "NYM",
-      "away_name": "Boston Red Sox",
-      "home_name": "New York Mets",
-      "away_starter": null,
-      "home_starter": "Freddy Peralta",
-      "status": "Scheduled",
-      "time": "4:10 PM ET",
-      "day_night": "day",
-      "away_score": 4.2,
-      "home_score": null,
-      "total": null,
-      "home_win_probability": null,
-      "synthesis": "A customer-safe matchup summary will appear when both team forecasts are available.",
-      "k_targets": [],
-      "prop_angles": [
-        {
-          "player": "Freddy Peralta",
-          "market": "Pitcher strikeouts",
-          "side": "Over",
-          "line": 5.5,
-          "fair": -113,
-          "book": null,
-          "play_to": -103,
+          "under_play_to": 114,
+          "base_play_to": 175,
+          "base_under_play_to": -155,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -426,6 +523,24 @@ const BOARD = {
       "home_score": 4.4,
       "total": 8.7,
       "home_win_probability": 0.52,
+      "moneyline_fairs": {
+        "away_probability": 0.48,
+        "home_probability": 0.52,
+        "away_fair": 108,
+        "home_fair": -108
+      },
+      "team_total_fairs": {
+        "away": 4.3,
+        "home": 4.4
+      },
+      "f5": {
+        "away_score": 2.1,
+        "home_score": 2.3,
+        "total": 4.4,
+        "home_win_probability": 0.552,
+        "away_fair": 123,
+        "home_fair": -123
+      },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -483,9 +598,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 7.5,
+          "projected": 7.7,
+          "base_projected": 7.1,
           "fair": -114,
+          "under_fair": 114,
+          "base_fair": 149,
+          "base_under_fair": -149,
           "book": null,
           "play_to": -104,
+          "under_play_to": 124,
+          "base_play_to": 159,
+          "base_under_play_to": -139,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -494,9 +617,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.4,
+          "base_projected": 4.8,
           "fair": 109,
+          "under_fair": -109,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 119,
+          "under_play_to": -99,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -517,6 +648,24 @@ const BOARD = {
       "home_score": 4.0,
       "total": 7.9,
       "home_win_probability": 0.52,
+      "moneyline_fairs": {
+        "away_probability": 0.48,
+        "home_probability": 0.52,
+        "away_fair": 108,
+        "home_fair": -108
+      },
+      "team_total_fairs": {
+        "away": 3.9,
+        "home": 4.0
+      },
+      "f5": {
+        "away_score": 2.0,
+        "home_score": 2.1,
+        "total": 4.1,
+        "home_win_probability": 0.526,
+        "away_fair": 111,
+        "home_fair": -111
+      },
       "synthesis": "The board sees a lower-scoring game script. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -538,9 +687,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.4,
+          "base_projected": 4.8,
           "fair": 114,
+          "under_fair": -114,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 124,
+          "under_play_to": -104,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -549,9 +706,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
+          "projected": 7.0,
+          "base_projected": 6.4,
           "fair": -153,
+          "under_fair": 153,
+          "base_fair": 112,
+          "base_under_fair": -112,
           "book": null,
           "play_to": -143,
+          "under_play_to": 163,
+          "base_play_to": 122,
+          "base_under_play_to": -102,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -572,6 +737,24 @@ const BOARD = {
       "home_score": 4.9,
       "total": 9.7,
       "home_win_probability": 0.52,
+      "moneyline_fairs": {
+        "away_probability": 0.48,
+        "home_probability": 0.52,
+        "away_fair": 108,
+        "home_fair": -108
+      },
+      "team_total_fairs": {
+        "away": 4.8,
+        "home": 4.9
+      },
+      "f5": {
+        "away_score": 2.5,
+        "home_score": 2.6,
+        "total": 5.1,
+        "home_win_probability": 0.526,
+        "away_fair": 111,
+        "home_fair": -111
+      },
       "synthesis": "The board sees a higher-scoring game script. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -605,9 +788,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 8.5,
+          "projected": 8.2,
+          "base_projected": 7.6,
           "fair": 130,
+          "under_fair": -130,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 140,
+          "under_play_to": -120,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -616,9 +807,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
+          "projected": 6.8,
+          "base_projected": 6.2,
           "fair": -126,
+          "under_fair": 126,
+          "base_fair": 135,
+          "base_under_fair": -135,
           "book": null,
           "play_to": -116,
+          "under_play_to": 136,
+          "base_play_to": 145,
+          "base_under_play_to": -125,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -639,6 +838,24 @@ const BOARD = {
       "home_score": 4.6,
       "total": 9.2,
       "home_win_probability": 0.5,
+      "moneyline_fairs": {
+        "away_probability": 0.5,
+        "home_probability": 0.5,
+        "away_fair": -100,
+        "home_fair": -100
+      },
+      "team_total_fairs": {
+        "away": 4.6,
+        "home": 4.6
+      },
+      "f5": {
+        "away_score": 2.4,
+        "home_score": 2.3,
+        "total": 4.7,
+        "home_win_probability": 0.474,
+        "away_fair": -111,
+        "home_fair": 111
+      },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -660,9 +877,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.3,
+          "base_projected": 4.7,
           "fair": 119,
+          "under_fair": -119,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 129,
+          "under_play_to": -109,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -671,9 +896,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
+          "projected": 6.3,
+          "base_projected": 5.7,
           "fair": 118,
+          "under_fair": -118,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 128,
+          "under_play_to": -108,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -694,6 +927,24 @@ const BOARD = {
       "home_score": 4.5,
       "total": 8.9,
       "home_win_probability": 0.52,
+      "moneyline_fairs": {
+        "away_probability": 0.48,
+        "home_probability": 0.52,
+        "away_fair": 108,
+        "home_fair": -108
+      },
+      "team_total_fairs": {
+        "away": 4.4,
+        "home": 4.5
+      },
+      "f5": {
+        "away_score": 2.2,
+        "home_score": 2.3,
+        "total": 4.5,
+        "home_win_probability": 0.526,
+        "away_fair": 111,
+        "home_fair": -111
+      },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -739,9 +990,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
+          "projected": 6.2,
+          "base_projected": 5.6,
           "fair": 135,
+          "under_fair": -135,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 145,
+          "under_play_to": -125,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -750,9 +1009,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
+          "projected": 4.8,
+          "base_projected": 4.2,
           "fair": -135,
+          "under_fair": 135,
+          "base_fair": 126,
+          "base_under_fair": -126,
           "book": null,
           "play_to": -125,
+          "under_play_to": 145,
+          "base_play_to": 136,
+          "base_under_play_to": -116,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -773,6 +1040,24 @@ const BOARD = {
       "home_score": 4.5,
       "total": 8.9,
       "home_win_probability": 0.52,
+      "moneyline_fairs": {
+        "away_probability": 0.48,
+        "home_probability": 0.52,
+        "away_fair": 108,
+        "home_fair": -108
+      },
+      "team_total_fairs": {
+        "away": 4.4,
+        "home": 4.5
+      },
+      "f5": {
+        "away_score": 2.2,
+        "home_score": 2.3,
+        "total": 4.5,
+        "home_win_probability": 0.526,
+        "away_fair": 111,
+        "home_fair": -111
+      },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "k_targets": [
         {
@@ -818,9 +1103,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 3.5,
+          "projected": 4.0,
+          "base_projected": 3.4,
           "fair": -154,
+          "under_fair": 154,
+          "base_fair": 111,
+          "base_under_fair": -111,
           "book": null,
           "play_to": -144,
+          "under_play_to": 164,
+          "base_play_to": 121,
+          "base_under_play_to": -101,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -829,9 +1122,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
+          "projected": 4.7,
+          "base_projected": 4.1,
           "fair": -117,
+          "under_fair": 117,
+          "base_fair": 145,
+          "base_under_fair": -145,
           "book": null,
           "play_to": -107,
+          "under_play_to": 127,
+          "base_play_to": 155,
+          "base_under_play_to": -135,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -852,6 +1153,24 @@ const BOARD = {
       "home_score": 4.6,
       "total": 8.9,
       "home_win_probability": 0.56,
+      "moneyline_fairs": {
+        "away_probability": 0.44,
+        "home_probability": 0.56,
+        "away_fair": 127,
+        "home_fair": -127
+      },
+      "team_total_fairs": {
+        "away": 4.3,
+        "home": 4.6
+      },
+      "f5": {
+        "away_score": 2.1,
+        "home_score": 2.2,
+        "total": 4.3,
+        "home_win_probability": 0.526,
+        "away_fair": 111,
+        "home_fair": -111
+      },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "k_targets": [],
       "prop_angles": [
@@ -860,9 +1179,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
+          "projected": 4.6,
+          "base_projected": 4.0,
           "fair": -110,
+          "under_fair": 110,
+          "base_fair": 155,
+          "base_under_fair": -155,
           "book": null,
           "play_to": -100,
+          "under_play_to": 120,
+          "base_play_to": 165,
+          "base_under_play_to": -145,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -871,9 +1198,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.0,
+          "base_projected": 4.4,
           "fair": 150,
+          "under_fair": -150,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 160,
+          "under_play_to": -140,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -894,6 +1229,24 @@ const BOARD = {
       "home_score": 4.6,
       "total": 8.5,
       "home_win_probability": 0.636,
+      "moneyline_fairs": {
+        "away_probability": 0.364,
+        "home_probability": 0.636,
+        "away_fair": 175,
+        "home_fair": -175
+      },
+      "team_total_fairs": {
+        "away": 3.9,
+        "home": 4.6
+      },
+      "f5": {
+        "away_score": 1.9,
+        "home_score": 2.4,
+        "total": 4.3,
+        "home_win_probability": 0.629,
+        "away_fair": 170,
+        "home_fair": -170
+      },
       "synthesis": "The board sees a balanced run environment. SD has the clearer projected scoring path.",
       "k_targets": [
         {
@@ -915,9 +1268,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
+          "projected": 6.2,
+          "base_projected": 5.6,
           "fair": 131,
+          "under_fair": -131,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 141,
+          "under_play_to": -121,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -926,9 +1287,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
+          "projected": 5.1,
+          "base_projected": 4.5,
           "fair": 146,
+          "under_fair": -146,
+          "base_fair": 186,
+          "base_under_fair": -186,
           "book": null,
           "play_to": 156,
+          "under_play_to": -136,
+          "base_play_to": 196,
+          "base_under_play_to": -176,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
@@ -949,6 +1318,24 @@ const BOARD = {
       "home_score": 5.2,
       "total": 9.9,
       "home_win_probability": 0.599,
+      "moneyline_fairs": {
+        "away_probability": 0.401,
+        "home_probability": 0.599,
+        "away_fair": 149,
+        "home_fair": -149
+      },
+      "team_total_fairs": {
+        "away": 4.7,
+        "home": 5.2
+      },
+      "f5": {
+        "away_score": 2.5,
+        "home_score": 2.7,
+        "total": 5.2,
+        "home_win_probability": 0.552,
+        "away_fair": 123,
+        "home_fair": -123
+      },
       "synthesis": "The board sees a higher-scoring game script. LAD has the clearer projected scoring path.",
       "k_targets": [
         {
@@ -982,9 +1369,17 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
+          "projected": 5.0,
+          "base_projected": 4.4,
           "fair": -155,
+          "under_fair": 155,
+          "base_fair": 110,
+          "base_under_fair": -110,
           "book": null,
           "play_to": -145,
+          "under_play_to": 165,
+          "base_play_to": 120,
+          "base_under_play_to": -100,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         },
@@ -993,13 +1388,35 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 7.5,
+          "projected": 7.7,
+          "base_projected": 7.1,
           "fair": -124,
+          "under_fair": 124,
+          "base_fair": 138,
+          "base_under_fair": -138,
           "book": null,
           "play_to": -114,
+          "under_play_to": 134,
+          "base_play_to": 148,
+          "base_under_play_to": -128,
           "designation": "Watch price",
           "explainer": "Sharp-pitcher K view: uses projected K rate, expected workload, and a modest command/workload bump. This affects K props only, not score or team-total forecasts."
         }
       ]
+    }
+  ],
+  "suppressed_games": [
+    {
+      "id": 822711,
+      "away": "NYY",
+      "home": "WSH",
+      "reason": "starter_confirmation_conflict"
+    },
+    {
+      "id": 823603,
+      "away": "BOS",
+      "home": "NYM",
+      "reason": "missing_supported_starter"
     }
   ],
   "notice": "Customer-facing forecasts only. Missing values remain unavailable rather than estimated."
@@ -1082,9 +1499,22 @@ const APP_CSS = `
   .prices span { color: #63758b; font-size: 12px; }
   .night .prices span { color: #a1b3c9; }
   .prices b { color: inherit; font-variant-numeric: tabular-nums; }
+  .market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 12px; }
+  .market-card { display: grid; gap: 8px; padding: 13px; border: 1px solid #dfe7ef; border-radius: 9px; background: #fafcfe; }
+  .night .market-card { background: #172438; border-color: #2b4057; }
+  .market-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+  .market-card h3 { font-size: 14px; }
+  .market-main { font-size: 22px; font-weight: 850; font-variant-numeric: tabular-nums; }
+  .market-meta { display: flex; flex-wrap: wrap; gap: 10px; color: #63758b; font-size: 12px; }
+  .night .market-meta { color: #a1b3c9; }
+  .segmented { display: inline-flex; padding: 3px; gap: 3px; border: 1px solid #cad4e0; border-radius: 9px; background: #fff; }
+  .night .segmented { border-color: #3b4b61; background: #162236; }
+  .segmented button { min-height: 28px; padding: 0 8px; border: 0; border-radius: 6px; background: transparent; color: inherit; font-weight: 800; font-size: 12px; }
+  .segmented button.active { background: #1d4f9f; color: #fff; }
   .info { padding: 13px 15px; color: #66788e; font-size: 13px; }
   .night .info { color: #a1b2c6; }
-  @media (max-width: 640px) { .topbar { align-items: flex-start; flex-direction: column; padding: 12px 14px; } .top-actions { width: 100%; } .mode, .refresh { flex: 1; } .shell { padding: 12px; } .score-grid { grid-template-columns: 1fr 1fr; } .score:last-child { grid-column: span 2; } .table { font-size: 12px; } .table th, .table td { padding: 9px 8px; } }
+  @media (max-width: 760px) { .market-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .topbar { align-items: flex-start; flex-direction: column; padding: 12px 14px; } .top-actions { width: 100%; flex-wrap: wrap; } .mode, .refresh { flex: 1; } .shell { padding: 12px; } .score-grid { grid-template-columns: 1fr 1fr; } .score:last-child { grid-column: span 2; } .table { font-size: 12px; } .table th, .table td { padding: 9px 8px; } }
 `;
 
 function normal(value) {
@@ -1095,6 +1525,18 @@ function price(value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return "—";
   return numeric > 0 ? `+${numeric}` : String(numeric);
+}
+
+function americanFromProbability(probability) {
+  const probabilityNumber = Number(probability);
+  if (!Number.isFinite(probabilityNumber) || probabilityNumber <= 0 || probabilityNumber >= 1) return null;
+  if (probabilityNumber >= 0.5) return Math.round(-100 * probabilityNumber / (1 - probabilityNumber));
+  return Math.round(100 * (1 - probabilityNumber) / probabilityNumber);
+}
+
+function probabilityText(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? `${Math.round(numeric * 100)}%` : "—";
 }
 
 function score(value) {
@@ -1127,12 +1569,77 @@ function designationForOdds(fair, book) {
   return { label: "No edge", tone: "pass", detail: "Book price has not cleared fair." };
 }
 
+function teamSideFromText(text, game) {
+  const value = normal(text);
+  if (!value) return null;
+  const awayFull = normal(game?.away_name);
+  const homeFull = normal(game?.home_name);
+  const awayAbbr = normal(game?.away);
+  const homeAbbr = normal(game?.home);
+  if (value === awayAbbr || value.includes(awayFull) || awayFull.includes(value)) return "away";
+  if (value === homeAbbr || value.includes(homeFull) || homeFull.includes(value)) return "home";
+  return null;
+}
+
+function mainPoint(rows) {
+  const counts = new Map();
+  for (const row of rows || []) {
+    if (!Number.isFinite(Number(row.line))) continue;
+    const key = String(Number(row.line));
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1] || Math.abs(Number(a[0]) - 8.5) - Math.abs(Number(b[0]) - 8.5))[0]?.[0];
+}
+
+function bestRow(rows, predicate) {
+  let best = null;
+  for (const row of rows || []) {
+    if (!predicate(row)) continue;
+    if (!best || Number(row.price) > Number(best.price)) best = row;
+  }
+  return best;
+}
+
+function pickTeamTotalRows(rows, team, fairLine) {
+  const teamRows = (rows || []).filter((row) => normal(row.team).includes(normal(team)) || normal(team).includes(normal(row.team)));
+  if (!teamRows.length) return { over: null, under: null };
+  const points = [...new Set(teamRows.map((row) => Number(row.line)).filter(Number.isFinite))];
+  const point = points.sort((a, b) => Math.abs(a - Number(fairLine)) - Math.abs(b - Number(fairLine)))[0];
+  return {
+    over: bestRow(teamRows, (row) => Number(row.line) === point && normal(row.side) === "over"),
+    under: bestRow(teamRows, (row) => Number(row.line) === point && normal(row.side) === "under"),
+  };
+}
+
+function lineLean(fairLine, liveLine, overPrice, underPrice) {
+  const fair = Number(fairLine);
+  const live = Number(liveLine);
+  if (!Number.isFinite(fair) || !Number.isFinite(live)) return { label: "Waiting", tone: "watch", detail: "No live line loaded." };
+  const diff = fair - live;
+  if (diff >= 0.45) return { label: "Bet", tone: "bet", detail: `Over lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(overPrice)}.` };
+  if (diff <= -0.45) return { label: "Bet", tone: "bet", detail: `Under lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(underPrice)}.` };
+  if (Math.abs(diff) >= 0.25) return { label: "Small edge", tone: "small", detail: `${diff > 0 ? "Over" : "Under"} is thin: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)}.` };
+  return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to live ${live.toFixed(1)}.` };
+}
+
+function summarizeSynthesis(game) {
+  const base = game?.synthesis ? [game.synthesis] : [];
+  const ml = game?.moneyline_fairs || {};
+  const f5 = game?.f5 || {};
+  const favorite = favoriteForGame(game);
+  if (favorite) base.push(`${favorite.team} fair ML ${price(americanFromProbability(favorite.probability))} from ${probabilityText(favorite.probability)} win probability.`);
+  if (f5.total != null) base.push(`F5 fair: ${game.away} ${score(f5.away_score)} - ${score(f5.home_score)} ${game.home}, total ${score(f5.total)}.`);
+  if (ml.away_fair != null && ml.home_fair != null) base.push(`Full-game ML fairs: ${game.away} ${price(ml.away_fair)}, ${game.home} ${price(ml.home_fair)}.`);
+  return base;
+}
+
 function CustomerBoard() {
   const [night, setNight] = useState(false);
   const [gameIndex, setGameIndex] = useState(0);
+  const [kMode, setKMode] = useState("sharp");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [odds, setOdds] = useState({ k: {}, teamTotals: [] });
+  const [odds, setOdds] = useState({ k: {}, teamTotals: [], h2h: {}, totals: [], f5H2h: {}, f5Totals: [] });
   const games = BOARD.games || [];
   const game = games[gameIndex] || games[0] || null;
   const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
@@ -1170,15 +1677,41 @@ function CustomerBoard() {
       const params = new URLSearchParams({
         regions: "us",
         oddsFormat: "american",
-        markets: "team_totals,pitcher_strikeouts",
+        markets: "h2h,totals,h2h_1st_5_innings,totals_1st_5_innings,team_totals,pitcher_strikeouts",
       });
       const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
       if (!response.ok) throw new Error(`Live odds request returned HTTP ${response.status}`);
       const eventOdds = await response.json();
       const nextK = {};
       const nextTotals = [];
+      const nextH2h = {};
+      const nextF5H2h = {};
+      const nextGameTotals = [];
+      const nextF5Totals = [];
+      const setTeamPrice = (store, side, candidate) => {
+        if (!side) return;
+        if (quoteIsBetter(candidate, store[side])) store[side] = candidate;
+      };
       for (const bookmaker of eventOdds.bookmakers || []) {
         for (const market of bookmaker.markets || []) {
+          if (market.key === "h2h" || market.key === "h2h_1st_5_innings") {
+            const store = market.key === "h2h" ? nextH2h : nextF5H2h;
+            for (const outcome of market.outcomes || []) {
+              const side = teamSideFromText(outcome.name, game);
+              setTeamPrice(store, side, { price: outcome.price, book: bookmaker.title || "Sportsbook" });
+            }
+          }
+          if (market.key === "totals" || market.key === "totals_1st_5_innings") {
+            const rows = market.key === "totals" ? nextGameTotals : nextF5Totals;
+            for (const outcome of market.outcomes || []) {
+              rows.push({
+                side: outcome.name || null,
+                line: outcome.point ?? null,
+                price: outcome.price ?? null,
+                book: bookmaker.title || "Sportsbook",
+              });
+            }
+          }
           if (market.key === "pitcher_strikeouts") {
             for (const outcome of market.outcomes || []) {
               const key = quoteKey(outcome.description, outcome.name, outcome.point);
@@ -1203,10 +1736,10 @@ function CustomerBoard() {
           }
         }
       }
-      setOdds({ k: nextK, teamTotals: nextTotals });
+      setOdds({ k: nextK, teamTotals: nextTotals, h2h: nextH2h, totals: nextGameTotals, f5H2h: nextF5H2h, f5Totals: nextF5Totals });
       setMessage("Live odds updated. A price must clear the displayed play-to number before any consideration.");
     } catch (error) {
-      setOdds({ k: {}, teamTotals: [] });
+      setOdds({ k: {}, teamTotals: [], h2h: {}, totals: [], f5H2h: {}, f5Totals: [] });
       setMessage(error instanceof Error ? error.message : "Live odds are unavailable right now.");
     } finally {
       setLoading(false);
@@ -1216,6 +1749,76 @@ function CustomerBoard() {
   if (!CUSTOMER_FACING) return null;
   if (!game) return <main className="app"><div className="shell"><div className="card info">No customer board is available for this slate.</div></div></main>;
   const favorite = favoriteForGame(game);
+  const moneylineFairs = game.moneyline_fairs || {
+    away_probability: game.home_win_probability == null ? null : 1 - Number(game.home_win_probability),
+    home_probability: game.home_win_probability,
+    away_fair: game.home_win_probability == null ? null : americanFromProbability(1 - Number(game.home_win_probability)),
+    home_fair: game.home_win_probability == null ? null : americanFromProbability(Number(game.home_win_probability)),
+  };
+  const f5 = game.f5 || {
+    away_score: Number.isFinite(Number(game.away_score)) ? Number(game.away_score) * 0.55 : null,
+    home_score: Number.isFinite(Number(game.home_score)) ? Number(game.home_score) * 0.55 : null,
+    total: Number.isFinite(Number(game.total)) ? Number(game.total) * 0.55 : null,
+  };
+  const f5HomeProb = f5.home_win_probability ?? (Number.isFinite(Number(f5.away_score)) && Number.isFinite(Number(f5.home_score)) ? 1 / (1 + Math.exp(-(Number(f5.home_score) - Number(f5.away_score)) / 0.95)) : null);
+  const fullTotalPoint = mainPoint(odds.totals);
+  const fullOver = bestRow(odds.totals, (row) => String(Number(row.line)) === String(fullTotalPoint) && normal(row.side) === "over");
+  const fullUnder = bestRow(odds.totals, (row) => String(Number(row.line)) === String(fullTotalPoint) && normal(row.side) === "under");
+  const f5TotalPoint = mainPoint(odds.f5Totals);
+  const f5Over = bestRow(odds.f5Totals, (row) => String(Number(row.line)) === String(f5TotalPoint) && normal(row.side) === "over");
+  const f5Under = bestRow(odds.f5Totals, (row) => String(Number(row.line)) === String(f5TotalPoint) && normal(row.side) === "under");
+  const awayTTRows = pickTeamTotalRows(teamTotals, game.away_name, game.team_total_fairs?.away ?? game.away_score);
+  const homeTTRows = pickTeamTotalRows(teamTotals, game.home_name, game.team_total_fairs?.home ?? game.home_score);
+  const marketCards = [
+    {
+      title: `${game.away} moneyline`,
+      main: price(moneylineFairs.away_fair),
+      meta: [`Fair ${probabilityText(moneylineFairs.away_probability)}`, `Book ${price(odds.h2h.away?.price)}${odds.h2h.away?.book ? ` · ${odds.h2h.away.book}` : ""}`],
+      designation: designationForOdds(moneylineFairs.away_fair, odds.h2h.away?.price),
+    },
+    {
+      title: `${game.home} moneyline`,
+      main: price(moneylineFairs.home_fair),
+      meta: [`Fair ${probabilityText(moneylineFairs.home_probability)}`, `Book ${price(odds.h2h.home?.price)}${odds.h2h.home?.book ? ` · ${odds.h2h.home.book}` : ""}`],
+      designation: designationForOdds(moneylineFairs.home_fair, odds.h2h.home?.price),
+    },
+    {
+      title: "Full-game total",
+      main: score(game.total),
+      meta: [`Fair total`, `Line ${fullTotalPoint ?? "—"}`, `Over ${price(fullOver?.price)}`, `Under ${price(fullUnder?.price)}`],
+      designation: lineLean(game.total, fullTotalPoint, fullOver?.price, fullUnder?.price),
+    },
+    {
+      title: "F5 total",
+      main: score(f5.total),
+      meta: [`Fair F5`, `Line ${f5TotalPoint ?? "—"}`, `Over ${price(f5Over?.price)}`, `Under ${price(f5Under?.price)}`],
+      designation: lineLean(f5.total, f5TotalPoint, f5Over?.price, f5Under?.price),
+    },
+    {
+      title: `${game.away} F5 ML`,
+      main: price(f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb)),
+      meta: [`Fair ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, `Book ${price(odds.f5H2h.away?.price)}`],
+      designation: designationForOdds(f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb), odds.f5H2h.away?.price),
+    },
+    {
+      title: `${game.home} F5 ML`,
+      main: price(f5.home_fair ?? americanFromProbability(f5HomeProb)),
+      meta: [`Fair ${probabilityText(f5HomeProb)}`, `Book ${price(odds.f5H2h.home?.price)}`],
+      designation: designationForOdds(f5.home_fair ?? americanFromProbability(f5HomeProb), odds.f5H2h.home?.price),
+    },
+    {
+      title: `${game.away} team total`,
+      main: score(game.team_total_fairs?.away ?? game.away_score),
+      meta: [`Fair runs`, `O ${awayTTRows.over?.line ?? "—"} ${price(awayTTRows.over?.price)}`, `U ${awayTTRows.under?.line ?? "—"} ${price(awayTTRows.under?.price)}`],
+      designation: lineLean(game.team_total_fairs?.away ?? game.away_score, awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over?.price, awayTTRows.under?.price),
+    },
+    {
+      title: `${game.home} team total`,
+      main: score(game.team_total_fairs?.home ?? game.home_score),
+      meta: [`Fair runs`, `O ${homeTTRows.over?.line ?? "—"} ${price(homeTTRows.over?.price)}`, `U ${homeTTRows.under?.line ?? "—"} ${price(homeTTRows.under?.price)}`],
+      designation: lineLean(game.team_total_fairs?.home ?? game.home_score, homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over?.price, homeTTRows.under?.price),
+    },
+  ];
 
   return (
     <main className={`app ${night ? "night" : ""}`}>
@@ -1235,7 +1838,7 @@ function CustomerBoard() {
         <section className="card">
           <div className="card-title"><h2>Slate</h2><span className="muted">{games.length} games</span></div>
           <div className="slate">
-            {games.map((item, index) => <button className={`game ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => { setGameIndex(index); setOdds({ k: {}, teamTotals: [] }); setMessage(""); }}>
+            {games.map((item, index) => <button className={`game ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => { setGameIndex(index); setOdds({ k: {}, teamTotals: [], h2h: {}, totals: [], f5H2h: {}, f5Totals: [] }); setMessage(""); }}>
               <span><span className="matchup">{item.away} @ {item.home}</span><br /><span className="muted">{item.away_starter || "TBD"} vs {item.home_starter || "TBD"}</span></span>
               <span className="status">{item.time || item.status || "—"}</span>
             </button>)}
@@ -1252,20 +1855,53 @@ function CustomerBoard() {
         </section>
 
         <section className="card">
-          <div className="card-title"><h2>Matchup synthesis</h2><span className="muted">Published outlook</span></div>
-          <div className="copy"><p>{game.synthesis}</p><div className="notice">Customer forecasts are informational. Lineups, weather, and starting-pitcher changes can move a game before first pitch.</div></div>
+          <div className="card-title"><h2>Fair market board</h2><span className="muted">ML · totals · F5 · team totals</span></div>
+          <div className="market-grid">
+            {marketCards.map((card) => (
+              <article className="market-card" key={card.title}>
+                <div className="market-top">
+                  <h3>{card.title}</h3>
+                  <span className={`pill ${card.designation.tone}`}>{card.designation.label}</span>
+                </div>
+                <div className="market-main">{card.main}</div>
+                <div className="market-meta">{card.meta.map((item) => <span key={item}>{item}</span>)}</div>
+                <p className="muted">{card.designation.detail}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="card">
-          <div className="card-title"><h2>Prop angles</h2><span className="muted">Fair / book / play-to</span></div>
+          <div className="card-title"><h2>Matchup synthesis</h2><span className="muted">Published outlook</span></div>
+          <div className="copy">
+            {summarizeSynthesis(game).map((line) => <p key={line}>{line}</p>)}
+            <div className="notice">Customer forecasts are informational. Starter conflicts, missing starters, and stale probable data are suppressed from the slate instead of published.</div>
+          </div>
+        </section>
+
+        <section className="card">
+          <div className="card-title">
+            <h2>Pitcher K prop fairs</h2>
+            <div className="segmented" aria-label="K projection mode">
+              <button type="button" className={kMode === "sharp" ? "active" : ""} onClick={() => setKMode("sharp")}>Sharp</button>
+              <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => setKMode("base")}>Base</button>
+            </div>
+          </div>
           <div className="angle-list">
             {(game.prop_angles || []).length ? game.prop_angles.map((angle, index) => {
-              const live = odds.k[quoteKey(angle.player, angle.side, angle.line)];
+              const fair = kMode === "base" && angle.base_fair != null ? angle.base_fair : angle.fair;
+              const underFair = kMode === "base" && angle.base_under_fair != null ? angle.base_under_fair : angle.under_fair;
+              const projected = kMode === "base" && angle.base_projected != null ? angle.base_projected : angle.projected;
+              const playTo = kMode === "base" && angle.base_play_to != null ? angle.base_play_to : angle.play_to;
+              const underPlayTo = kMode === "base" && angle.base_under_play_to != null ? angle.base_under_play_to : angle.under_play_to;
+              const live = odds.k[quoteKey(angle.player, "Over", angle.line)];
+              const liveUnder = odds.k[quoteKey(angle.player, "Under", angle.line)];
               const bookPrice = live?.price ?? angle.book;
-              const designation = designationForOdds(angle.fair, bookPrice);
+              const designation = designationForOdds(fair, bookPrice);
               return <article className="angle" key={`${angle.player}-${angle.line}-${index}`}>
-                <div className="angle-top"><div><h3>{angle.player || "Starter"} {angle.side} {angle.line ?? "—"} {angle.market}</h3><p className="muted">{angle.explainer}</p></div><span className={`pill ${designation.tone}`}>{designation.label}</span></div>
-                <div className="prices"><span>Fair <b>{price(angle.fair)}</b></span><span>Book <b>{price(bookPrice)}</b>{live?.book ? ` · ${live.book}` : ""}</span><span>Play-to <b>{price(angle.play_to)}</b></span></div>
+                <div className="angle-top"><div><h3>{angle.player || "Starter"} K line {angle.line ?? "—"}</h3><p className="muted">{kMode === "sharp" ? "Sharp K view" : "Base K view"} · projected {projected ?? "—"} K. {angle.explainer}</p></div><span className={`pill ${designation.tone}`}>{designation.label}</span></div>
+                <div className="prices"><span>Over fair <b>{price(fair)}</b></span><span>Over book <b>{price(bookPrice)}</b>{live?.book ? ` · ${live.book}` : ""}</span><span>Play-to <b>{price(playTo)}</b></span></div>
+                <div className="prices"><span>Under fair <b>{price(underFair)}</b></span><span>Under book <b>{price(liveUnder?.price)}</b>{liveUnder?.book ? ` · ${liveUnder.book}` : ""}</span><span>Play-to <b>{price(underPlayTo)}</b></span></div>
                 <p className="muted">{designation.detail}</p>
               </article>;
             }) : <div className="info">No customer-safe prop angle is available for this game.</div>}
@@ -1284,11 +1920,6 @@ function CustomerBoard() {
               </tr>
             ))}
           </tbody></table> : <div className="info">No batter K target cleared the pitch-mix whiff screen for this game.</div>}
-        </section>
-
-        <section className="card">
-          <div className="card-title"><h2>Team totals</h2><span className="muted">Odds API · team_totals only</span></div>
-          {teamTotals.length ? <table className="table"><thead><tr><th>Team</th><th>Side</th><th>Line</th><th>Book</th></tr></thead><tbody>{teamTotals.map((row, index) => <tr key={`${row.team}-${row.side}-${row.line}-${index}`}><td>{row.team || "—"}</td><td>{row.side || "—"}</td><td>{row.line ?? "—"} · {price(row.price)}</td><td>{row.book}</td></tr>)}</tbody></table> : <div className="info">Team totals load only from the Odds API <code>team_totals</code> market. Refresh live odds; if the book has none, this section remains empty.</div>}
         </section>
 
         <div className="info">{message || BOARD.notice}</div>
