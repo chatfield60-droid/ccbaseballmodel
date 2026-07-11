@@ -2,7 +2,7 @@ const ODDS_API_ORIGIN = "https://api.the-odds-api.com/v4";
 const FALLBACK_ODDS_API_KEY = "bab454819e9526707fa520d801f7ea7c";
 
 function deriveOddsPath(req) {
-  const rawPath = req.query.path ?? req.query["...path"] ?? req.query[0];
+  const rawPath = req.query.target ?? req.query.path ?? req.query["...path"] ?? req.query[0];
   const pathParts = Array.isArray(rawPath) ? rawPath : rawPath ? [rawPath] : [];
   const queryPath = pathParts.join("/");
   if (queryPath) return queryPath;
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
   const upstream = new URL(`${ODDS_API_ORIGIN}/${path}`);
   for (const [key, value] of Object.entries(req.query)) {
-    if (key === "path" || key === "...path" || key === "0" || key.toLowerCase() === "apikey") continue;
+    if (key === "target" || key === "path" || key === "...path" || key === "0" || key.toLowerCase() === "apikey") continue;
     const values = Array.isArray(value) ? value : [value];
     for (const item of values) {
       if (item != null) upstream.searchParams.append(key, String(item));
