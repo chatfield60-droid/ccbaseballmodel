@@ -1148,29 +1148,36 @@ function CustomerBoard() {
     setLoading(true);
     setMessage("Fetching live sportsbook lines…");
     try {
-      const params = new URLSearchParams({
-        regions: "us",
-        oddsFormat: "american",
-        markets: "team_totals,pitcher_strikeouts",
-      });
-      const endpoint = "sports/baseball_mlb/odds";
       // Local testing may use VITE_ODDS_API_KEY. Every hosted request goes to
       // the worker, which supplies its ODDS_API_KEY secret server-side.
-      const url = canUseLocalKey
-        ? `https://api.the-odds-api.com/v4/${endpoint}?${params.toString()}&apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`
-        : `/api/odds/sports?path=${encodeURIComponent(endpoint)}&${params.toString()}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Live odds request returned HTTP ${response.status}`);
-      const events = await response.json();
+      const oddsUrl = (endpoint, params = new URLSearchParams()) => {
+        const qs = params.toString();
+        if (canUseLocalKey) {
+          const glue = qs ? `${qs}&` : "";
+          return `https://api.the-odds-api.com/v4/${endpoint}?${glue}apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`;
+        }
+        return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
+      };
+      const eventsResponse = await fetch(oddsUrl("sports/baseball_mlb/events"));
+      if (!eventsResponse.ok) throw new Error(`Live odds events request returned HTTP ${eventsResponse.status}`);
+      const events = await eventsResponse.json();
       const event = Array.isArray(events) ? events.find((item) => normal(item.away_team) === normal(game.away_name) && normal(item.home_team) === normal(game.home_name)) : null;
       if (!event) {
         setOdds({ k: {}, teamTotals: [] });
         setMessage("No current sportsbook event matched this game.");
         return;
       }
+      const params = new URLSearchParams({
+        regions: "us",
+        oddsFormat: "american",
+        markets: "team_totals,pitcher_strikeouts",
+      });
+      const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
+      if (!response.ok) throw new Error(`Live odds request returned HTTP ${response.status}`);
+      const eventOdds = await response.json();
       const nextK = {};
       const nextTotals = [];
-      for (const bookmaker of event.bookmakers || []) {
+      for (const bookmaker of eventOdds.bookmakers || []) {
         for (const market of bookmaker.markets || []) {
           if (market.key === "pitcher_strikeouts") {
             for (const outcome of market.outcomes || []) {
