@@ -4552,14 +4552,6 @@ function CustomerBoard() {
         setMessage("No current sportsbook event matched this game.");
         return;
       }
-      const params = new URLSearchParams({
-        regions: "us",
-        oddsFormat: "american",
-        markets: "h2h,totals,h2h_1st_5_innings,totals_1st_5_innings,team_totals,pitcher_strikeouts",
-      });
-      const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
-      if (!response.ok) throw new Error(`Live odds request returned HTTP ${response.status}`);
-      const eventOdds = await response.json();
       const nextK = {};
       const nextBatter = {};
       const nextTotals = [];
@@ -4567,84 +4559,101 @@ function CustomerBoard() {
       const nextF5H2h = {};
       const nextGameTotals = [];
       const nextF5Totals = [];
+      const warnings = [];
       const setTeamPrice = (store, side, candidate) => {
         if (!side) return;
         if (quoteIsBetter(candidate, store[side])) store[side] = candidate;
       };
-      for (const bookmaker of eventOdds.bookmakers || []) {
-        for (const market of bookmaker.markets || []) {
-          if (market.key === "h2h" || market.key === "h2h_1st_5_innings") {
-            const store = market.key === "h2h" ? nextH2h : nextF5H2h;
-            for (const outcome of market.outcomes || []) {
-              const side = teamSideFromText(outcome.name, game);
-              setTeamPrice(store, side, { price: outcome.price, book: bookmaker.title || "Sportsbook" });
-            }
-          }
-          if (market.key === "totals" || market.key === "totals_1st_5_innings") {
-            const rows = market.key === "totals" ? nextGameTotals : nextF5Totals;
-            for (const outcome of market.outcomes || []) {
-              rows.push({
-                side: outcome.name || null,
-                line: outcome.point ?? null,
-                price: outcome.price ?? null,
-                book: bookmaker.title || "Sportsbook",
-              });
-            }
-          }
-          if (market.key === "pitcher_strikeouts") {
-            for (const outcome of market.outcomes || []) {
-              const key = quoteKey(outcome.description, outcome.name, outcome.point);
-              const candidate = { price: outcome.price, book: bookmaker.title || "Sportsbook" };
-              if (quoteIsBetter(candidate, nextK[key])) nextK[key] = candidate;
-            }
-          }
-          // Standard team totals are deliberately accepted from this one Odds
-          // API market only—never inferred from full-game or alternate totals.
-          if (market.key === "team_totals") {
-            for (const outcome of market.outcomes || []) {
-              nextTotals.push({
-                away: game.away,
-                home: game.home,
-                team: outcome.description || null,
-                side: outcome.name || null,
-                line: outcome.point ?? null,
-                price: outcome.price ?? null,
-                book: bookmaker.title || "Sportsbook",
-              });
-            }
-          }
-        }
-      }
-      let propWarning = "";
-      try {
-        const propParams = new URLSearchParams({
-          regions: "us",
-          oddsFormat: "american",
-          markets: "batter_home_runs,batter_hits,batter_total_bases",
-        });
-        const propsResponse = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, propParams));
-        if (!propsResponse.ok) {
-          propWarning = ` Batter prop prices unavailable from the odds feed (HTTP ${propsResponse.status}).`;
-        } else {
-          const propOdds = await propsResponse.json();
-          for (const bookmaker of propOdds.bookmakers || []) {
-            for (const market of bookmaker.markets || []) {
-              const label = propMarketLabel(market.key);
-              if (!["Batter HR", "Batter hits", "Batter TB"].includes(label)) continue;
+
+      const fetchOddsPayload = async (markets) => {
+        const params = new URLSearchParams({ regions: "us", oddsFormat: "american", markets });
+        const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
+        if (!response.ok) return null;
+        return response.json();
+      };
+
+      const parseStandardOdds = (eventOdds) => {
+        if (!eventOdds) return;
+        for (const bookmaker of eventOdds.bookmakers || []) {
+          for (const market of bookmaker.markets || []) {
+            if (market.key === "h2h" || market.key === "h2h_1st_5_innings") {
+              const store = market.key === "h2h" ? nextH2h : nextF5H2h;
               for (const outcome of market.outcomes || []) {
-                const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
-                const key = propQuoteKey(label, outcome.description, outcome.name, line);
+                const side = teamSideFromText(outcome.name, game);
+                setTeamPrice(store, side, { price: outcome.price, book: bookmaker.title || "Sportsbook" });
+              }
+            }
+            if (market.key === "totals" || market.key === "totals_1st_5_innings") {
+              const rows = market.key === "totals" ? nextGameTotals : nextF5Totals;
+              for (const outcome of market.outcomes || []) {
+                rows.push({
+                  side: outcome.name || null,
+                  line: outcome.point ?? null,
+                  price: outcome.price ?? null,
+                  book: bookmaker.title || "Sportsbook",
+                });
+              }
+            }
+            if (market.key === "pitcher_strikeouts") {
+              for (const outcome of market.outcomes || []) {
+                const key = quoteKey(outcome.description, outcome.name, outcome.point);
                 const candidate = { price: outcome.price, book: bookmaker.title || "Sportsbook" };
-                if (quoteIsBetter(candidate, nextBatter[key])) nextBatter[key] = candidate;
+                if (quoteIsBetter(candidate, nextK[key])) nextK[key] = candidate;
+              }
+            }
+            // Standard team totals are deliberately accepted from this one Odds
+            // API market only—never inferred from full-game or alternate totals.
+            if (market.key === "team_totals") {
+              for (const outcome of market.outcomes || []) {
+                nextTotals.push({
+                  away: game.away,
+                  home: game.home,
+                  team: outcome.description || null,
+                  side: outcome.name || null,
+                  line: outcome.point ?? null,
+                  price: outcome.price ?? null,
+                  book: bookmaker.title || "Sportsbook",
+                });
               }
             }
           }
         }
-      } catch {
-        propWarning = " Batter prop prices unavailable from the odds feed.";
-      }
+      };
+
+      const parseBatterOdds = (propOdds) => {
+        if (!propOdds) return;
+        for (const bookmaker of propOdds.bookmakers || []) {
+          for (const market of bookmaker.markets || []) {
+            const label = propMarketLabel(market.key);
+            if (!["Batter HR", "Batter hits", "Batter TB"].includes(label)) continue;
+            for (const outcome of market.outcomes || []) {
+              const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
+              const key = propQuoteKey(label, outcome.description, outcome.name, line);
+              const candidate = { price: outcome.price, book: bookmaker.title || "Sportsbook" };
+              if (quoteIsBetter(candidate, nextBatter[key])) nextBatter[key] = candidate;
+            }
+          }
+        }
+      };
+
+      const coreOdds = await fetchOddsPayload("h2h,totals,team_totals");
+      if (coreOdds) parseStandardOdds(coreOdds);
+      else warnings.push("core sportsbook prices unavailable");
+
+      const f5Odds = await fetchOddsPayload("h2h_1st_5_innings,totals_1st_5_innings");
+      if (f5Odds) parseStandardOdds(f5Odds);
+      else warnings.push("F5 prices unavailable");
+
+      const pitcherKOdds = await fetchOddsPayload("pitcher_strikeouts");
+      if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
+      else warnings.push("pitcher K prices unavailable");
+
+      const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases");
+      if (propOdds) parseBatterOdds(propOdds);
+      else warnings.push("batter prop prices unavailable");
+
       setOdds({ k: nextK, batter: nextBatter, teamTotals: nextTotals, h2h: nextH2h, totals: nextGameTotals, f5H2h: nextF5H2h, f5Totals: nextF5Totals });
-      setMessage(`Live odds updated. A price must clear the displayed play-to number before any consideration.${propWarning}`);
+      setMessage(`Live odds updated. A price must clear the displayed play-to number before any consideration.${warnings.length ? ` Some markets are not returned by the sportsbook feed: ${warnings.join(", ")}.` : ""}`);
     } catch (error) {
       setOdds(blankOdds());
       setMessage(error instanceof Error ? error.message : "Live odds are unavailable right now.");
