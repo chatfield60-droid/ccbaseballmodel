@@ -4576,8 +4576,12 @@ function CustomerBoard() {
       const fetchOddsPayload = async (markets) => {
         const params = new URLSearchParams({ regions: "us", oddsFormat: "american", markets });
         const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
-        if (!response.ok) return null;
-        return response.json();
+        if (response.ok) return response.json();
+        const fallbackResponse = await fetch(oddsUrl("sports/baseball_mlb/odds", params));
+        if (!fallbackResponse.ok) return null;
+        const fallbackOdds = await fallbackResponse.json();
+        if (!Array.isArray(fallbackOdds)) return null;
+        return fallbackOdds.find((item) => normal(item.away_team) === normal(game.away_name) && normal(item.home_team) === normal(game.home_name)) || null;
       };
 
       const parseStandardOdds = (eventOdds) => {
