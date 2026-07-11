@@ -4636,9 +4636,13 @@ function CustomerBoard() {
         }
       };
 
-      const coreOdds = await fetchOddsPayload("h2h,totals,team_totals");
-      if (coreOdds) parseStandardOdds(coreOdds);
-      else warnings.push("core sportsbook prices unavailable");
+      const mainOdds = await fetchOddsPayload("h2h,totals");
+      if (mainOdds) parseStandardOdds(mainOdds);
+      else warnings.push("moneyline/total prices unavailable");
+
+      const teamTotalOdds = await fetchOddsPayload("team_totals");
+      if (teamTotalOdds) parseStandardOdds(teamTotalOdds);
+      else warnings.push("team total prices unavailable");
 
       const f5Odds = await fetchOddsPayload("h2h_1st_5_innings,totals_1st_5_innings");
       if (f5Odds) parseStandardOdds(f5Odds);
