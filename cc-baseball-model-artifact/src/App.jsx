@@ -1523,8 +1523,13 @@ function normal(value) {
 
 function price(value) {
   const numeric = Number(value);
-  if (!Number.isFinite(numeric)) return "—";
+  if (!Number.isFinite(numeric) || numeric === 0) return "—";
   return numeric > 0 ? `+${numeric}` : String(numeric);
+}
+
+function validBookPrice(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) && numeric !== 0;
 }
 
 function americanFromProbability(probability) {
@@ -1544,6 +1549,7 @@ function score(value) {
 }
 
 function quoteIsBetter(candidate, current) {
+  if (!validBookPrice(candidate?.price)) return false;
   return !current || Number(candidate.price) > Number(current.price);
 }
 
@@ -1559,7 +1565,7 @@ function favoriteForGame(game) {
 }
 
 function designationForOdds(fair, book) {
-  if (!Number.isFinite(Number(fair)) || !Number.isFinite(Number(book))) {
+  if (!Number.isFinite(Number(fair)) || !validBookPrice(book)) {
     return { label: "Watch price", tone: "watch", detail: "No live book price yet." };
   }
   const edge = Number(book) - Number(fair);
@@ -1616,9 +1622,10 @@ function lineLean(fairLine, liveLine, overPrice, underPrice) {
   const live = Number(liveLine);
   if (!Number.isFinite(fair) || !Number.isFinite(live)) return { label: "Waiting", tone: "watch", detail: "No live line loaded." };
   const diff = fair - live;
-  if (diff >= 0.45) return { label: "Bet", tone: "bet", detail: `Over lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(overPrice)}.` };
-  if (diff <= -0.45) return { label: "Bet", tone: "bet", detail: `Under lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(underPrice)}.` };
-  if (Math.abs(diff) >= 0.25) return { label: "Small edge", tone: "small", detail: `${diff > 0 ? "Over" : "Under"} is thin: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)}.` };
+  if (diff >= 0.45 && validBookPrice(overPrice)) return { label: "Bet", tone: "bet", detail: `Over lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(overPrice)}.` };
+  if (diff <= -0.45 && validBookPrice(underPrice)) return { label: "Bet", tone: "bet", detail: `Under lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(underPrice)}.` };
+  if (Math.abs(diff) >= 0.25 && validBookPrice(diff > 0 ? overPrice : underPrice)) return { label: "Small edge", tone: "small", detail: `${diff > 0 ? "Over" : "Under"} is thin: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)}.` };
+  if (Math.abs(diff) >= 0.25) return { label: "Watch price", tone: "watch", detail: `${diff > 0 ? "Over" : "Under"} lean, but no valid live price is loaded.` };
   return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to live ${live.toFixed(1)}.` };
 }
 
