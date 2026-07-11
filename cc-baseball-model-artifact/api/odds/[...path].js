@@ -1,5 +1,5 @@
 const ODDS_API_ORIGIN = "https://api.the-odds-api.com/v4";
-const FALLBACK_ODDS_API_KEY = "bab454819e9526707fa520d801f7ea7c";
+const FALLBACK_ODDS_API_KEY = "0a9a20c6b8b08c7cec9ed49704a8ffab";
 
 function deriveOddsPath(req) {
   const rawPath = req.query.target ?? req.query.path ?? req.query["...path"] ?? req.query[0];
