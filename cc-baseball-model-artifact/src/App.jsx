@@ -1158,7 +1158,7 @@ function CustomerBoard() {
       // the worker, which supplies its ODDS_API_KEY secret server-side.
       const url = canUseLocalKey
         ? `https://api.the-odds-api.com/v4/${endpoint}?${params.toString()}&apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`
-        : `/api/odds/${endpoint}?${params.toString()}`;
+        : `/api/odds/sports?path=${encodeURIComponent(endpoint)}&${params.toString()}`;
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Live odds request returned HTTP ${response.status}`);
       const events = await response.json();
