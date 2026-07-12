@@ -4690,6 +4690,7 @@ const BOARD = {
 const CUSTOMER_FACING = true;
 const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
 const PROP_PRICE_BLEND_WEIGHT = 0.18;
+const K_FAIR_SCALE = 1.55;
 
 const APP_CSS = `
   :root {
@@ -5093,7 +5094,7 @@ function fairFromProjection(projected, line) {
   const projection = Number(projected);
   const bookLine = Number(line);
   if (!Number.isFinite(projection) || !Number.isFinite(bookLine)) return { over: null, under: null };
-  const overProbability = clamp(0.50 + (projection - bookLine) * 0.22, 0.35, 0.65);
+  const overProbability = clamp(1 / (1 + Math.exp(-(projection - bookLine) / K_FAIR_SCALE)), 0.08, 0.92);
   return { over: americanFromProbability(overProbability), under: americanFromProbability(1 - overProbability) };
 }
 
