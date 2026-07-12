@@ -4904,10 +4904,10 @@ const APP_CSS = `
     line-height: 1.2;
     border: 1px solid var(--border);
   }
-  .pill.small { color: #8A5B08; background: #FFF7E8; border-color: #F4DFB8; }
+  .pill.small, .pill.lean { color: #8A5B08; background: #FFF7E8; border-color: #F4DFB8; }
   .pill.bet, .pill.strong { color: var(--positive); background: #EAF8F2; border-color: #CDEDE0; }
   .pill.pass, .pill.watch { color: var(--text-secondary); background: var(--surface-muted); border-color: var(--border); }
-  .night .pill.small { color: #F0C777; background: #3A2A13; border-color: #574019; }
+  .night .pill.small, .night .pill.lean { color: #F0C777; background: #3A2A13; border-color: #574019; }
   .night .pill.bet, .night .pill.strong { color: #8FE4B9; background: #123326; border-color: #1D513C; }
   .prices { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0 8px; }
   .prices span { color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
@@ -4963,6 +4963,9 @@ const APP_CSS = `
   }
   .performance-card span { color: var(--text-secondary); font-size: 12px; font-weight: 650; }
   .performance-card strong { color: var(--text-primary); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .results-details { margin: 0 16px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
+  .results-details summary { padding: 11px 12px; color: var(--text-primary); font-size: 13px; font-weight: 650; cursor: pointer; }
+  .results-details[open] summary { border-bottom: 1px solid var(--border); }
   .results-list { display: grid; gap: 8px; padding: 0 16px 16px; }
   .result-row {
     display: grid;
@@ -5065,6 +5068,11 @@ function gradeValue(value) {
   return Number.isFinite(numeric) ? numeric.toFixed(1) : "—";
 }
 
+function recordText(wins, losses, pushes = 0) {
+  if (!wins && !losses && !pushes) return "—";
+  return pushes ? `${wins}-${losses}-${pushes}` : `${wins}-${losses}`;
+}
+
 function quoteIsBetter(candidate, current) {
   if (!validBookPrice(candidate?.price)) return false;
   return !current || Number(candidate.price) > Number(current.price);
@@ -5163,6 +5171,12 @@ function gradeCompletedGames(projections, statsGames) {
     if (![actualAway, actualHome, projectedAway, projectedHome].every(Number.isFinite)) return null;
     const projectedTotal = Number.isFinite(Number(projection?.total)) ? Number(projection.total) : projectedAway + projectedHome;
     const actualTotal = actualAway + actualHome;
+    const totalLine = [
+      projection?.closing_total,
+      projection?.market_total,
+      projection?.book_total,
+      projection?.total_line,
+    ].map(Number).find(Number.isFinite);
     const projectedMargin = projectedHome - projectedAway;
     const actualMargin = actualHome - actualAway;
     const pickSide = Math.abs(projectedMargin) < 0.05 ? null : projectedMargin > 0 ? "home" : "away";
@@ -5170,6 +5184,12 @@ function gradeCompletedGames(projections, statsGames) {
     const winnerCorrect = pickSide && actualSide !== "tie" ? pickSide === actualSide : null;
     const pickTeam = pickSide === "away" ? projection.away : pickSide === "home" ? projection.home : "No side";
     const actualWinner = actualSide === "away" ? projection.away : actualSide === "home" ? projection.home : "Tie";
+    const totalDelta = actualTotal - projectedTotal;
+    const totalError = Math.abs(totalDelta);
+    const totalClose = totalError <= 1;
+    const totalPick = Number.isFinite(totalLine) && Math.abs(projectedTotal - totalLine) >= 0.05 ? projectedTotal > totalLine ? "Over" : "Under" : null;
+    const actualTotalSide = Number.isFinite(totalLine) ? actualTotal > totalLine ? "Over" : actualTotal < totalLine ? "Under" : "Push" : null;
+    const totalCorrect = totalPick && actualTotalSide && actualTotalSide !== "Push" ? totalPick === actualTotalSide : null;
     return {
       id: projection.id || statsGame.gamePk,
       matchup: `${projection.away} @ ${projection.home}`,
@@ -5179,10 +5199,15 @@ function gradeCompletedGames(projections, statsGames) {
       actualWinner,
       winnerResult: winnerCorrect == null ? "No side" : winnerCorrect ? "Hit" : "Miss",
       winnerCorrect,
+      totalLine: Number.isFinite(totalLine) ? totalLine : null,
+      totalPick,
+      actualTotalSide,
+      totalCorrect,
+      totalResult: totalCorrect == null ? (totalClose ? "Close" : "Miss") : totalCorrect ? "Hit" : "Miss",
       scoreMae: (Math.abs(actualAway - projectedAway) + Math.abs(actualHome - projectedHome)) / 2,
-      totalError: Math.abs(actualTotal - projectedTotal),
+      totalError,
       marginError: Math.abs(actualMargin - projectedMargin),
-      totalDelta: actualTotal - projectedTotal,
+      totalDelta,
     };
   }).filter(Boolean);
 }
@@ -5190,13 +5215,19 @@ function gradeCompletedGames(projections, statsGames) {
 function summarizeResults(rows) {
   const completed = rows.length;
   const sideRows = rows.filter((row) => row.winnerCorrect != null);
+  const totalBetRows = rows.filter((row) => row.totalCorrect != null);
+  const closeTotalRows = rows.filter((row) => Number(row.totalError) <= 1);
   const average = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
+  const sideWins = sideRows.filter((row) => row.winnerCorrect).length;
+  const totalWins = totalBetRows.filter((row) => row.totalCorrect).length;
   const metrics = [
     { label: "Finals graded", value: String(completed) },
-    ...(sideRows.length ? [{ label: "Winner accuracy", value: `${Math.round(sideRows.filter((row) => row.winnerCorrect).length / sideRows.length * 100)}%` }] : []),
+    ...(sideRows.length ? [{ label: "Side record", value: recordText(sideWins, sideRows.length - sideWins) }] : []),
+    ...(totalBetRows.length ? [{ label: "Total O/U record", value: recordText(totalWins, totalBetRows.length - totalWins) }] : []),
+    { label: "Totals within 1", value: recordText(closeTotalRows.length, completed - closeTotalRows.length) },
     { label: "Score MAE", value: gradeValue(average(rows.map((row) => row.scoreMae))) },
-    { label: "Total error", value: gradeValue(average(rows.map((row) => row.totalError))) },
-    { label: "Margin error", value: gradeValue(average(rows.map((row) => row.marginError))) },
+    { label: "Total MAE", value: gradeValue(average(rows.map((row) => row.totalError))) },
+    { label: "Total bias", value: signedRun(average(rows.map((row) => row.totalDelta))) },
   ];
   return metrics.filter((metric) => metric.value !== "—");
 }
@@ -5393,25 +5424,28 @@ function ResultsPerformance({ rows }) {
   if (!rows.length) return null;
   const metrics = summarizeResults(rows);
   return <section className="card">
-    <div className="card-title"><h2>Results grading</h2><span className="muted">Official finals · completed games only</span></div>
+    <div className="card-title"><h2>Results snapshot</h2><span className="muted">Official finals · records forward-facing</span></div>
     <div className="performance-grid">
       {metrics.map((metric) => <article className="performance-card" key={metric.label}>
         <span>{metric.label}</span>
         <strong>{metric.value}</strong>
       </article>)}
     </div>
-    <div className="results-list">
-      {rows.map((row) => <article className="result-row" key={row.id}>
-        <div>
-          <strong>{row.matchup}</strong>
-          <span>{row.winnerResult} · Pick {row.pickTeam} · Final winner {row.actualWinner}</span>
-        </div>
-        <span>Projected<br />{row.projected}</span>
-        <span>Final<br />{row.final}</span>
-        <span>Score MAE<br />{gradeValue(row.scoreMae)}</span>
-        <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
-      </article>)}
-    </div>
+    <details className="results-details">
+      <summary>Game-by-game results ({rows.length})</summary>
+      <div className="results-list">
+        {rows.map((row) => <article className="result-row" key={row.id}>
+          <div>
+            <strong>{row.matchup}</strong>
+            <span>{row.winnerResult} · Pick {row.pickTeam} · Final winner {row.actualWinner}</span>
+          </div>
+          <span>Projected<br />{row.projected}</span>
+          <span>Final<br />{row.final}</span>
+          <span>Total grade<br />{row.totalResult}{row.totalPick ? ` · ${row.totalPick} ${row.totalLine}` : ""}</span>
+          <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
+        </article>)}
+      </div>
+    </details>
   </section>;
 }
 
@@ -5468,7 +5502,7 @@ function designationForOdds(fair, book) {
   const edge = Number(book) - Number(fair);
   if (edge >= 25) return { label: "Strong bet", tone: "strong", detail: `${Math.round(edge)} cents better than fair.` };
   if (edge >= 10) return { label: "Bet", tone: "bet", detail: `${Math.round(edge)} cents better than fair.` };
-  if (edge > 0) return { label: "Small edge", tone: "small", detail: `${Math.round(edge)} cents better than fair; thinner margin.` };
+  if (edge > 0) return { label: "Lean", tone: "lean", detail: `${Math.round(edge)} cents better than fair; thinner margin.` };
   return { label: "No edge", tone: "pass", detail: "Book price has not cleared fair." };
 }
 
@@ -5546,11 +5580,13 @@ function lineLean(fairLine, liveLine, overRow, underRow) {
   const underPrice = underRow?.price;
   if (!Number.isFinite(fair) || !Number.isFinite(live)) return { label: "Waiting", tone: "watch", detail: "No pregame line loaded." };
   const diff = fair - live;
+  if (diff >= 0.65 && validBookPrice(overPrice)) return { label: "Strong bet", tone: "strong", detail: `Over lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(overPrice)} from ${overRow?.book || "Sportsbook"}.` };
+  if (diff <= -0.65 && validBookPrice(underPrice)) return { label: "Strong bet", tone: "strong", detail: `Under lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(underPrice)} from ${underRow?.book || "Sportsbook"}.` };
   if (diff >= 0.45 && validBookPrice(overPrice)) return { label: "Bet", tone: "bet", detail: `Over lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(overPrice)} from ${overRow?.book || "Sportsbook"}.` };
   if (diff <= -0.45 && validBookPrice(underPrice)) return { label: "Bet", tone: "bet", detail: `Under lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(underPrice)} from ${underRow?.book || "Sportsbook"}.` };
   if (Math.abs(diff) >= 0.25 && validBookPrice(diff > 0 ? overPrice : underPrice)) {
     const row = diff > 0 ? overRow : underRow;
-    return { label: "Small edge", tone: "small", detail: `${diff > 0 ? "Over" : "Under"} is thin: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(row?.price)} from ${row?.book || "Sportsbook"}.` };
+    return { label: "Lean", tone: "lean", detail: `${diff > 0 ? "Over" : "Under"} is thin: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(row?.price)} from ${row?.book || "Sportsbook"}.` };
   }
   if (Math.abs(diff) >= 0.25) return { label: "Watch price", tone: "watch", detail: `${diff > 0 ? "Over" : "Under"} lean, but no valid pregame price is loaded.` };
   return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to pregame ${live.toFixed(1)}.` };
@@ -5943,7 +5979,7 @@ function CustomerBoard() {
     }),
   ].filter(Boolean).sort((a, b) => b.edge - a.edge), 3);
   const pricedEdges = [
-    ...pricedPitcherRows.filter((row) => ["small", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
+    ...pricedPitcherRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
       title: row.title,
       subtitle: row.subtitle,
       fair: row.sideFair,
@@ -5952,7 +5988,7 @@ function CustomerBoard() {
       label: row.designation.label,
       edge: row.edge,
     })),
-    ...pricedBatterRows.filter((row) => ["small", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
+    ...pricedBatterRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
       title: row.title,
       subtitle: row.subtitle,
       fair: row.fair,
