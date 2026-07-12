@@ -4679,8 +4679,7 @@ const BOARD = {
       }
     ]
   },
-  "suppressed_games": [],
-  "notice": "Customer-facing forecasts only. Missing values remain unavailable rather than estimated."
+  "suppressed_games": []
 }
 ;
 
@@ -4691,6 +4690,7 @@ const CUSTOMER_FACING = true;
 const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
 const PROP_PRICE_BLEND_WEIGHT = 0.18;
 const K_FAIR_SCALE = 1.55;
+const RESULTS_HISTORY_KEY = "cc-baseball-results-history-v1";
 
 const APP_CSS = `
   :root {
@@ -5023,6 +5023,8 @@ const APP_CSS = `
   .results-details[open] summary { border-bottom: 1px solid var(--border); }
   .results-details:not([open]) .results-list { display: none; }
   .results-list { display: grid; gap: 8px; padding: 0 16px 16px; }
+  .result-date-group { display: grid; gap: 8px; }
+  .result-date-heading { color: var(--text-primary); font-size: 12px; font-weight: 750; letter-spacing: .01em; }
   .result-row {
     display: grid;
     grid-template-columns: minmax(220px, 1.25fr) repeat(4, minmax(120px, 1fr));
@@ -5358,8 +5360,77 @@ function gradeCompletedGames(projections, statsGames) {
       totalError,
       marginError: Math.abs(actualMargin - projectedMargin),
       totalDelta,
+      resultDate: projection.date || BOARD.date || null,
     };
   }).filter(Boolean);
+}
+
+function resultIdentity(row) {
+  return String(row?.id ?? `${row?.matchup || "game"}-${row?.final || ""}`);
+}
+
+function normalizeResultsHistory(history) {
+  if (!history || typeof history !== "object") return {};
+  const entries = Array.isArray(history)
+    ? history.map((item) => [item?.date, item?.rows])
+    : Object.entries(history);
+  const normalized = {};
+  for (const [date, rows] of entries) {
+    if (!date || !Array.isArray(rows) || !rows.length) continue;
+    normalized[date] = rows
+      .filter((row) => row && typeof row === "object")
+      .map((row) => ({ ...row, resultDate: row.resultDate || date }));
+  }
+  return normalized;
+}
+
+function readStoredResultsHistory() {
+  if (typeof window === "undefined" || !window.localStorage) return {};
+  try {
+    return normalizeResultsHistory(JSON.parse(window.localStorage.getItem(RESULTS_HISTORY_KEY) || "{}"));
+  } catch {
+    return {};
+  }
+}
+
+function writeStoredResultsHistory(history) {
+  if (typeof window === "undefined" || !window.localStorage) return;
+  try {
+    window.localStorage.setItem(RESULTS_HISTORY_KEY, JSON.stringify(normalizeResultsHistory(history)));
+  } catch {
+    // Storage is a convenience cache; rendering should never depend on it.
+  }
+}
+
+function mergeResultsHistories(...histories) {
+  const merged = {};
+  for (const history of histories) {
+    const normalized = normalizeResultsHistory(history);
+    for (const [date, rows] of Object.entries(normalized)) {
+      const byId = new Map((merged[date] || []).map((row) => [resultIdentity(row), row]));
+      for (const row of rows) byId.set(resultIdentity(row), { ...row, resultDate: row.resultDate || date });
+      merged[date] = [...byId.values()];
+    }
+  }
+  return merged;
+}
+
+function mergeResultsRowsForDate(history, date, rows) {
+  if (!date || !Array.isArray(rows) || !rows.length) return normalizeResultsHistory(history);
+  return mergeResultsHistories(history, { [date]: rows.map((row) => ({ ...row, resultDate: row.resultDate || date })) });
+}
+
+function flattenResultsHistory(history) {
+  return Object.entries(normalizeResultsHistory(history))
+    .sort(([a], [b]) => String(b).localeCompare(String(a)))
+    .flatMap(([date, rows]) => rows.map((row) => ({ ...row, resultDate: row.resultDate || date })));
+}
+
+function resultDateRange(rows) {
+  const dates = [...new Set((rows || []).map((row) => row.resultDate).filter(Boolean))].sort();
+  if (!dates.length) return "No finals saved yet";
+  if (dates.length === 1) return `Date ${dates[0]}`;
+  return `${dates[0]} through ${dates[dates.length - 1]} · ${dates.length} dates`;
 }
 
 function summarizeResults(rows) {
@@ -5620,39 +5691,51 @@ function resultTone(value, correct, push) {
 }
 
 function ResultsPerformance({ rows, date }) {
-  if (!rows.length) return null;
   const metrics = summarizeResults(rows);
+  const groupedRows = Object.entries(
+    (rows || []).reduce((groups, row) => {
+      const key = row.resultDate || date || "Undated";
+      groups[key] ||= [];
+      groups[key].push(row);
+      return groups;
+    }, {})
+  ).sort(([a], [b]) => String(b).localeCompare(String(a)));
   return <section className="card">
-    <div className="card-title"><h2>Results snapshot</h2><span className="muted">Board date {date || "—"} · official finals</span></div>
-    <div className="performance-grid">
-      {metrics.map((metric) => <article className="performance-card" key={metric.label}>
-        <span>{metric.label}</span>
-        <strong>{metric.value}</strong>
-      </article>)}
-    </div>
-    <details className="results-details">
-      <summary>Game-by-game results ({rows.length})</summary>
-      <div className="results-list">
-        {rows.map((row) => <article className="result-row" key={row.id}>
-          <div>
-            <strong>{row.matchup}</strong>
-            <div className="result-badges">
-              <span className={`result-pill ${resultTone(row.winnerResult, row.winnerCorrect)}`}>{row.winnerResult}</span>
-              <span>Pick {row.pickTeam}</span>
-              <span>Winner {row.actualWinner}</span>
-            </div>
-          </div>
-          <span>Projected<br />{row.projected}</span>
-          <span>Final<br />{row.final}</span>
-          <span className="result-grade">
-            <span>Total O/U</span>
-            <span className={`result-pill ${resultTone(row.totalResult, row.totalCorrect, row.totalPush)}`}>{row.totalResult}</span>
-            {row.totalPick ? <span>{row.totalPick} {row.totalLine}</span> : null}
-          </span>
-          <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
+    <div className="card-title"><h2>Results log</h2><span className="muted">{resultDateRange(rows)} · cumulative official finals</span></div>
+    {rows.length ? <>
+      <div className="performance-grid">
+        {metrics.map((metric) => <article className="performance-card" key={metric.label}>
+          <span>{metric.label}</span>
+          <strong>{metric.value}</strong>
         </article>)}
       </div>
-    </details>
+      <details className="results-details">
+        <summary>Game-by-game results ({rows.length})</summary>
+        <div className="results-list">
+          {groupedRows.map(([groupDate, groupRows]) => <div className="result-date-group" key={groupDate}>
+            <h3 className="result-date-heading">{groupDate}</h3>
+            {groupRows.map((row) => <article className="result-row" key={`${groupDate}-${resultIdentity(row)}`}>
+              <div>
+                <strong>{row.matchup}</strong>
+                <div className="result-badges">
+                  <span className={`result-pill ${resultTone(row.winnerResult, row.winnerCorrect)}`}>{row.winnerResult}</span>
+                  <span>Pick {row.pickTeam}</span>
+                  <span>Winner {row.actualWinner}</span>
+                </div>
+              </div>
+              <span>Projected<br />{row.projected}</span>
+              <span>Final<br />{row.final}</span>
+              <span className="result-grade">
+                <span>Total O/U</span>
+                <span className={`result-pill ${resultTone(row.totalResult, row.totalCorrect, row.totalPush)}`}>{row.totalResult}</span>
+                {row.totalPick ? <span>{row.totalPick} {row.totalLine}</span> : null}
+              </span>
+              <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
+            </article>)}
+          </div>)}
+        </div>
+      </details>
+    </> : <div className="empty-state">No graded finals are saved yet. This log keeps prior dated results once official finals are available.</div>}
   </section>;
 }
 
@@ -6135,7 +6218,7 @@ function CustomerBoard() {
   const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
   const [kMode, setKMode] = useState("base");
   const [kLineOverrides, setKLineOverrides] = useState({});
-  const [resultRows, setResultRows] = useState([]);
+  const [resultHistory, setResultHistory] = useState(() => mergeResultsHistories(BOARD.results_history, readStoredResultsHistory()));
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [oddsByGame, setOddsByGame] = useState({});
@@ -6145,6 +6228,12 @@ function CustomerBoard() {
   const game = games[gameIndex] || games[0] || null;
   const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
   const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
+
+  const resultRows = useMemo(() => flattenResultsHistory(resultHistory), [resultHistory]);
+
+  useEffect(() => {
+    writeStoredResultsHistory(resultHistory);
+  }, [resultHistory]);
 
   useEffect(() => {
     let cancelled = false;
@@ -6166,9 +6255,11 @@ function CustomerBoard() {
         if (!payload) return;
         const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
         const graded = gradeCompletedGames(games, statsGames);
-        if (!cancelled) setResultRows(graded);
+        if (!cancelled && graded.length) {
+          setResultHistory((current) => mergeResultsRowsForDate(current, slateDate, graded));
+        }
       } catch {
-        if (!cancelled) setResultRows([]);
+        // Keep the saved results history intact if the official feed is unavailable.
       }
     }
     refreshResults();
@@ -6454,7 +6545,7 @@ function CustomerBoard() {
 
         <ResultsPerformance rows={resultRows} date={BOARD.date} />
 
-        <ModelFooter games={games} message={message || BOARD.notice} />
+        <ModelFooter games={games} message={message} />
       </div>
     </main>
   );
