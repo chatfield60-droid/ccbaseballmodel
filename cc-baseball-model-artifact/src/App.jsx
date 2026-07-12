@@ -4966,6 +4966,7 @@ const APP_CSS = `
   .results-details { margin: 0 16px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
   .results-details summary { padding: 11px 12px; color: var(--text-primary); font-size: 13px; font-weight: 650; cursor: pointer; }
   .results-details[open] summary { border-bottom: 1px solid var(--border); }
+  .results-details:not([open]) .results-list { display: none; }
   .results-list { display: grid; gap: 8px; padding: 0 16px 16px; }
   .result-row {
     display: grid;
