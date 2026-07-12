@@ -4689,9 +4689,7 @@ const BOARD = {
 // of the browser bundle.
 const CUSTOMER_FACING = true;
 const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
-const MARKET_ANCHOR_TEAMS = new Set(["NYM", "HOU", "SD", "COL", "SEA"]);
-const MARKET_ANCHOR_RETAINED_EDGE = 0.28;
-const MARKET_ANCHOR_MAX_GAP = 0.035;
+const PROP_PRICE_BLEND_WEIGHT = 0.18;
 
 const APP_CSS = `
   :root {
@@ -4848,6 +4846,7 @@ const APP_CSS = `
   }
   .edge-card strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .edge-card span { color: var(--text-secondary); font-size: 12px; line-height: 1.4; }
+  .edge-controls { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
   .empty-state {
     margin: 2px 20px 20px;
     padding: 14px 16px;
@@ -5021,16 +5020,21 @@ function propMarketLabel(key) {
   if (key === "batter_home_runs") return "Batter HR";
   if (key === "batter_hits") return "Batter hits";
   if (key === "batter_total_bases") return "Batter TB";
-  if (key === "batter_strikeouts") return "Batter strikeouts";
   return key;
 }
 
 function propMarketText(market) {
-  if (market === "Batter TB") return "Total bases";
-  if (market === "Batter HR") return "Home run";
-  if (market === "Batter hits") return "Hits";
-  if (market === "Batter strikeouts") return "Strikeouts";
+  if (market === "Batter TB") return "total bases";
+  if (market === "Batter HR") return "homerun";
+  if (market === "Batter hits") return "hits";
   return market || "Prop";
+}
+
+function blendPropFairWithBook(fair, book) {
+  const fairProbability = impliedProbability(fair);
+  const bookProbability = impliedProbability(book);
+  if (!Number.isFinite(fairProbability) || !Number.isFinite(bookProbability)) return fair;
+  return americanFromProbability(fairProbability + (bookProbability - fairProbability) * PROP_PRICE_BLEND_WEIGHT);
 }
 
 function blankOdds() {
@@ -5073,7 +5077,6 @@ function TopBoard({ board }) {
   const sections = [
     ["Best HR bets", board?.best_hr_bets || []],
     ["Best pitcher K bets", board?.best_pitcher_strikeout_bets || []],
-    ["Best batter K targets", board?.best_batter_strikeout_targets || []],
     ["Best 3-leg parlay", board?.best_three_game_side_total_parlay || []],
     ["Best total bets", board?.best_total_bets || []],
   ];
@@ -5093,18 +5096,17 @@ function TopBoard({ board }) {
   </section>;
 }
 
-function Scoreboard({ games, gameIndex, onSelect, h2hByGame = {} }) {
+function Scoreboard({ games, gameIndex, onSelect }) {
   return <section className="card">
     <div className="card-title"><h2>Projected scores</h2><span className="muted">{games.length} games · tap a game for detail</span></div>
     <div className="compact-scores">
       {games.map((item, index) => {
-        const moneylineFairs = anchoredMoneylineFairs(item, h2hByGame[gameOddsKey(item)]);
+        const moneylineFairs = baseMoneylineFairs(item);
         const favorite = favoriteFromMoneyline(item, moneylineFairs);
-        const marketTag = moneylineFairs.market_anchor ? " mkt" : "";
         return <button className={`score-tile ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => onSelect(index)}>
           <span className="tile-head"><span>{item.away} @ {item.home}</span><span>{item.time || item.status || "—"}</span></span>
           <span className="tile-line"><span><small>{item.away}</small><b>{score(item.away_score)}</b></span><span><b>{score(item.home_score)}</b><small>{item.home}</small></span></span>
-          <span className="tile-meta"><span>Total {score(item.total)}</span><span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%${marketTag}` : "—"}</span></span>
+          <span className="tile-meta"><span>Total {score(item.total)}</span><span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%` : "—"}</span></span>
         </button>;
       })}
     </div>
@@ -5131,10 +5133,10 @@ function edgeCents(fair, book) {
   return bookNumber - fairNumber;
 }
 
-function PricedEdgeBoard({ edges, hasOdds }) {
+function PricedEdgeBoard({ edges, hasOdds, controls }) {
   const status = edges.length ? `${edges.length} priced` : hasOdds ? "No qualifying edges" : "Waiting for odds";
   return <section className="card">
-    <div className="card-title"><h2>Priced edges</h2><span className="muted">{status}</span></div>
+    <div className="card-title"><h2>Priced edges</h2><div className="edge-controls"><span className="muted">{status}</span>{controls}</div></div>
     {edges.length ? <div className="edge-grid">
       {edges.slice(0, 8).map((edge, index) => <article className="edge-card" key={`${edge.title}-${index}`}>
         <strong>{edge.title}</strong>
@@ -5142,7 +5144,7 @@ function PricedEdgeBoard({ edges, hasOdds }) {
         <span>Fair {price(edge.fair)} · book {price(edge.book)}{edge.bookName ? ` · ${edge.bookName}` : ""}</span>
         <span>{edge.label}</span>
       </article>)}
-    </div> : <div className="empty-state">{hasOdds ? "No plus-price edge cleared the current book numbers." : "Sportsbook prices have not loaded yet. Model-only leans remain hidden until a qualifying edge is available."}</div>}
+    </div> : <div className="empty-state">{hasOdds ? "No priced prop edge cleared the current book numbers." : "Sportsbook prices have not loaded yet. Prop leans remain hidden until a qualifying book price is available."}</div>}
   </section>;
 }
 
@@ -5183,7 +5185,6 @@ function baseMoneylineFairs(game) {
     home_probability: Number.isFinite(homeProbability) ? homeProbability : null,
     away_fair: game?.moneyline_fairs?.away_fair ?? americanFromProbability(awayProbability),
     home_fair: game?.moneyline_fairs?.home_fair ?? americanFromProbability(homeProbability),
-    market_anchor: null,
   };
 }
 
@@ -5191,52 +5192,6 @@ function impliedProbability(priceValue) {
   const priceNumber = Number(priceValue);
   if (!validBookPrice(priceNumber)) return null;
   return priceNumber < 0 ? Math.abs(priceNumber) / (Math.abs(priceNumber) + 100) : 100 / (priceNumber + 100);
-}
-
-function marketMoneylineProbabilities(h2h) {
-  const away = impliedProbability(h2h?.away?.price);
-  const home = impliedProbability(h2h?.home?.price);
-  if (!Number.isFinite(away) || !Number.isFinite(home) || away + home <= 0) return {};
-  const total = away + home;
-  return { away: away / total, home: home / total };
-}
-
-function anchoredMoneylineFairs(game, h2h) {
-  const base = baseMoneylineFairs(game);
-  const market = marketMoneylineProbabilities(h2h);
-  let awayProbability = Number(base.away_probability);
-  let homeProbability = Number(base.home_probability);
-  if (!Number.isFinite(awayProbability) || !Number.isFinite(homeProbability)) return base;
-
-  const candidates = [
-    { side: "away", team: game.away, model: awayProbability, market: market.away },
-    { side: "home", team: game.home, model: homeProbability, market: market.home },
-  ].filter((item) => MARKET_ANCHOR_TEAMS.has(item.team) && Number.isFinite(item.market) && item.model > item.market);
-  const anchor = candidates.sort((a, b) => (b.model - b.market) - (a.model - a.market))[0];
-  if (!anchor) return base;
-
-  const retainedGap = Math.min((anchor.model - anchor.market) * MARKET_ANCHOR_RETAINED_EDGE, MARKET_ANCHOR_MAX_GAP);
-  const anchoredProbability = clamp(anchor.market + retainedGap, 0.05, 0.95);
-  if (anchor.side === "away") {
-    awayProbability = anchoredProbability;
-    homeProbability = 1 - anchoredProbability;
-  } else {
-    homeProbability = anchoredProbability;
-    awayProbability = 1 - anchoredProbability;
-  }
-
-  return {
-    away_probability: awayProbability,
-    home_probability: homeProbability,
-    away_fair: americanFromProbability(awayProbability),
-    home_fair: americanFromProbability(homeProbability),
-    market_anchor: {
-      team: anchor.team,
-      raw_probability: anchor.model,
-      market_probability: anchor.market,
-      adjusted_probability: anchoredProbability,
-    },
-  };
 }
 
 function designationForOdds(fair, book) {
@@ -5262,10 +5217,6 @@ function teamSideFromText(text, game) {
   return null;
 }
 
-function gameOddsKey(game) {
-  return `${normal(game?.away_name || game?.away)}@${normal(game?.home_name || game?.home)}`;
-}
-
 function setBestTeamPrice(store, side, candidate) {
   if (!side) return;
   if (quoteIsBetter(candidate, store[side])) store[side] = candidate;
@@ -5273,21 +5224,6 @@ function setBestTeamPrice(store, side, candidate) {
 
 function findOddsForGame(items, game) {
   return Array.isArray(items) ? items.find((item) => normal(item.away_team) === normal(game.away_name) && normal(item.home_team) === normal(game.home_name)) : null;
-}
-
-function h2hFromEventOdds(eventOdds, game) {
-  const store = {};
-  if (!eventOdds) return store;
-  for (const bookmaker of eventOdds.bookmakers || []) {
-    for (const market of bookmaker.markets || []) {
-      if (market.key !== "h2h") continue;
-      for (const outcome of market.outcomes || []) {
-        const side = teamSideFromText(outcome.name, game);
-        setBestTeamPrice(store, side, { price: outcome.price, book: bookmaker.title || "Sportsbook" });
-      }
-    }
-  }
-  return store;
 }
 
 function mainPoint(rows) {
@@ -5343,24 +5279,6 @@ function lineLean(fairLine, liveLine, overPrice, underPrice) {
   return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to pregame ${live.toFixed(1)}.` };
 }
 
-function summarizeSynthesis(game, pricedPropCount = 0, moneylineFairs = baseMoneylineFairs(game)) {
-  const base = [];
-  const ml = moneylineFairs || {};
-  const f5 = game?.f5 || {};
-  const favorite = favoriteFromMoneyline(game, ml);
-  const margin = Number(game?.home_score) - Number(game?.away_score);
-  const total = Number(game?.total);
-  const pace = Number.isFinite(total) ? (total >= 9.4 ? "run-friendly" : total <= 8.2 ? "lower-scoring" : "balanced") : "neutral";
-  base.push(`${game.away} ${score(game.away_score)} - ${score(game.home_score)} ${game.home}; ${pace} shape with a ${score(total)} run total.`);
-  if (favorite && Number.isFinite(margin)) base.push(`${favorite.team} is the fair favorite at ${probabilityText(favorite.probability)}; projected margin is ${Math.abs(margin).toFixed(1)} runs.`);
-  if (ml.market_anchor) base.push(`${ml.market_anchor.team} moneyline confidence is market-anchored because current books are materially lower than the raw model.`);
-  if (f5.total != null) base.push(`F5 read: ${game.away} ${score(f5.away_score)} - ${score(f5.home_score)} ${game.home}, total ${score(f5.total)}.`);
-  if (ml.away_fair != null && ml.home_fair != null) base.push(`Fair market shell: ${game.away} ML ${price(ml.away_fair)}, ${game.home} ML ${price(ml.home_fair)}, team totals ${game.away} ${score(game.team_total_fairs?.away ?? game.away_score)} / ${game.home} ${score(game.team_total_fairs?.home ?? game.home_score)}.`);
-  base.push(`Starter context: ${game.away_starter || "TBD"} vs ${game.home_starter || "TBD"}. K and batter props stay hidden unless a sportsbook line and price are returned.`);
-  base.push(pricedPropCount ? `${pricedPropCount} priced prop angle${pricedPropCount === 1 ? "" : "s"} cleared the odds gate for this game.` : "No priced prop angles are published for this game yet.");
-  return base;
-}
-
 function CustomerBoard() {
   const games = BOARD.games || [];
   const [night, setNight] = useState(false);
@@ -5369,7 +5287,6 @@ function CustomerBoard() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [odds, setOdds] = useState(blankOdds);
-  const [slateH2h, setSlateH2h] = useState({});
   const game = games[gameIndex] || games[0] || null;
   const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
   const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
@@ -5416,22 +5333,6 @@ function CustomerBoard() {
       const nextGameTotals = [];
       const nextF5Totals = [];
       const warnings = new Set();
-
-      const refreshSlateH2h = async () => {
-        const params = new URLSearchParams({ regions: "us", oddsFormat: "american", markets: "h2h" });
-        const response = await fetch(oddsUrl("sports/baseball_mlb/odds", params));
-        if (!response.ok) return;
-        const payload = await response.json();
-        if (!Array.isArray(payload)) return;
-        const nextSlateH2h = {};
-        for (const boardGame of games) {
-          const eventOdds = findOddsForGame(payload, boardGame);
-          const h2h = h2hFromEventOdds(eventOdds, boardGame);
-          if (Object.keys(h2h).length) nextSlateH2h[gameOddsKey(boardGame)] = h2h;
-        }
-        setSlateH2h(nextSlateH2h);
-      };
-      await refreshSlateH2h();
 
       const fetchOddsPayload = async (markets) => {
         const params = new URLSearchParams({ regions: "us", oddsFormat: "american", markets });
@@ -5516,7 +5417,7 @@ function CustomerBoard() {
         for (const bookmaker of propOdds.bookmakers || []) {
           for (const market of bookmaker.markets || []) {
             const label = propMarketLabel(market.key);
-            if (!["Batter HR", "Batter hits", "Batter TB", "Batter strikeouts"].includes(label)) continue;
+            if (!["Batter HR", "Batter hits", "Batter TB"].includes(label)) continue;
             for (const outcome of market.outcomes || []) {
               const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
               const key = propQuoteKey(label, outcome.description, outcome.name, line);
@@ -5543,12 +5444,11 @@ function CustomerBoard() {
       if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
       else if (!warnings.has("sportsbook odds key rejected")) warnings.add("pitcher K prices unavailable");
 
-      const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases,batter_strikeouts");
+      const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases");
       if (propOdds) parseBatterOdds(propOdds);
       else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
 
       setOdds({ k: nextK, pitcherK: nextK, batter: nextBatter, teamTotals: nextTotals, h2h: nextH2h, totals: nextGameTotals, f5H2h: nextF5H2h, f5Totals: nextF5Totals });
-      if (Object.keys(nextH2h).length) setSlateH2h((current) => ({ ...current, [gameOddsKey(game)]: nextH2h }));
       const warningList = [...warnings];
       setMessage(`Pregame odds updated. A price must clear the displayed play-to number before any consideration.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
@@ -5561,8 +5461,8 @@ function CustomerBoard() {
 
   if (!CUSTOMER_FACING) return null;
   if (!game) return <main className="app"><div className="shell"><div className="card info">No customer board is available for this slate.</div></div></main>;
-  const selectedH2h = Object.keys(odds.h2h || {}).length ? odds.h2h : slateH2h[gameOddsKey(game)] || {};
-  const moneylineFairs = anchoredMoneylineFairs(game, selectedH2h);
+  const selectedH2h = odds.h2h || {};
+  const moneylineFairs = baseMoneylineFairs(game);
   const f5 = game.f5 || {
     away_score: Number.isFinite(Number(game.away_score)) ? Number(game.away_score) * 0.55 : null,
     home_score: Number.isFinite(Number(game.home_score)) ? Number(game.home_score) * 0.55 : null,
@@ -5582,14 +5482,14 @@ function CustomerBoard() {
       group: "Full game",
       title: `${game.away} moneyline`,
       main: price(moneylineFairs.away_fair),
-      meta: [`Fair probability ${probabilityText(moneylineFairs.away_probability)}`, bookMeta(selectedH2h.away), moneylineFairs.market_anchor?.team === game.away ? "Market anchored" : null].filter(Boolean),
+      meta: [`Fair probability ${probabilityText(moneylineFairs.away_probability)}`, bookMeta(selectedH2h.away)],
       designation: designationForOdds(moneylineFairs.away_fair, selectedH2h.away?.price),
     },
     {
       group: "Full game",
       title: `${game.home} moneyline`,
       main: price(moneylineFairs.home_fair),
-      meta: [`Fair probability ${probabilityText(moneylineFairs.home_probability)}`, bookMeta(selectedH2h.home), moneylineFairs.market_anchor?.team === game.home ? "Market anchored" : null].filter(Boolean),
+      meta: [`Fair probability ${probabilityText(moneylineFairs.home_probability)}`, bookMeta(selectedH2h.home)],
       designation: designationForOdds(moneylineFairs.home_fair, selectedH2h.home?.price),
     },
     {
@@ -5647,7 +5547,6 @@ function CustomerBoard() {
     || (odds.teamTotals || []).length
     || Object.keys(odds.k || {}).length
     || Object.keys(odds.batter || {}).length
-    || Object.keys(slateH2h || {}).length
   );
   const pricedPitcherRows = (game.prop_angles || []).flatMap((angle, index) => {
     const book = findPitcherKBook(odds.pitcherK, angle.player, angle.line);
@@ -5659,10 +5558,12 @@ function CustomerBoard() {
     const overBook = book?.over ?? odds.k[quoteKey(angle.player, "Over", displayLine)];
     const underBook = book?.under ?? odds.k[quoteKey(angle.player, "Under", displayLine)];
     if (!validBookPrice(overBook?.price) && !validBookPrice(underBook?.price)) return [];
-    const overEdge = edgeCents(fair, overBook?.price);
-    const underEdge = edgeCents(underFair, underBook?.price);
+    const anchoredOverFair = blendPropFairWithBook(fair, overBook?.price);
+    const anchoredUnderFair = blendPropFairWithBook(underFair, underBook?.price);
+    const overEdge = edgeCents(anchoredOverFair, overBook?.price);
+    const underEdge = edgeCents(anchoredUnderFair, underBook?.price);
     const side = (underEdge ?? -Infinity) > (overEdge ?? -Infinity) ? "Under" : "Over";
-    const sideFair = side === "Under" ? underFair : fair;
+    const sideFair = side === "Under" ? anchoredUnderFair : anchoredOverFair;
     const sideBook = side === "Under" ? underBook : overBook;
     const designation = designationForOdds(sideFair, sideBook?.price);
     return [{
@@ -5673,8 +5574,8 @@ function CustomerBoard() {
       player: angle.player,
       line: displayLine,
       projected,
-      fair,
-      underFair,
+      fair: anchoredOverFair,
+      underFair: anchoredUnderFair,
       overBook,
       underBook,
       side,
@@ -5690,50 +5591,25 @@ function CustomerBoard() {
     ...(game.batter_prop_angles || []).map((angle, index) => {
       const live = odds.batter[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
       if (!validBookPrice(live?.price)) return null;
-      const designation = designationForOdds(angle.fair, live.price);
+      const fair = blendPropFairWithBook(angle.fair, live.price);
+      const designation = designationForOdds(fair, live.price);
       return {
         kind: "batterProp",
         key: `${angle.player}-${angle.market}-${index}`,
         team: angle.team,
         title: `${angle.player || "Hitter"} ${propMarketText(angle.market)} ${angle.side || "Over"} ${angle.line ?? "—"}`,
         subtitle: `${angle.team || "—"} vs ${angle.pitcher || "starter"} · ${angle.pitch_name || angle.pitch_type || "Pitch"} ${angle.usage ?? "—"}%`,
-        fair: angle.fair,
-        playTo: angle.play_to,
+        fair,
+        playTo: playToFromFair(fair) ?? angle.play_to,
         book: live,
         designation,
-        edge: edgeCents(angle.fair, live.price) ?? -999,
+        edge: edgeCents(fair, live.price) ?? -999,
         metrics: angle.metrics,
         explainer: angle.explainer,
       };
     }),
-    ...(game.k_targets || []).map((target, index) => {
-      const live = odds.batter[propQuoteKey(target.market || "Batter strikeouts", target.batter, target.side || "Over", target.line ?? 0.5)];
-      if (!validBookPrice(live?.price)) return null;
-      const designation = designationForOdds(target.fair, live.price);
-      return {
-        kind: "batterK",
-        key: `${target.batter}-${target.pitcher}-${index}`,
-        team: target.team,
-        title: `${target.batter || "Batter"} over ${target.line ?? 0.5} K`,
-        subtitle: `${target.team || "—"} vs ${target.pitcher || "starter"} · ${target.pitch_name || target.pitch_type || "Pitch"} ${target.usage ?? "—"}%`,
-        fair: target.fair,
-        playTo: target.play_to,
-        book: live,
-        designation,
-        edge: edgeCents(target.fair, live.price) ?? -999,
-        whiffRate: target.whiff_rate,
-        chaseRate: target.chase_rate,
-        explainer: target.explainer,
-      };
-    }),
   ].filter(Boolean).sort((a, b) => b.edge - a.edge), 3);
-  const pricedBatterProps = pricedBatterRows.filter((row) => row.kind === "batterProp");
-  const pricedBatterK = pricedBatterRows.filter((row) => row.kind === "batterK");
-  const pricedMarketEdges = marketCards
-    .filter((card) => ["small", "bet", "strong"].includes(card.designation.tone))
-    .map((card) => ({ title: card.title, subtitle: card.designation.detail, fair: null, book: null, label: card.designation.label, edge: 0 }));
   const pricedEdges = [
-    ...pricedMarketEdges,
     ...pricedPitcherRows.filter((row) => ["small", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
       title: row.title,
       subtitle: row.subtitle,
@@ -5753,7 +5629,6 @@ function CustomerBoard() {
       edge: row.edge,
     })),
   ].sort((a, b) => (b.edge || 0) - (a.edge || 0));
-  const pricedPropCount = pricedPitcherRows.length + pricedBatterRows.length;
 
   return (
     <main className={`app ${night ? "night" : ""}`}>
@@ -5770,7 +5645,7 @@ function CustomerBoard() {
       </header>
 
       <div className="shell">
-        <Scoreboard games={games} gameIndex={gameIndex} h2hByGame={slateH2h} onSelect={(index) => { setGameIndex(index); setOdds(blankOdds()); setMessage(""); }} />
+        <Scoreboard games={games} gameIndex={gameIndex} onSelect={(index) => { setGameIndex(index); setOdds(blankOdds()); setMessage(""); }} />
 
         <section className="selected-summary">
           <div className="selected-main">
@@ -5782,7 +5657,14 @@ function CustomerBoard() {
           </div>
         </section>
 
-        <PricedEdgeBoard edges={pricedEdges} hasOdds={hasAnyOdds} />
+        <PricedEdgeBoard
+          edges={pricedEdges}
+          hasOdds={hasAnyOdds}
+          controls={<div className="segmented" aria-label="K projection mode">
+            <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => setKMode("base")}>Base</button>
+            <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => setKMode("ceiling")}>Ceiling</button>
+          </div>}
+        />
 
         <section className="card">
           <div className="card-title"><h2>Fair market board</h2><span className="muted">ML · totals · F5 · team totals</span></div>
@@ -5806,64 +5688,6 @@ function CustomerBoard() {
               </div>
             ))}
           </div>
-        </section>
-
-        <section className="card">
-          <div className="card-title"><h2>Matchup synthesis</h2><span className="muted">Published outlook</span></div>
-          <div className="copy">
-            {summarizeSynthesis(game, pricedPropCount, moneylineFairs).map((line) => <p key={line}>{line}</p>)}
-            <div className="notice">Customer forecasts are informational. Starter conflicts, missing starters, and stale probable data are suppressed from the slate instead of published.</div>
-          </div>
-        </section>
-
-        <section className="card">
-          <div className="card-title">
-            <h2>Pitcher K prop fairs</h2>
-            <div className="segmented" aria-label="K projection mode">
-              <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => setKMode("base")}>Base</button>
-              <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => setKMode("ceiling")}>Ceiling</button>
-            </div>
-          </div>
-          <div className="angle-list">
-            {pricedPitcherRows.length ? pricedPitcherRows.map((row) => <article className="angle" key={row.key}>
-              <div className="angle-top"><div><h3>{row.title}</h3><p className="muted">{row.subtitle}. {row.explainer}</p></div><span className={`pill ${row.designation.tone}`}>{row.designation.label}</span></div>
-              <div className="prices"><span>Over fair <b>{price(row.fair)}</b></span><span>Over book <b>{price(row.overBook?.price)}</b>{row.overBook?.book ? ` · ${row.overBook.book}` : ""}</span><span>Play-to <b>{price(playToFromFair(row.fair))}</b></span></div>
-              <div className="prices"><span>Under fair <b>{price(row.underFair)}</b></span><span>Under book <b>{price(row.underBook?.price)}</b>{row.underBook?.book ? ` · ${row.underBook.book}` : ""}</span><span>Play-to <b>{price(playToFromFair(row.underFair))}</b></span></div>
-              <p className="muted">{row.designation.detail}</p>
-            </article>) : <div className="info">Pitcher K props are hidden until the sportsbook returns a strikeout line and price for this game.</div>}
-          </div>
-        </section>
-
-        <section className="card">
-          <div className="card-title"><h2>Batter prop angles</h2><span className="muted">TB · HR · hits</span></div>
-          <div className="angle-list">
-            {pricedBatterProps.length ? pricedBatterProps.map((row) => <article className="angle" key={row.key}>
-                <div className="angle-top">
-                  <div>
-                    <h3>{row.title}</h3>
-                    <p className="muted">{row.subtitle}</p>
-                  </div>
-                  <span className={`pill ${row.designation.tone}`}>{row.designation.label}</span>
-                </div>
-                <div className="prices"><span>Fair <b>{price(row.fair)}</b></span><span>Book <b>{price(row.book?.price)}</b>{row.book?.book ? ` · ${row.book.book}` : ""}</span><span>Play-to <b>{price(row.playTo)}</b></span></div>
-                {row.metrics ? <div className="prices"><span>{row.metrics}</span></div> : null}
-                <p className="muted">{row.designation.detail} {row.explainer || "Pitch-type hitter angle from the current starter matchup."}</p>
-              </article>) : <div className="info">Batter HR, hit, and total-base props are hidden until the sportsbook returns a matching line and price. Hard cap: three priced angles per team.</div>}
-          </div>
-        </section>
-
-        <section className="card">
-          <div className="card-title"><h2>Batter K Targets</h2><span className="muted">Swing-and-miss matchup flags</span></div>
-          {pricedBatterK.length ? <table className="table"><thead><tr><th>Batter</th><th>Matchup</th><th>Whiff / chase</th><th>Price</th></tr></thead><tbody>
-            {pricedBatterK.map((row) => (
-              <tr key={row.key}>
-                <td><b>{row.title}</b><br /><span className="muted">{row.team || "—"}</span></td>
-                <td>{row.subtitle}</td>
-                <td>{row.whiffRate == null ? "—" : `${Math.round(Number(row.whiffRate) * 100)}% whiff`}<br /><span className="muted">{row.chaseRate == null ? "—" : `${Math.round(Number(row.chaseRate) * 100)}% chase`}</span></td>
-                <td>Fair {price(row.fair)} · book {price(row.book?.price)}{row.book?.book ? ` · ${row.book.book}` : ""}<br /><span className={`pill ${row.designation.tone}`}>{row.designation.label}</span></td>
-              </tr>
-            ))}
-          </tbody></table> : <div className="info">Batter strikeout targets are hidden until a matching sportsbook K price is available. Hard cap: three priced angles per team across batter props.</div>}
         </section>
 
         <ModelFooter games={games} message={message || BOARD.notice} />
