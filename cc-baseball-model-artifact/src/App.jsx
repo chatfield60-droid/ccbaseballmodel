@@ -4689,6 +4689,9 @@ const BOARD = {
 // of the browser bundle.
 const CUSTOMER_FACING = true;
 const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
+const MARKET_ANCHOR_TEAMS = new Set(["NYM", "HOU", "SD", "COL", "SEA"]);
+const MARKET_ANCHOR_RETAINED_EDGE = 0.28;
+const MARKET_ANCHOR_MAX_GAP = 0.035;
 
 const APP_CSS = `
   :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f4f6f8; color: #162132; }
@@ -5032,10 +5035,79 @@ function ModelFooter({ games, message }) {
 }
 
 function favoriteForGame(game) {
-  const homeProbability = Number(game?.home_win_probability);
-  if (!Number.isFinite(homeProbability)) return null;
-  if (homeProbability >= 0.5) return { team: game.home, probability: homeProbability };
-  return { team: game.away, probability: 1 - homeProbability };
+  return favoriteFromMoneyline(game, baseMoneylineFairs(game));
+}
+
+function favoriteFromMoneyline(game, moneylineFairs) {
+  const homeProbability = Number(moneylineFairs?.home_probability);
+  const awayProbability = Number(moneylineFairs?.away_probability);
+  if (!Number.isFinite(homeProbability) || !Number.isFinite(awayProbability)) return null;
+  if (homeProbability >= awayProbability) return { team: game.home, probability: homeProbability };
+  return { team: game.away, probability: awayProbability };
+}
+
+function baseMoneylineFairs(game) {
+  const homeProbability = Number(game?.moneyline_fairs?.home_probability ?? game?.home_win_probability);
+  const awayProbability = Number(game?.moneyline_fairs?.away_probability ?? (Number.isFinite(homeProbability) ? 1 - homeProbability : null));
+  return {
+    away_probability: Number.isFinite(awayProbability) ? awayProbability : null,
+    home_probability: Number.isFinite(homeProbability) ? homeProbability : null,
+    away_fair: game?.moneyline_fairs?.away_fair ?? americanFromProbability(awayProbability),
+    home_fair: game?.moneyline_fairs?.home_fair ?? americanFromProbability(homeProbability),
+    market_anchor: null,
+  };
+}
+
+function impliedProbability(priceValue) {
+  const priceNumber = Number(priceValue);
+  if (!validBookPrice(priceNumber)) return null;
+  return priceNumber < 0 ? Math.abs(priceNumber) / (Math.abs(priceNumber) + 100) : 100 / (priceNumber + 100);
+}
+
+function marketMoneylineProbabilities(h2h) {
+  const away = impliedProbability(h2h?.away?.price);
+  const home = impliedProbability(h2h?.home?.price);
+  if (!Number.isFinite(away) || !Number.isFinite(home) || away + home <= 0) return {};
+  const total = away + home;
+  return { away: away / total, home: home / total };
+}
+
+function anchoredMoneylineFairs(game, h2h) {
+  const base = baseMoneylineFairs(game);
+  const market = marketMoneylineProbabilities(h2h);
+  let awayProbability = Number(base.away_probability);
+  let homeProbability = Number(base.home_probability);
+  if (!Number.isFinite(awayProbability) || !Number.isFinite(homeProbability)) return base;
+
+  const candidates = [
+    { side: "away", team: game.away, model: awayProbability, market: market.away },
+    { side: "home", team: game.home, model: homeProbability, market: market.home },
+  ].filter((item) => MARKET_ANCHOR_TEAMS.has(item.team) && Number.isFinite(item.market) && item.model > item.market);
+  const anchor = candidates.sort((a, b) => (b.model - b.market) - (a.model - a.market))[0];
+  if (!anchor) return base;
+
+  const retainedGap = Math.min((anchor.model - anchor.market) * MARKET_ANCHOR_RETAINED_EDGE, MARKET_ANCHOR_MAX_GAP);
+  const anchoredProbability = clamp(anchor.market + retainedGap, 0.05, 0.95);
+  if (anchor.side === "away") {
+    awayProbability = anchoredProbability;
+    homeProbability = 1 - anchoredProbability;
+  } else {
+    homeProbability = anchoredProbability;
+    awayProbability = 1 - anchoredProbability;
+  }
+
+  return {
+    away_probability: awayProbability,
+    home_probability: homeProbability,
+    away_fair: americanFromProbability(awayProbability),
+    home_fair: americanFromProbability(homeProbability),
+    market_anchor: {
+      team: anchor.team,
+      raw_probability: anchor.model,
+      market_probability: anchor.market,
+      adjusted_probability: anchoredProbability,
+    },
+  };
 }
 
 function designationForOdds(fair, book) {
@@ -5103,16 +5175,17 @@ function lineLean(fairLine, liveLine, overPrice, underPrice) {
   return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to pregame ${live.toFixed(1)}.` };
 }
 
-function summarizeSynthesis(game, pricedPropCount = 0) {
+function summarizeSynthesis(game, pricedPropCount = 0, moneylineFairs = baseMoneylineFairs(game)) {
   const base = [];
-  const ml = game?.moneyline_fairs || {};
+  const ml = moneylineFairs || {};
   const f5 = game?.f5 || {};
-  const favorite = favoriteForGame(game);
+  const favorite = favoriteFromMoneyline(game, ml);
   const margin = Number(game?.home_score) - Number(game?.away_score);
   const total = Number(game?.total);
   const pace = Number.isFinite(total) ? (total >= 9.4 ? "run-friendly" : total <= 8.2 ? "lower-scoring" : "balanced") : "neutral";
   base.push(`${game.away} ${score(game.away_score)} - ${score(game.home_score)} ${game.home}; ${pace} shape with a ${score(total)} run total.`);
   if (favorite && Number.isFinite(margin)) base.push(`${favorite.team} is the fair favorite at ${probabilityText(favorite.probability)}; projected margin is ${Math.abs(margin).toFixed(1)} runs.`);
+  if (ml.market_anchor) base.push(`${ml.market_anchor.team} moneyline confidence is market-anchored because current books are materially lower than the raw model.`);
   if (f5.total != null) base.push(`F5 read: ${game.away} ${score(f5.away_score)} - ${score(f5.home_score)} ${game.home}, total ${score(f5.total)}.`);
   if (ml.away_fair != null && ml.home_fair != null) base.push(`Fair market shell: ${game.away} ML ${price(ml.away_fair)}, ${game.home} ML ${price(ml.home_fair)}, team totals ${game.away} ${score(game.team_total_fairs?.away ?? game.away_score)} / ${game.home} ${score(game.team_total_fairs?.home ?? game.home_score)}.`);
   base.push(`Starter context: ${game.away_starter || "TBD"} vs ${game.home_starter || "TBD"}. K and batter props stay hidden unless a sportsbook line and price are returned.`);
@@ -5306,13 +5379,7 @@ function CustomerBoard() {
 
   if (!CUSTOMER_FACING) return null;
   if (!game) return <main className="app"><div className="shell"><div className="card info">No customer board is available for this slate.</div></div></main>;
-  const favorite = favoriteForGame(game);
-  const moneylineFairs = game.moneyline_fairs || {
-    away_probability: game.home_win_probability == null ? null : 1 - Number(game.home_win_probability),
-    home_probability: game.home_win_probability,
-    away_fair: game.home_win_probability == null ? null : americanFromProbability(1 - Number(game.home_win_probability)),
-    home_fair: game.home_win_probability == null ? null : americanFromProbability(Number(game.home_win_probability)),
-  };
+  const moneylineFairs = anchoredMoneylineFairs(game, odds.h2h);
   const f5 = game.f5 || {
     away_score: Number.isFinite(Number(game.away_score)) ? Number(game.away_score) * 0.55 : null,
     home_score: Number.isFinite(Number(game.home_score)) ? Number(game.home_score) * 0.55 : null,
@@ -5331,13 +5398,13 @@ function CustomerBoard() {
     {
       title: `${game.away} moneyline`,
       main: price(moneylineFairs.away_fair),
-      meta: [`Fair ${probabilityText(moneylineFairs.away_probability)}`, `Book ${price(odds.h2h.away?.price)}${odds.h2h.away?.book ? ` · ${odds.h2h.away.book}` : ""}`],
+      meta: [`Fair ${probabilityText(moneylineFairs.away_probability)}`, `Book ${price(odds.h2h.away?.price)}${odds.h2h.away?.book ? ` · ${odds.h2h.away.book}` : ""}`, moneylineFairs.market_anchor?.team === game.away ? "Market anchored" : null].filter(Boolean),
       designation: designationForOdds(moneylineFairs.away_fair, odds.h2h.away?.price),
     },
     {
       title: `${game.home} moneyline`,
       main: price(moneylineFairs.home_fair),
-      meta: [`Fair ${probabilityText(moneylineFairs.home_probability)}`, `Book ${price(odds.h2h.home?.price)}${odds.h2h.home?.book ? ` · ${odds.h2h.home.book}` : ""}`],
+      meta: [`Fair ${probabilityText(moneylineFairs.home_probability)}`, `Book ${price(odds.h2h.home?.price)}${odds.h2h.home?.book ? ` · ${odds.h2h.home.book}` : ""}`, moneylineFairs.market_anchor?.team === game.home ? "Market anchored" : null].filter(Boolean),
       designation: designationForOdds(moneylineFairs.home_fair, odds.h2h.home?.price),
     },
     {
@@ -5541,7 +5608,7 @@ function CustomerBoard() {
         <section className="card">
           <div className="card-title"><h2>Matchup synthesis</h2><span className="muted">Published outlook</span></div>
           <div className="copy">
-            {summarizeSynthesis(game, pricedPropCount).map((line) => <p key={line}>{line}</p>)}
+            {summarizeSynthesis(game, pricedPropCount, moneylineFairs).map((line) => <p key={line}>{line}</p>)}
             <div className="notice">Customer forecasts are informational. Starter conflicts, missing starters, and stale probable data are suppressed from the slate instead of published.</div>
           </div>
         </section>
