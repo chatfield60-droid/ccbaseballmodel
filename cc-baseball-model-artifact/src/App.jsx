@@ -4921,6 +4921,7 @@ const APP_CSS = `
   .segmented button { min-height: 30px; padding: 0 10px; border: 0; border-radius: 6px; background: transparent; color: var(--text-secondary); font-weight: 650; font-size: 12px; }
   .segmented button.active { background: var(--surface); color: var(--accent); }
   .k-section { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 10px; padding: 10px 16px 16px; }
+  .k-section.single { grid-template-columns: 1fr; }
   .k-panel { display: grid; align-content: start; gap: 8px; }
   .k-panel-title { color: var(--text-tertiary); font-size: 12px; font-weight: 650; letter-spacing: .01em; }
   .k-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -5200,6 +5201,18 @@ function summarizeResults(rows) {
   return metrics.filter((metric) => metric.value !== "—");
 }
 
+async function fetchJsonWithTimeout(url, timeoutMs = 3500) {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { headers: { accept: "application/json" }, signal: controller.signal });
+    if (!response.ok) return null;
+    return response.json();
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
 function fairFromProjection(projected, line) {
   const projection = Number(projected);
   const bookLine = Number(line);
@@ -5304,22 +5317,21 @@ function PricedEdgeBoard({ edges, hasOdds, controls }) {
   </section>;
 }
 
-function KPricingBoard({ pitcherRows, targets, kMode, onKModeChange, lineOverrides, onLineChange }) {
-  if (!pitcherRows.length && !targets.length) return null;
+function PitcherKPricingBoard({ pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
+  if (!pitcherRows.length) return null;
   return <section className="card">
     <div className="card-title">
-      <h2>K pricing</h2>
+      <h2>Pitcher strikeout pricing</h2>
       <div className="edge-controls">
-        <span className="muted">Manual pitcher lines · batter target fairs</span>
+        <span className="muted">Manual K lines · fair odds</span>
         <div className="segmented" aria-label="K projection mode">
           <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base</button>
           <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling</button>
         </div>
       </div>
     </div>
-    <div className="k-section">
-      {pitcherRows.length ? <div className="k-panel">
-        <div className="k-panel-title">Pitcher K fairs</div>
+    <div className="k-section single">
+      <div className="k-panel">
         <div className="k-grid">
           {pitcherRows.map((row) => {
             const lineValue = lineOverrides[row.key] ?? lineInputValue(row.line);
@@ -5347,9 +5359,17 @@ function KPricingBoard({ pitcherRows, targets, kMode, onKModeChange, lineOverrid
             </article>;
           })}
         </div>
-      </div> : null}
-      {targets.length ? <div className="k-panel">
-        <div className="k-panel-title">Batter K target fairs</div>
+      </div>
+    </div>
+  </section>;
+}
+
+function BatterKTargetsBoard({ targets }) {
+  if (!targets.length) return null;
+  return <section className="card">
+    <div className="card-title"><h2>Batter K target fairs</h2><span className="muted">Fair only · no book prices required</span></div>
+    <div className="k-section single">
+      <div className="k-panel">
         <div className="k-grid">
           {targets.map((target, index) => <article className="k-card" key={`${target.batter}-${target.pitcher}-${index}`}>
             <div className="k-card-head">
@@ -5364,7 +5384,7 @@ function KPricingBoard({ pitcherRows, targets, kMode, onKModeChange, lineOverrid
             <span className="fair-note">Play-to {price(target.play_to)}</span>
           </article>)}
         </div>
-      </div> : null}
+      </div>
     </div>
   </section>;
 }
@@ -5551,11 +5571,8 @@ function CustomerBoard() {
         let payload = null;
         for (const scheduleUrl of scheduleUrls) {
           try {
-            const response = await fetch(scheduleUrl, { headers: { accept: "application/json" } });
-            if (response.ok) {
-              payload = await response.json();
-              break;
-            }
+            payload = await fetchJsonWithTimeout(scheduleUrl);
+            if (payload) break;
           } catch {
             payload = null;
           }
@@ -5970,14 +5987,15 @@ function CustomerBoard() {
           hasOdds={hasAnyOdds}
         />
 
-        <KPricingBoard
+        <PitcherKPricingBoard
           pitcherRows={pitcherKFairRows}
-          targets={kTargetRows}
           kMode={kMode}
           onKModeChange={setKMode}
           lineOverrides={kLineOverrides}
           onLineChange={(key, value) => setKLineOverrides((current) => ({ ...current, [key]: value }))}
         />
+
+        <BatterKTargetsBoard targets={kTargetRows} />
 
         <section className="card">
           <div className="card-title"><h2>Fair market board</h2><span className="muted">ML · totals · F5 · team totals</span></div>
