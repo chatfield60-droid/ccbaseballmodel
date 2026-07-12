@@ -4749,6 +4749,7 @@ const APP_CSS = `
   .brand { color: var(--text-primary); font-size: 20px; font-weight: 700; letter-spacing: 0; }
   .brand b { color: var(--accent); }
   .top-actions { display: flex; align-items: center; gap: 10px; }
+  .odds-stamp { color: var(--text-secondary); font-size: 12px; white-space: nowrap; }
   .mode, .refresh {
     min-height: 40px;
     padding: 0 14px;
@@ -4798,8 +4799,9 @@ const APP_CSS = `
     transition: border-color .16s ease, background .16s ease, transform .16s ease;
   }
   .score-tile.active {
-    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
-    background: var(--surface);
+    border-color: color-mix(in srgb, var(--accent) 82%, var(--border));
+    background: color-mix(in srgb, var(--accent-soft) 72%, var(--surface));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent);
   }
   .score-tile.active::before {
     content: "";
@@ -4822,7 +4824,19 @@ const APP_CSS = `
   .tile-line span:last-child { justify-content: flex-end; }
   .tile-line small { color: var(--text-secondary); font-size: 12px; font-weight: 650; }
   .tile-line b { font-weight: 700; }
+  .tile-line .score-high b { color: var(--accent); font-size: 1.12em; }
   .tile-meta { color: var(--text-secondary); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .tile-meta-right { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; }
+  .edge-badge {
+    justify-self: end;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: var(--positive);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1.2;
+  }
   .selected-summary {
     padding: 0 4px;
     border-bottom: 1px solid var(--border);
@@ -4836,18 +4850,42 @@ const APP_CSS = `
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .edge-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 10px 16px 14px; }
+  .edge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 10px 16px 14px; }
   .edge-card {
+    position: relative;
     display: grid;
-    gap: 6px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface-muted);
   }
+  .edge-card.strong { border-left: 4px solid var(--positive); background: color-mix(in srgb, #EAF8F2 58%, var(--surface-muted)); }
+  .edge-card.bet { border-color: color-mix(in srgb, var(--positive) 45%, var(--border)); }
+  .edge-card.strong { box-shadow: 0 8px 20px rgba(22, 131, 91, .08); }
+  .edge-main, .edge-data { display: grid; gap: 5px; }
+  .edge-data { min-width: 138px; justify-items: end; padding-top: 24px; color: var(--text-secondary); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .edge-data b { color: var(--text-primary); font-weight: 700; }
+  .edge-card .pill { position: absolute; top: 10px; right: 10px; }
   .edge-card strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .edge-card span { color: var(--text-secondary); font-size: 12px; line-height: 1.4; }
   .edge-controls { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+  .tier-legend {
+    position: relative;
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
+  .tier-legend summary { cursor: pointer; list-style: none; font-weight: 650; }
+  .tier-legend summary::-webkit-details-marker { display: none; }
+  .tier-legend[open] {
+    max-width: 360px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+  .tier-legend div { display: grid; gap: 5px; margin-top: 8px; line-height: 1.35; }
   .empty-state {
     margin: 2px 16px 16px;
     padding: 14px 16px;
@@ -4869,8 +4907,17 @@ const APP_CSS = `
     border-radius: var(--radius-md);
     background: var(--surface);
   }
+  .market-card.strong {
+    border-left: 4px solid var(--positive);
+    border-color: color-mix(in srgb, var(--positive) 50%, var(--border));
+    background: color-mix(in srgb, #EAF8F2 48%, var(--surface));
+    box-shadow: 0 8px 20px rgba(22, 131, 91, .08);
+  }
+  .market-card.bet { border-color: color-mix(in srgb, var(--positive) 42%, var(--border)); }
+  .market-card.pass { opacity: .62; filter: saturate(.72); }
   .market-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
   .market-main { color: var(--text-primary); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .market-edge { color: var(--text-primary); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .market-meta { display: grid; gap: 3px; color: var(--text-secondary); font-size: 12px; line-height: 1.3; }
   .market-meta span:first-child { color: var(--text-primary); font-weight: 600; }
   .market-card p.muted { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
@@ -4905,10 +4952,17 @@ const APP_CSS = `
     border: 1px solid var(--border);
   }
   .pill.small, .pill.lean { color: #8A5B08; background: #FFF7E8; border-color: #F4DFB8; }
-  .pill.bet, .pill.strong { color: var(--positive); background: #EAF8F2; border-color: #CDEDE0; }
+  .pill.bet { color: var(--positive); background: #EAF8F2; border-color: #CDEDE0; }
+  .pill.strong { color: #fff; background: var(--positive); border-color: var(--positive); }
   .pill.pass, .pill.watch { color: var(--text-secondary); background: var(--surface-muted); border-color: var(--border); }
+  .pill.pass { opacity: .72; filter: saturate(.7); }
   .night .pill.small, .night .pill.lean { color: #F0C777; background: #3A2A13; border-color: #574019; }
-  .night .pill.bet, .night .pill.strong { color: #8FE4B9; background: #123326; border-color: #1D513C; }
+  .night .pill.bet { color: #8FE4B9; background: #123326; border-color: #1D513C; }
+  .night .pill.strong { color: #06150E; background: #8FE4B9; border-color: #8FE4B9; }
+  .night .edge-badge { color: #06150E; background: #8FE4B9; }
+  .night .edge-card.strong, .night .market-card.strong { background: color-mix(in srgb, #123326 54%, var(--surface)); box-shadow: 0 8px 20px rgba(0, 0, 0, .18); }
+  .night .edge-card.bet, .night .market-card.bet { border-color: color-mix(in srgb, #8FE4B9 40%, var(--border)); }
+  .night .market-card.pass { opacity: .58; filter: saturate(.62); }
   .prices { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0 8px; }
   .prices span { color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
   .prices b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
@@ -4998,12 +5052,13 @@ const APP_CSS = `
   }
   @media (max-width: 760px) {
     .topbar { align-items: flex-start; flex-direction: column; padding: 18px; }
-    .top-actions { width: 100%; }
+    .top-actions { width: 100%; flex-wrap: wrap; }
     .mode, .refresh { flex: 1; }
     .shell { padding: 18px; gap: 18px; }
-    .compact-scores { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 18px; }
-    .score-tile { min-width: 280px; scroll-snap-align: start; }
+    .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid, .result-row { grid-template-columns: 1fr; }
+    .edge-card { grid-template-columns: 1fr; }
+    .edge-data { justify-items: start; padding-top: 0; }
     .selected-main { flex-direction: column; }
     .selected-score { font-size: 24px; }
     .table { min-width: 680px; }
@@ -5012,7 +5067,7 @@ const APP_CSS = `
   @media (max-width: 460px) {
     .shell { padding: 14px; }
     .card-title { align-items: flex-start; flex-direction: column; gap: 4px; }
-    .score-tile { min-width: 255px; }
+    .compact-scores { grid-template-columns: 1fr; }
     .tile-line, .market-main { font-size: 22px; }
   }
 `;
@@ -5107,6 +5162,67 @@ function propMarketText(market) {
   if (market === "Batter HR") return "homerun";
   if (market === "Batter hits") return "hits";
   return market || "Prop";
+}
+
+function gameKey(game) {
+  return String(game?.id ?? `${game?.away || "away"}-${game?.home || "home"}`);
+}
+
+function isActionTone(tone) {
+  return tone === "bet" || tone === "strong";
+}
+
+function tierRank(tone) {
+  if (tone === "strong") return 3;
+  if (tone === "bet") return 2;
+  if (tone === "lean" || tone === "small") return 1;
+  return 0;
+}
+
+function starterHand(game, side) {
+  const keys = [
+    `${side}_starter_hand`,
+    `${side}_pitcher_hand`,
+    `${side}_starter_throws`,
+    `${side}_handedness`,
+    `${side}_pitch_hand`,
+  ];
+  const raw = keys.map((key) => game?.[key]).find((value) => value != null && String(value).trim());
+  if (raw == null) return null;
+  const value = String(raw).trim();
+  const normalized = normal(value);
+  if (normalized === "l" || normalized.includes("left")) return "L";
+  if (normalized === "r" || normalized.includes("right")) return "R";
+  if (normalized === "s" || normalized.includes("switch")) return "S";
+  return value;
+}
+
+function starterLabel(team, name, hand) {
+  const starter = name || "TBD";
+  return hand ? `${team}: ${starter} (${hand})` : `${team}: ${starter}`;
+}
+
+function updatedAgoText(timestamp, now) {
+  const start = Number(timestamp);
+  const current = Number(now);
+  if (!Number.isFinite(start) || !Number.isFinite(current)) return null;
+  const seconds = Math.max(0, Math.floor((current - start) / 1000));
+  if (seconds < 30) return "Updated just now";
+  if (seconds < 3600) return `Updated ${Math.floor(seconds / 60)}m ago`;
+  return `Updated ${Math.floor(seconds / 3600)}h ago`;
+}
+
+function centsVsFairMetric(fair, book) {
+  const edge = edgeCents(fair, book);
+  if (!Number.isFinite(edge)) return null;
+  return `${edge > 0 ? "+" : ""}${Math.round(edge)} cents vs fair`;
+}
+
+function runGapMetric(fairLine, liveLine) {
+  const fair = Number(fairLine);
+  const live = Number(liveLine);
+  if (!Number.isFinite(fair) || !Number.isFinite(live)) return null;
+  return `Fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} · ${signedRun(fair - live)}`;
 }
 
 function blendPropFairWithBook(fair, book) {
@@ -5297,17 +5413,28 @@ function TopBoard({ board }) {
   </section>;
 }
 
-function Scoreboard({ games, gameIndex, onSelect }) {
+function Scoreboard({ games, gameIndex, onSelect, edgeCounts }) {
   return <section className="card">
     <div className="card-title"><h2>Projected scores</h2><span className="muted">{games.length} games · tap a game for detail</span></div>
     <div className="compact-scores">
       {games.map((item, index) => {
         const moneylineFairs = baseMoneylineFairs(item);
         const favorite = favoriteFromMoneyline(item, moneylineFairs);
+        const awayScore = Number(item.away_score);
+        const homeScore = Number(item.home_score);
+        const awayHigh = Number.isFinite(awayScore) && Number.isFinite(homeScore) && awayScore > homeScore;
+        const homeHigh = Number.isFinite(awayScore) && Number.isFinite(homeScore) && homeScore > awayScore;
+        const edgeCount = edgeCounts?.[gameKey(item)] || 0;
         return <button className={`score-tile ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => onSelect(index)}>
           <span className="tile-head"><span>{item.away} @ {item.home}</span><span>{item.time || item.status || "—"}</span></span>
-          <span className="tile-line"><span><small>{item.away}</small><b>{score(item.away_score)}</b></span><span><b>{score(item.home_score)}</b><small>{item.home}</small></span></span>
-          <span className="tile-meta"><span>Total {score(item.total)}</span><span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%` : "—"}</span></span>
+          <span className="tile-line"><span className={awayHigh ? "score-high" : ""}><small>{item.away}</small><b>{score(item.away_score)}</b></span><span className={homeHigh ? "score-high" : ""}><b>{score(item.home_score)}</b><small>{item.home}</small></span></span>
+          <span className="tile-meta">
+            <span>Total {score(item.total)}</span>
+            <span className="tile-meta-right">
+              <span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%` : "—"}</span>
+              {edgeCount ? <span className="edge-badge">{edgeCount} edge{edgeCount === 1 ? "" : "s"}</span> : null}
+            </span>
+          </span>
         </button>;
       })}
     </div>
@@ -5334,16 +5461,44 @@ function edgeCents(fair, book) {
   return bookNumber - fairNumber;
 }
 
-function PricedEdgeBoard({ edges, hasOdds, controls }) {
+function TierLegend() {
+  return <details className="tier-legend">
+    <summary>Tier guide</summary>
+    <div>
+      <span><b>Strong bet:</b> best actionable sportsbook gap.</span>
+      <span><b>Bet:</b> clear sportsbook gap.</span>
+      <span><b>Lean / small edge:</b> thinner gap, worth monitoring.</span>
+      <span><b>No edge:</b> book price has not cleared fair.</span>
+    </div>
+  </details>;
+}
+
+function PricedEdgeBoard({ edges, hasOdds, view, onViewChange }) {
   const status = edges.length ? `${edges.length} priced` : hasOdds ? "No qualifying edges" : "Waiting for odds";
   return <section className="card">
-    <div className="card-title"><h2>Priced edges</h2><div className="edge-controls"><span className="muted">{status}</span>{controls}</div></div>
+    <div className="card-title">
+      <h2>Priced edges</h2>
+      <div className="edge-controls">
+        <span className="muted">{status}</span>
+        <div className="segmented" aria-label="Priced edge scope">
+          <button type="button" className={view === "game" ? "active" : ""} onClick={() => onViewChange("game")}>This game</button>
+          <button type="button" className={view === "slate" ? "active" : ""} onClick={() => onViewChange("slate")}>Full slate</button>
+        </div>
+        <TierLegend />
+      </div>
+    </div>
     {edges.length ? <div className="edge-grid">
-      {edges.slice(0, 8).map((edge, index) => <article className="edge-card" key={`${edge.title}-${index}`}>
-        <strong>{edge.title}</strong>
-        <span>{edge.subtitle}</span>
-        <span>Fair {price(edge.fair)} · book {price(edge.book)}{edge.bookName ? ` · ${edge.bookName}` : ""}</span>
-        <span>{edge.label}</span>
+      {edges.slice(0, view === "slate" ? 12 : 8).map((edge, index) => <article className={`edge-card ${edge.tone || "lean"}`} key={`${edge.title}-${edge.gameLabel || ""}-${index}`}>
+        <div className="edge-main">
+          <strong>{edge.title}</strong>
+          <span>{edge.gameLabel ? `${edge.gameLabel} · ${edge.subtitle}` : edge.subtitle}</span>
+        </div>
+        <div className="edge-data">
+          <span>Fair <b>{price(edge.fair)}</b></span>
+          <span>Book <b>{price(edge.book)}</b></span>
+          <span>{edge.bookName || "Sportsbook"}</span>
+        </div>
+        <span className={`pill ${edge.tone || "lean"}`}>{edge.label}</span>
       </article>)}
     </div> : <div className="empty-state">{hasOdds ? "No priced prop edge cleared the current book numbers." : "Sportsbook prices have not loaded yet. Prop leans remain hidden until a qualifying book price is available."}</div>}
   </section>;
@@ -5593,223 +5748,27 @@ function lineLean(fairLine, liveLine, overRow, underRow) {
   return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to pregame ${live.toFixed(1)}.` };
 }
 
-function CustomerBoard() {
-  const games = BOARD.games || [];
-  const [night, setNight] = useState(false);
-  const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
-  const [kMode, setKMode] = useState("base");
-  const [kLineOverrides, setKLineOverrides] = useState({});
-  const [resultRows, setResultRows] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [odds, setOdds] = useState(blankOdds);
-  const game = games[gameIndex] || games[0] || null;
-  const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
-  const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
+function edgeMetricForTone(tone, metric) {
+  return ["lean", "small", "bet", "strong"].includes(tone) ? metric : null;
+}
 
-  useEffect(() => {
-    let cancelled = false;
-    const slateDate = BOARD.date;
-    async function refreshResults() {
-      if (!slateDate || !games.length) return;
-      try {
-        const directUrl = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${encodeURIComponent(slateDate)}`;
-        const scheduleUrls = hasHostedProxy ? [`/api/mlb/schedule?date=${encodeURIComponent(slateDate)}`, directUrl] : [directUrl];
-        let payload = null;
-        for (const scheduleUrl of scheduleUrls) {
-          try {
-            payload = await fetchJsonWithTimeout(scheduleUrl);
-            if (payload) break;
-          } catch {
-            payload = null;
-          }
-        }
-        if (!payload) return;
-        const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
-        const graded = gradeCompletedGames(games, statsGames);
-        if (!cancelled) setResultRows(graded);
-      } catch {
-        if (!cancelled) setResultRows([]);
-      }
-    }
-    refreshResults();
-    const timer = window.setInterval(refreshResults, 5 * 60 * 1000);
-    return () => {
-      cancelled = true;
-      window.clearInterval(timer);
-    };
-  }, [games, hasHostedProxy]);
+function hasOddsEntry(odds) {
+  return Boolean(
+    Object.keys(odds?.h2h || {}).length
+    || Object.keys(odds?.f5H2h || {}).length
+    || (odds?.totals || []).length
+    || (odds?.f5Totals || []).length
+    || (odds?.teamTotals || []).length
+    || Object.keys(odds?.k || {}).length
+    || Object.keys(odds?.batter || {}).length
+  );
+}
 
-  const teamTotals = useMemo(() => {
-    if (!game) return [];
-    return odds.teamTotals.filter((row) => row.away === game.away && row.home === game.home);
-  }, [game, odds.teamTotals]);
-
-  async function refreshOdds() {
-    if (!game) return;
-    if (!isPregameGame(game)) {
-      setOdds(blankOdds());
-      setMessage("Pregame odds only. This game is no longer in a pregame state, so book prices are not pulled.");
-      return;
-    }
-    setLoading(true);
-    setMessage("Fetching pregame sportsbook lines…");
-    try {
-      // Local testing may use VITE_ODDS_API_KEY. Every hosted request goes to
-      // the worker, which supplies its ODDS_API_KEY secret server-side.
-      const oddsUrl = (endpoint, params = new URLSearchParams()) => {
-        const qs = params.toString();
-        if (canUseLocalKey) {
-          const glue = qs ? `${qs}&` : "";
-          return `https://api.the-odds-api.com/v4/${endpoint}?${glue}apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`;
-        }
-        return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
-      };
-      const eventsResponse = await fetch(oddsUrl("sports/baseball_mlb/events"));
-      if (!eventsResponse.ok) throw new Error(`Pregame odds events request returned HTTP ${eventsResponse.status}`);
-      const events = await eventsResponse.json();
-      const event = findOddsForGame(events, game);
-      if (!event) {
-        setOdds(blankOdds());
-        setMessage("No current sportsbook event matched this game.");
-        return;
-      }
-      const nextK = {};
-      const nextBatter = {};
-      const nextTotals = [];
-      const nextH2h = {};
-      const nextF5H2h = {};
-      const nextGameTotals = [];
-      const nextF5Totals = [];
-      const warnings = new Set();
-
-      const fetchOddsPayload = async (markets) => {
-        const params = new URLSearchParams({ regions: "us", oddsFormat: "american", markets });
-        const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
-        if (response.ok) return response.json();
-        if (response.status === 401) {
-          warnings.add("sportsbook odds key rejected");
-          return null;
-        }
-        const fallbackResponse = await fetch(oddsUrl("sports/baseball_mlb/odds", params));
-        if (fallbackResponse.status === 401) {
-          warnings.add("sportsbook odds key rejected");
-          return null;
-        }
-        if (!fallbackResponse.ok) return null;
-        const fallbackOdds = await fallbackResponse.json();
-        if (!Array.isArray(fallbackOdds)) return null;
-        return fallbackOdds.find((item) => normal(item.away_team) === normal(game.away_name) && normal(item.home_team) === normal(game.home_name)) || null;
-      };
-
-      const parseStandardOdds = (eventOdds) => {
-        if (!eventOdds) return;
-        for (const bookmaker of eventOdds.bookmakers || []) {
-          for (const market of bookmaker.markets || []) {
-            if (market.key === "h2h" || market.key === "h2h_1st_5_innings") {
-              const store = market.key === "h2h" ? nextH2h : nextF5H2h;
-              for (const outcome of market.outcomes || []) {
-                const side = teamSideFromText(outcome.name, game);
-                setBestTeamPrice(store, side, { price: outcome.price, book: bookmaker.title || "Sportsbook" });
-              }
-            }
-            if (market.key === "totals" || market.key === "totals_1st_5_innings") {
-              const rows = market.key === "totals" ? nextGameTotals : nextF5Totals;
-              for (const outcome of market.outcomes || []) {
-                rows.push({
-                  side: outcome.name || null,
-                  line: outcome.point ?? null,
-                  price: outcome.price ?? null,
-                  book: bookmaker.title || "Sportsbook",
-                });
-              }
-            }
-            if (market.key === "pitcher_strikeouts") {
-              for (const outcome of market.outcomes || []) {
-                const key = quoteKey(outcome.description, outcome.name, outcome.point);
-                const candidate = { price: outcome.price, book: bookmaker.title || "Sportsbook" };
-                if (quoteIsBetter(candidate, nextK[key])) nextK[key] = candidate;
-                const playerKey = normal(outcome.description);
-                const line = Number(outcome.point);
-                if (!playerKey || !Number.isFinite(line)) continue;
-                nextK[playerKey] ||= [];
-                let row = nextK[playerKey].find((item) => Number(item.line) === line);
-                if (!row) {
-                  row = { line, over: null, under: null };
-                  nextK[playerKey].push(row);
-                }
-                if (propSideKey(outcome.name) === "over" && quoteIsBetter(candidate, row.over)) row.over = candidate;
-                if (propSideKey(outcome.name) === "under" && quoteIsBetter(candidate, row.under)) row.under = candidate;
-              }
-            }
-            // Standard team totals are deliberately accepted from this one Odds
-            // API market only—never inferred from full-game or alternate totals.
-            if (market.key === "team_totals") {
-              for (const outcome of market.outcomes || []) {
-                nextTotals.push({
-                  away: game.away,
-                  home: game.home,
-                  team: outcome.description || null,
-                  side: outcome.name || null,
-                  line: outcome.point ?? null,
-                  price: outcome.price ?? null,
-                  book: bookmaker.title || "Sportsbook",
-                });
-              }
-            }
-          }
-        }
-      };
-
-      const parseBatterOdds = (propOdds) => {
-        if (!propOdds) return;
-        for (const bookmaker of propOdds.bookmakers || []) {
-          for (const market of bookmaker.markets || []) {
-            const label = propMarketLabel(market.key);
-            if (!["Batter HR", "Batter hits", "Batter TB"].includes(label)) continue;
-            for (const outcome of market.outcomes || []) {
-              const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
-              const key = propQuoteKey(label, outcome.description, outcome.name, line);
-              const candidate = { price: outcome.price, book: bookmaker.title || "Sportsbook" };
-              if (quoteIsBetter(candidate, nextBatter[key])) nextBatter[key] = candidate;
-            }
-          }
-        }
-      };
-
-      const mainOdds = await fetchOddsPayload("h2h,totals");
-      if (mainOdds) parseStandardOdds(mainOdds);
-      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("moneyline/total prices unavailable");
-
-      const teamTotalOdds = await fetchOddsPayload("team_totals");
-      if (teamTotalOdds) parseStandardOdds(teamTotalOdds);
-      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("team total prices unavailable");
-
-      const f5Odds = await fetchOddsPayload("h2h_1st_5_innings,totals_1st_5_innings");
-      if (f5Odds) parseStandardOdds(f5Odds);
-      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("F5 prices unavailable");
-
-      const pitcherKOdds = await fetchOddsPayload("pitcher_strikeouts");
-      if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
-      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("pitcher K prices unavailable");
-
-      const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases");
-      if (propOdds) parseBatterOdds(propOdds);
-      else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
-
-      setOdds({ k: nextK, pitcherK: nextK, batter: nextBatter, teamTotals: nextTotals, h2h: nextH2h, totals: nextGameTotals, f5H2h: nextF5H2h, f5Totals: nextF5Totals });
-      const warningList = [...warnings];
-      setMessage(`Pregame odds updated. A price must clear the displayed play-to number before any consideration.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
-    } catch (error) {
-      setOdds(blankOdds());
-      setMessage(error instanceof Error ? error.message : "Pregame odds are unavailable right now.");
-    } finally {
-      setLoading(false);
-    }
+function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrides = {}) {
+  if (!game) {
+    return { marketCards: [], pitcherKFairRows: [], kTargetRows: [], pricedEdges: [], hasAnyOdds: false };
   }
-
-  if (!CUSTOMER_FACING) return null;
-  if (!game) return <main className="app"><div className="shell"><div className="card info">No customer board is available for this slate.</div></div></main>;
+  const teamTotals = (odds.teamTotals || []).filter((row) => row.away === game.away && row.home === game.home);
   const selectedH2h = odds.h2h || {};
   const moneylineFairs = baseMoneylineFairs(game);
   const f5 = game.f5 || {
@@ -5826,88 +5785,101 @@ function CustomerBoard() {
   const f5Under = bestRow(odds.f5Totals, (row) => String(Number(row.line)) === String(f5TotalPoint) && normal(row.side) === "under");
   const awayTTRows = pickTeamTotalRows(teamTotals, game.away_name, game.team_total_fairs?.away ?? game.away_score);
   const homeTTRows = pickTeamTotalRows(teamTotals, game.home_name, game.team_total_fairs?.home ?? game.home_score);
+  const awayMlDesignation = designationForOdds(moneylineFairs.away_fair, selectedH2h.away?.price);
+  const homeMlDesignation = designationForOdds(moneylineFairs.home_fair, selectedH2h.home?.price);
+  const fullTotalDesignation = lineLean(game.total, fullTotalPoint, fullOver, fullUnder);
+  const f5TotalDesignation = lineLean(f5.total, f5TotalPoint, f5Over, f5Under);
+  const awayF5Fair = f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb);
+  const homeF5Fair = f5.home_fair ?? americanFromProbability(f5HomeProb);
+  const awayF5Designation = designationForOdds(awayF5Fair, odds.f5H2h?.away?.price);
+  const homeF5Designation = designationForOdds(homeF5Fair, odds.f5H2h?.home?.price);
+  const awayTTLine = awayTTRows.over?.line ?? awayTTRows.under?.line;
+  const homeTTLine = homeTTRows.over?.line ?? homeTTRows.under?.line;
+  const awayTTFair = game.team_total_fairs?.away ?? game.away_score;
+  const homeTTFair = game.team_total_fairs?.home ?? game.home_score;
+  const awayTTDesignation = lineLean(awayTTFair, awayTTLine, awayTTRows.over, awayTTRows.under);
+  const homeTTDesignation = lineLean(homeTTFair, homeTTLine, homeTTRows.over, homeTTRows.under);
   const marketCards = [
     {
       group: "Full game",
       title: `${game.away} moneyline`,
       main: price(moneylineFairs.away_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.away_probability)}`, bookMeta(selectedH2h.away)],
-      designation: designationForOdds(moneylineFairs.away_fair, selectedH2h.away?.price),
+      designation: awayMlDesignation,
+      edgeMetric: edgeMetricForTone(awayMlDesignation.tone, centsVsFairMetric(moneylineFairs.away_fair, selectedH2h.away?.price)),
     },
     {
       group: "Full game",
       title: `${game.home} moneyline`,
       main: price(moneylineFairs.home_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.home_probability)}`, bookMeta(selectedH2h.home)],
-      designation: designationForOdds(moneylineFairs.home_fair, selectedH2h.home?.price),
+      designation: homeMlDesignation,
+      edgeMetric: edgeMetricForTone(homeMlDesignation.tone, centsVsFairMetric(moneylineFairs.home_fair, selectedH2h.home?.price)),
     },
     {
       group: "Full game",
       title: "Full-game total",
       main: score(game.total),
       meta: [`Fair total`, `Line ${fullTotalPoint ?? "—"}`, marketLineMeta("Over", fullTotalPoint, fullOver), marketLineMeta("Under", fullTotalPoint, fullUnder)],
-      designation: lineLean(game.total, fullTotalPoint, fullOver, fullUnder),
+      designation: fullTotalDesignation,
+      edgeMetric: edgeMetricForTone(fullTotalDesignation.tone, runGapMetric(game.total, fullTotalPoint)),
     },
     {
       group: "First five",
       title: "F5 total",
       main: score(f5.total),
       meta: [`Fair F5`, `Line ${f5TotalPoint ?? "—"}`, marketLineMeta("Over", f5TotalPoint, f5Over), marketLineMeta("Under", f5TotalPoint, f5Under)],
-      designation: lineLean(f5.total, f5TotalPoint, f5Over, f5Under),
+      designation: f5TotalDesignation,
+      edgeMetric: edgeMetricForTone(f5TotalDesignation.tone, runGapMetric(f5.total, f5TotalPoint)),
     },
     {
       group: "First five",
       title: `${game.away} F5 ML`,
-      main: price(f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb)),
-      meta: [`Fair probability ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, bookMeta(odds.f5H2h.away)],
-      designation: designationForOdds(f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb), odds.f5H2h.away?.price),
+      main: price(awayF5Fair),
+      meta: [`Fair probability ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, bookMeta(odds.f5H2h?.away)],
+      designation: awayF5Designation,
+      edgeMetric: edgeMetricForTone(awayF5Designation.tone, centsVsFairMetric(awayF5Fair, odds.f5H2h?.away?.price)),
     },
     {
       group: "First five",
       title: `${game.home} F5 ML`,
-      main: price(f5.home_fair ?? americanFromProbability(f5HomeProb)),
-      meta: [`Fair probability ${probabilityText(f5HomeProb)}`, bookMeta(odds.f5H2h.home)],
-      designation: designationForOdds(f5.home_fair ?? americanFromProbability(f5HomeProb), odds.f5H2h.home?.price),
+      main: price(homeF5Fair),
+      meta: [`Fair probability ${probabilityText(f5HomeProb)}`, bookMeta(odds.f5H2h?.home)],
+      designation: homeF5Designation,
+      edgeMetric: edgeMetricForTone(homeF5Designation.tone, centsVsFairMetric(homeF5Fair, odds.f5H2h?.home?.price)),
     },
     {
       group: "Team totals",
       title: `${game.away} team total`,
-      main: score(game.team_total_fairs?.away ?? game.away_score),
-      meta: [`Fair runs`, marketLineMeta("Over", awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over), marketLineMeta("Under", awayTTRows.under?.line ?? awayTTRows.over?.line, awayTTRows.under)],
-      designation: lineLean(game.team_total_fairs?.away ?? game.away_score, awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over, awayTTRows.under),
+      main: score(awayTTFair),
+      meta: [`Fair runs`, marketLineMeta("Over", awayTTLine, awayTTRows.over), marketLineMeta("Under", awayTTRows.under?.line ?? awayTTRows.over?.line, awayTTRows.under)],
+      designation: awayTTDesignation,
+      edgeMetric: edgeMetricForTone(awayTTDesignation.tone, runGapMetric(awayTTFair, awayTTLine)),
     },
     {
       group: "Team totals",
       title: `${game.home} team total`,
-      main: score(game.team_total_fairs?.home ?? game.home_score),
-      meta: [`Fair runs`, marketLineMeta("Over", homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over), marketLineMeta("Under", homeTTRows.under?.line ?? homeTTRows.over?.line, homeTTRows.under)],
-      designation: lineLean(game.team_total_fairs?.home ?? game.home_score, homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over, homeTTRows.under),
+      main: score(homeTTFair),
+      meta: [`Fair runs`, marketLineMeta("Over", homeTTLine, homeTTRows.over), marketLineMeta("Under", homeTTRows.under?.line ?? homeTTRows.over?.line, homeTTRows.under)],
+      designation: homeTTDesignation,
+      edgeMetric: edgeMetricForTone(homeTTDesignation.tone, runGapMetric(homeTTFair, homeTTLine)),
     },
   ];
-  const hasAnyOdds = Boolean(
-    Object.keys(odds.h2h || {}).length
-    || Object.keys(odds.f5H2h || {}).length
-    || (odds.totals || []).length
-    || (odds.f5Totals || []).length
-    || (odds.teamTotals || []).length
-    || Object.keys(odds.k || {}).length
-    || Object.keys(odds.batter || {}).length
-  );
   const pitcherKFairRows = (game.prop_angles || []).map((angle, index) => {
     const key = `${normal(angle.player) || "starter"}-${index}`;
     const manualValue = kLineOverrides[key];
     const manualLine = manualValue === "" || manualValue == null ? null : Number(manualValue);
     const hasManualLine = Number.isFinite(manualLine);
-    const fallbackBook = !hasManualLine ? findPitcherKBook(odds.pitcherK, angle.player, angle.line) : null;
+    const fallbackBook = !hasManualLine ? findPitcherKBook(odds.pitcherK || {}, angle.player, angle.line) : null;
     const displayLine = hasManualLine ? manualLine : (fallbackBook?.line ?? angle.line);
-    const exactBook = exactPitcherKBook(odds.pitcherK, angle.player, displayLine);
+    const exactBook = exactPitcherKBook(odds.pitcherK || {}, angle.player, displayLine);
     const book = exactBook || (!hasManualLine ? fallbackBook : null);
     const projected = kMode === "base" && angle.base_projected != null ? angle.base_projected : (angle.ceiling_projected ?? angle.projected);
     const recalculated = fairFromProjection(projected, displayLine);
     const fair = recalculated.over ?? (kMode === "base" && angle.base_fair != null ? angle.base_fair : angle.fair);
     const underFair = recalculated.under ?? (kMode === "base" && angle.base_under_fair != null ? angle.base_under_fair : angle.under_fair);
-    const overBook = book?.over ?? odds.k[quoteKey(angle.player, "Over", displayLine)];
-    const underBook = book?.under ?? odds.k[quoteKey(angle.player, "Under", displayLine)];
+    const overBook = book?.over ?? odds.k?.[quoteKey(angle.player, "Over", displayLine)];
+    const underBook = book?.under ?? odds.k?.[quoteKey(angle.player, "Under", displayLine)];
     return {
       key,
       player: angle.player,
@@ -5959,7 +5931,7 @@ function CustomerBoard() {
 
   const pricedBatterRows = limitRowsPerTeam([
     ...(game.batter_prop_angles || []).map((angle, index) => {
-      const live = odds.batter[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
+      const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
       if (!validBookPrice(live?.price)) return null;
       const fair = blendPropFairWithBook(angle.fair, live.price);
       const designation = designationForOdds(fair, live.price);
@@ -5987,6 +5959,7 @@ function CustomerBoard() {
       book: row.sideBook?.price,
       bookName: row.sideBook?.book,
       label: row.designation.label,
+      tone: row.designation.tone,
       edge: row.edge,
     })),
     ...pricedBatterRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
@@ -5996,9 +5969,279 @@ function CustomerBoard() {
       book: row.book?.price,
       bookName: row.book?.book,
       label: row.designation.label,
+      tone: row.designation.tone,
       edge: row.edge,
     })),
   ].sort((a, b) => (b.edge || 0) - (a.edge || 0));
+
+  return {
+    marketCards,
+    pitcherKFairRows,
+    kTargetRows,
+    pricedEdges,
+    hasAnyOdds: hasOddsEntry(odds),
+  };
+}
+
+function CustomerBoard() {
+  const games = BOARD.games || [];
+  const [night, setNight] = useState(false);
+  const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
+  const [kMode, setKMode] = useState("base");
+  const [kLineOverrides, setKLineOverrides] = useState({});
+  const [resultRows, setResultRows] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [oddsByGame, setOddsByGame] = useState({});
+  const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(null);
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  const [edgeView, setEdgeView] = useState("game");
+  const game = games[gameIndex] || games[0] || null;
+  const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+  const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
+
+  useEffect(() => {
+    let cancelled = false;
+    const slateDate = BOARD.date;
+    async function refreshResults() {
+      if (!slateDate || !games.length) return;
+      try {
+        const directUrl = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${encodeURIComponent(slateDate)}`;
+        const scheduleUrls = hasHostedProxy ? [`/api/mlb/schedule?date=${encodeURIComponent(slateDate)}`, directUrl] : [directUrl];
+        let payload = null;
+        for (const scheduleUrl of scheduleUrls) {
+          try {
+            payload = await fetchJsonWithTimeout(scheduleUrl);
+            if (payload) break;
+          } catch {
+            payload = null;
+          }
+        }
+        if (!payload) return;
+        const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
+        const graded = gradeCompletedGames(games, statsGames);
+        if (!cancelled) setResultRows(graded);
+      } catch {
+        if (!cancelled) setResultRows([]);
+      }
+    }
+    refreshResults();
+    const timer = window.setInterval(refreshResults, 5 * 60 * 1000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+  }, [games, hasHostedProxy]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNowTick(Date.now()), 30 * 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  async function refreshOdds() {
+    const pregameGames = games.filter(isPregameGame);
+    if (!pregameGames.length) {
+      setOddsByGame({});
+      setMessage("Pregame odds only. No games on this slate are currently in a pregame state.");
+      return;
+    }
+    setLoading(true);
+    setMessage("Fetching pregame sportsbook lines for the slate…");
+    try {
+      // Local testing may use VITE_ODDS_API_KEY. Every hosted request goes to
+      // the worker, which supplies its ODDS_API_KEY secret server-side.
+      const oddsUrl = (endpoint, params = new URLSearchParams()) => {
+        const qs = params.toString();
+        if (canUseLocalKey) {
+          const glue = qs ? `${qs}&` : "";
+          return `https://api.the-odds-api.com/v4/${endpoint}?${glue}apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`;
+        }
+        return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
+      };
+      const eventsResponse = await fetch(oddsUrl("sports/baseball_mlb/events"));
+      if (!eventsResponse.ok) throw new Error(`Pregame odds events request returned HTTP ${eventsResponse.status}`);
+      const events = await eventsResponse.json();
+      const warnings = new Set();
+
+      const fetchGameOdds = async (targetGame) => {
+        const event = findOddsForGame(events, targetGame);
+        if (!event) return null;
+        const nextK = {};
+        const nextBatter = {};
+        const nextTotals = [];
+        const nextH2h = {};
+        const nextF5H2h = {};
+        const nextGameTotals = [];
+        const nextF5Totals = [];
+
+        const fetchOddsPayload = async (markets) => {
+          const params = new URLSearchParams({ regions: "us", oddsFormat: "american", markets });
+          const response = await fetch(oddsUrl(`sports/baseball_mlb/events/${event.id}/odds`, params));
+          if (response.ok) return response.json();
+          if (response.status === 401) {
+            warnings.add("sportsbook odds key rejected");
+            return null;
+          }
+          const fallbackResponse = await fetch(oddsUrl("sports/baseball_mlb/odds", params));
+          if (fallbackResponse.status === 401) {
+            warnings.add("sportsbook odds key rejected");
+            return null;
+          }
+          if (!fallbackResponse.ok) return null;
+          const fallbackOdds = await fallbackResponse.json();
+          if (!Array.isArray(fallbackOdds)) return null;
+          return fallbackOdds.find((item) => normal(item.away_team) === normal(targetGame.away_name) && normal(item.home_team) === normal(targetGame.home_name)) || null;
+        };
+
+        const parseStandardOdds = (eventOdds) => {
+          if (!eventOdds) return;
+          for (const bookmaker of eventOdds.bookmakers || []) {
+            for (const market of bookmaker.markets || []) {
+              if (market.key === "h2h" || market.key === "h2h_1st_5_innings") {
+                const store = market.key === "h2h" ? nextH2h : nextF5H2h;
+                for (const outcome of market.outcomes || []) {
+                  const side = teamSideFromText(outcome.name, targetGame);
+                  setBestTeamPrice(store, side, { price: outcome.price, book: bookmaker.title || "Sportsbook" });
+                }
+              }
+              if (market.key === "totals" || market.key === "totals_1st_5_innings") {
+                const rows = market.key === "totals" ? nextGameTotals : nextF5Totals;
+                for (const outcome of market.outcomes || []) {
+                  rows.push({
+                    side: outcome.name || null,
+                    line: outcome.point ?? null,
+                    price: outcome.price ?? null,
+                    book: bookmaker.title || "Sportsbook",
+                  });
+                }
+              }
+              if (market.key === "pitcher_strikeouts") {
+                for (const outcome of market.outcomes || []) {
+                  const key = quoteKey(outcome.description, outcome.name, outcome.point);
+                  const candidate = { price: outcome.price, book: bookmaker.title || "Sportsbook" };
+                  if (quoteIsBetter(candidate, nextK[key])) nextK[key] = candidate;
+                  const playerKey = normal(outcome.description);
+                  const line = Number(outcome.point);
+                  if (!playerKey || !Number.isFinite(line)) continue;
+                  nextK[playerKey] ||= [];
+                  let row = nextK[playerKey].find((item) => Number(item.line) === line);
+                  if (!row) {
+                    row = { line, over: null, under: null };
+                    nextK[playerKey].push(row);
+                  }
+                  if (propSideKey(outcome.name) === "over" && quoteIsBetter(candidate, row.over)) row.over = candidate;
+                  if (propSideKey(outcome.name) === "under" && quoteIsBetter(candidate, row.under)) row.under = candidate;
+                }
+              }
+              // Standard team totals are deliberately accepted from this one Odds
+              // API market only—never inferred from full-game or alternate totals.
+              if (market.key === "team_totals") {
+                for (const outcome of market.outcomes || []) {
+                  nextTotals.push({
+                    away: targetGame.away,
+                    home: targetGame.home,
+                    team: outcome.description || null,
+                    side: outcome.name || null,
+                    line: outcome.point ?? null,
+                    price: outcome.price ?? null,
+                    book: bookmaker.title || "Sportsbook",
+                  });
+                }
+              }
+            }
+          }
+        };
+
+        const parseBatterOdds = (propOdds) => {
+          if (!propOdds) return;
+          for (const bookmaker of propOdds.bookmakers || []) {
+            for (const market of bookmaker.markets || []) {
+              const label = propMarketLabel(market.key);
+              if (!["Batter HR", "Batter hits", "Batter TB"].includes(label)) continue;
+              for (const outcome of market.outcomes || []) {
+                const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
+                const key = propQuoteKey(label, outcome.description, outcome.name, line);
+                const candidate = { price: outcome.price, book: bookmaker.title || "Sportsbook" };
+                if (quoteIsBetter(candidate, nextBatter[key])) nextBatter[key] = candidate;
+              }
+            }
+          }
+        };
+
+        const mainOdds = await fetchOddsPayload("h2h,totals");
+        if (mainOdds) parseStandardOdds(mainOdds);
+        else if (!warnings.has("sportsbook odds key rejected")) warnings.add("moneyline/total prices unavailable");
+
+        const teamTotalOdds = await fetchOddsPayload("team_totals");
+        if (teamTotalOdds) parseStandardOdds(teamTotalOdds);
+        else if (!warnings.has("sportsbook odds key rejected")) warnings.add("team total prices unavailable");
+
+        const f5Odds = await fetchOddsPayload("h2h_1st_5_innings,totals_1st_5_innings");
+        if (f5Odds) parseStandardOdds(f5Odds);
+        else if (!warnings.has("sportsbook odds key rejected")) warnings.add("F5 prices unavailable");
+
+        const pitcherKOdds = await fetchOddsPayload("pitcher_strikeouts");
+        if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
+        else if (!warnings.has("sportsbook odds key rejected")) warnings.add("pitcher K prices unavailable");
+
+        const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases");
+        if (propOdds) parseBatterOdds(propOdds);
+        else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
+
+        const entry = { k: nextK, pitcherK: nextK, batter: nextBatter, teamTotals: nextTotals, h2h: nextH2h, totals: nextGameTotals, f5H2h: nextF5H2h, f5Totals: nextF5Totals };
+        return hasOddsEntry(entry) ? entry : null;
+      };
+
+      const nextOddsByGame = {};
+      for (const targetGame of pregameGames) {
+        const entry = await fetchGameOdds(targetGame);
+        if (entry) nextOddsByGame[gameKey(targetGame)] = entry;
+      }
+      const successfulGames = Object.keys(nextOddsByGame).length;
+      if (!successfulGames) {
+        setOddsByGame({});
+        setMessage(warnings.has("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so pregame book prices are not available yet." : "No pregame sportsbook prices matched this slate.");
+        return;
+      }
+      setOddsByGame(nextOddsByGame);
+      setLastOddsUpdatedAt(Date.now());
+      setNowTick(Date.now());
+      const warningList = [...warnings];
+      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}. A price must clear the displayed play-to number before any consideration.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
+    } catch (error) {
+      setOddsByGame({});
+      setMessage(error instanceof Error ? error.message : "Pregame odds are unavailable right now.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (!CUSTOMER_FACING) return null;
+  const gameDisplays = useMemo(() => games.map((item, index) => ({
+    game: item,
+    ...buildGameDisplay(item, oddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
+  })), [games, oddsByGame, kMode, gameIndex, kLineOverrides]);
+  const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, oddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
+  const edgeCounts = useMemo(() => {
+    const counts = {};
+    for (const display of gameDisplays) {
+      const marketCount = (display.marketCards || []).filter((card) => isActionTone(card.designation?.tone)).length;
+      const pricedCount = (display.pricedEdges || []).filter((edge) => isActionTone(edge.tone)).length;
+      counts[gameKey(display.game)] = marketCount + pricedCount;
+    }
+    return counts;
+  }, [gameDisplays]);
+  const fullSlatePricedEdges = useMemo(() => gameDisplays
+    .flatMap((display) => (display.pricedEdges || []).map((edge) => ({
+      ...edge,
+      gameLabel: `${display.game.away} @ ${display.game.home}`,
+    })))
+    .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0)), [gameDisplays]);
+  const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.pricedEdges;
+  const oddsStamp = updatedAgoText(lastOddsUpdatedAt, nowTick);
+  const awayHand = starterHand(game, "away");
+  const homeHand = starterHand(game, "home");
+  if (!game) return <main className="app"><div className="shell"><div className="card info">No customer board is available for this slate.</div></div></main>;
 
   return (
     <main className={`app ${night ? "night" : ""}`}>
@@ -6010,12 +6253,13 @@ function CustomerBoard() {
         </div>
         <div className="top-actions">
           <button type="button" className="mode" onClick={() => setNight((value) => !value)}>{night ? "Day mode" : "Night mode"}</button>
+          {oddsStamp ? <span className="odds-stamp">{oddsStamp}</span> : null}
           <button type="button" className="refresh" onClick={refreshOdds} disabled={loading}>{loading ? "Refreshing…" : "Refresh pregame odds"}</button>
         </div>
       </header>
 
       <div className="shell">
-        <Scoreboard games={games} gameIndex={gameIndex} onSelect={(index) => { setGameIndex(index); setOdds(blankOdds()); setKLineOverrides({}); setMessage(""); }} />
+        <Scoreboard games={games} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => { setGameIndex(index); setKLineOverrides({}); setMessage(""); }} />
 
         <ResultsPerformance rows={resultRows} />
 
@@ -6023,38 +6267,41 @@ function CustomerBoard() {
           <div className="selected-main">
             <div>
               <h2>{game.away} @ {game.home}</h2>
-              <p className="muted">{game.away_starter || "TBD"} vs {game.home_starter || "TBD"} · {game.time || game.status || "—"}</p>
+              <p className="muted">{starterLabel(game.away, game.away_starter, awayHand)} vs {starterLabel(game.home, game.home_starter, homeHand)} · {game.time || game.status || "—"}</p>
             </div>
             <div className="selected-score">{game.away} {score(game.away_score)} · {score(game.home_score)} {game.home}</div>
           </div>
         </section>
 
         <PricedEdgeBoard
-          edges={pricedEdges}
-          hasOdds={hasAnyOdds}
+          edges={displayedPricedEdges}
+          hasOdds={edgeView === "slate" ? fullSlatePricedEdges.length > 0 || Object.keys(oddsByGame).length > 0 : selectedDisplay.hasAnyOdds}
+          view={edgeView}
+          onViewChange={setEdgeView}
         />
 
         <PitcherKPricingBoard
-          pitcherRows={pitcherKFairRows}
+          pitcherRows={selectedDisplay.pitcherKFairRows}
           kMode={kMode}
           onKModeChange={setKMode}
           lineOverrides={kLineOverrides}
           onLineChange={(key, value) => setKLineOverrides((current) => ({ ...current, [key]: value }))}
         />
 
-        <BatterKTargetsBoard targets={kTargetRows} />
+        <BatterKTargetsBoard targets={selectedDisplay.kTargetRows} />
 
         <section className="card">
           <div className="card-title"><h2>Fair market board</h2><span className="muted">ML · totals · F5 · team totals</span></div>
           <div className="market-section">
             <div className="market-grid">
-              {marketCards.map((card) => (
-                <article className="market-card" key={card.title}>
+              {selectedDisplay.marketCards.map((card) => (
+                <article className={`market-card ${card.designation.tone}`} key={card.title}>
                   <div className="market-top">
                     <h3>{card.title}</h3>
                     <span className={`pill ${card.designation.tone}`}>{card.designation.label}</span>
                   </div>
                   <div className="market-main">{card.main}</div>
+                  {card.edgeMetric ? <div className="market-edge">{card.edgeMetric}</div> : null}
                   <div className="market-meta">{card.meta.map((item) => <span key={item}>{item}</span>)}</div>
                   <p className="muted">{card.designation.detail}</p>
                 </article>
