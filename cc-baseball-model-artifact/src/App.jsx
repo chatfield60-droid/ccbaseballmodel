@@ -5397,7 +5397,7 @@ function CustomerBoard() {
           const glue = qs ? `${qs}&` : "";
           return `https://api.the-odds-api.com/v4/${endpoint}?${glue}apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`;
         }
-        return `/api/odds/${endpoint}${qs ? `?${qs}` : ""}`;
+        return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
       };
       const eventsResponse = await fetch(oddsUrl("sports/baseball_mlb/events"));
       if (!eventsResponse.ok) throw new Error(`Pregame odds events request returned HTTP ${eventsResponse.status}`);
