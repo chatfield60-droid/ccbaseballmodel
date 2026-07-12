@@ -1,5 +1,5 @@
 const ODDS_API_ORIGIN = "https://api.the-odds-api.com/v4";
-const FALLBACK_ODDS_API_KEY = "0a9a20c6b8b08c7cec9ed49704a8ffab";
+const ODDS_API_FALLBACK_KEY = "bab454819e9526707fa520d801f7ea7c";
 
 function deriveOddsPath(req) {
   const rawPath = req.query.target ?? req.query.path ?? req.query["...path"] ?? req.query[0];
@@ -16,7 +16,7 @@ function sendJson(res, status, payload) {
 }
 
 export default async function handler(req, res) {
-  const apiKey = process.env.ODDS_API_KEY || FALLBACK_ODDS_API_KEY;
+  const apiKey = process.env.ODDS_API_KEY || ODDS_API_FALLBACK_KEY;
   if (!apiKey) {
     sendJson(res, 500, { error: "ODDS_API_KEY is not configured" });
     return;
