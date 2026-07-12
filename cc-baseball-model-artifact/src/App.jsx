@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 const BOARD = {
   "date": "2026-07-12",
   "generated": "2026-07-12T09:10:18+00:00",
@@ -4951,6 +4951,30 @@ const APP_CSS = `
   .mini-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
   .mini-stats span { padding: 7px 8px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--border); }
   .fair-note { color: var(--text-tertiary) !important; }
+  .performance-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding: 10px 16px; }
+  .performance-card {
+    display: grid;
+    gap: 4px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-muted);
+  }
+  .performance-card span { color: var(--text-secondary); font-size: 12px; font-weight: 650; }
+  .performance-card strong { color: var(--text-primary); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .results-list { display: grid; gap: 8px; padding: 0 16px 16px; }
+  .result-row {
+    display: grid;
+    grid-template-columns: 1.15fr .9fr .9fr .75fr .75fr;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+  .result-row strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .result-row span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; }
   .info { padding: 14px 20px 20px; color: var(--text-secondary); font-size: 13px; line-height: 1.45; }
   .model-footer { padding: 16px 20px; color: var(--text-secondary); font-size: 12px; }
   .footer-grid { flex-wrap: wrap; justify-content: flex-start; }
@@ -4963,8 +4987,9 @@ const APP_CSS = `
   .top-pick strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .top-pick span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
   @media (max-width: 1080px) {
-    .compact-scores, .market-grid, .edge-grid, .top-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .compact-scores, .market-grid, .edge-grid, .top-grid, .performance-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .k-section { grid-template-columns: 1fr; }
+    .result-row { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 760px) {
     .topbar { align-items: flex-start; flex-direction: column; padding: 18px; }
@@ -4973,7 +4998,7 @@ const APP_CSS = `
     .shell { padding: 18px; gap: 18px; }
     .compact-scores { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 18px; }
     .score-tile { min-width: 280px; scroll-snap-align: start; }
-    .market-grid, .edge-grid, .top-grid, .k-grid { grid-template-columns: 1fr; }
+    .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid, .result-row { grid-template-columns: 1fr; }
     .selected-main { flex-direction: column; }
     .selected-score { font-size: 24px; }
     .table { min-width: 680px; }
@@ -5026,6 +5051,17 @@ function probabilityText(value) {
 
 function score(value) {
   return Number.isFinite(Number(value)) ? Number(value).toFixed(1) : "—";
+}
+
+function signedRun(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return "—";
+  return `${numeric > 0 ? "+" : ""}${numeric.toFixed(1)}`;
+}
+
+function gradeValue(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric.toFixed(1) : "—";
 }
 
 function quoteIsBetter(candidate, current) {
@@ -5088,6 +5124,80 @@ function isPregameGame(game) {
   if (status.includes("final") || status.includes("completed") || status.includes("game over")) return false;
   if (status.includes("in progress") || status.includes("live")) return false;
   return true;
+}
+
+function isFinalStatsGame(statsGame) {
+  const status = statsGame?.status || {};
+  const state = normal(`${status.abstractGameState || ""} ${status.detailedState || ""} ${status.statusCode || ""}`);
+  return state.includes("final") || state.includes("completed") || state.split(" ").includes("f");
+}
+
+function statsGameKey(statsGame) {
+  return Number(statsGame?.gamePk);
+}
+
+function findStatsGameForProjection(statsGames, projection) {
+  const projectionId = Number(projection?.id);
+  if (Number.isFinite(projectionId)) {
+    const byId = statsGames.find((game) => statsGameKey(game) === projectionId);
+    if (byId) return byId;
+  }
+  const away = normal(projection?.away_name || projection?.away);
+  const home = normal(projection?.home_name || projection?.home);
+  return statsGames.find((game) => {
+    const statsAway = normal(game?.teams?.away?.team?.name || game?.teams?.away?.team?.abbreviation);
+    const statsHome = normal(game?.teams?.home?.team?.name || game?.teams?.home?.team?.abbreviation);
+    return away && home && (statsAway === away || statsAway.includes(away) || away.includes(statsAway)) && (statsHome === home || statsHome.includes(home) || home.includes(statsHome));
+  }) || null;
+}
+
+function gradeCompletedGames(projections, statsGames) {
+  return (projections || []).map((projection) => {
+    const statsGame = findStatsGameForProjection(statsGames || [], projection);
+    if (!statsGame || !isFinalStatsGame(statsGame)) return null;
+    const actualAway = Number(statsGame?.teams?.away?.score);
+    const actualHome = Number(statsGame?.teams?.home?.score);
+    const projectedAway = Number(projection?.away_score);
+    const projectedHome = Number(projection?.home_score);
+    if (![actualAway, actualHome, projectedAway, projectedHome].every(Number.isFinite)) return null;
+    const projectedTotal = Number.isFinite(Number(projection?.total)) ? Number(projection.total) : projectedAway + projectedHome;
+    const actualTotal = actualAway + actualHome;
+    const projectedMargin = projectedHome - projectedAway;
+    const actualMargin = actualHome - actualAway;
+    const pickSide = Math.abs(projectedMargin) < 0.05 ? null : projectedMargin > 0 ? "home" : "away";
+    const actualSide = actualMargin > 0 ? "home" : actualMargin < 0 ? "away" : "tie";
+    const winnerCorrect = pickSide && actualSide !== "tie" ? pickSide === actualSide : null;
+    const pickTeam = pickSide === "away" ? projection.away : pickSide === "home" ? projection.home : "No side";
+    const actualWinner = actualSide === "away" ? projection.away : actualSide === "home" ? projection.home : "Tie";
+    return {
+      id: projection.id || statsGame.gamePk,
+      matchup: `${projection.away} @ ${projection.home}`,
+      projected: `${projection.away} ${score(projectedAway)} · ${score(projectedHome)} ${projection.home}`,
+      final: `${projection.away} ${actualAway} · ${actualHome} ${projection.home}`,
+      pickTeam,
+      actualWinner,
+      winnerResult: winnerCorrect == null ? "No side" : winnerCorrect ? "Hit" : "Miss",
+      winnerCorrect,
+      scoreMae: (Math.abs(actualAway - projectedAway) + Math.abs(actualHome - projectedHome)) / 2,
+      totalError: Math.abs(actualTotal - projectedTotal),
+      marginError: Math.abs(actualMargin - projectedMargin),
+      totalDelta: actualTotal - projectedTotal,
+    };
+  }).filter(Boolean);
+}
+
+function summarizeResults(rows) {
+  const completed = rows.length;
+  const sideRows = rows.filter((row) => row.winnerCorrect != null);
+  const average = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
+  const metrics = [
+    { label: "Finals graded", value: String(completed) },
+    ...(sideRows.length ? [{ label: "Winner accuracy", value: `${Math.round(sideRows.filter((row) => row.winnerCorrect).length / sideRows.length * 100)}%` }] : []),
+    { label: "Score MAE", value: gradeValue(average(rows.map((row) => row.scoreMae))) },
+    { label: "Total error", value: gradeValue(average(rows.map((row) => row.totalError))) },
+    { label: "Margin error", value: gradeValue(average(rows.map((row) => row.marginError))) },
+  ];
+  return metrics.filter((metric) => metric.value !== "—");
 }
 
 function fairFromProjection(projected, line) {
@@ -5259,6 +5369,32 @@ function KPricingBoard({ pitcherRows, targets, kMode, onKModeChange, lineOverrid
   </section>;
 }
 
+function ResultsPerformance({ rows }) {
+  if (!rows.length) return null;
+  const metrics = summarizeResults(rows);
+  return <section className="card">
+    <div className="card-title"><h2>Results grading</h2><span className="muted">Official finals · completed games only</span></div>
+    <div className="performance-grid">
+      {metrics.map((metric) => <article className="performance-card" key={metric.label}>
+        <span>{metric.label}</span>
+        <strong>{metric.value}</strong>
+      </article>)}
+    </div>
+    <div className="results-list">
+      {rows.map((row) => <article className="result-row" key={row.id}>
+        <div>
+          <strong>{row.matchup}</strong>
+          <span>{row.winnerResult} · Pick {row.pickTeam} · Final winner {row.actualWinner}</span>
+        </div>
+        <span>Projected<br />{row.projected}</span>
+        <span>Final<br />{row.final}</span>
+        <span>Score MAE<br />{gradeValue(row.scoreMae)}</span>
+        <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
+      </article>)}
+    </div>
+  </section>;
+}
+
 function ModelFooter({ games, message }) {
   const totals = (games || []).map((game) => Number(game.total)).filter(Number.isFinite);
   const avgTotal = totals.length ? totals.reduce((sum, value) => sum + value, 0) / totals.length : null;
@@ -5396,12 +5532,40 @@ function CustomerBoard() {
   const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
   const [kMode, setKMode] = useState("base");
   const [kLineOverrides, setKLineOverrides] = useState({});
+  const [resultRows, setResultRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [odds, setOdds] = useState(blankOdds);
   const game = games[gameIndex] || games[0] || null;
   const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
   const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
+
+  useEffect(() => {
+    let cancelled = false;
+    const slateDate = BOARD.date;
+    async function refreshResults() {
+      if (!slateDate || !games.length) return;
+      try {
+        const scheduleUrl = hasHostedProxy
+          ? `/api/mlb/schedule?date=${encodeURIComponent(slateDate)}`
+          : `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${encodeURIComponent(slateDate)}`;
+        const response = await fetch(scheduleUrl, { headers: { accept: "application/json" } });
+        if (!response.ok) return;
+        const payload = await response.json();
+        const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
+        const graded = gradeCompletedGames(games, statsGames);
+        if (!cancelled) setResultRows(graded);
+      } catch {
+        if (!cancelled) setResultRows([]);
+      }
+    }
+    refreshResults();
+    const timer = window.setInterval(refreshResults, 5 * 60 * 1000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+  }, [games, hasHostedProxy]);
 
   const teamTotals = useMemo(() => {
     if (!game) return [];
@@ -5779,6 +5943,8 @@ function CustomerBoard() {
 
       <div className="shell">
         <Scoreboard games={games} gameIndex={gameIndex} onSelect={(index) => { setGameIndex(index); setOdds(blankOdds()); setKLineOverrides({}); setMessage(""); }} />
+
+        <ResultsPerformance rows={resultRows} />
 
         <section className="selected-summary">
           <div className="selected-main">
