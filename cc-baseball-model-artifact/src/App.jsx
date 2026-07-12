@@ -5546,12 +5546,21 @@ function CustomerBoard() {
     async function refreshResults() {
       if (!slateDate || !games.length) return;
       try {
-        const scheduleUrl = hasHostedProxy
-          ? `/api/mlb/schedule?date=${encodeURIComponent(slateDate)}`
-          : `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${encodeURIComponent(slateDate)}`;
-        const response = await fetch(scheduleUrl, { headers: { accept: "application/json" } });
-        if (!response.ok) return;
-        const payload = await response.json();
+        const directUrl = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${encodeURIComponent(slateDate)}`;
+        const scheduleUrls = hasHostedProxy ? [`/api/mlb/schedule?date=${encodeURIComponent(slateDate)}`, directUrl] : [directUrl];
+        let payload = null;
+        for (const scheduleUrl of scheduleUrls) {
+          try {
+            const response = await fetch(scheduleUrl, { headers: { accept: "application/json" } });
+            if (response.ok) {
+              payload = await response.json();
+              break;
+            }
+          } catch {
+            payload = null;
+          }
+        }
+        if (!payload) return;
         const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
         const graded = gradeCompletedGames(games, statsGames);
         if (!cancelled) setResultRows(graded);
