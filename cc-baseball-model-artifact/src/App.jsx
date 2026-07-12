@@ -5024,16 +5024,37 @@ const APP_CSS = `
   .results-list { display: grid; gap: 8px; padding: 0 16px 16px; }
   .result-row {
     display: grid;
-    grid-template-columns: 1.15fr .9fr .9fr .75fr .75fr;
+    grid-template-columns: minmax(220px, 1.25fr) repeat(4, minmax(120px, 1fr));
     gap: 10px;
-    align-items: center;
+    align-items: start;
     padding: 10px 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface);
   }
   .result-row strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
-  .result-row span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+  .result-row span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .result-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .result-pill {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    padding: 3px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-muted);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .result-pill.hit { color: var(--positive); background: #EAF8F2; border-color: #CDEDE0; }
+  .result-pill.miss { color: #B42318; background: #FEF3F2; border-color: #F8C9C5; }
+  .result-pill.push, .result-pill.neutral { color: var(--text-secondary); background: var(--surface-muted); }
+  .result-grade { display: grid; gap: 4px; }
+  .night .result-pill.hit { color: #8FE4B9; background: #123326; border-color: #1D513C; }
+  .night .result-pill.miss { color: #FFB4AA; background: #3A1715; border-color: #62302C; }
   .info { padding: 14px 20px 20px; color: var(--text-secondary); font-size: 13px; line-height: 1.45; }
   .model-footer { padding: 16px 20px; color: var(--text-secondary); font-size: 12px; }
   .footer-grid { flex-wrap: wrap; justify-content: flex-start; }
@@ -5127,6 +5148,13 @@ function gradeValue(value) {
 function recordText(wins, losses, pushes = 0) {
   if (!wins && !losses && !pushes) return "—";
   return pushes ? `${wins}-${losses}-${pushes}` : `${wins}-${losses}`;
+}
+
+function percentText(wins, attempts) {
+  const made = Number(wins);
+  const total = Number(attempts);
+  if (!Number.isFinite(made) || !Number.isFinite(total) || total <= 0) return "—";
+  return `${Math.round((made / total) * 100)}%`;
 }
 
 function quoteIsBetter(candidate, current) {
@@ -5304,9 +5332,9 @@ function gradeCompletedGames(projections, statsGames) {
     const actualWinner = actualSide === "away" ? projection.away : actualSide === "home" ? projection.home : "Tie";
     const totalDelta = actualTotal - projectedTotal;
     const totalError = Math.abs(totalDelta);
-    const totalClose = totalError <= 1;
     const totalPick = Number.isFinite(totalLine) && Math.abs(projectedTotal - totalLine) >= 0.05 ? projectedTotal > totalLine ? "Over" : "Under" : null;
     const actualTotalSide = Number.isFinite(totalLine) ? actualTotal > totalLine ? "Over" : actualTotal < totalLine ? "Under" : "Push" : null;
+    const totalPush = Boolean(totalPick && actualTotalSide === "Push");
     const totalCorrect = totalPick && actualTotalSide && actualTotalSide !== "Push" ? totalPick === actualTotalSide : null;
     return {
       id: projection.id || statsGame.gamePk,
@@ -5321,7 +5349,8 @@ function gradeCompletedGames(projections, statsGames) {
       totalPick,
       actualTotalSide,
       totalCorrect,
-      totalResult: totalCorrect == null ? (totalClose ? "Close" : "Miss") : totalCorrect ? "Hit" : "Miss",
+      totalPush,
+      totalResult: !totalPick ? "No O/U pick" : totalPush ? "Push" : totalCorrect ? "Hit" : "Miss",
       scoreMae: (Math.abs(actualAway - projectedAway) + Math.abs(actualHome - projectedHome)) / 2,
       totalError,
       marginError: Math.abs(actualMargin - projectedMargin),
@@ -5333,16 +5362,18 @@ function gradeCompletedGames(projections, statsGames) {
 function summarizeResults(rows) {
   const completed = rows.length;
   const sideRows = rows.filter((row) => row.winnerCorrect != null);
-  const totalBetRows = rows.filter((row) => row.totalCorrect != null);
-  const closeTotalRows = rows.filter((row) => Number(row.totalError) <= 1);
+  const totalPickRows = rows.filter((row) => row.totalPick && row.actualTotalSide);
+  const totalDecisionRows = totalPickRows.filter((row) => row.totalCorrect != null);
   const average = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
   const sideWins = sideRows.filter((row) => row.winnerCorrect).length;
-  const totalWins = totalBetRows.filter((row) => row.totalCorrect).length;
+  const totalWins = totalDecisionRows.filter((row) => row.totalCorrect).length;
+  const totalPushes = totalPickRows.filter((row) => row.totalPush).length;
   const metrics = [
     { label: "Finals graded", value: String(completed) },
     ...(sideRows.length ? [{ label: "Side record", value: recordText(sideWins, sideRows.length - sideWins) }] : []),
-    ...(totalBetRows.length ? [{ label: "Total O/U record", value: recordText(totalWins, totalBetRows.length - totalWins) }] : []),
-    { label: "Totals within 1", value: recordText(closeTotalRows.length, completed - closeTotalRows.length) },
+    ...(sideRows.length ? [{ label: "Side win %", value: percentText(sideWins, sideRows.length) }] : []),
+    ...(totalPickRows.length ? [{ label: "Total O/U record", value: recordText(totalWins, totalDecisionRows.length - totalWins, totalPushes) }] : []),
+    ...(totalDecisionRows.length ? [{ label: "Total O/U win %", value: percentText(totalWins, totalDecisionRows.length) }] : []),
     { label: "Score MAE", value: gradeValue(average(rows.map((row) => row.scoreMae))) },
     { label: "Total MAE", value: gradeValue(average(rows.map((row) => row.totalError))) },
     { label: "Total bias", value: signedRun(average(rows.map((row) => row.totalDelta))) },
@@ -5577,11 +5608,18 @@ function BatterKTargetsBoard({ targets }) {
   </section>;
 }
 
-function ResultsPerformance({ rows }) {
+function resultTone(value, correct, push) {
+  if (push || value === "Push") return "push";
+  if (correct === true || value === "Hit") return "hit";
+  if (correct === false || value === "Miss") return "miss";
+  return "neutral";
+}
+
+function ResultsPerformance({ rows, date }) {
   if (!rows.length) return null;
   const metrics = summarizeResults(rows);
   return <section className="card">
-    <div className="card-title"><h2>Results snapshot</h2><span className="muted">Official finals · records forward-facing</span></div>
+    <div className="card-title"><h2>Results snapshot</h2><span className="muted">Board date {date || "—"} · official finals</span></div>
     <div className="performance-grid">
       {metrics.map((metric) => <article className="performance-card" key={metric.label}>
         <span>{metric.label}</span>
@@ -5594,11 +5632,19 @@ function ResultsPerformance({ rows }) {
         {rows.map((row) => <article className="result-row" key={row.id}>
           <div>
             <strong>{row.matchup}</strong>
-            <span>{row.winnerResult} · Pick {row.pickTeam} · Final winner {row.actualWinner}</span>
+            <div className="result-badges">
+              <span className={`result-pill ${resultTone(row.winnerResult, row.winnerCorrect)}`}>{row.winnerResult}</span>
+              <span>Pick {row.pickTeam}</span>
+              <span>Winner {row.actualWinner}</span>
+            </div>
           </div>
           <span>Projected<br />{row.projected}</span>
           <span>Final<br />{row.final}</span>
-          <span>Total grade<br />{row.totalResult}{row.totalPick ? ` · ${row.totalPick} ${row.totalLine}` : ""}</span>
+          <span className="result-grade">
+            <span>Total O/U</span>
+            <span className={`result-pill ${resultTone(row.totalResult, row.totalCorrect, row.totalPush)}`}>{row.totalResult}</span>
+            {row.totalPick ? <span>{row.totalPick} {row.totalLine}</span> : null}
+          </span>
           <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
         </article>)}
       </div>
@@ -6262,8 +6308,6 @@ function CustomerBoard() {
       <div className="shell">
         <Scoreboard games={games} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => { setGameIndex(index); setKLineOverrides({}); setMessage(""); }} />
 
-        <ResultsPerformance rows={resultRows} />
-
         <section className="selected-summary">
           <div className="selected-main">
             <div>
@@ -6310,6 +6354,8 @@ function CustomerBoard() {
             </div>
           </div>
         </section>
+
+        <ResultsPerformance rows={resultRows} date={BOARD.date} />
 
         <ModelFooter games={games} message={message || BOARD.notice} />
       </div>
