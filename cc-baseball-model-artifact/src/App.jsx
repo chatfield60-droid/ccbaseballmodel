@@ -4694,139 +4694,265 @@ const MARKET_ANCHOR_RETAINED_EDGE = 0.28;
 const MARKET_ANCHOR_MAX_GAP = 0.035;
 
 const APP_CSS = `
-  :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f4f6f8; color: #162132; }
+  :root {
+    color-scheme: light;
+    --page-bg: #F6F8FB;
+    --surface: #FFFFFF;
+    --surface-muted: #F9FAFC;
+    --text-primary: #172033;
+    --text-secondary: #68758A;
+    --text-tertiary: #98A2B3;
+    --border: #E6EAF0;
+    --accent: #3B6FE8;
+    --accent-soft: #EEF4FF;
+    --positive: #16835B;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    font-family: Inter, Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--page-bg);
+    color: var(--text-primary);
+  }
   * { box-sizing: border-box; }
-  body { margin: 0; min-width: 320px; }
+  body { margin: 0; min-width: 320px; background: var(--page-bg); }
   button { font: inherit; cursor: pointer; }
-  .app { min-height: 100vh; background: #f4f6f8; }
-  .app.night { color-scheme: dark; background: #0d1623; color: #e8edf5; }
-  .topbar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 15px max(18px, calc((100vw - 1040px) / 2)); border-bottom: 1px solid #dce3ec; background: rgba(255,255,255,.94); backdrop-filter: blur(10px); }
-  .night .topbar { background: rgba(13,22,35,.94); border-color: #26364a; }
-  .brand { font-size: 20px; font-weight: 850; letter-spacing: -.02em; }
-  .brand b { color: #2d6cdf; }
-  .subline, .muted { color: #647388; font-size: 13px; }
-  .night .subline, .night .muted { color: #9baac0; }
-  .top-actions { display: flex; align-items: center; gap: 9px; }
-  .mode, .refresh { border: 1px solid #cad4e0; border-radius: 8px; min-height: 36px; padding: 0 11px; background: #fff; color: #223047; font-weight: 750; }
-  .night .mode, .night .refresh { color: #e8edf5; border-color: #3b4b61; background: #162236; }
-  .refresh { background: #1d4f9f; border-color: #1d4f9f; color: #fff; }
-  .refresh:disabled { cursor: wait; opacity: .65; }
-  .shell { width: min(1040px, 100%); margin: 0 auto; padding: 18px; display: grid; gap: 15px; }
-  .card { border: 1px solid #dce4ed; border-radius: 13px; background: #fff; box-shadow: 0 1px 3px rgba(21,36,54,.05); overflow: hidden; }
-  .night .card { background: #121e30; border-color: #273a50; box-shadow: none; }
-  .card-title { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #e7edf3; }
-  .night .card-title { border-color: #26394f; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .app { min-height: 100vh; background: var(--page-bg); color: var(--text-primary); }
+  .app.night {
+    color-scheme: dark;
+    --page-bg: #0E1624;
+    --surface: #121C2B;
+    --surface-muted: #172235;
+    --text-primary: #EAF0F8;
+    --text-secondary: #A7B4C6;
+    --text-tertiary: #7D8CA1;
+    --border: #253248;
+    --accent: #7FA6FF;
+    --accent-soft: #182A4B;
+    --positive: #65D6A2;
+  }
   h1, h2, h3, p { margin: 0; }
-  h2 { font-size: 15px; letter-spacing: -.01em; }
-  .slate { display: grid; gap: 8px; padding: 10px; }
-  .game { width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 12px; text-align: left; color: inherit; background: #f9fbfd; border: 1px solid #e2e9f0; border-radius: 9px; }
-  .game.active { background: #eef5ff; border-color: #7ba6e6; }
-  .night .game { background: #172438; border-color: #2b4057; }
-  .night .game.active { background: #183154; border-color: #4c82ca; }
-  .matchup { font-weight: 850; }
-  .status { color: #5e7088; font-size: 12px; text-align: right; }
-  .night .status { color: #a2b2c6; }
-  .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #e8eef5; gap: 1px; }
-  .night .score-grid { background: #2a3b50; }
-  .score { padding: 16px; background: #fff; display: grid; gap: 5px; }
-  .night .score { background: #121e30; }
-  .score span { color: #63758b; font-size: 12px; font-weight: 750; }
-  .night .score span { color: #9daec2; }
-  .score strong { font-size: 25px; font-variant-numeric: tabular-nums; }
-  .copy { padding: 16px; display: grid; gap: 9px; line-height: 1.5; }
-  .notice { border-left: 3px solid #83a9dd; padding-left: 10px; color: #53677f; font-size: 13px; }
-  .night .notice { color: #a6b7cc; }
+  h2 { color: var(--text-primary); font-size: 18px; font-weight: 700; letter-spacing: 0; }
+  h3 { color: var(--text-primary); font-size: 13px; font-weight: 650; letter-spacing: 0; }
+  .muted, .subline { color: var(--text-secondary); font-size: 13px; line-height: 1.45; }
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px max(28px, calc((100vw - 1320px) / 2));
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--page-bg) 90%, var(--surface));
+  }
+  .brand { color: var(--text-primary); font-size: 20px; font-weight: 700; letter-spacing: 0; }
+  .brand b { color: var(--accent); }
+  .top-actions { display: flex; align-items: center; gap: 10px; }
+  .mode, .refresh {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-weight: 650;
+    font-size: 13px;
+  }
+  .refresh { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .refresh:disabled { cursor: wait; opacity: .68; }
+  .mode:hover, .refresh:hover:not(:disabled), .score-tile:hover { transform: translateY(-1px); }
+  .shell { width: min(1320px, 100%); margin: 0 auto; padding: 28px; display: grid; gap: 22px; }
+  .card {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+  .card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 18px 20px 8px;
+  }
+  .card-title .muted { color: var(--text-secondary); }
+  .compact-scores {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    padding: 14px;
+  }
+  .score-tile {
+    position: relative;
+    min-height: 124px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 14px;
+    padding: 15px 16px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: var(--surface-muted);
+    color: inherit;
+    text-align: left;
+    transition: border-color .16s ease, background .16s ease, transform .16s ease;
+  }
+  .score-tile.active {
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    background: var(--surface);
+  }
+  .score-tile.active::before {
+    content: "";
+    position: absolute;
+    inset: 12px auto 12px 0;
+    width: 3px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+  .tile-head, .tile-line, .tile-meta, .selected-main, .footer-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .tile-head { color: var(--text-secondary); font-size: 12px; font-weight: 600; line-height: 1.35; }
+  .tile-line { color: var(--text-primary); font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .tile-line span { display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+  .tile-line span:first-child { justify-content: flex-start; }
+  .tile-line span:last-child { justify-content: flex-end; }
+  .tile-line small { color: var(--text-secondary); font-size: 12px; font-weight: 650; }
+  .tile-line b { font-weight: 700; }
+  .tile-meta { color: var(--text-secondary); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .selected-summary {
+    padding: 4px 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .selected-main { padding: 4px 0 22px; align-items: flex-start; }
+  .selected-main h2 { margin-bottom: 4px; font-size: 20px; }
+  .selected-score {
+    color: var(--text-primary);
+    font-size: 26px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .edge-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 12px 20px 18px; }
+  .edge-card {
+    display: grid;
+    gap: 6px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-muted);
+  }
+  .edge-card strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .edge-card span { color: var(--text-secondary); font-size: 12px; line-height: 1.4; }
+  .empty-state {
+    margin: 2px 20px 20px;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    background: var(--surface-muted);
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .market-section { display: grid; gap: 12px; padding: 8px 20px 20px; }
+  .market-group { display: grid; gap: 10px; }
+  .market-group-title { color: var(--text-tertiary); font-size: 12px; font-weight: 650; letter-spacing: .01em; }
+  .market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .market-card {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+  .market-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .market-main { color: var(--text-primary); font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .market-meta { display: grid; gap: 4px; color: var(--text-secondary); font-size: 13px; line-height: 1.35; }
+  .market-meta span:first-child { color: var(--text-primary); font-weight: 600; }
+  .market-card p.muted { color: var(--text-secondary); }
+  .copy { padding: 8px 20px 20px; display: grid; gap: 10px; color: var(--text-primary); font-size: 14px; line-height: 1.55; }
+  .notice {
+    margin-top: 4px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+  .angle-list { display: grid; gap: 10px; padding: 12px 20px 20px; }
+  .angle {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+  .angle-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+  .angle h3 { margin-bottom: 4px; }
+  .pill {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: var(--surface-muted);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.2;
+    border: 1px solid var(--border);
+  }
+  .pill.small { color: #8A5B08; background: #FFF7E8; border-color: #F4DFB8; }
+  .pill.bet, .pill.strong { color: var(--positive); background: #EAF8F2; border-color: #CDEDE0; }
+  .pill.pass, .pill.watch { color: var(--text-secondary); background: var(--surface-muted); border-color: var(--border); }
+  .night .pill.small { color: #F0C777; background: #3A2A13; border-color: #574019; }
+  .night .pill.bet, .night .pill.strong { color: #8FE4B9; background: #123326; border-color: #1D513C; }
+  .prices { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0 8px; }
+  .prices span { color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
+  .prices b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
   .table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .table th, .table td { padding: 11px 14px; text-align: left; border-bottom: 1px solid #e8edf3; vertical-align: top; }
-  .night .table th, .night .table td { border-color: #26394f; }
-  .table th { color: #61738a; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
-  .night .table th { color: #9fb0c5; }
+  .table th, .table td { padding: 13px 20px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .table th { color: var(--text-tertiary); font-size: 12px; font-weight: 650; letter-spacing: .01em; }
   .table tr:last-child td { border-bottom: 0; }
-  .angle-list { display: grid; gap: 9px; padding: 12px; }
-  .angle { padding: 13px; border: 1px solid #d9e6dc; background: #f5fbf6; border-radius: 9px; }
-  .night .angle { border-color: #2d513f; background: #14291f; }
-  .angle-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
-  .angle h3 { font-size: 14px; }
-  .pill { flex: 0 0 auto; padding: 3px 7px; border-radius: 999px; background: #e7f5ea; color: #1a6a3b; font-size: 11px; font-weight: 800; }
-  .night .pill { background: #1c4930; color: #9ee2b6; }
-  .pill.watch { background: #eef3f8; color: #53677f; }
-  .pill.small { background: #fff7e6; color: #9a5b00; }
-  .pill.bet { background: #e7f5ea; color: #1a6a3b; }
-  .pill.strong { background: #dff7f0; color: #00634d; }
-  .pill.pass { background: #f3f5f7; color: #6d7d91; }
-  .night .pill.watch { background: #203047; color: #a9bad0; }
-  .night .pill.small { background: #412f13; color: #f2c56b; }
-  .night .pill.bet { background: #1c4930; color: #9ee2b6; }
-  .night .pill.strong { background: #11463d; color: #8df0d5; }
-  .night .pill.pass { background: #263447; color: #a8b6c7; }
-  .prices { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0 7px; }
-  .prices span { color: #63758b; font-size: 12px; }
-  .night .prices span { color: #a1b3c9; }
-  .prices b { color: inherit; font-variant-numeric: tabular-nums; }
-  .market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 12px; }
-  .top-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding: 12px; }
-  .top-card { display: grid; align-content: start; gap: 9px; padding: 12px; border: 1px solid #dfe7ef; border-radius: 9px; background: #fafcfe; }
-  .night .top-card { background: #172438; border-color: #2b4057; }
-  .top-card h3 { font-size: 13px; }
-  .top-pick { display: grid; gap: 3px; padding-top: 8px; border-top: 1px solid #e6edf4; }
-  .night .top-pick { border-color: #26394f; }
-  .top-pick:first-of-type { border-top: 0; padding-top: 0; }
-  .top-pick strong { font-size: 12px; }
-  .top-pick span { color: #63758b; font-size: 11px; line-height: 1.35; }
-  .night .top-pick span { color: #a1b3c9; }
-  .market-card { display: grid; gap: 8px; padding: 13px; border: 1px solid #dfe7ef; border-radius: 9px; background: #fafcfe; }
-  .night .market-card { background: #172438; border-color: #2b4057; }
-  .market-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
-  .market-card h3 { font-size: 14px; }
-  .market-main { font-size: 22px; font-weight: 850; font-variant-numeric: tabular-nums; }
-  .market-meta { display: flex; flex-wrap: wrap; gap: 10px; color: #63758b; font-size: 12px; }
-  .night .market-meta { color: #a1b3c9; }
-  .segmented { display: inline-flex; padding: 3px; gap: 3px; border: 1px solid #cad4e0; border-radius: 9px; background: #fff; }
-  .night .segmented { border-color: #3b4b61; background: #162236; }
-  .segmented button { min-height: 28px; padding: 0 8px; border: 0; border-radius: 6px; background: transparent; color: inherit; font-weight: 800; font-size: 12px; }
-  .segmented button.active { background: #1d4f9f; color: #fff; }
-  .info { padding: 13px 15px; color: #66788e; font-size: 13px; }
-  .night .info { color: #a1b2c6; }
-  .shell { width: min(1280px, 100%); padding: 12px; gap: 10px; }
-  .card { border-radius: 8px; box-shadow: none; }
-  .card-title { padding: 10px 12px; }
-  .compact-scores { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 8px; }
-  .score-tile { min-height: 84px; display: grid; gap: 5px; padding: 8px; border: 1px solid #e0e7ef; border-radius: 7px; background: #fbfcfe; color: inherit; text-align: left; }
-  .score-tile.active { border-color: #6091d4; background: #eef5ff; }
-  .night .score-tile { border-color: #2b4057; background: #172438; }
-  .night .score-tile.active { border-color: #4c82ca; background: #183154; }
-  .tile-head, .tile-line, .tile-meta, .selected-main, .footer-grid { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .tile-head { font-size: 12px; font-weight: 850; }
-  .tile-line { font-size: 17px; font-weight: 900; font-variant-numeric: tabular-nums; }
-  .tile-meta { color: #66788e; font-size: 11px; }
-  .night .tile-meta { color: #a1b2c6; }
-  .selected-main { padding: 10px 12px; align-items: flex-start; }
-  .selected-score { font-size: 28px; font-weight: 900; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .edge-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 8px; }
-  .edge-card { display: grid; gap: 3px; padding: 9px; border: 1px solid #dfe7ef; border-radius: 7px; background: #fafcfe; }
-  .night .edge-card { background: #172438; border-color: #2b4057; }
-  .edge-card strong { font-size: 12px; }
-  .edge-card span { color: #63758b; font-size: 11px; line-height: 1.35; }
-  .night .edge-card span { color: #a1b3c9; }
-  .market-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 8px; }
-  .market-card { gap: 5px; padding: 9px; border-radius: 7px; }
-  .market-card h3 { font-size: 12px; }
-  .market-main { font-size: 18px; }
-  .market-meta { gap: 8px; font-size: 11px; }
-  .copy { padding: 12px; gap: 7px; line-height: 1.42; }
-  .angle-list { gap: 7px; padding: 8px; }
-  .angle { padding: 10px; border-radius: 7px; }
-  .prices { gap: 9px; margin: 7px 0 4px; }
-  .model-footer { padding: 10px 12px; color: #66788e; font-size: 11px; }
+  .table b { color: var(--text-primary); font-weight: 650; }
+  .segmented { display: inline-flex; padding: 3px; gap: 3px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-muted); }
+  .segmented button { min-height: 30px; padding: 0 10px; border: 0; border-radius: 6px; background: transparent; color: var(--text-secondary); font-weight: 650; font-size: 12px; }
+  .segmented button.active { background: var(--surface); color: var(--accent); }
+  .info { padding: 14px 20px 20px; color: var(--text-secondary); font-size: 13px; line-height: 1.45; }
+  .model-footer { padding: 16px 20px; color: var(--text-secondary); font-size: 12px; }
   .footer-grid { flex-wrap: wrap; justify-content: flex-start; }
-  .footer-grid span { padding-right: 10px; border-right: 1px solid #d6e0ea; }
+  .footer-grid span { padding-right: 12px; border-right: 1px solid var(--border); }
   .footer-grid span:last-child { border-right: 0; }
-  .night .model-footer { color: #a1b2c6; }
-  .night .footer-grid span { border-color: #2b4057; }
-  @media (max-width: 980px) { .top-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 980px) { .compact-scores, .market-grid, .edge-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (max-width: 760px) { .market-grid, .top-grid, .edge-grid { grid-template-columns: 1fr; } .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 640px) { .topbar { align-items: flex-start; flex-direction: column; padding: 12px 14px; } .top-actions { width: 100%; flex-wrap: wrap; } .mode, .refresh { flex: 1; } .shell { padding: 12px; } .score-grid { grid-template-columns: 1fr 1fr; } .score:last-child { grid-column: span 2; } .table { font-size: 12px; } .table th, .table td { padding: 9px 8px; } }
+  .top-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 12px 20px 20px; }
+  .top-card { display: grid; align-content: start; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
+  .top-pick { display: grid; gap: 4px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .top-pick:first-of-type { border-top: 0; padding-top: 0; }
+  .top-pick strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .top-pick span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
+  @media (max-width: 1080px) {
+    .compact-scores, .market-grid, .edge-grid, .top-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    .topbar { align-items: flex-start; flex-direction: column; padding: 18px; }
+    .top-actions { width: 100%; }
+    .mode, .refresh { flex: 1; }
+    .shell { padding: 18px; gap: 18px; }
+    .compact-scores { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 18px; }
+    .score-tile { min-width: 280px; scroll-snap-align: start; }
+    .market-grid, .edge-grid, .top-grid { grid-template-columns: 1fr; }
+    .selected-main { flex-direction: column; }
+    .selected-score { font-size: 24px; }
+    .table { min-width: 680px; }
+    .card:has(.table) { overflow-x: auto; }
+  }
+  @media (max-width: 460px) {
+    .shell { padding: 14px; }
+    .card-title { align-items: flex-start; flex-direction: column; gap: 4px; }
+    .score-tile { min-width: 255px; }
+    .tile-line, .market-main { font-size: 22px; }
+  }
 `;
 
 function normal(value) {
@@ -4977,7 +5103,7 @@ function Scoreboard({ games, gameIndex, onSelect, h2hByGame = {} }) {
         const marketTag = moneylineFairs.market_anchor ? " mkt" : "";
         return <button className={`score-tile ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => onSelect(index)}>
           <span className="tile-head"><span>{item.away} @ {item.home}</span><span>{item.time || item.status || "—"}</span></span>
-          <span className="tile-line"><span>{item.away} {score(item.away_score)}</span><span>{score(item.home_score)} {item.home}</span></span>
+          <span className="tile-line"><span><small>{item.away}</small><b>{score(item.away_score)}</b></span><span><b>{score(item.home_score)}</b><small>{item.home}</small></span></span>
           <span className="tile-meta"><span>Total {score(item.total)}</span><span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%${marketTag}` : "—"}</span></span>
         </button>;
       })}
@@ -5006,8 +5132,9 @@ function edgeCents(fair, book) {
 }
 
 function PricedEdgeBoard({ edges, hasOdds }) {
+  const status = edges.length ? `${edges.length} priced` : hasOdds ? "No qualifying edges" : "Waiting for odds";
   return <section className="card">
-    <div className="card-title"><h2>Priced edges</h2><span className="muted">Odds required</span></div>
+    <div className="card-title"><h2>Priced edges</h2><span className="muted">{status}</span></div>
     {edges.length ? <div className="edge-grid">
       {edges.slice(0, 8).map((edge, index) => <article className="edge-card" key={`${edge.title}-${index}`}>
         <strong>{edge.title}</strong>
@@ -5015,7 +5142,7 @@ function PricedEdgeBoard({ edges, hasOdds }) {
         <span>Fair {price(edge.fair)} · book {price(edge.book)}{edge.bookName ? ` · ${edge.bookName}` : ""}</span>
         <span>{edge.label}</span>
       </article>)}
-    </div> : <div className="info">{hasOdds ? "No plus-price edge cleared the current book numbers." : "No props or bets are generated until sportsbook odds load. Model-only leans stay off the bet board."}</div>}
+    </div> : <div className="empty-state">{hasOdds ? "No plus-price edge cleared the current book numbers." : "Sportsbook prices have not loaded yet. Model-only leans remain hidden until a qualifying edge is available."}</div>}
   </section>;
 }
 
@@ -5191,6 +5318,17 @@ function pickTeamTotalRows(rows, team, fairLine) {
     over: bestRow(teamRows, (row) => Number(row.line) === point && normal(row.side) === "over"),
     under: bestRow(teamRows, (row) => Number(row.line) === point && normal(row.side) === "under"),
   };
+}
+
+function bookMeta(row) {
+  if (!validBookPrice(row?.price)) return "No sportsbook price available";
+  return `Book ${price(row.price)}${row.book ? ` · ${row.book}` : ""}`;
+}
+
+function marketLineMeta(label, line, row) {
+  const lineText = line ?? "—";
+  if (!validBookPrice(row?.price)) return `${label} ${lineText} unavailable`;
+  return `${label} ${lineText} ${price(row.price)}`;
 }
 
 function lineLean(fairLine, liveLine, overPrice, underPrice) {
@@ -5441,54 +5579,66 @@ function CustomerBoard() {
   const homeTTRows = pickTeamTotalRows(teamTotals, game.home_name, game.team_total_fairs?.home ?? game.home_score);
   const marketCards = [
     {
+      group: "Full game",
       title: `${game.away} moneyline`,
       main: price(moneylineFairs.away_fair),
-      meta: [`Fair ${probabilityText(moneylineFairs.away_probability)}`, `Book ${price(selectedH2h.away?.price)}${selectedH2h.away?.book ? ` · ${selectedH2h.away.book}` : ""}`, moneylineFairs.market_anchor?.team === game.away ? "Market anchored" : null].filter(Boolean),
+      meta: [`Fair probability ${probabilityText(moneylineFairs.away_probability)}`, bookMeta(selectedH2h.away), moneylineFairs.market_anchor?.team === game.away ? "Market anchored" : null].filter(Boolean),
       designation: designationForOdds(moneylineFairs.away_fair, selectedH2h.away?.price),
     },
     {
+      group: "Full game",
       title: `${game.home} moneyline`,
       main: price(moneylineFairs.home_fair),
-      meta: [`Fair ${probabilityText(moneylineFairs.home_probability)}`, `Book ${price(selectedH2h.home?.price)}${selectedH2h.home?.book ? ` · ${selectedH2h.home.book}` : ""}`, moneylineFairs.market_anchor?.team === game.home ? "Market anchored" : null].filter(Boolean),
+      meta: [`Fair probability ${probabilityText(moneylineFairs.home_probability)}`, bookMeta(selectedH2h.home), moneylineFairs.market_anchor?.team === game.home ? "Market anchored" : null].filter(Boolean),
       designation: designationForOdds(moneylineFairs.home_fair, selectedH2h.home?.price),
     },
     {
+      group: "Full game",
       title: "Full-game total",
       main: score(game.total),
-      meta: [`Fair total`, `Line ${fullTotalPoint ?? "—"}`, `Over ${price(fullOver?.price)}`, `Under ${price(fullUnder?.price)}`],
+      meta: [`Fair total`, `Line ${fullTotalPoint ?? "—"}`, marketLineMeta("Over", fullTotalPoint, fullOver), marketLineMeta("Under", fullTotalPoint, fullUnder)],
       designation: lineLean(game.total, fullTotalPoint, fullOver?.price, fullUnder?.price),
     },
     {
+      group: "First five",
       title: "F5 total",
       main: score(f5.total),
-      meta: [`Fair F5`, `Line ${f5TotalPoint ?? "—"}`, `Over ${price(f5Over?.price)}`, `Under ${price(f5Under?.price)}`],
+      meta: [`Fair F5`, `Line ${f5TotalPoint ?? "—"}`, marketLineMeta("Over", f5TotalPoint, f5Over), marketLineMeta("Under", f5TotalPoint, f5Under)],
       designation: lineLean(f5.total, f5TotalPoint, f5Over?.price, f5Under?.price),
     },
     {
+      group: "First five",
       title: `${game.away} F5 ML`,
       main: price(f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb)),
-      meta: [`Fair ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, `Book ${price(odds.f5H2h.away?.price)}`],
+      meta: [`Fair probability ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, bookMeta(odds.f5H2h.away)],
       designation: designationForOdds(f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb), odds.f5H2h.away?.price),
     },
     {
+      group: "First five",
       title: `${game.home} F5 ML`,
       main: price(f5.home_fair ?? americanFromProbability(f5HomeProb)),
-      meta: [`Fair ${probabilityText(f5HomeProb)}`, `Book ${price(odds.f5H2h.home?.price)}`],
+      meta: [`Fair probability ${probabilityText(f5HomeProb)}`, bookMeta(odds.f5H2h.home)],
       designation: designationForOdds(f5.home_fair ?? americanFromProbability(f5HomeProb), odds.f5H2h.home?.price),
     },
     {
+      group: "Team totals",
       title: `${game.away} team total`,
       main: score(game.team_total_fairs?.away ?? game.away_score),
-      meta: [`Fair runs`, `O ${awayTTRows.over?.line ?? "—"} ${price(awayTTRows.over?.price)}`, `U ${awayTTRows.under?.line ?? "—"} ${price(awayTTRows.under?.price)}`],
+      meta: [`Fair runs`, marketLineMeta("Over", awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over), marketLineMeta("Under", awayTTRows.under?.line ?? awayTTRows.over?.line, awayTTRows.under)],
       designation: lineLean(game.team_total_fairs?.away ?? game.away_score, awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over?.price, awayTTRows.under?.price),
     },
     {
+      group: "Team totals",
       title: `${game.home} team total`,
       main: score(game.team_total_fairs?.home ?? game.home_score),
-      meta: [`Fair runs`, `O ${homeTTRows.over?.line ?? "—"} ${price(homeTTRows.over?.price)}`, `U ${homeTTRows.under?.line ?? "—"} ${price(homeTTRows.under?.price)}`],
+      meta: [`Fair runs`, marketLineMeta("Over", homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over), marketLineMeta("Under", homeTTRows.under?.line ?? homeTTRows.over?.line, homeTTRows.under)],
       designation: lineLean(game.team_total_fairs?.home ?? game.home_score, homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over?.price, homeTTRows.under?.price),
     },
   ];
+  const marketGroups = ["Full game", "First five", "Team totals"].map((group) => ({
+    group,
+    cards: marketCards.filter((card) => card.group === group),
+  }));
   const hasAnyOdds = Boolean(
     Object.keys(odds.h2h || {}).length
     || Object.keys(odds.f5H2h || {}).length
@@ -5622,7 +5772,7 @@ function CustomerBoard() {
       <div className="shell">
         <Scoreboard games={games} gameIndex={gameIndex} h2hByGame={slateH2h} onSelect={(index) => { setGameIndex(index); setOdds(blankOdds()); setMessage(""); }} />
 
-        <section className="card">
+        <section className="selected-summary">
           <div className="selected-main">
             <div>
               <h2>{game.away} @ {game.home}</h2>
@@ -5636,17 +5786,24 @@ function CustomerBoard() {
 
         <section className="card">
           <div className="card-title"><h2>Fair market board</h2><span className="muted">ML · totals · F5 · team totals</span></div>
-          <div className="market-grid">
-            {marketCards.map((card) => (
-              <article className="market-card" key={card.title}>
-                <div className="market-top">
-                  <h3>{card.title}</h3>
-                  <span className={`pill ${card.designation.tone}`}>{card.designation.label}</span>
+          <div className="market-section">
+            {marketGroups.map(({ group, cards }) => (
+              <div className="market-group" key={group}>
+                <div className="market-group-title">{group}</div>
+                <div className="market-grid">
+                  {cards.map((card) => (
+                    <article className="market-card" key={card.title}>
+                      <div className="market-top">
+                        <h3>{card.title}</h3>
+                        <span className={`pill ${card.designation.tone}`}>{card.designation.label}</span>
+                      </div>
+                      <div className="market-main">{card.main}</div>
+                      <div className="market-meta">{card.meta.map((item) => <span key={item}>{item}</span>)}</div>
+                      <p className="muted">{card.designation.detail}</p>
+                    </article>
+                  ))}
                 </div>
-                <div className="market-main">{card.main}</div>
-                <div className="market-meta">{card.meta.map((item) => <span key={item}>{item}</span>)}</div>
-                <p className="muted">{card.designation.detail}</p>
-              </article>
+              </div>
             ))}
           </div>
         </section>
