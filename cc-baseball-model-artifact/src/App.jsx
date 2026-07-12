@@ -5355,7 +5355,7 @@ function PitcherKPricingBoard({ pitcherRows, kMode, onKModeChange, lineOverrides
                 <span>Over fair <b>{price(row.fair)}</b></span>
                 <span>Under fair <b>{price(row.underFair)}</b></span>
               </div>
-              {row.hasBook ? <span className="fair-note">Book {row.line}: O {price(row.overBook?.price)} / U {price(row.underBook?.price)}</span> : <span className="fair-note">Fair only unless a matching pregame K line is returned.</span>}
+              {row.hasBook ? <span className="fair-note">Book {row.line}: {pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</span> : <span className="fair-note">Fair only unless a matching pregame K line is returned.</span>}
             </article>;
           })}
         </div>
@@ -5524,24 +5524,34 @@ function pickTeamTotalRows(rows, team, fairLine) {
 }
 
 function bookMeta(row) {
-  if (!validBookPrice(row?.price)) return "No sportsbook price available";
-  return `Book ${price(row.price)}${row.book ? ` · ${row.book}` : ""}`;
+  if (!validBookPrice(row?.price)) return "Book unavailable";
+  return `Book ${row.book || "Sportsbook"} ${price(row.price)}`;
 }
 
 function marketLineMeta(label, line, row) {
   const lineText = line ?? "—";
-  if (!validBookPrice(row?.price)) return `${label} ${lineText} unavailable`;
-  return `${label} ${lineText} ${price(row.price)}`;
+  if (!validBookPrice(row?.price)) return `${label} ${lineText} · book unavailable`;
+  return `${label} ${lineText} · Book ${row.book || "Sportsbook"} ${price(row.price)}`;
 }
 
-function lineLean(fairLine, liveLine, overPrice, underPrice) {
+function pairedBookMeta(label, row) {
+  if (!validBookPrice(row?.price)) return `${label} book unavailable`;
+  return `${label} ${row.book || "Sportsbook"} ${price(row.price)}`;
+}
+
+function lineLean(fairLine, liveLine, overRow, underRow) {
   const fair = Number(fairLine);
   const live = Number(liveLine);
+  const overPrice = overRow?.price;
+  const underPrice = underRow?.price;
   if (!Number.isFinite(fair) || !Number.isFinite(live)) return { label: "Waiting", tone: "watch", detail: "No pregame line loaded." };
   const diff = fair - live;
-  if (diff >= 0.45 && validBookPrice(overPrice)) return { label: "Bet", tone: "bet", detail: `Over lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(overPrice)}.` };
-  if (diff <= -0.45 && validBookPrice(underPrice)) return { label: "Bet", tone: "bet", detail: `Under lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(underPrice)}.` };
-  if (Math.abs(diff) >= 0.25 && validBookPrice(diff > 0 ? overPrice : underPrice)) return { label: "Small edge", tone: "small", detail: `${diff > 0 ? "Over" : "Under"} is thin: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)}.` };
+  if (diff >= 0.45 && validBookPrice(overPrice)) return { label: "Bet", tone: "bet", detail: `Over lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(overPrice)} from ${overRow?.book || "Sportsbook"}.` };
+  if (diff <= -0.45 && validBookPrice(underPrice)) return { label: "Bet", tone: "bet", detail: `Under lean: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(underPrice)} from ${underRow?.book || "Sportsbook"}.` };
+  if (Math.abs(diff) >= 0.25 && validBookPrice(diff > 0 ? overPrice : underPrice)) {
+    const row = diff > 0 ? overRow : underRow;
+    return { label: "Small edge", tone: "small", detail: `${diff > 0 ? "Over" : "Under"} is thin: fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} at ${price(row?.price)} from ${row?.book || "Sportsbook"}.` };
+  }
   if (Math.abs(diff) >= 0.25) return { label: "Watch price", tone: "watch", detail: `${diff > 0 ? "Over" : "Under"} lean, but no valid pregame price is loaded.` };
   return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to pregame ${live.toFixed(1)}.` };
 }
@@ -5799,14 +5809,14 @@ function CustomerBoard() {
       title: "Full-game total",
       main: score(game.total),
       meta: [`Fair total`, `Line ${fullTotalPoint ?? "—"}`, marketLineMeta("Over", fullTotalPoint, fullOver), marketLineMeta("Under", fullTotalPoint, fullUnder)],
-      designation: lineLean(game.total, fullTotalPoint, fullOver?.price, fullUnder?.price),
+      designation: lineLean(game.total, fullTotalPoint, fullOver, fullUnder),
     },
     {
       group: "First five",
       title: "F5 total",
       main: score(f5.total),
       meta: [`Fair F5`, `Line ${f5TotalPoint ?? "—"}`, marketLineMeta("Over", f5TotalPoint, f5Over), marketLineMeta("Under", f5TotalPoint, f5Under)],
-      designation: lineLean(f5.total, f5TotalPoint, f5Over?.price, f5Under?.price),
+      designation: lineLean(f5.total, f5TotalPoint, f5Over, f5Under),
     },
     {
       group: "First five",
@@ -5827,14 +5837,14 @@ function CustomerBoard() {
       title: `${game.away} team total`,
       main: score(game.team_total_fairs?.away ?? game.away_score),
       meta: [`Fair runs`, marketLineMeta("Over", awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over), marketLineMeta("Under", awayTTRows.under?.line ?? awayTTRows.over?.line, awayTTRows.under)],
-      designation: lineLean(game.team_total_fairs?.away ?? game.away_score, awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over?.price, awayTTRows.under?.price),
+      designation: lineLean(game.team_total_fairs?.away ?? game.away_score, awayTTRows.over?.line ?? awayTTRows.under?.line, awayTTRows.over, awayTTRows.under),
     },
     {
       group: "Team totals",
       title: `${game.home} team total`,
       main: score(game.team_total_fairs?.home ?? game.home_score),
       meta: [`Fair runs`, marketLineMeta("Over", homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over), marketLineMeta("Under", homeTTRows.under?.line ?? homeTTRows.over?.line, homeTTRows.under)],
-      designation: lineLean(game.team_total_fairs?.home ?? game.home_score, homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over?.price, homeTTRows.under?.price),
+      designation: lineLean(game.team_total_fairs?.home ?? game.home_score, homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over, homeTTRows.under),
     },
   ];
   const hasAnyOdds = Boolean(
