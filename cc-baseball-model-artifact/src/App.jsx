@@ -5203,6 +5203,7 @@ function starterLabel(team, name, hand) {
 }
 
 function updatedAgoText(timestamp, now) {
+  if (timestamp == null) return null;
   const start = Number(timestamp);
   const current = Number(now);
   if (!Number.isFinite(start) || !Number.isFinite(current)) return null;
