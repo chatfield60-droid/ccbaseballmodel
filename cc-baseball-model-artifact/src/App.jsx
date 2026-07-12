@@ -4870,6 +4870,7 @@ const APP_CSS = `
   .edge-card .pill { position: absolute; top: 10px; right: 10px; }
   .edge-card strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .edge-card span { color: var(--text-secondary); font-size: 12px; line-height: 1.4; }
+  .edge-category { color: var(--text-tertiary) !important; font-size: 11px !important; font-weight: 750; letter-spacing: .01em; text-transform: uppercase; }
   .edge-controls { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
   .tier-legend {
     position: relative;
@@ -5235,7 +5236,9 @@ function updatedAgoText(timestamp, now) {
   const start = Number(timestamp);
   const current = Number(now);
   if (!Number.isFinite(start) || !Number.isFinite(current)) return null;
+  if (start <= 0 || start > current + 60000) return null;
   const seconds = Math.max(0, Math.floor((current - start) / 1000));
+  if (seconds > 24 * 60 * 60) return null;
   if (seconds < 30) return "Updated just now";
   if (seconds < 3600) return `Updated ${Math.floor(seconds / 60)}m ago`;
   return `Updated ${Math.floor(seconds / 3600)}h ago`;
@@ -5506,12 +5509,12 @@ function TierLegend() {
 }
 
 function PricedEdgeBoard({ edges, hasOdds, view, onViewChange }) {
-  const status = edges.length ? `${edges.length} priced` : hasOdds ? "No qualifying edges" : "Waiting for odds";
+  const status = edges.length ? `${edges.length} edge${edges.length === 1 ? "" : "s"}` : hasOdds ? "No qualifying edges" : "Waiting for odds";
   return <section className="card">
     <div className="card-title">
-      <h2>Priced edges</h2>
+      <h2>Edge board</h2>
       <div className="edge-controls">
-        <span className="muted">{status}</span>
+        <span className="muted">{status} · props + markets</span>
         <div className="segmented" aria-label="Priced edge scope">
           <button type="button" className={view === "game" ? "active" : ""} onClick={() => onViewChange("game")}>This game</button>
           <button type="button" className={view === "slate" ? "active" : ""} onClick={() => onViewChange("slate")}>Full slate</button>
@@ -5522,17 +5525,18 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange }) {
     {edges.length ? <div className="edge-grid">
       {edges.slice(0, view === "slate" ? 12 : 8).map((edge, index) => <article className={`edge-card ${edge.tone || "lean"}`} key={`${edge.title}-${edge.gameLabel || ""}-${index}`}>
         <div className="edge-main">
+          <span className="edge-category">{edge.category || "Edge"}</span>
           <strong>{edge.title}</strong>
           <span>{edge.gameLabel ? `${edge.gameLabel} · ${edge.subtitle}` : edge.subtitle}</span>
         </div>
         <div className="edge-data">
-          <span>Fair <b>{price(edge.fair)}</b></span>
-          <span>Book <b>{price(edge.book)}</b></span>
+          <span>Fair <b>{edge.fairDisplay || price(edge.fair)}</b></span>
+          <span>Book <b>{edge.bookDisplay || price(edge.book)}</b></span>
           <span>{edge.bookName || "Sportsbook"}</span>
         </div>
         <span className={`pill ${edge.tone || "lean"}`}>{edge.label}</span>
       </article>)}
-    </div> : <div className="empty-state">{hasOdds ? "No priced prop edge cleared the current book numbers." : "Sportsbook prices have not loaded yet. Prop leans remain hidden until a qualifying book price is available."}</div>}
+    </div> : <div className="empty-state">{hasOdds ? "No prop or market edge cleared the current book numbers." : "Refresh pregame odds to populate prop and market edges. No book price, no edge label."}</div>}
   </section>;
 }
 
@@ -5799,6 +5803,56 @@ function edgeMetricForTone(tone, metric) {
   return ["lean", "small", "bet", "strong"].includes(tone) ? metric : null;
 }
 
+function marketBookForTotal(fairLine, liveLine, overRow, underRow) {
+  const fair = Number(fairLine);
+  const live = Number(liveLine);
+  if (!Number.isFinite(fair) || !Number.isFinite(live)) return null;
+  return fair >= live ? overRow : underRow;
+}
+
+function totalSideLabel(fairLine, liveLine) {
+  const fair = Number(fairLine);
+  const live = Number(liveLine);
+  if (!Number.isFinite(fair) || !Number.isFinite(live)) return "";
+  return fair >= live ? "Over" : "Under";
+}
+
+function marketEdgeFromCard(card) {
+  if (!card || !["lean", "bet", "strong"].includes(card.designation?.tone)) return null;
+  if (card.marketType === "moneyline") {
+    return {
+      category: "Market",
+      title: card.title,
+      subtitle: `${card.group} · ${card.edgeMetric || card.designation.detail}`,
+      fair: card.fairValue,
+      book: card.bookValue,
+      fairDisplay: price(card.fairValue),
+      bookDisplay: price(card.bookValue),
+      bookName: card.bookName,
+      label: card.designation.label,
+      tone: card.designation.tone,
+      edge: Math.abs(edgeCents(card.fairValue, card.bookValue) ?? 0),
+    };
+  }
+  if (card.marketType === "total") {
+    const side = totalSideLabel(card.fairValue, card.bookLine);
+    return {
+      category: "Market",
+      title: side ? `${card.title} ${side}` : card.title,
+      subtitle: `${card.group} · ${card.edgeMetric || card.designation.detail}`,
+      fair: card.fairValue,
+      book: card.bookLine,
+      fairDisplay: score(card.fairValue),
+      bookDisplay: card.bookLine == null ? "—" : `Line ${Number(card.bookLine).toFixed(1)}`,
+      bookName: card.bookName,
+      label: card.designation.label,
+      tone: card.designation.tone,
+      edge: Math.abs(Number(card.fairValue) - Number(card.bookLine)) || 0,
+    };
+  }
+  return null;
+}
+
 function hasOddsEntry(odds) {
   return Boolean(
     Object.keys(odds?.h2h || {}).length
@@ -5813,7 +5867,7 @@ function hasOddsEntry(odds) {
 
 function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrides = {}) {
   if (!game) {
-    return { marketCards: [], pitcherKFairRows: [], kTargetRows: [], pricedEdges: [], hasAnyOdds: false };
+    return { marketCards: [], marketEdges: [], pitcherKFairRows: [], kTargetRows: [], pricedEdges: [], allEdges: [], hasAnyOdds: false };
   }
   const teamTotals = (odds.teamTotals || []).filter((row) => row.away === game.away && row.home === game.home);
   const selectedH2h = odds.h2h || {};
@@ -5849,67 +5903,99 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
   const marketCards = [
     {
       group: "Full game",
+      marketType: "moneyline",
       title: `${game.away} moneyline`,
       main: price(moneylineFairs.away_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.away_probability)}`, bookMeta(selectedH2h.away)],
       designation: awayMlDesignation,
       edgeMetric: edgeMetricForTone(awayMlDesignation.tone, centsVsFairMetric(moneylineFairs.away_fair, selectedH2h.away?.price)),
+      fairValue: moneylineFairs.away_fair,
+      bookValue: selectedH2h.away?.price,
+      bookName: selectedH2h.away?.book,
     },
     {
       group: "Full game",
+      marketType: "moneyline",
       title: `${game.home} moneyline`,
       main: price(moneylineFairs.home_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.home_probability)}`, bookMeta(selectedH2h.home)],
       designation: homeMlDesignation,
       edgeMetric: edgeMetricForTone(homeMlDesignation.tone, centsVsFairMetric(moneylineFairs.home_fair, selectedH2h.home?.price)),
+      fairValue: moneylineFairs.home_fair,
+      bookValue: selectedH2h.home?.price,
+      bookName: selectedH2h.home?.book,
     },
     {
       group: "Full game",
+      marketType: "total",
       title: "Full-game total",
       main: score(game.total),
       meta: [`Fair total`, `Line ${fullTotalPoint ?? "—"}`, marketLineMeta("Over", fullTotalPoint, fullOver), marketLineMeta("Under", fullTotalPoint, fullUnder)],
       designation: fullTotalDesignation,
       edgeMetric: edgeMetricForTone(fullTotalDesignation.tone, runGapMetric(game.total, fullTotalPoint)),
+      fairValue: game.total,
+      bookLine: fullTotalPoint,
+      bookName: marketBookForTotal(game.total, fullTotalPoint, fullOver, fullUnder)?.book,
     },
     {
       group: "First five",
+      marketType: "total",
       title: "F5 total",
       main: score(f5.total),
       meta: [`Fair F5`, `Line ${f5TotalPoint ?? "—"}`, marketLineMeta("Over", f5TotalPoint, f5Over), marketLineMeta("Under", f5TotalPoint, f5Under)],
       designation: f5TotalDesignation,
       edgeMetric: edgeMetricForTone(f5TotalDesignation.tone, runGapMetric(f5.total, f5TotalPoint)),
+      fairValue: f5.total,
+      bookLine: f5TotalPoint,
+      bookName: marketBookForTotal(f5.total, f5TotalPoint, f5Over, f5Under)?.book,
     },
     {
       group: "First five",
+      marketType: "moneyline",
       title: `${game.away} F5 ML`,
       main: price(awayF5Fair),
       meta: [`Fair probability ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, bookMeta(odds.f5H2h?.away)],
       designation: awayF5Designation,
       edgeMetric: edgeMetricForTone(awayF5Designation.tone, centsVsFairMetric(awayF5Fair, odds.f5H2h?.away?.price)),
+      fairValue: awayF5Fair,
+      bookValue: odds.f5H2h?.away?.price,
+      bookName: odds.f5H2h?.away?.book,
     },
     {
       group: "First five",
+      marketType: "moneyline",
       title: `${game.home} F5 ML`,
       main: price(homeF5Fair),
       meta: [`Fair probability ${probabilityText(f5HomeProb)}`, bookMeta(odds.f5H2h?.home)],
       designation: homeF5Designation,
       edgeMetric: edgeMetricForTone(homeF5Designation.tone, centsVsFairMetric(homeF5Fair, odds.f5H2h?.home?.price)),
+      fairValue: homeF5Fair,
+      bookValue: odds.f5H2h?.home?.price,
+      bookName: odds.f5H2h?.home?.book,
     },
     {
       group: "Team totals",
+      marketType: "total",
       title: `${game.away} team total`,
       main: score(awayTTFair),
       meta: [`Fair runs`, marketLineMeta("Over", awayTTLine, awayTTRows.over), marketLineMeta("Under", awayTTRows.under?.line ?? awayTTRows.over?.line, awayTTRows.under)],
       designation: awayTTDesignation,
       edgeMetric: edgeMetricForTone(awayTTDesignation.tone, runGapMetric(awayTTFair, awayTTLine)),
+      fairValue: awayTTFair,
+      bookLine: awayTTLine,
+      bookName: marketBookForTotal(awayTTFair, awayTTLine, awayTTRows.over, awayTTRows.under)?.book,
     },
     {
       group: "Team totals",
+      marketType: "total",
       title: `${game.home} team total`,
       main: score(homeTTFair),
       meta: [`Fair runs`, marketLineMeta("Over", homeTTLine, homeTTRows.over), marketLineMeta("Under", homeTTRows.under?.line ?? homeTTRows.over?.line, homeTTRows.under)],
       designation: homeTTDesignation,
       edgeMetric: edgeMetricForTone(homeTTDesignation.tone, runGapMetric(homeTTFair, homeTTLine)),
+      fairValue: homeTTFair,
+      bookLine: homeTTLine,
+      bookName: marketBookForTotal(homeTTFair, homeTTLine, homeTTRows.over, homeTTRows.under)?.book,
     },
   ];
   const pitcherKFairRows = (game.prop_angles || []).map((angle, index) => {
@@ -6000,32 +6086,45 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
   ].filter(Boolean).sort((a, b) => b.edge - a.edge), 3);
   const pricedEdges = [
     ...pricedPitcherRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
+      category: "Prop",
       title: row.title,
       subtitle: row.subtitle,
       fair: row.sideFair,
       book: row.sideBook?.price,
+      fairDisplay: price(row.sideFair),
+      bookDisplay: price(row.sideBook?.price),
       bookName: row.sideBook?.book,
       label: row.designation.label,
       tone: row.designation.tone,
       edge: row.edge,
     })),
     ...pricedBatterRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
+      category: "Prop",
       title: row.title,
       subtitle: row.subtitle,
       fair: row.fair,
       book: row.book?.price,
+      fairDisplay: price(row.fair),
+      bookDisplay: price(row.book?.price),
       bookName: row.book?.book,
       label: row.designation.label,
       tone: row.designation.tone,
       edge: row.edge,
     })),
   ].sort((a, b) => (b.edge || 0) - (a.edge || 0));
+  const marketEdges = marketCards
+    .map(marketEdgeFromCard)
+    .filter(Boolean);
+  const allEdges = [...marketEdges, ...pricedEdges]
+    .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0));
 
   return {
     marketCards,
+    marketEdges,
     pitcherKFairRows,
     kTargetRows,
     pricedEdges,
+    allEdges,
     hasAnyOdds: hasOddsEntry(odds),
   };
 }
@@ -6272,19 +6371,17 @@ function CustomerBoard() {
   const edgeCounts = useMemo(() => {
     const counts = {};
     for (const display of gameDisplays) {
-      const marketCount = (display.marketCards || []).filter((card) => isActionTone(card.designation?.tone)).length;
-      const pricedCount = (display.pricedEdges || []).filter((edge) => isActionTone(edge.tone)).length;
-      counts[gameKey(display.game)] = marketCount + pricedCount;
+      counts[gameKey(display.game)] = (display.allEdges || []).filter((edge) => isActionTone(edge.tone)).length;
     }
     return counts;
   }, [gameDisplays]);
   const fullSlatePricedEdges = useMemo(() => gameDisplays
-    .flatMap((display) => (display.pricedEdges || []).map((edge) => ({
+    .flatMap((display) => (display.allEdges || []).map((edge) => ({
       ...edge,
       gameLabel: `${display.game.away} @ ${display.game.home}`,
     })))
     .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0)), [gameDisplays]);
-  const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.pricedEdges;
+  const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.allEdges;
   const oddsStamp = updatedAgoText(lastOddsUpdatedAt, nowTick);
   const awayHand = starterHand(game, "away");
   const homeHand = starterHand(game, "home");
@@ -6336,7 +6433,7 @@ function CustomerBoard() {
         <BatterKTargetsBoard targets={selectedDisplay.kTargetRows} />
 
         <section className="card">
-          <div className="card-title"><h2>Fair market board</h2><span className="muted">ML · totals · F5 · team totals</span></div>
+          <div className="card-title"><h2>Selected game markets</h2><span className="muted">ML · totals · F5 · team totals</span></div>
           <div className="market-section">
             <div className="market-grid">
               {selectedDisplay.marketCards.map((card) => (
