@@ -22,7 +22,9 @@ export default async function handler(req, res) {
   upstream.searchParams.set("date", date);
 
   try {
-    const response = await fetch(upstream, { headers: { accept: "application/json" } });
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 4500);
+    const response = await fetch(upstream, { headers: { accept: "application/json" }, signal: controller.signal }).finally(() => clearTimeout(timer));
     const body = await response.text();
     res.status(response.status);
     res.setHeader("content-type", response.headers.get("content-type") || "application/json; charset=utf-8");
