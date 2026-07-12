@@ -4784,8 +4784,45 @@ const APP_CSS = `
   .segmented button.active { background: #1d4f9f; color: #fff; }
   .info { padding: 13px 15px; color: #66788e; font-size: 13px; }
   .night .info { color: #a1b2c6; }
+  .shell { width: min(1280px, 100%); padding: 12px; gap: 10px; }
+  .card { border-radius: 8px; box-shadow: none; }
+  .card-title { padding: 10px 12px; }
+  .compact-scores { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 8px; }
+  .score-tile { min-height: 84px; display: grid; gap: 5px; padding: 8px; border: 1px solid #e0e7ef; border-radius: 7px; background: #fbfcfe; color: inherit; text-align: left; }
+  .score-tile.active { border-color: #6091d4; background: #eef5ff; }
+  .night .score-tile { border-color: #2b4057; background: #172438; }
+  .night .score-tile.active { border-color: #4c82ca; background: #183154; }
+  .tile-head, .tile-line, .tile-meta, .selected-main, .footer-grid { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .tile-head { font-size: 12px; font-weight: 850; }
+  .tile-line { font-size: 17px; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .tile-meta { color: #66788e; font-size: 11px; }
+  .night .tile-meta { color: #a1b2c6; }
+  .selected-main { padding: 10px 12px; align-items: flex-start; }
+  .selected-score { font-size: 28px; font-weight: 900; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .edge-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 8px; }
+  .edge-card { display: grid; gap: 3px; padding: 9px; border: 1px solid #dfe7ef; border-radius: 7px; background: #fafcfe; }
+  .night .edge-card { background: #172438; border-color: #2b4057; }
+  .edge-card strong { font-size: 12px; }
+  .edge-card span { color: #63758b; font-size: 11px; line-height: 1.35; }
+  .night .edge-card span { color: #a1b3c9; }
+  .market-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 8px; }
+  .market-card { gap: 5px; padding: 9px; border-radius: 7px; }
+  .market-card h3 { font-size: 12px; }
+  .market-main { font-size: 18px; }
+  .market-meta { gap: 8px; font-size: 11px; }
+  .copy { padding: 12px; gap: 7px; line-height: 1.42; }
+  .angle-list { gap: 7px; padding: 8px; }
+  .angle { padding: 10px; border-radius: 7px; }
+  .prices { gap: 9px; margin: 7px 0 4px; }
+  .model-footer { padding: 10px 12px; color: #66788e; font-size: 11px; }
+  .footer-grid { flex-wrap: wrap; justify-content: flex-start; }
+  .footer-grid span { padding-right: 10px; border-right: 1px solid #d6e0ea; }
+  .footer-grid span:last-child { border-right: 0; }
+  .night .model-footer { color: #a1b2c6; }
+  .night .footer-grid span { border-color: #2b4057; }
   @media (max-width: 980px) { .top-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 760px) { .market-grid, .top-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 980px) { .compact-scores, .market-grid, .edge-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .market-grid, .top-grid, .edge-grid { grid-template-columns: 1fr; } .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 640px) { .topbar { align-items: flex-start; flex-direction: column; padding: 12px 14px; } .top-actions { width: 100%; flex-wrap: wrap; } .mode, .refresh { flex: 1; } .shell { padding: 12px; } .score-grid { grid-template-columns: 1fr 1fr; } .score:last-child { grid-column: span 2; } .table { font-size: 12px; } .table th, .table td { padding: 9px 8px; } }
 `;
 
@@ -4927,6 +4964,73 @@ function TopBoard({ board }) {
   </section>;
 }
 
+function Scoreboard({ games, gameIndex, onSelect }) {
+  return <section className="card">
+    <div className="card-title"><h2>Projected scores</h2><span className="muted">{games.length} games · tap a game for detail</span></div>
+    <div className="compact-scores">
+      {games.map((item, index) => {
+        const favorite = favoriteForGame(item);
+        return <button className={`score-tile ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => onSelect(index)}>
+          <span className="tile-head"><span>{item.away} @ {item.home}</span><span>{item.time || item.status || "—"}</span></span>
+          <span className="tile-line"><span>{item.away} {score(item.away_score)}</span><span>{score(item.home_score)} {item.home}</span></span>
+          <span className="tile-meta"><span>Total {score(item.total)}</span><span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%` : "—"}</span></span>
+        </button>;
+      })}
+    </div>
+  </section>;
+}
+
+function limitRowsPerTeam(rows, limit = 3) {
+  const counts = {};
+  const output = [];
+  for (const row of rows || []) {
+    const team = row.team || "unknown";
+    counts[team] = counts[team] || 0;
+    if (counts[team] >= limit) continue;
+    counts[team] += 1;
+    output.push(row);
+  }
+  return output;
+}
+
+function edgeCents(fair, book) {
+  const fairNumber = Number(fair);
+  const bookNumber = Number(book);
+  if (!Number.isFinite(fairNumber) || !Number.isFinite(bookNumber)) return null;
+  return bookNumber - fairNumber;
+}
+
+function PricedEdgeBoard({ edges, hasOdds }) {
+  return <section className="card">
+    <div className="card-title"><h2>Priced edges</h2><span className="muted">Odds required</span></div>
+    {edges.length ? <div className="edge-grid">
+      {edges.slice(0, 8).map((edge, index) => <article className="edge-card" key={`${edge.title}-${index}`}>
+        <strong>{edge.title}</strong>
+        <span>{edge.subtitle}</span>
+        <span>Fair {price(edge.fair)} · book {price(edge.book)}{edge.bookName ? ` · ${edge.bookName}` : ""}</span>
+        <span>{edge.label}</span>
+      </article>)}
+    </div> : <div className="info">{hasOdds ? "No plus-price edge cleared the current book numbers." : "No props or bets are generated until sportsbook odds load. Model-only leans stay off the bet board."}</div>}
+  </section>;
+}
+
+function ModelFooter({ games, message }) {
+  const totals = (games || []).map((game) => Number(game.total)).filter(Number.isFinite);
+  const avgTotal = totals.length ? totals.reduce((sum, value) => sum + value, 0) / totals.length : null;
+  const highest = [...(games || [])].filter((game) => Number.isFinite(Number(game.total))).sort((a, b) => Number(b.total) - Number(a.total))[0];
+  const tight = [...(games || [])].filter((game) => Number.isFinite(Number(game.away_score)) && Number.isFinite(Number(game.home_score))).sort((a, b) => Math.abs(Number(a.away_score) - Number(a.home_score)) - Math.abs(Number(b.away_score) - Number(b.home_score)))[0];
+  return <footer className="card model-footer">
+    <div className="footer-grid">
+      <span>Model snapshot: {BOARD.date || "—"}</span>
+      <span>{games.length} games</span>
+      <span>Avg total {score(avgTotal)}</span>
+      <span>Highest total {highest ? `${highest.away}/${highest.home} ${score(highest.total)}` : "—"}</span>
+      <span>Closest game {tight ? `${tight.away}/${tight.home}` : "—"}</span>
+      <span>{message || "Props are odds-gated; no book number, no bet label."}</span>
+    </div>
+  </footer>;
+}
+
 function favoriteForGame(game) {
   const homeProbability = Number(game?.home_win_probability);
   if (!Number.isFinite(homeProbability)) return null;
@@ -4999,14 +5103,20 @@ function lineLean(fairLine, liveLine, overPrice, underPrice) {
   return { label: "No edge", tone: "pass", detail: `Fair ${fair.toFixed(1)} is close to pregame ${live.toFixed(1)}.` };
 }
 
-function summarizeSynthesis(game) {
-  const base = game?.synthesis ? [game.synthesis] : [];
+function summarizeSynthesis(game, pricedPropCount = 0) {
+  const base = [];
   const ml = game?.moneyline_fairs || {};
   const f5 = game?.f5 || {};
   const favorite = favoriteForGame(game);
-  if (favorite) base.push(`${favorite.team} fair ML ${price(americanFromProbability(favorite.probability))} from ${probabilityText(favorite.probability)} win probability.`);
-  if (f5.total != null) base.push(`F5 fair: ${game.away} ${score(f5.away_score)} - ${score(f5.home_score)} ${game.home}, total ${score(f5.total)}.`);
-  if (ml.away_fair != null && ml.home_fair != null) base.push(`Full-game ML fairs: ${game.away} ${price(ml.away_fair)}, ${game.home} ${price(ml.home_fair)}.`);
+  const margin = Number(game?.home_score) - Number(game?.away_score);
+  const total = Number(game?.total);
+  const pace = Number.isFinite(total) ? (total >= 9.4 ? "run-friendly" : total <= 8.2 ? "lower-scoring" : "balanced") : "neutral";
+  base.push(`${game.away} ${score(game.away_score)} - ${score(game.home_score)} ${game.home}; ${pace} shape with a ${score(total)} run total.`);
+  if (favorite && Number.isFinite(margin)) base.push(`${favorite.team} is the fair favorite at ${probabilityText(favorite.probability)}; projected margin is ${Math.abs(margin).toFixed(1)} runs.`);
+  if (f5.total != null) base.push(`F5 read: ${game.away} ${score(f5.away_score)} - ${score(f5.home_score)} ${game.home}, total ${score(f5.total)}.`);
+  if (ml.away_fair != null && ml.home_fair != null) base.push(`Fair market shell: ${game.away} ML ${price(ml.away_fair)}, ${game.home} ML ${price(ml.home_fair)}, team totals ${game.away} ${score(game.team_total_fairs?.away ?? game.away_score)} / ${game.home} ${score(game.team_total_fairs?.home ?? game.home_score)}.`);
+  base.push(`Starter context: ${game.away_starter || "TBD"} vs ${game.home_starter || "TBD"}. K and batter props stay hidden unless a sportsbook line and price are returned.`);
+  base.push(pricedPropCount ? `${pricedPropCount} priced prop angle${pricedPropCount === 1 ? "" : "s"} cleared the odds gate for this game.` : "No priced prop angles are published for this game yet.");
   return base;
 }
 
@@ -5045,7 +5155,7 @@ function CustomerBoard() {
           const glue = qs ? `${qs}&` : "";
           return `https://api.the-odds-api.com/v4/${endpoint}?${glue}apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`;
         }
-        return `/api/odds/${endpoint}${qs ? `?${qs}` : ""}`;
+        return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
       };
       const eventsResponse = await fetch(oddsUrl("sports/baseball_mlb/events"));
       if (!eventsResponse.ok) throw new Error(`Pregame odds events request returned HTTP ${eventsResponse.status}`);
@@ -5267,6 +5377,120 @@ function CustomerBoard() {
       designation: lineLean(game.team_total_fairs?.home ?? game.home_score, homeTTRows.over?.line ?? homeTTRows.under?.line, homeTTRows.over?.price, homeTTRows.under?.price),
     },
   ];
+  const hasAnyOdds = Boolean(
+    Object.keys(odds.h2h || {}).length
+    || Object.keys(odds.f5H2h || {}).length
+    || (odds.totals || []).length
+    || (odds.f5Totals || []).length
+    || (odds.teamTotals || []).length
+    || Object.keys(odds.k || {}).length
+    || Object.keys(odds.batter || {}).length
+  );
+  const pricedPitcherRows = (game.prop_angles || []).flatMap((angle, index) => {
+    const book = findPitcherKBook(odds.pitcherK, angle.player, angle.line);
+    const displayLine = book?.line ?? angle.line;
+    const projected = kMode === "base" && angle.base_projected != null ? angle.base_projected : (angle.ceiling_projected ?? angle.projected);
+    const recalculated = fairFromProjection(projected, displayLine);
+    const fair = recalculated.over ?? (kMode === "base" && angle.base_fair != null ? angle.base_fair : angle.fair);
+    const underFair = recalculated.under ?? (kMode === "base" && angle.base_under_fair != null ? angle.base_under_fair : angle.under_fair);
+    const overBook = book?.over ?? odds.k[quoteKey(angle.player, "Over", displayLine)];
+    const underBook = book?.under ?? odds.k[quoteKey(angle.player, "Under", displayLine)];
+    if (!validBookPrice(overBook?.price) && !validBookPrice(underBook?.price)) return [];
+    const overEdge = edgeCents(fair, overBook?.price);
+    const underEdge = edgeCents(underFair, underBook?.price);
+    const side = (underEdge ?? -Infinity) > (overEdge ?? -Infinity) ? "Under" : "Over";
+    const sideFair = side === "Under" ? underFair : fair;
+    const sideBook = side === "Under" ? underBook : overBook;
+    const designation = designationForOdds(sideFair, sideBook?.price);
+    return [{
+      kind: "pitcherK",
+      key: `${angle.player}-${displayLine}-${index}`,
+      title: `${angle.player || "Starter"} ${side} ${displayLine} K`,
+      subtitle: `${kMode === "base" ? "Base" : "Ceiling"} projection ${projected ?? "—"} K`,
+      player: angle.player,
+      line: displayLine,
+      projected,
+      fair,
+      underFair,
+      overBook,
+      underBook,
+      side,
+      sideFair,
+      sideBook,
+      designation,
+      edge: edgeCents(sideFair, sideBook?.price) ?? -999,
+      explainer: angle.explainer,
+    }];
+  }).sort((a, b) => b.edge - a.edge);
+
+  const pricedBatterRows = limitRowsPerTeam([
+    ...(game.batter_prop_angles || []).map((angle, index) => {
+      const live = odds.batter[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
+      if (!validBookPrice(live?.price)) return null;
+      const designation = designationForOdds(angle.fair, live.price);
+      return {
+        kind: "batterProp",
+        key: `${angle.player}-${angle.market}-${index}`,
+        team: angle.team,
+        title: `${angle.player || "Hitter"} ${propMarketText(angle.market)} ${angle.side || "Over"} ${angle.line ?? "—"}`,
+        subtitle: `${angle.team || "—"} vs ${angle.pitcher || "starter"} · ${angle.pitch_name || angle.pitch_type || "Pitch"} ${angle.usage ?? "—"}%`,
+        fair: angle.fair,
+        playTo: angle.play_to,
+        book: live,
+        designation,
+        edge: edgeCents(angle.fair, live.price) ?? -999,
+        metrics: angle.metrics,
+        explainer: angle.explainer,
+      };
+    }),
+    ...(game.k_targets || []).map((target, index) => {
+      const live = odds.batter[propQuoteKey(target.market || "Batter strikeouts", target.batter, target.side || "Over", target.line ?? 0.5)];
+      if (!validBookPrice(live?.price)) return null;
+      const designation = designationForOdds(target.fair, live.price);
+      return {
+        kind: "batterK",
+        key: `${target.batter}-${target.pitcher}-${index}`,
+        team: target.team,
+        title: `${target.batter || "Batter"} over ${target.line ?? 0.5} K`,
+        subtitle: `${target.team || "—"} vs ${target.pitcher || "starter"} · ${target.pitch_name || target.pitch_type || "Pitch"} ${target.usage ?? "—"}%`,
+        fair: target.fair,
+        playTo: target.play_to,
+        book: live,
+        designation,
+        edge: edgeCents(target.fair, live.price) ?? -999,
+        whiffRate: target.whiff_rate,
+        chaseRate: target.chase_rate,
+        explainer: target.explainer,
+      };
+    }),
+  ].filter(Boolean).sort((a, b) => b.edge - a.edge), 3);
+  const pricedBatterProps = pricedBatterRows.filter((row) => row.kind === "batterProp");
+  const pricedBatterK = pricedBatterRows.filter((row) => row.kind === "batterK");
+  const pricedMarketEdges = marketCards
+    .filter((card) => ["small", "bet", "strong"].includes(card.designation.tone))
+    .map((card) => ({ title: card.title, subtitle: card.designation.detail, fair: null, book: null, label: card.designation.label, edge: 0 }));
+  const pricedEdges = [
+    ...pricedMarketEdges,
+    ...pricedPitcherRows.filter((row) => ["small", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
+      title: row.title,
+      subtitle: row.subtitle,
+      fair: row.sideFair,
+      book: row.sideBook?.price,
+      bookName: row.sideBook?.book,
+      label: row.designation.label,
+      edge: row.edge,
+    })),
+    ...pricedBatterRows.filter((row) => ["small", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
+      title: row.title,
+      subtitle: row.subtitle,
+      fair: row.fair,
+      book: row.book?.price,
+      bookName: row.book?.book,
+      label: row.designation.label,
+      edge: row.edge,
+    })),
+  ].sort((a, b) => (b.edge || 0) - (a.edge || 0));
+  const pricedPropCount = pricedPitcherRows.length + pricedBatterRows.length;
 
   return (
     <main className={`app ${night ? "night" : ""}`}>
@@ -5283,26 +5507,19 @@ function CustomerBoard() {
       </header>
 
       <div className="shell">
-        <TopBoard board={BOARD.top_board} />
+        <Scoreboard games={games} gameIndex={gameIndex} onSelect={(index) => { setGameIndex(index); setOdds(blankOdds()); setMessage(""); }} />
 
         <section className="card">
-          <div className="card-title"><h2>Slate</h2><span className="muted">{games.length} games</span></div>
-          <div className="slate">
-            {games.map((item, index) => <button className={`game ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => { setGameIndex(index); setOdds(blankOdds()); setMessage(""); }}>
-              <span><span className="matchup">{item.away} @ {item.home}</span><br /><span className="muted">{item.away_starter || "TBD"} vs {item.home_starter || "TBD"}</span></span>
-              <span className="status">{item.time || item.status || "—"}</span>
-            </button>)}
+          <div className="selected-main">
+            <div>
+              <h2>{game.away} @ {game.home}</h2>
+              <p className="muted">{game.away_starter || "TBD"} vs {game.home_starter || "TBD"} · {game.time || game.status || "—"}</p>
+            </div>
+            <div className="selected-score">{game.away} {score(game.away_score)} · {score(game.home_score)} {game.home}</div>
           </div>
         </section>
 
-        <section className="card">
-          <div className="card-title"><h2>Predicted score</h2><span className="muted">{favorite ? `Favorite ${favorite.team} ${Math.round(favorite.probability * 100)}%` : "Customer forecast"}</span></div>
-          <div className="score-grid">
-            <div className="score"><span>{game.away}</span><strong>{score(game.away_score)}</strong></div>
-            <div className="score"><span>{game.home}</span><strong>{score(game.home_score)}</strong></div>
-            <div className="score"><span>Game total</span><strong>{score(game.total)}</strong></div>
-          </div>
-        </section>
+        <PricedEdgeBoard edges={pricedEdges} hasOdds={hasAnyOdds} />
 
         <section className="card">
           <div className="card-title"><h2>Fair market board</h2><span className="muted">ML · totals · F5 · team totals</span></div>
@@ -5324,7 +5541,7 @@ function CustomerBoard() {
         <section className="card">
           <div className="card-title"><h2>Matchup synthesis</h2><span className="muted">Published outlook</span></div>
           <div className="copy">
-            {summarizeSynthesis(game).map((line) => <p key={line}>{line}</p>)}
+            {summarizeSynthesis(game, pricedPropCount).map((line) => <p key={line}>{line}</p>)}
             <div className="notice">Customer forecasts are informational. Starter conflicts, missing starters, and stale probable data are suppressed from the slate instead of published.</div>
           </div>
         </section>
@@ -5338,72 +5555,48 @@ function CustomerBoard() {
             </div>
           </div>
           <div className="angle-list">
-            {(game.prop_angles || []).length ? game.prop_angles.map((angle, index) => {
-              const book = findPitcherKBook(odds.pitcherK, angle.player, angle.line);
-              const displayLine = book?.line ?? angle.line;
-              const projected = kMode === "base" && angle.base_projected != null ? angle.base_projected : (angle.ceiling_projected ?? angle.projected);
-              const recalculated = fairFromProjection(projected, displayLine);
-              const fair = recalculated.over ?? (kMode === "base" && angle.base_fair != null ? angle.base_fair : angle.fair);
-              const underFair = recalculated.under ?? (kMode === "base" && angle.base_under_fair != null ? angle.base_under_fair : angle.under_fair);
-              const playTo = playToFromFair(fair);
-              const underPlayTo = playToFromFair(underFair);
-              const live = book?.over ?? odds.k[quoteKey(angle.player, "Over", displayLine)];
-              const liveUnder = book?.under ?? odds.k[quoteKey(angle.player, "Under", displayLine)];
-              const bookPrice = live?.price ?? angle.book;
-              const designation = designationForOdds(fair, bookPrice);
-              return <article className="angle" key={`${angle.player}-${angle.line}-${index}`}>
-                <div className="angle-top"><div><h3>{angle.player || "Starter"} K line {displayLine ?? "—"}</h3><p className="muted">{kMode === "base" ? "Base K view" : "Ceiling game view"} · projected {projected ?? "—"} K. {angle.explainer}</p></div><span className={`pill ${designation.tone}`}>{designation.label}</span></div>
-                <div className="prices"><span>Over fair <b>{price(fair)}</b></span><span>Over book <b>{price(bookPrice)}</b>{live?.book ? ` · ${live.book}` : ""}</span><span>Play-to <b>{price(playTo)}</b></span></div>
-                <div className="prices"><span>Under fair <b>{price(underFair)}</b></span><span>Under book <b>{price(liveUnder?.price)}</b>{liveUnder?.book ? ` · ${liveUnder.book}` : ""}</span><span>Play-to <b>{price(underPlayTo)}</b></span></div>
-                <p className="muted">{designation.detail}</p>
-              </article>;
-            }) : <div className="info">No customer-safe prop angle is available for this game.</div>}
+            {pricedPitcherRows.length ? pricedPitcherRows.map((row) => <article className="angle" key={row.key}>
+              <div className="angle-top"><div><h3>{row.title}</h3><p className="muted">{row.subtitle}. {row.explainer}</p></div><span className={`pill ${row.designation.tone}`}>{row.designation.label}</span></div>
+              <div className="prices"><span>Over fair <b>{price(row.fair)}</b></span><span>Over book <b>{price(row.overBook?.price)}</b>{row.overBook?.book ? ` · ${row.overBook.book}` : ""}</span><span>Play-to <b>{price(playToFromFair(row.fair))}</b></span></div>
+              <div className="prices"><span>Under fair <b>{price(row.underFair)}</b></span><span>Under book <b>{price(row.underBook?.price)}</b>{row.underBook?.book ? ` · ${row.underBook.book}` : ""}</span><span>Play-to <b>{price(playToFromFair(row.underFair))}</b></span></div>
+              <p className="muted">{row.designation.detail}</p>
+            </article>) : <div className="info">Pitcher K props are hidden until the sportsbook returns a strikeout line and price for this game.</div>}
           </div>
         </section>
 
         <section className="card">
           <div className="card-title"><h2>Batter prop angles</h2><span className="muted">TB · HR · hits</span></div>
           <div className="angle-list">
-            {(game.batter_prop_angles || []).length ? game.batter_prop_angles.map((angle, index) => {
-              const live = odds.batter[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
-              const designation = designationForOdds(angle.fair, live?.price);
-              return <article className="angle" key={`${angle.player}-${angle.market}-${angle.pitch_type}-${index}`}>
+            {pricedBatterProps.length ? pricedBatterProps.map((row) => <article className="angle" key={row.key}>
                 <div className="angle-top">
                   <div>
-                    <h3>{angle.player || "Hitter"} {propMarketText(angle.market)} {angle.side || "Over"} {angle.line ?? "—"}</h3>
-                    <p className="muted">{angle.team || "—"} vs {angle.pitcher || "starter"} · {angle.pitch_name || angle.pitch_type || "Pitch"} {angle.usage ?? "—"}% usage</p>
+                    <h3>{row.title}</h3>
+                    <p className="muted">{row.subtitle}</p>
                   </div>
-                  <span className={`pill ${designation.tone}`}>{live?.price ? designation.label : angle.label || "Angle"}</span>
+                  <span className={`pill ${row.designation.tone}`}>{row.designation.label}</span>
                 </div>
-                <div className="prices"><span>Fair <b>{price(angle.fair)}</b></span><span>Book <b>{price(live?.price)}</b>{live?.book ? ` · ${live.book}` : ""}</span><span>Play-to <b>{price(angle.play_to)}</b></span></div>
-                {angle.metrics ? <div className="prices"><span>{angle.metrics}</span></div> : null}
-                <p className="muted">{live?.price ? designation.detail : angle.explainer || "Pitch-type hitter angle from the current starter matchup."}</p>
-              </article>;
-            }) : <div className="info">No batter HR, total bases, or hits angle cleared the customer screen for this game.</div>}
+                <div className="prices"><span>Fair <b>{price(row.fair)}</b></span><span>Book <b>{price(row.book?.price)}</b>{row.book?.book ? ` · ${row.book.book}` : ""}</span><span>Play-to <b>{price(row.playTo)}</b></span></div>
+                {row.metrics ? <div className="prices"><span>{row.metrics}</span></div> : null}
+                <p className="muted">{row.designation.detail} {row.explainer || "Pitch-type hitter angle from the current starter matchup."}</p>
+              </article>) : <div className="info">Batter HR, hit, and total-base props are hidden until the sportsbook returns a matching line and price. Hard cap: three priced angles per team.</div>}
           </div>
         </section>
 
         <section className="card">
           <div className="card-title"><h2>Batter K Targets</h2><span className="muted">Swing-and-miss matchup flags</span></div>
-          {(game.k_targets || []).length ? <table className="table"><thead><tr><th>Batter</th><th>Matchup</th><th>Whiff / chase</th><th>Why</th></tr></thead><tbody>
-            {(game.k_targets || []).map((target, index) => (
-              <tr key={`${target.batter}-${target.pitcher}-${index}`}>
-                {(() => {
-                  const live = odds.batter[propQuoteKey(target.market || "Batter strikeouts", target.batter, target.side || "Over", target.line ?? 0.5)];
-                  const designation = designationForOdds(target.fair, live?.price);
-                  return <>
-                <td><b>{target.batter || "TBD"}</b><br /><span className="muted">{target.team || "—"} · {target.label || "K target"}</span><br /><span className="muted">Fair {price(target.fair)} · book {price(live?.price)}</span></td>
-                <td>{target.pitcher || "Starter"}<br /><span className="muted">{target.pitch_name || target.pitch_type || "Pitch"} · {target.usage ?? "—"}% usage</span></td>
-                <td>{target.whiff_rate == null ? "—" : `${Math.round(Number(target.whiff_rate) * 100)}% whiff`}<br /><span className="muted">{target.chase_rate == null ? "—" : `${Math.round(Number(target.chase_rate) * 100)}% chase`}</span></td>
-                <td>{target.explainer || "Batter whiff profile lines up with a pitch this starter uses."}<br /><span className={`pill ${designation.tone}`}>{designation.label}</span></td>
-                  </>;
-                })()}
+          {pricedBatterK.length ? <table className="table"><thead><tr><th>Batter</th><th>Matchup</th><th>Whiff / chase</th><th>Price</th></tr></thead><tbody>
+            {pricedBatterK.map((row) => (
+              <tr key={row.key}>
+                <td><b>{row.title}</b><br /><span className="muted">{row.team || "—"}</span></td>
+                <td>{row.subtitle}</td>
+                <td>{row.whiffRate == null ? "—" : `${Math.round(Number(row.whiffRate) * 100)}% whiff`}<br /><span className="muted">{row.chaseRate == null ? "—" : `${Math.round(Number(row.chaseRate) * 100)}% chase`}</span></td>
+                <td>Fair {price(row.fair)} · book {price(row.book?.price)}{row.book?.book ? ` · ${row.book.book}` : ""}<br /><span className={`pill ${row.designation.tone}`}>{row.designation.label}</span></td>
               </tr>
             ))}
-          </tbody></table> : <div className="info">No batter K target cleared the pitch-mix whiff screen for this game.</div>}
+          </tbody></table> : <div className="info">Batter strikeout targets are hidden until a matching sportsbook K price is available. Hard cap: three priced angles per team across batter props.</div>}
         </section>
 
-        <div className="info">{message || BOARD.notice}</div>
+        <ModelFooter games={games} message={message || BOARD.notice} />
       </div>
     </main>
   );
