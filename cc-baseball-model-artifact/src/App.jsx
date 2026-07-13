@@ -4818,6 +4818,7 @@ const PROP_PRICE_BLEND_WEIGHT = 0.18;
 const K_FAIR_SCALE = 1.55;
 const RESULTS_HISTORY_KEY = "cc-baseball-results-history-v1";
 const BET_LEDGER_KEY = "cc-baseball-bet-ledger-v1";
+const ODDS_HISTORY_KEY = "cc-baseball-odds-history-v1";
 
 const APP_CSS = `
   :root {
@@ -5758,11 +5759,12 @@ function summarizeResults(rows) {
   const pushes = bets.filter((bet) => bet.push).length;
   const marketWins = marketBets.filter((bet) => bet.correct).length;
   const propWins = propBets.filter((bet) => bet.correct).length;
+  const hasSavedBetLedger = savedBets > 0 || bets.length > 0 || pendingBets > 0;
   const metrics = [
     { label: "Finals graded", value: String(completed) },
-    { label: "Saved bets", value: String(savedBets) },
-    { label: "Bets graded", value: String(bets.length) },
-    ...(pendingBets ? [{ label: "Pending stats", value: String(pendingBets) }] : []),
+    ...(hasSavedBetLedger ? [{ label: "Saved bets", value: String(savedBets) }] : []),
+    ...(hasSavedBetLedger ? [{ label: "Bets graded", value: String(bets.length) }] : []),
+    ...(hasSavedBetLedger && pendingBets ? [{ label: "Pending stats", value: String(pendingBets) }] : []),
     ...(bets.length ? [{ label: "Bet record", value: recordText(wins, decidedBets.length - wins, pushes) }] : []),
     ...(decidedBets.length ? [{ label: "Bet hit %", value: percentText(wins, decidedBets.length) }] : []),
     ...(marketBets.length ? [{ label: "Market record", value: recordText(marketWins, marketBets.length - marketWins) }] : []),
@@ -6019,9 +6021,13 @@ function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
       return groups;
     }, {})
   ).sort(([a], [b]) => String(b).localeCompare(String(a)));
-  const savedNote = savedBetLedgerCount ? `${savedBetLedgerCount} saved pregame priced bet${savedBetLedgerCount === 1 ? "" : "s"}` : "No saved pregame priced bets";
+  const titleBits = [
+    resultDateRange(rows),
+    savedBetLedgerCount ? `${savedBetLedgerCount} saved pregame priced bet${savedBetLedgerCount === 1 ? "" : "s"}` : null,
+    "cumulative official finals",
+  ].filter(Boolean);
   return <section className="card">
-    <div className="card-title"><h2>Results log</h2><span className="muted">{resultDateRange(rows)} · {savedNote} · cumulative official finals</span></div>
+    <div className="card-title"><h2>Results log</h2><span className="muted">{titleBits.join(" · ")}</span></div>
     {rows.length ? <>
       <div className="performance-grid">
         {metrics.map((metric) => <article className="performance-card" key={metric.label}>
@@ -6284,6 +6290,93 @@ function hasOddsEntry(odds) {
     || Object.keys(odds?.k || {}).length
     || Object.keys(odds?.batter || {}).length
   );
+}
+
+function normalizeOddsEntry(entry) {
+  if (!entry || typeof entry !== "object") return blankOdds();
+  return {
+    k: { ...(entry.k || {}) },
+    pitcherK: { ...(entry.pitcherK || entry.k || {}) },
+    batter: { ...(entry.batter || {}) },
+    teamTotals: Array.isArray(entry.teamTotals) ? entry.teamTotals : [],
+    h2h: { ...(entry.h2h || {}) },
+    totals: Array.isArray(entry.totals) ? entry.totals : [],
+    f5H2h: { ...(entry.f5H2h || {}) },
+    f5Totals: Array.isArray(entry.f5Totals) ? entry.f5Totals : [],
+  };
+}
+
+function normalizeOddsHistory(history) {
+  if (!history || typeof history !== "object") return {};
+  const normalized = {};
+  for (const [date, snapshot] of Object.entries(history)) {
+    if (!date || !snapshot || typeof snapshot !== "object") continue;
+    const rawGames = snapshot.games && typeof snapshot.games === "object" ? snapshot.games : snapshot;
+    const games = {};
+    for (const [key, entry] of Object.entries(rawGames || {})) {
+      const cleaned = normalizeOddsEntry(entry);
+      if (hasOddsEntry(cleaned)) games[key] = cleaned;
+    }
+    if (Object.keys(games).length) {
+      normalized[date] = {
+        fetched_at: snapshot.fetched_at || snapshot.last_updated || null,
+        source: snapshot.source || "sportsbook odds snapshot",
+        games,
+      };
+    }
+  }
+  return normalized;
+}
+
+function mergeOddsHistories(...histories) {
+  const merged = {};
+  for (const history of histories.map(normalizeOddsHistory)) {
+    for (const [date, snapshot] of Object.entries(history)) {
+      merged[date] = {
+        ...(merged[date] || {}),
+        ...snapshot,
+        games: { ...((merged[date] || {}).games || {}), ...(snapshot.games || {}) },
+      };
+    }
+  }
+  return merged;
+}
+
+function timestampMs(value) {
+  if (value == null) return null;
+  const numeric = Number(value);
+  if (Number.isFinite(numeric)) return numeric;
+  const parsed = Date.parse(String(value));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function readStoredOddsSnapshot(date) {
+  const boardHistory = normalizeOddsHistory(BOARD.odds_history);
+  if (typeof window === "undefined" || !window.localStorage) {
+    return date ? boardHistory[date] || { games: {}, fetched_at: null } : { games: {}, fetched_at: null };
+  }
+  try {
+    const history = mergeOddsHistories(boardHistory, JSON.parse(window.localStorage.getItem(ODDS_HISTORY_KEY) || "{}"));
+    return date ? history[date] || { games: {}, fetched_at: null } : { games: {}, fetched_at: null };
+  } catch {
+    return date ? boardHistory[date] || { games: {}, fetched_at: null } : { games: {}, fetched_at: null };
+  }
+}
+
+function writeStoredOddsHistory(date, oddsByGame, fetchedAt = new Date().toISOString()) {
+  if (typeof window === "undefined" || !window.localStorage || !date) return 0;
+  const normalized = normalizeOddsHistory({ [date]: { fetched_at: fetchedAt, source: "manual pregame odds refresh", games: oddsByGame } });
+  const snapshot = normalized[date];
+  const savedGames = Object.keys(snapshot?.games || {}).length;
+  if (!savedGames) return 0;
+  try {
+    const history = normalizeOddsHistory(JSON.parse(window.localStorage.getItem(ODDS_HISTORY_KEY) || "{}"));
+    history[date] = { ...(history[date] || {}), ...snapshot, games: { ...((history[date] || {}).games || {}), ...snapshot.games } };
+    window.localStorage.setItem(ODDS_HISTORY_KEY, JSON.stringify(history));
+    return savedGames;
+  } catch {
+    return 0;
+  }
 }
 
 function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrides = {}) {
@@ -6601,8 +6694,8 @@ function CustomerBoard() {
   const [resultRefreshKey, setResultRefreshKey] = useState(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [oddsByGame, setOddsByGame] = useState({});
-  const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(null);
+  const [oddsByGame, setOddsByGame] = useState(() => readStoredOddsSnapshot(BOARD.date).games || {});
+  const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(readStoredOddsSnapshot(BOARD.date).fetched_at));
   const [nowTick, setNowTick] = useState(() => Date.now());
   const [edgeView, setEdgeView] = useState("game");
   const game = games[gameIndex] || games[0] || null;
@@ -6681,7 +6774,6 @@ function CustomerBoard() {
   async function refreshOdds() {
     const pregameGames = games.filter(isPregameGame);
     if (!pregameGames.length) {
-      setOddsByGame({});
       setMessage("Pregame odds only. No games on this slate are currently in a pregame state.");
       return;
     }
@@ -6839,7 +6931,6 @@ function CustomerBoard() {
       }
       const successfulGames = Object.keys(nextOddsByGame).length;
       if (!successfulGames) {
-        setOddsByGame({});
         setMessage(warnings.has("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so pregame book prices are not available yet." : "No pregame sportsbook prices matched this slate.");
         return;
       }
@@ -6847,16 +6938,17 @@ function CustomerBoard() {
         game: item,
         ...buildGameDisplay(item, nextOddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
       }));
+      const fetchedAt = new Date().toISOString();
+      writeStoredOddsHistory(BOARD.date, nextOddsByGame, fetchedAt);
       const savedCount = writeStoredBetLedger(BOARD.date, snapshotDisplays);
       setOddsByGame(nextOddsByGame);
       setSavedBetLedgerCount(countBetLedgerEntries(readStoredBetLedger(BOARD.date)));
       setResultRefreshKey((value) => value + 1);
-      setLastOddsUpdatedAt(Date.now());
+      setLastOddsUpdatedAt(Date.parse(fetchedAt));
       setNowTick(Date.now());
       const warningList = [...warnings];
       setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}. ${savedCount ? `Saved ${savedCount} odds-backed play${savedCount === 1 ? "" : "s"} for results grading.` : "No odds-backed play cleared the grading rules, so no bets were saved."} A price must clear the displayed play-to number before any consideration.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
-      setOddsByGame({});
       setMessage(error instanceof Error ? error.message : "Pregame odds are unavailable right now.");
     } finally {
       setLoading(false);
