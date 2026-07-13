@@ -196,6 +196,38 @@ CHASE_FIELDS = [
     "last_updated",
 ]
 
+PITCH_BY_PITCH_K_FIELDS = [
+    "player_id",
+    "player_name",
+    "team",
+    "season",
+    "pitches_thrown",
+    "plate_appearances",
+    "strikeouts",
+    "strikeout_rate_per_pa",
+    "swinging_strikeouts",
+    "called_strikeouts",
+    "two_strike_pitches",
+    "two_strike_swings",
+    "two_strike_whiffs",
+    "two_strike_called_strikes",
+    "two_strike_fouls",
+    "putaway_pitches",
+    "putaway_rate",
+    "whiff_rate_per_swing",
+    "swinging_strike_rate",
+    "called_strike_rate",
+    "csw_rate",
+    "two_strike_whiff_rate",
+    "two_strike_csw_rate",
+    "top_strikeout_pitch_type",
+    "top_strikeout_pitch_name",
+    "top_strikeout_pitch_count",
+    "top_strikeout_pitch_share",
+    "sample_pitches",
+    "last_updated",
+]
+
 BULLPEN_FIELDS = [
     "team",
     "season",
@@ -260,6 +292,25 @@ NULL_REASONS = {
     "chase_k_share_if_available": "No direct Baseball Savant or MLB StatsAPI field was available; left null by design.",
     "slider_splitter_change_usage": "No Statcast pitch total was available for the denominator.",
     "chase_reliance_score": "No official source field or user-specified formula was provided; left null to avoid inventing a metric.",
+    "plate_appearances": "No Statcast plate-appearance event rows were available for this pitcher.",
+    "strikeout_rate_per_pa": "No Statcast plate-appearance denominator was available for this pitcher.",
+    "swinging_strikeouts": "No Statcast strikeout event rows were available for this pitcher.",
+    "called_strikeouts": "No Statcast strikeout event rows were available for this pitcher.",
+    "two_strike_pitches": "No Statcast two-strike pitch rows were available for this pitcher.",
+    "two_strike_swings": "No Statcast two-strike swing denominator was available for this pitcher.",
+    "two_strike_whiffs": "No Statcast two-strike pitch rows were available for this pitcher.",
+    "two_strike_called_strikes": "No Statcast two-strike pitch rows were available for this pitcher.",
+    "two_strike_fouls": "No Statcast two-strike pitch rows were available for this pitcher.",
+    "putaway_pitches": "No Statcast two-strike pitch rows were available for this pitcher.",
+    "putaway_rate": "No Statcast two-strike pitch denominator was available for this pitcher.",
+    "whiff_rate_per_swing": "No swing denominator was available from Statcast pitch-level rows.",
+    "csw_rate": "No Statcast pitch total was available for the called-strike plus whiff denominator.",
+    "two_strike_csw_rate": "No Statcast two-strike pitch denominator was available for this pitcher.",
+    "top_strikeout_pitch_type": "No Statcast strikeout pitch rows with a pitch_type were available for this pitcher.",
+    "top_strikeout_pitch_name": "No Statcast strikeout pitch rows with a pitch_name were available for this pitcher.",
+    "top_strikeout_pitch_count": "No Statcast strikeout pitch rows with a pitch_type were available for this pitcher.",
+    "top_strikeout_pitch_share": "No Statcast strikeout pitch rows with a pitch_type were available for this pitcher.",
+    "sample_pitches": "No Statcast pitch-level rows were available for this pitcher.",
     "bullpen_status": "No Statcast relief workload window was available for this team.",
 }
 
@@ -471,9 +522,21 @@ def new_agg() -> dict:
         "zone_swings": 0,
         "zone_whiffs": 0,
         "called_strikes": 0,
+        "csw": 0,
         "first_pitches": 0,
         "first_pitch_strikes": 0,
         "chase_usage_pitches": 0,
+        "strikeouts": 0,
+        "swinging_strikeouts": 0,
+        "called_strikeouts": 0,
+        "two_strike_pitches": 0,
+        "two_strike_swings": 0,
+        "two_strike_whiffs": 0,
+        "two_strike_called_strikes": 0,
+        "two_strike_fouls": 0,
+        "putaway_pitches": 0,
+        "strikeout_pitch_types": Counter(),
+        "strikeout_pitch_names": Counter(),
         "pitch_names": Counter(),
     }
 
@@ -499,6 +562,34 @@ def add_pitch_to_agg(agg: dict, row: dict, pitch_type: Optional[str] = None) -> 
         agg["whiffs"] += 1
     if description == "called_strike":
         agg["called_strikes"] += 1
+    if whiff or description == "called_strike":
+        agg["csw"] += 1
+
+    pre_pitch_strikes = parse_int(row.get("strikes"))
+    event_is_strikeout = event in {"strikeout", "strikeout_double_play"}
+    if pre_pitch_strikes == 2:
+        agg["two_strike_pitches"] += 1
+        if swing:
+            agg["two_strike_swings"] += 1
+        if whiff:
+            agg["two_strike_whiffs"] += 1
+        if description == "called_strike":
+            agg["two_strike_called_strikes"] += 1
+        if description in {"foul", "foul_bunt", "foul_tip"}:
+            agg["two_strike_fouls"] += 1
+        if event_is_strikeout:
+            agg["putaway_pitches"] += 1
+
+    if event_is_strikeout:
+        agg["strikeouts"] += 1
+        if whiff:
+            agg["swinging_strikeouts"] += 1
+        elif description == "called_strike":
+            agg["called_strikeouts"] += 1
+        if pitch_type:
+            agg["strikeout_pitch_types"][pitch_type] += 1
+        if row.get("pitch_name"):
+            agg["strikeout_pitch_names"][row["pitch_name"]] += 1
 
     if parse_int(row.get("pitch_number")) == 1:
         agg["first_pitches"] += 1
@@ -829,7 +920,7 @@ def build_bullpen_availability(
     return rows
 
 
-def build_rows(args: argparse.Namespace) -> Tuple[List[dict], List[dict], List[dict], List[dict], dict]:
+def build_rows(args: argparse.Namespace) -> Tuple[List[dict], List[dict], List[dict], List[dict], List[dict], dict]:
     season = args.season
     end_date = to_date(args.end_date)
     start_date = to_date(args.start_date) if args.start_date else regular_season_start(season, end_date)
@@ -936,6 +1027,7 @@ def build_rows(args: argparse.Namespace) -> Tuple[List[dict], List[dict], List[d
 
     starter_rows: List[dict] = []
     chase_rows: List[dict] = []
+    pitch_by_pitch_k_rows: List[dict] = []
 
     for player_id in sorted(player_ids):
         agg = pitcher_aggs[player_id]
@@ -1045,6 +1137,46 @@ def build_rows(args: argparse.Namespace) -> Tuple[List[dict], List[dict], List[d
             }
         )
 
+        top_k_pitch_type, top_k_pitch_count = (None, None)
+        if agg["strikeout_pitch_types"]:
+            top_k_pitch_type, top_k_pitch_count = agg["strikeout_pitch_types"].most_common(1)[0]
+        top_k_pitch_name = agg["strikeout_pitch_names"].most_common(1)[0][0] if agg["strikeout_pitch_names"] else None
+        statcast_pa = agg["pa"] if has_statcast and agg["pa"] else None
+        statcast_strikeouts = agg["strikeouts"] if has_statcast else None
+        pitch_by_pitch_k_rows.append(
+            {
+                "player_id": player_id,
+                "player_name": player_name(player_id),
+                "team": player_team(player_id),
+                "season": season,
+                "pitches_thrown": agg["pitches"] if has_statcast else None,
+                "plate_appearances": statcast_pa,
+                "strikeouts": statcast_strikeouts,
+                "strikeout_rate_per_pa": safe_div(statcast_strikeouts, statcast_pa),
+                "swinging_strikeouts": agg["swinging_strikeouts"] if has_statcast else None,
+                "called_strikeouts": agg["called_strikeouts"] if has_statcast else None,
+                "two_strike_pitches": agg["two_strike_pitches"] if has_statcast else None,
+                "two_strike_swings": agg["two_strike_swings"] if has_statcast else None,
+                "two_strike_whiffs": agg["two_strike_whiffs"] if has_statcast else None,
+                "two_strike_called_strikes": agg["two_strike_called_strikes"] if has_statcast else None,
+                "two_strike_fouls": agg["two_strike_fouls"] if has_statcast else None,
+                "putaway_pitches": agg["putaway_pitches"] if has_statcast else None,
+                "putaway_rate": safe_div(agg["putaway_pitches"], agg["two_strike_pitches"]) if has_statcast else None,
+                "whiff_rate_per_swing": safe_div(agg["whiffs"], agg["swings"]) if has_statcast else None,
+                "swinging_strike_rate": safe_div(agg["whiffs"], agg["pitches"]) if has_statcast else None,
+                "called_strike_rate": safe_div(agg["called_strikes"], agg["pitches"]) if has_statcast else None,
+                "csw_rate": safe_div(agg["csw"], agg["pitches"]) if has_statcast else None,
+                "two_strike_whiff_rate": safe_div(agg["two_strike_whiffs"], agg["two_strike_swings"]) if has_statcast else None,
+                "two_strike_csw_rate": safe_div(agg["two_strike_whiffs"] + agg["two_strike_called_strikes"], agg["two_strike_pitches"]) if has_statcast else None,
+                "top_strikeout_pitch_type": top_k_pitch_type,
+                "top_strikeout_pitch_name": top_k_pitch_name,
+                "top_strikeout_pitch_count": top_k_pitch_count,
+                "top_strikeout_pitch_share": safe_div(top_k_pitch_count, statcast_strikeouts),
+                "sample_pitches": agg["pitches"] if has_statcast else None,
+                "last_updated": last_updated,
+            }
+        )
+
     pitch_type_rows: List[dict] = []
     for (player_id, pitch_type), agg in pitch_type_aggs.items():
         pitcher_total = pitcher_aggs[player_id]["pitches"]
@@ -1086,6 +1218,7 @@ def build_rows(args: argparse.Namespace) -> Tuple[List[dict], List[dict], List[d
     starter_rows.sort(key=table_sort_key)
     pitch_type_rows.sort(key=lambda row: (row.get("team") or "ZZZ", row.get("player_name") or "", -int(row["pitches_thrown"]), row.get("pitch_type") or ""))
     chase_rows.sort(key=table_sort_key)
+    pitch_by_pitch_k_rows.sort(key=table_sort_key)
 
     source_context = {
         "season": season,
@@ -1101,6 +1234,7 @@ def build_rows(args: argparse.Namespace) -> Tuple[List[dict], List[dict], List[d
         "people_info_count": len(people_info),
         "probable_start_game_log_count": len(start_game_logs),
         "bullpen_availability_team_count": len(bullpen_rows),
+        "pitch_by_pitch_strikeout_pitcher_count": sum(1 for row in pitch_by_pitch_k_rows if row.get("sample_pitches") is not None),
         "probable_pitchers": [
             {"player_id": pid, "player_name": player_name(pid), "team": player_team(pid)}
             for pid in sorted(probables)
@@ -1109,7 +1243,7 @@ def build_rows(args: argparse.Namespace) -> Tuple[List[dict], List[dict], List[d
         "statsapi_ids_missing_from_statcast": sorted(set(statsapi_pitchers) - statcast_pitchers),
         "statcast_ids_missing_from_statsapi": sorted(statcast_pitchers - set(statsapi_pitchers)),
     }
-    return starter_rows, pitch_type_rows, chase_rows, bullpen_rows, source_context
+    return starter_rows, pitch_type_rows, chase_rows, pitch_by_pitch_k_rows, bullpen_rows, source_context
 
 
 def json_ready(rows: Iterable[dict]) -> List[dict]:
@@ -1127,7 +1261,7 @@ def csv_cell(value):
 def write_csv(path: Path, rows: List[dict], fields: List[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore", lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow({field: csv_cell(row.get(field)) for field in fields})
@@ -1205,17 +1339,19 @@ def build_quality_report(
     starter_rows: List[dict],
     pitch_type_rows: List[dict],
     chase_rows: List[dict],
+    pitch_by_pitch_k_rows: List[dict],
     bullpen_rows: List[dict],
     source_context: dict,
 ) -> dict:
-    all_pitchers = pitcher_ids(starter_rows) | pitcher_ids(chase_rows) | pitcher_ids(pitch_type_rows)
+    all_pitchers = pitcher_ids(starter_rows) | pitcher_ids(chase_rows) | pitcher_ids(pitch_type_rows) | pitcher_ids(pitch_by_pitch_k_rows)
     table_pitchers = {
         "starter_damage_allowed": pitcher_ids(starter_rows),
         "pitcher_pitch_type_damage_allowed": pitcher_ids(pitch_type_rows),
         "pitcher_chase_generation": pitcher_ids(chase_rows),
+        "pitcher_pitch_by_pitch_strikeouts": pitcher_ids(pitch_by_pitch_k_rows),
     }
     pitcher_reference = {}
-    for row in starter_rows + chase_rows + pitch_type_rows:
+    for row in starter_rows + chase_rows + pitch_type_rows + pitch_by_pitch_k_rows:
         player_id = int(row["player_id"])
         pitcher_reference.setdefault(
             player_id,
@@ -1264,6 +1400,23 @@ def build_quality_report(
             ],
         )
     )
+    rate_violations.extend(
+        validate_rate_bounds(
+            "pitcher_pitch_by_pitch_strikeouts",
+            pitch_by_pitch_k_rows,
+            [
+                "strikeout_rate_per_pa",
+                "putaway_rate",
+                "whiff_rate_per_swing",
+                "swinging_strike_rate",
+                "called_strike_rate",
+                "csw_rate",
+                "two_strike_whiff_rate",
+                "two_strike_csw_rate",
+                "top_strikeout_pitch_share",
+            ],
+        )
+    )
 
     missing_from_tables = {}
     for table, ids in table_pitchers.items():
@@ -1280,18 +1433,21 @@ def build_quality_report(
             "starter_damage_allowed": len(starter_rows),
             "pitcher_pitch_type_damage_allowed": len(pitch_type_rows),
             "pitcher_chase_generation": len(chase_rows),
+            "pitcher_pitch_by_pitch_strikeouts": len(pitch_by_pitch_k_rows),
             "bullpen_availability": len(bullpen_rows),
         },
         "missing_field_counts": {
             "starter_damage_allowed": missing_counts(starter_rows, STARTER_FIELDS),
             "pitcher_pitch_type_damage_allowed": missing_counts(pitch_type_rows, PITCH_TYPE_FIELDS),
             "pitcher_chase_generation": missing_counts(chase_rows, CHASE_FIELDS),
+            "pitcher_pitch_by_pitch_strikeouts": missing_counts(pitch_by_pitch_k_rows, PITCH_BY_PITCH_K_FIELDS),
             "bullpen_availability": missing_counts(bullpen_rows, BULLPEN_FIELDS),
         },
         "null_reasons": {
             "starter_damage_allowed": null_reason_report(starter_rows, STARTER_FIELDS),
             "pitcher_pitch_type_damage_allowed": null_reason_report(pitch_type_rows, PITCH_TYPE_FIELDS),
             "pitcher_chase_generation": null_reason_report(chase_rows, CHASE_FIELDS),
+            "pitcher_pitch_by_pitch_strikeouts": null_reason_report(pitch_by_pitch_k_rows, PITCH_BY_PITCH_K_FIELDS),
             "bullpen_availability": null_reason_report(bullpen_rows, BULLPEN_FIELDS),
         },
         "small_sample_counts": {
@@ -1330,7 +1486,7 @@ def main() -> None:
     args = parse_args()
     out_dir = Path(args.out_dir)
 
-    starter_rows, pitch_type_rows, chase_rows, bullpen_rows, source_context = build_rows(args)
+    starter_rows, pitch_type_rows, chase_rows, pitch_by_pitch_k_rows, bullpen_rows, source_context = build_rows(args)
 
     write_csv(out_dir / "starter_damage_allowed.csv", starter_rows, STARTER_FIELDS)
     write_json(out_dir / "starter_damage_allowed.json", starter_rows)
@@ -1338,10 +1494,12 @@ def main() -> None:
     write_json(out_dir / "pitcher_pitch_type_damage_allowed.json", pitch_type_rows)
     write_csv(out_dir / "pitcher_chase_generation.csv", chase_rows, CHASE_FIELDS)
     write_json(out_dir / "pitcher_chase_generation.json", chase_rows)
+    write_csv(out_dir / "pitcher_pitch_by_pitch_strikeouts.csv", pitch_by_pitch_k_rows, PITCH_BY_PITCH_K_FIELDS)
+    write_json(out_dir / "pitcher_pitch_by_pitch_strikeouts.json", pitch_by_pitch_k_rows)
     write_csv(out_dir / "bullpen_availability.csv", bullpen_rows, BULLPEN_FIELDS)
     write_json(out_dir / "bullpen_availability.json", bullpen_rows)
 
-    quality_report = build_quality_report(starter_rows, pitch_type_rows, chase_rows, bullpen_rows, source_context)
+    quality_report = build_quality_report(starter_rows, pitch_type_rows, chase_rows, pitch_by_pitch_k_rows, bullpen_rows, source_context)
     (out_dir / "data_quality_report.json").write_text(
         json.dumps(quality_report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
