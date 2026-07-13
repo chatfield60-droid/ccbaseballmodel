@@ -148,36 +148,21 @@ def grade_customer_board_results(board: dict) -> list[dict]:
         if projected_total is None:
             projected_total = projected_away + projected_home
         actual_total = actual_away + actual_home
-        total_line = next((finite(projection.get(key)) for key in ("closing_total", "market_total", "book_total", "total_line") if finite(projection.get(key)) is not None), None)
         projected_margin = projected_home - projected_away
         actual_margin = actual_home - actual_away
-        pick_side = None if abs(projected_margin) < 0.05 else "home" if projected_margin > 0 else "away"
         actual_side = "home" if actual_margin > 0 else "away" if actual_margin < 0 else "tie"
-        winner_correct = None if not pick_side or actual_side == "tie" else pick_side == actual_side
-        total_pick = None
-        if total_line is not None and abs(projected_total - total_line) >= 0.05:
-            total_pick = "Over" if projected_total > total_line else "Under"
-        actual_total_side = None
-        if total_line is not None:
-            actual_total_side = "Over" if actual_total > total_line else "Under" if actual_total < total_line else "Push"
-        total_push = bool(total_pick and actual_total_side == "Push")
-        total_correct = None if not total_pick or not actual_total_side or actual_total_side == "Push" else total_pick == actual_total_side
         rows.append(
             {
                 "id": projection.get("id") or stats_game.get("gamePk"),
                 "matchup": f"{projection.get('away')} @ {projection.get('home')}",
                 "projected": f"{projection.get('away')} {display_number(projected_away)} · {display_number(projected_home)} {projection.get('home')}",
                 "final": f"{projection.get('away')} {display_number(actual_away, 0)} · {display_number(actual_home, 0)} {projection.get('home')}",
-                "pickTeam": projection.get("away") if pick_side == "away" else projection.get("home") if pick_side == "home" else "No side",
+                "betCount": 0,
+                "betWins": 0,
+                "betLosses": 0,
+                "betPushes": 0,
+                "bets": [],
                 "actualWinner": projection.get("away") if actual_side == "away" else projection.get("home") if actual_side == "home" else "Tie",
-                "winnerResult": "No side" if winner_correct is None else "Hit" if winner_correct else "Miss",
-                "winnerCorrect": winner_correct,
-                "totalLine": total_line,
-                "totalPick": total_pick,
-                "actualTotalSide": actual_total_side,
-                "totalCorrect": total_correct,
-                "totalPush": total_push,
-                "totalResult": "No O/U pick" if not total_pick else "Push" if total_push else "Hit" if total_correct else "Miss",
                 "scoreMae": rounded((abs(actual_away - projected_away) + abs(actual_home - projected_home)) / 2, 4),
                 "totalError": rounded(abs(actual_total - projected_total), 4),
                 "marginError": rounded(abs(actual_margin - projected_margin), 4),
@@ -425,7 +410,7 @@ def load_team_ids() -> dict[int, str]:
     }
 
 
-def build_pitcher_objects(original: dict, starter_rows: list[dict], pitch_type_rows: list[dict], chase_rows: list[dict]) -> list[dict]:
+def build_pitcher_objects(original: dict, starter_rows: list[dict], pitch_type_rows: list[dict], chase_rows: list[dict], pitch_by_pitch_k_rows: list[dict]) -> list[dict]:
     original_by_name = {normalize_name(p.get("name")): p for p in original.get("pitchers", [])}
     pitch_rows_by_id = defaultdict(list)
     pitch_ref = dict(original.get("pitchRef", {}))
@@ -436,13 +421,17 @@ def build_pitcher_objects(original: dict, starter_rows: list[dict], pitch_type_r
             pitch_ref.setdefault(row["pitch_type"], row["pitch_name"])
 
     chase_by_id = {row["player_id"]: row for row in chase_rows}
+    pitch_k_by_id = {row["player_id"]: row for row in pitch_by_pitch_k_rows}
     pitchers = []
     for starter in starter_rows:
         player_id = starter["player_id"]
         name = starter.get("player_name")
         base = original_by_name.get(normalize_name(name), {})
         chase = chase_by_id.get(player_id, {})
+        pitch_k = pitch_k_by_id.get(player_id, {})
         source_bits = ["savant-starter-damage", "savant-pitch-type-damage", "savant-chase-generation"]
+        if pitch_k:
+            source_bits.append("savant-pitch-by-pitch-k")
         if starter.get("core_stats_source"):
             source_bits.append("statsapi-core")
         if base:
@@ -532,6 +521,28 @@ def build_pitcher_objects(original: dict, starter_rows: list[dict], pitch_type_r
             "chaseKShare": chase.get("chase_k_share_if_available"),
             "sliderSplitterChangeUsage": rounded(chase.get("slider_splitter_change_usage"), 4),
             "chaseRelianceScore": chase.get("chase_reliance_score"),
+            "pitchKSamplePitches": pitch_k.get("sample_pitches"),
+            "pitchKPlateAppearances": pitch_k.get("plate_appearances"),
+            "pitchKStrikeouts": pitch_k.get("strikeouts"),
+            "pitchKRatePerPa": rounded(pitch_k.get("strikeout_rate_per_pa"), 4),
+            "pitchKSwingingStrikeouts": pitch_k.get("swinging_strikeouts"),
+            "pitchKCalledStrikeouts": pitch_k.get("called_strikeouts"),
+            "pitchKTwoStrikePitches": pitch_k.get("two_strike_pitches"),
+            "pitchKTwoStrikeSwings": pitch_k.get("two_strike_swings"),
+            "pitchKTwoStrikeWhiffs": pitch_k.get("two_strike_whiffs"),
+            "pitchKTwoStrikeCalledStrikes": pitch_k.get("two_strike_called_strikes"),
+            "pitchKTwoStrikeFouls": pitch_k.get("two_strike_fouls"),
+            "pitchKPutawayPitches": pitch_k.get("putaway_pitches"),
+            "pitchKPutawayRate": rounded(pitch_k.get("putaway_rate"), 4),
+            "pitchKWhiffRatePerSwing": rounded(pitch_k.get("whiff_rate_per_swing"), 4),
+            "pitchKCalledStrikeRate": rounded(pitch_k.get("called_strike_rate"), 4),
+            "pitchKCswRate": rounded(pitch_k.get("csw_rate"), 4),
+            "pitchKTwoStrikeWhiffRate": rounded(pitch_k.get("two_strike_whiff_rate"), 4),
+            "pitchKTwoStrikeCswRate": rounded(pitch_k.get("two_strike_csw_rate"), 4),
+            "pitchKTopPitchType": pitch_k.get("top_strikeout_pitch_type"),
+            "pitchKTopPitchName": pitch_k.get("top_strikeout_pitch_name"),
+            "pitchKTopPitchCount": pitch_k.get("top_strikeout_pitch_count"),
+            "pitchKTopPitchShare": rounded(pitch_k.get("top_strikeout_pitch_share"), 4),
             "mix": mix,
         }
         # Preserve original arsenal velocities where the same pitcher/pitch exists.
@@ -629,6 +640,7 @@ def customer_score(team, opposing_starter, opposing_bullpen_status, league):
     bullpen_adjustment = {"fresh": -0.05, "normal": 0.0, "taxed": 0.10}.get(opposing_bullpen_status)
     if bullpen_adjustment is None:
         return None
+    k_pitch_adjustment = pitcher_pitch_by_pitch_run_adjustment(opposing_starter)
     forecast = (
         rpg
         + (offense - 0.318) * 12
@@ -636,8 +648,51 @@ def customer_score(team, opposing_starter, opposing_bullpen_status, league):
         + (bullpen_era - league_era) * 0.08
         + (park - 1) * 0.45
         + bullpen_adjustment
+        + k_pitch_adjustment
     )
     return round(clamp(forecast, 2.0, 8.0), 1)
+
+
+def pitcher_pitch_by_pitch_run_adjustment(starter):
+    starter = starter or {}
+    sample = finite(starter.get("pitchKSamplePitches"))
+    if sample is None or sample < 150:
+        return 0.0
+    csw = finite(starter.get("pitchKCswRate"))
+    putaway = finite(starter.get("pitchKPutawayRate"))
+    two_strike_whiff = finite(starter.get("pitchKTwoStrikeWhiffRate"))
+    k_pa = finite(starter.get("pitchKRatePerPa"))
+    components = []
+    if csw is not None:
+        components.append((csw - 0.275) * -2.0)
+    if putaway is not None:
+        components.append((putaway - 0.185) * -1.6)
+    if two_strike_whiff is not None:
+        components.append((two_strike_whiff - 0.235) * -1.2)
+    if k_pa is not None:
+        components.append((k_pa - 0.225) * -1.0)
+    return round(clamp(sum(components), -0.28, 0.22), 4) if components else 0.0
+
+
+def pitcher_pitch_by_pitch_k_bonus(starter):
+    starter = starter or {}
+    sample = finite(starter.get("pitchKSamplePitches"))
+    if sample is None or sample < 150:
+        return 0.0
+    csw = finite(starter.get("pitchKCswRate"))
+    putaway = finite(starter.get("pitchKPutawayRate"))
+    two_strike_whiff = finite(starter.get("pitchKTwoStrikeWhiffRate"))
+    k_pa = finite(starter.get("pitchKRatePerPa"))
+    components = []
+    if csw is not None:
+        components.append((csw - 0.275) * 3.2)
+    if putaway is not None:
+        components.append((putaway - 0.185) * 2.2)
+    if two_strike_whiff is not None:
+        components.append((two_strike_whiff - 0.235) * 1.7)
+    if k_pa is not None:
+        components.append((k_pa - 0.225) * 2.0)
+    return round(clamp(sum(components), -0.35, 0.50), 4) if components else 0.0
 
 
 def customer_k_target(starter):
@@ -670,7 +725,8 @@ def customer_k_target(starter):
         0.0,
         0.70,
     )
-    ceiling_projected = clamp(base_projected + 0.95 + chase_bonus + workload_bonus - damage_penalty, base_projected + 0.15, 12.0)
+    pitch_by_pitch_bonus = pitcher_pitch_by_pitch_k_bonus(starter)
+    ceiling_projected = clamp(base_projected + 0.95 + chase_bonus + workload_bonus + pitch_by_pitch_bonus - damage_penalty, base_projected + 0.15, 12.0)
     line = math.floor(base_projected) + 0.5
     over_probability = clamp(0.50 + (ceiling_projected - line) * 0.22, 0.35, 0.65)
     under_probability = 1 - over_probability
@@ -694,6 +750,11 @@ def customer_k_target(starter):
         "under_play_to": play_to_from_fair(under_fair),
         "base_over_play_to": play_to_from_fair(base_over_fair),
         "base_under_play_to": play_to_from_fair(base_under_fair),
+        "pitch_by_pitch_k_bonus": round(pitch_by_pitch_bonus, 2),
+        "pitch_by_pitch_sample_pitches": starter.get("pitchKSamplePitches"),
+        "putaway_rate": rounded(starter.get("pitchKPutawayRate"), 3),
+        "csw_rate": rounded(starter.get("pitchKCswRate"), 3),
+        "two_strike_whiff_rate": rounded(starter.get("pitchKTwoStrikeWhiffRate"), 3),
         "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash.",
     }
 
@@ -1162,9 +1223,10 @@ def main() -> None:
     starters = read_json(DATA_DIR / "starter_damage_allowed.json")
     pitch_types = read_json(DATA_DIR / "pitcher_pitch_type_damage_allowed.json")
     chase = read_json(DATA_DIR / "pitcher_chase_generation.json")
+    pitch_by_pitch_k = read_json(DATA_DIR / "pitcher_pitch_by_pitch_strikeouts.json") if (DATA_DIR / "pitcher_pitch_by_pitch_strikeouts.json").exists() else []
     bullpen = read_json(DATA_DIR / "bullpen_availability.json") if (DATA_DIR / "bullpen_availability.json").exists() else []
 
-    pitchers = build_pitcher_objects(original, starters, pitch_types, chase)
+    pitchers = build_pitcher_objects(original, starters, pitch_types, chase, pitch_by_pitch_k)
     source_context = quality.get("source_context", {})
     season_date = current_slate_date()
     bullpen_by_team = {row.get("team"): row for row in bullpen if row.get("team")}
@@ -1190,6 +1252,7 @@ def main() -> None:
                 "starterDamageRows": len(starters),
                 "pitchTypeDamageRows": len(pitch_types),
                 "chaseGenerationRows": len(chase),
+                "pitchByPitchStrikeoutRows": len(pitch_by_pitch_k),
                 "bullpenAvailabilityRows": len(bullpen),
                 "smallSamplePitchTypeRows": quality.get("small_sample_counts", {}).get("pitcher_pitch_type_damage_allowed"),
                 "qualityReport": "data/data_quality_report.json",
