@@ -5,6 +5,7 @@ This workspace builds the requested MLB pitcher data tables without changing the
 - `data/starter_damage_allowed.csv` and `.json`
 - `data/pitcher_pitch_type_damage_allowed.csv` and `.json`
 - `data/pitcher_chase_generation.csv` and `.json`
+- `data/pitcher_pitch_by_pitch_strikeouts.csv` and `.json`
 - `data/bullpen_availability.csv` and `.json`
 - `data/data_quality_report.json`
 - `data/backtest_calibration.json`
@@ -23,9 +24,9 @@ Secondary source:
 
 Optional source:
 
-- The Odds API. The local artifact has the key preloaded for operator use; a public hosted version should move this value to a server-side runtime secret/proxy so it is not visible in browser source.
-- Used by the app's odds refresh path. Featured markets use `/v4/sports/baseball_mlb/odds`; team totals and MLB player props use the single-event `/v4/sports/baseball_mlb/events/{eventId}/odds` endpoint.
-- The app requests moneyline, spread, full-game total, team total, alternate team total, alternate spread, alternate total, F5 moneyline, F5 total, first-inning total for YRFI/NRFI, pitcher strikeout, alternate pitcher strikeout, and pitcher win markets. If a market is unavailable from the API response, the app leaves it null.
+- The Odds API. Local operator builds can use `VITE_ODDS_API_KEY`; hosted customer builds use the server-side `/api/odds/*` proxy with `ODDS_API_KEY` stored as a runtime secret, so the key is not visible in browser source.
+- Used by the app's odds refresh path. The customer board requests pregame moneylines, full-game totals, F5 markets, team totals, pitcher strikeouts, batter home runs, batter hits, batter total bases, and batter strikeouts when the API returns those markets.
+- The app no longer surfaces alternate markets or pitcher-win prices in the customer view. If a requested market is unavailable from the API response, the app leaves it null.
 
 The pipeline does not fill missing values with league averages and does not create guessed placeholder values. Unavailable fields are exported as null in JSON and empty cells in CSV.
 
@@ -104,6 +105,31 @@ All rate fields are exported as decimals from 0 to 1 unless otherwise noted. `us
 - `slider_splitter_change_usage`: Pitch types `SL`, `ST`, `CH`, `FS`, and `FO` / total Statcast pitches.
 - `chase_reliance_score`: Null. No official source field or user-provided formula was supplied, so the pipeline does not invent one.
 
+### pitcher_pitch_by_pitch_strikeouts
+
+- One row per pitcher, derived from Baseball Savant pitch-level rows.
+- `pitches_thrown`: Count of Statcast pitch rows.
+- `plate_appearances`: Count of Statcast plate appearances ending against the pitcher.
+- `strikeouts`: Statcast strikeout and strikeout double-play events.
+- `strikeout_rate_per_pa`: `strikeouts / plate_appearances`.
+- `swinging_strikeouts`: Strikeout events ending on a whiff description.
+- `called_strikeouts`: Strikeout events ending on a called strike.
+- `two_strike_pitches`: Pitches where the pre-pitch Statcast strike count was 2.
+- `two_strike_swings`: Two-strike pitches with swing descriptions.
+- `two_strike_whiffs`: Two-strike pitches with whiff descriptions.
+- `two_strike_called_strikes`: Two-strike pitches with called-strike descriptions.
+- `two_strike_fouls`: Two-strike pitches with foul descriptions.
+- `putaway_pitches`: Two-strike pitches that ended in a strikeout event.
+- `putaway_rate`: `putaway_pitches / two_strike_pitches`.
+- `whiff_rate_per_swing`: Total whiffs / total swings.
+- `swinging_strike_rate`: Total whiffs / total pitches.
+- `called_strike_rate`: Called strikes / total pitches.
+- `csw_rate`: Called strikes plus whiffs / total pitches.
+- `two_strike_whiff_rate`: Two-strike whiffs / two-strike swings.
+- `two_strike_csw_rate`: Two-strike called strikes plus two-strike whiffs / two-strike pitches.
+- `top_strikeout_pitch_type`, `top_strikeout_pitch_name`, `top_strikeout_pitch_count`, `top_strikeout_pitch_share`: Most common pitch used to finish strikeouts when available.
+- `sample_pitches`: Statcast pitch-row sample size.
+
 ### bullpen_availability
 
 - One row per MLB team.
@@ -123,8 +149,14 @@ The rebuilt app uses official MLB StatsAPI schedule/live-feed data for game cont
 - Missing lineups, weather, and umpire fields remain null/pending and are listed in each game's context warnings.
 - Bullpen status is joined from `data/bullpen_availability.json`.
 - Odds and props are fetched only when `ODDS_API_KEY` is available; unavailable markets remain null.
+- Pitcher strikeout projections use the pitch-by-pitch K table when enough Savant sample exists. CSW rate, putaway rate, two-strike whiff rate, and K/PA can raise or lower the ceiling view. Missing pitch-by-pitch K fields produce no adjustment.
+- Team-score, side, and total forecasts use a small pitcher K run-suppression adjustment from the same pitch-by-pitch K table when enough Savant sample exists. Missing fields produce no adjustment.
 - Team-total betting lines are snapped to sportsbook-style 0.5 increments, such as `4` or `4.5`; model run projections remain decimal projections.
-- Strikeout props include a `K workload` scenario toggle. `Baseline` uses the normal damage-adjusted expected IP. `No damage IP penalty` removes only the damage-pressure workload penalty for strikeout projections; run markets, pitcher outs, and pitcher win stay on the baseline model.
+- The customer-facing predicted score uses the same team-run inputs that price team-total fair odds, so score display and Team Total fair prices stay aligned.
+- The main Team Totals section uses only the Odds API `team_totals` market. Alternate team totals are not displayed.
+- Starter strikeout prop angles show the base view first and the ceiling view in the dedicated pitcher strikeout pricing section.
+- The results log grades saved odds-backed recommendations, not raw projected winners. Pregame odds refresh saves a dated local bet ledger with book, line, side, fair, and tier; final scores and box scores are then used to grade moneyline, full-game total, team total, F5, pitcher strikeout, and supported batter prop bets when official data is available.
+- Customer mode includes matchup synthesis, prop-angle explainers with fair/book/play-to pricing when available, batter K-target cards, pitcher weak-spot summaries, a night-mode toggle, and `Small edge` / `Bet` / `Strong bet` badges instead of unit sizing.
 - `CUSTOMER_FACING` is enabled in `src/App.jsx` so the rendered artifact hides raw model internals, debug panels, calibration controls, source-table counts, damage/discipline/K-mechanism details, and proprietary data explanations. The older internal panels remain in the source for operator/admin work but are not the default customer view.
 
 ### Backtest calibration
@@ -185,9 +217,9 @@ pnpm install
 pnpm dev
 ```
 
-For odds refreshes, paste a The Odds API key into the Markets panel and click `Fetch odds`.
+For odds refreshes in local operator mode, set `VITE_ODDS_API_KEY` before starting the app.
 
-For the customer artifact, click `Refresh live odds`; the key is already preloaded locally. For a public hosted site, use a server-side odds proxy with `ODDS_API_KEY` as a secret rather than exposing the key in the browser bundle.
+For the hosted customer artifact, click `Refresh live odds`; the app calls `/api/odds/*`, and the Sites worker attaches `ODDS_API_KEY` server-side.
 
 ## Hosting and Daily Refresh
 
@@ -196,12 +228,13 @@ Recommended production shape:
 1. Run the data refresh daily at 5:00 AM ET:
 
 ```bash
-python3 build_mlb_data_tables.py --season 2026 --end-date "$(date +%F)" --refresh
+SLATE_DATE="$(TZ=America/New_York date +%F)"
+python3 build_mlb_data_tables.py --season 2026 --end-date "$SLATE_DATE" --refresh
 python3 scripts/backtest_calibration.py
-python3 scripts/rebuild_artifact.py
-pnpm build
+MLB_SLATE_DATE="$SLATE_DATE" python3 scripts/rebuild_artifact.py
+bash scripts/build_customer.sh
 ```
 
 2. Publish the built customer-facing app to the hosting target.
-3. Store `ODDS_API_KEY` as a hosting secret and route odds calls through a server-side endpoint before making the site public.
+3. Store `ODDS_API_KEY` as a hosting secret. The included hosted worker routes `/api/odds/*` through the official Odds API without exposing the key.
 4. Keep `CUSTOMER_FACING=true` for customer deployments so proprietary model data stays hidden.
