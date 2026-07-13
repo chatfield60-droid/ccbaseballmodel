@@ -21,6 +21,7 @@ DATA_DIR = ROOT / "data"
 SRC_DIR = ROOT / "src"
 PUBLIC_DIR = ROOT / "public"
 BASELINE_DATA = SRC_DIR / "diamond_data.json"
+ODDS_API_ORIGIN = "https://api.the-odds-api.com/v4"
 
 HIDDEN_DAMAGE_PANEL = r'''function DamagePanel({ report, awayTeam, homeTeam, awayArm, homeArm }) {
   return null;
@@ -87,6 +88,304 @@ def request_json_url(url: str, timeout: int = 20) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=timeout) as response:
         return json.load(response)
+
+
+def request_odds_json(path: str, api_key: str, params: dict | None = None, timeout: int = 20):
+    query = dict(params or {})
+    query["apiKey"] = api_key
+    url = f"{ODDS_API_ORIGIN}/{path}?{urllib.parse.urlencode(query)}"
+    return request_json_url(url, timeout=timeout)
+
+
+def valid_book_price(value) -> bool:
+    number = finite(value)
+    return number is not None and number != 0
+
+
+def quote_is_better(candidate: dict | None, current: dict | None) -> bool:
+    if not candidate or not valid_book_price(candidate.get("price")):
+        return False
+    current_price = finite(current.get("price")) if current else None
+    return current_price is None or finite(candidate.get("price")) > current_price
+
+
+def game_key(game: dict) -> str:
+    return str(game.get("id") or f"{game.get('away') or 'away'}-{game.get('home') or 'home'}")
+
+
+def prop_side_key(side: str | None) -> str:
+    value = normalize_name(side)
+    if "yes" in value or "over" in value:
+        return "over"
+    if "no" in value or "under" in value:
+        return "under"
+    return value or "over"
+
+
+def quote_key(player: str | None, side: str | None, line) -> str:
+    line_value = finite(line)
+    return f"{normalize_name(player)}|{normalize_name(side)}|{line_value:g}" if line_value is not None else f"{normalize_name(player)}|{normalize_name(side)}|nan"
+
+
+def prop_market_label(key: str | None) -> str:
+    if key == "batter_home_runs":
+        return "Batter HR"
+    if key == "batter_hits":
+        return "Batter hits"
+    if key == "batter_total_bases":
+        return "Batter TB"
+    if key == "batter_strikeouts":
+        return "Batter strikeouts"
+    return key or "Prop"
+
+
+def prop_quote_key(market: str | None, player: str | None, side: str | None, line) -> str:
+    point = finite(line)
+    point_text = f"{point:g}" if point is not None else "none"
+    return f"{normalize_name(market)}|{normalize_name(player)}|{prop_side_key(side)}|{point_text}"
+
+
+def team_side_from_text(text: str | None, game: dict) -> str | None:
+    value = normalize_name(text)
+    if not value:
+        return None
+    away_full = normalize_name(game.get("away_name"))
+    home_full = normalize_name(game.get("home_name"))
+    away_abbr = normalize_name(game.get("away"))
+    home_abbr = normalize_name(game.get("home"))
+    if value == away_abbr or (away_full and (value in away_full or away_full in value)):
+        return "away"
+    if value == home_abbr or (home_full and (value in home_full or home_full in value)):
+        return "home"
+    return None
+
+
+def set_best_team_price(store: dict, side: str | None, candidate: dict) -> None:
+    if side and quote_is_better(candidate, store.get(side)):
+        store[side] = candidate
+
+
+def find_odds_event(events, game: dict) -> dict | None:
+    if not isinstance(events, list):
+        return None
+    away = normalize_name(game.get("away_name"))
+    home = normalize_name(game.get("home_name"))
+    for event in events:
+        if normalize_name(event.get("away_team")) == away and normalize_name(event.get("home_team")) == home:
+            return event
+    return None
+
+
+def is_pregame_customer_game(game: dict) -> bool:
+    status = normalize_name(game.get("status"))
+    if not status:
+        return True
+    if "final" in status or "completed" in status or "game over" in status:
+        return False
+    if "in progress" in status or "live" in status:
+        return False
+    return True
+
+
+def empty_odds_entry() -> dict:
+    return {"k": {}, "pitcherK": {}, "batter": {}, "teamTotals": [], "h2h": {}, "totals": [], "f5H2h": {}, "f5Totals": []}
+
+
+def has_odds_entry(entry: dict) -> bool:
+    return bool(
+        (entry.get("h2h") or {})
+        or (entry.get("f5H2h") or {})
+        or (entry.get("totals") or [])
+        or (entry.get("f5Totals") or [])
+        or (entry.get("teamTotals") or [])
+        or (entry.get("k") or {})
+        or (entry.get("batter") or {})
+    )
+
+
+def normalize_odds_entry(entry: dict | None) -> dict:
+    entry = entry if isinstance(entry, dict) else {}
+    return {
+        "k": dict(entry.get("k") or {}),
+        "pitcherK": dict(entry.get("pitcherK") or entry.get("k") or {}),
+        "batter": dict(entry.get("batter") or {}),
+        "teamTotals": entry.get("teamTotals") if isinstance(entry.get("teamTotals"), list) else [],
+        "h2h": dict(entry.get("h2h") or {}),
+        "totals": entry.get("totals") if isinstance(entry.get("totals"), list) else [],
+        "f5H2h": dict(entry.get("f5H2h") or {}),
+        "f5Totals": entry.get("f5Totals") if isinstance(entry.get("f5Totals"), list) else [],
+    }
+
+
+def normalize_odds_history(history) -> dict:
+    if not isinstance(history, dict):
+        return {}
+    normalized = {}
+    for date, snapshot in history.items():
+        if not date or not isinstance(snapshot, dict):
+            continue
+        raw_games = snapshot.get("games") if isinstance(snapshot.get("games"), dict) else snapshot
+        games = {}
+        for key, entry in (raw_games or {}).items():
+            cleaned = normalize_odds_entry(entry)
+            if has_odds_entry(cleaned):
+                games[str(key)] = cleaned
+        if games:
+            normalized[str(date)] = {
+                "fetched_at": snapshot.get("fetched_at") or snapshot.get("last_updated"),
+                "source": snapshot.get("source") or "sportsbook odds snapshot",
+                "games": games,
+            }
+    return normalized
+
+
+def merge_odds_history(history: dict, date: str | None, snapshot: dict | None) -> dict:
+    merged = normalize_odds_history(history)
+    if date and snapshot:
+        normalized = normalize_odds_history({date: snapshot}).get(str(date))
+        if normalized:
+            current = merged.get(str(date), {})
+            merged[str(date)] = {
+                **current,
+                **normalized,
+                "games": {**(current.get("games") or {}), **(normalized.get("games") or {})},
+            }
+    return merged
+
+
+def parse_standard_odds(event_odds: dict | None, game: dict, entry: dict) -> None:
+    if not event_odds:
+        return
+    for bookmaker in event_odds.get("bookmakers") or []:
+        book = bookmaker.get("title") or "Sportsbook"
+        for market in bookmaker.get("markets") or []:
+            key = market.get("key")
+            if key in {"h2h", "h2h_1st_5_innings"}:
+                store = entry["h2h"] if key == "h2h" else entry["f5H2h"]
+                for outcome in market.get("outcomes") or []:
+                    set_best_team_price(store, team_side_from_text(outcome.get("name"), game), {"price": outcome.get("price"), "book": book})
+            if key in {"totals", "totals_1st_5_innings"}:
+                rows = entry["totals"] if key == "totals" else entry["f5Totals"]
+                for outcome in market.get("outcomes") or []:
+                    rows.append({"side": outcome.get("name"), "line": outcome.get("point"), "price": outcome.get("price"), "book": book})
+            if key == "pitcher_strikeouts":
+                for outcome in market.get("outcomes") or []:
+                    candidate = {"price": outcome.get("price"), "book": book}
+                    direct_key = quote_key(outcome.get("description"), outcome.get("name"), outcome.get("point"))
+                    if quote_is_better(candidate, entry["k"].get(direct_key)):
+                        entry["k"][direct_key] = candidate
+                    player_key = normalize_name(outcome.get("description"))
+                    line = finite(outcome.get("point"))
+                    if not player_key or line is None:
+                        continue
+                    entry["k"].setdefault(player_key, [])
+                    row = next((item for item in entry["k"][player_key] if finite(item.get("line")) == line), None)
+                    if row is None:
+                        row = {"line": line, "over": None, "under": None}
+                        entry["k"][player_key].append(row)
+                    side = prop_side_key(outcome.get("name"))
+                    if side == "over" and quote_is_better(candidate, row.get("over")):
+                        row["over"] = candidate
+                    if side == "under" and quote_is_better(candidate, row.get("under")):
+                        row["under"] = candidate
+            if key == "team_totals":
+                for outcome in market.get("outcomes") or []:
+                    entry["teamTotals"].append(
+                        {
+                            "away": game.get("away"),
+                            "home": game.get("home"),
+                            "team": outcome.get("description"),
+                            "side": outcome.get("name"),
+                            "line": outcome.get("point"),
+                            "price": outcome.get("price"),
+                            "book": book,
+                        }
+                    )
+    entry["pitcherK"] = entry["k"]
+
+
+def parse_batter_odds(prop_odds: dict | None, entry: dict) -> None:
+    if not prop_odds:
+        return
+    for bookmaker in prop_odds.get("bookmakers") or []:
+        book = bookmaker.get("title") or "Sportsbook"
+        for market in bookmaker.get("markets") or []:
+            label = prop_market_label(market.get("key"))
+            if label not in {"Batter HR", "Batter hits", "Batter TB", "Batter strikeouts"}:
+                continue
+            for outcome in market.get("outcomes") or []:
+                line = outcome.get("point")
+                if market.get("key") == "batter_home_runs" and line is None:
+                    line = 0.5
+                key = prop_quote_key(label, outcome.get("description"), outcome.get("name"), line)
+                candidate = {"price": outcome.get("price"), "book": book}
+                if quote_is_better(candidate, entry["batter"].get(key)):
+                    entry["batter"][key] = candidate
+
+
+def fetch_event_odds(api_key: str, event_id: str, markets: str, game: dict):
+    params = {"regions": "us", "oddsFormat": "american", "markets": markets}
+    try:
+        return request_odds_json(f"sports/baseball_mlb/events/{event_id}/odds", api_key, params=params, timeout=20)
+    except Exception:
+        fallback = request_odds_json("sports/baseball_mlb/odds", api_key, params=params, timeout=20)
+        if not isinstance(fallback, list):
+            return None
+        return find_odds_event(fallback, game)
+
+
+def fetch_customer_odds_snapshot(customer_board: dict) -> dict | None:
+    api_key = os.getenv("ODDS_API_KEY") or os.getenv("VITE_ODDS_API_KEY") or os.getenv("THE_ODDS_API_KEY")
+    if not api_key:
+        return None
+    date = customer_board.get("date")
+    pregame_games = [game for game in customer_board.get("games") or [] if is_pregame_customer_game(game)]
+    if not date or not pregame_games:
+        return None
+    try:
+        events = request_odds_json("sports/baseball_mlb/events", api_key, timeout=20)
+    except Exception:
+        return None
+    odds_by_game = {}
+    warnings = []
+    for game in pregame_games:
+        event = find_odds_event(events, game)
+        if not event or not event.get("id"):
+            warnings.append(f"{game.get('away')}@{game.get('home')}: no matching event")
+            continue
+        entry = empty_odds_entry()
+        try:
+            parse_standard_odds(fetch_event_odds(api_key, event["id"], "h2h,totals", game), game, entry)
+        except Exception:
+            warnings.append(f"{game.get('away')}@{game.get('home')}: moneyline/total unavailable")
+        try:
+            parse_standard_odds(fetch_event_odds(api_key, event["id"], "team_totals", game), game, entry)
+        except Exception:
+            warnings.append(f"{game.get('away')}@{game.get('home')}: team totals unavailable")
+        try:
+            parse_standard_odds(fetch_event_odds(api_key, event["id"], "h2h_1st_5_innings,totals_1st_5_innings", game), game, entry)
+        except Exception:
+            warnings.append(f"{game.get('away')}@{game.get('home')}: F5 unavailable")
+        try:
+            parse_standard_odds(fetch_event_odds(api_key, event["id"], "pitcher_strikeouts", game), game, entry)
+        except Exception:
+            warnings.append(f"{game.get('away')}@{game.get('home')}: pitcher Ks unavailable")
+        try:
+            parse_batter_odds(fetch_event_odds(api_key, event["id"], "batter_home_runs,batter_hits,batter_total_bases,batter_strikeouts", game), entry)
+        except Exception:
+            warnings.append(f"{game.get('away')}@{game.get('home')}: batter props unavailable")
+        if has_odds_entry(entry):
+            odds_by_game[game_key(game)] = normalize_odds_entry(entry)
+    if not odds_by_game:
+        return None
+    snapshot = {
+        "fetched_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "source": "The Odds API pregame snapshot",
+        "games": odds_by_game,
+    }
+    if warnings:
+        snapshot["warnings"] = warnings[:20]
+    return snapshot
 
 
 def display_number(value, digits=1):
@@ -1218,6 +1517,7 @@ def main() -> None:
     existing_customer_board = read_json(existing_customer_board_path) if existing_customer_board_path.exists() else {}
     results_history = normalize_results_history(existing_customer_board.get("results_history"))
     bet_ledger = existing_customer_board.get("bet_ledger") if isinstance(existing_customer_board.get("bet_ledger"), dict) else {}
+    odds_history = normalize_odds_history(existing_customer_board.get("odds_history"))
     previous_rows = grade_customer_board_results(existing_customer_board)
     results_history = merge_results_history(results_history, existing_customer_board.get("date"), previous_rows)
     quality = read_json(DATA_DIR / "data_quality_report.json")
@@ -1274,10 +1574,13 @@ def main() -> None:
             next_data["league"][key] = rounded(value, 4)
 
     customer_board = build_customer_board(next_data)
+    odds_history = merge_odds_history(odds_history, customer_board.get("date"), fetch_customer_odds_snapshot(customer_board))
     if results_history:
         customer_board["results_history"] = results_history
     if bet_ledger:
         customer_board["bet_ledger"] = bet_ledger
+    if odds_history:
+        customer_board["odds_history"] = odds_history
     (SRC_DIR / "customer_board.json").write_text(
         json.dumps(customer_board, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
