@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+
 const BOARD = {
   "date": "2026-07-12",
   "generated": "2026-07-12T09:10:18+00:00",
@@ -11,22 +12,22 @@ const BOARD = {
       "home_name": "Pittsburgh Pirates",
       "away_starter": "Robert Gasser",
       "home_starter": "Paul Skenes",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "12:15 PM ET",
       "day_night": "day",
-      "away_score": 4.9,
-      "home_score": 5.0,
+      "away_score": 4.8,
+      "home_score": 5.1,
       "total": 9.9,
-      "home_win_probability": 0.52,
+      "home_win_probability": 0.56,
       "moneyline_fairs": {
-        "away_probability": 0.48,
-        "home_probability": 0.52,
-        "away_fair": 108,
-        "home_fair": -108
+        "away_probability": 0.44,
+        "home_probability": 0.56,
+        "away_fair": 127,
+        "home_fair": -127
       },
       "team_total_fairs": {
-        "away": 4.9,
-        "home": 5.0
+        "away": 4.8,
+        "home": 5.1
       },
       "f5": {
         "away_score": 2.5,
@@ -283,17 +284,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.1,
+          "projected": 6.0,
           "base_projected": 5.2,
-          "fair": -180,
-          "under_fair": 180,
+          "fair": -151,
+          "under_fair": 151,
           "base_fair": 135,
           "base_under_fair": -135,
           "book": null,
-          "play_to": -170,
-          "under_play_to": 190,
+          "play_to": -141,
+          "under_play_to": 161,
           "base_play_to": 145,
           "base_under_play_to": -125,
+          "pitch_by_pitch_k_bonus": -0.19,
+          "pitch_by_pitch_sample_pitches": 698,
+          "putaway_rate": 0.164,
+          "csw_rate": 0.261,
+          "two_strike_whiff_rate": 0.193,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -302,7 +308,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
-          "projected": 8.2,
+          "projected": 8.4,
           "base_projected": 6.9,
           "fair": -186,
           "under_fair": 186,
@@ -313,6 +319,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -134,
           "base_under_play_to": 154,
+          "pitch_by_pitch_k_bonus": 0.2,
+          "pitch_by_pitch_sample_pitches": 1641,
+          "putaway_rate": 0.219,
+          "csw_rate": 0.264,
+          "two_strike_whiff_rate": 0.256,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -326,30 +337,30 @@ const BOARD = {
       "home_name": "Baltimore Orioles",
       "away_starter": "Seth Lugo",
       "home_starter": "Shane Baz",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "1:35 PM ET",
       "day_night": "day",
-      "away_score": 4.3,
-      "home_score": 4.3,
-      "total": 8.6,
-      "home_win_probability": 0.5,
+      "away_score": 4.4,
+      "home_score": 4.5,
+      "total": 8.9,
+      "home_win_probability": 0.52,
       "moneyline_fairs": {
-        "away_probability": 0.5,
-        "home_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "away_probability": 0.48,
+        "home_probability": 0.52,
+        "away_fair": 108,
+        "home_fair": -108
       },
       "team_total_fairs": {
-        "away": 4.3,
-        "home": 4.3
+        "away": 4.4,
+        "home": 4.5
       },
       "f5": {
         "away_score": 2.3,
-        "home_score": 2.2,
-        "total": 4.5,
-        "home_win_probability": 0.474,
-        "away_fair": -111,
-        "home_fair": 111
+        "home_score": 2.3,
+        "total": 4.6,
+        "home_win_probability": 0.5,
+        "away_fair": -100,
+        "home_fair": -100
       },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
@@ -598,17 +609,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
-          "projected": 5.3,
+          "projected": 5.1,
           "base_projected": 4.5,
-          "fair": -186,
-          "under_fair": 186,
+          "fair": -164,
+          "under_fair": 164,
           "base_fair": -102,
           "base_under_fair": 102,
           "book": null,
-          "play_to": -176,
-          "under_play_to": 196,
+          "play_to": -154,
+          "under_play_to": 174,
           "base_play_to": -92,
           "base_under_play_to": 112,
+          "pitch_by_pitch_k_bonus": -0.26,
+          "pitch_by_pitch_sample_pitches": 1413,
+          "putaway_rate": 0.171,
+          "csw_rate": 0.253,
+          "two_strike_whiff_rate": 0.193,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -617,17 +633,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.1,
+          "projected": 5.9,
           "base_projected": 5.1,
-          "fair": -179,
-          "under_fair": 179,
+          "fair": -145,
+          "under_fair": 145,
           "base_fair": 147,
           "base_under_fair": -147,
           "book": null,
-          "play_to": -169,
-          "under_play_to": 189,
+          "play_to": -135,
+          "under_play_to": 155,
           "base_play_to": 157,
           "base_under_play_to": -137,
+          "pitch_by_pitch_k_bonus": -0.23,
+          "pitch_by_pitch_sample_pitches": 1734,
+          "putaway_rate": 0.182,
+          "csw_rate": 0.247,
+          "two_strike_whiff_rate": 0.193,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -641,30 +662,30 @@ const BOARD = {
       "home_name": "Washington Nationals",
       "away_starter": "Will Warren",
       "home_starter": "Cade Cavalli",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "1:35 PM ET",
       "day_night": "day",
-      "away_score": 4.8,
+      "away_score": 4.7,
       "home_score": 4.5,
-      "total": 9.3,
-      "home_win_probability": 0.44,
+      "total": 9.2,
+      "home_win_probability": 0.46,
       "moneyline_fairs": {
-        "away_probability": 0.56,
-        "home_probability": 0.44,
-        "away_fair": -127,
-        "home_fair": 127
+        "away_probability": 0.54,
+        "home_probability": 0.46,
+        "away_fair": -117,
+        "home_fair": 117
       },
       "team_total_fairs": {
-        "away": 4.8,
+        "away": 4.7,
         "home": 4.5
       },
       "f5": {
-        "away_score": 2.4,
+        "away_score": 2.3,
         "home_score": 2.3,
-        "total": 4.7,
-        "home_win_probability": 0.474,
-        "away_fair": -111,
-        "home_fair": 111
+        "total": 4.6,
+        "home_win_probability": 0.5,
+        "away_fair": -100,
+        "home_fair": -100
       },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
@@ -897,15 +918,20 @@ const BOARD = {
           "line": 5.5,
           "projected": 6.1,
           "base_projected": 5.2,
-          "fair": -174,
-          "under_fair": 174,
+          "fair": -170,
+          "under_fair": 170,
           "base_fair": 134,
           "base_under_fair": -134,
           "book": null,
-          "play_to": -164,
-          "under_play_to": 184,
+          "play_to": -160,
+          "under_play_to": 180,
           "base_play_to": 144,
           "base_under_play_to": -124,
+          "pitch_by_pitch_k_bonus": -0.02,
+          "pitch_by_pitch_sample_pitches": 1528,
+          "putaway_rate": 0.191,
+          "csw_rate": 0.278,
+          "two_strike_whiff_rate": 0.207,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -914,7 +940,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.4,
+          "projected": 6.6,
           "base_projected": 5.4,
           "fair": -186,
           "under_fair": 186,
@@ -925,6 +951,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 118,
           "base_under_play_to": -98,
+          "pitch_by_pitch_k_bonus": 0.16,
+          "pitch_by_pitch_sample_pitches": 1541,
+          "putaway_rate": 0.211,
+          "csw_rate": 0.292,
+          "two_strike_whiff_rate": 0.225,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -938,30 +969,30 @@ const BOARD = {
       "home_name": "Cincinnati Reds",
       "away_starter": "Matthew Boyd",
       "home_starter": "Andrew Abbott",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "1:40 PM ET",
       "day_night": "day",
-      "away_score": 4.6,
-      "home_score": 4.6,
-      "total": 9.2,
-      "home_win_probability": 0.5,
+      "away_score": 4.8,
+      "home_score": 4.5,
+      "total": 9.3,
+      "home_win_probability": 0.44,
       "moneyline_fairs": {
-        "away_probability": 0.5,
-        "home_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "away_probability": 0.56,
+        "home_probability": 0.44,
+        "away_fair": -127,
+        "home_fair": 127
       },
       "team_total_fairs": {
-        "away": 4.6,
-        "home": 4.6
+        "away": 4.8,
+        "home": 4.5
       },
       "f5": {
-        "away_score": 2.3,
-        "home_score": 2.3,
+        "away_score": 2.4,
+        "home_score": 2.2,
         "total": 4.6,
-        "home_win_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "home_win_probability": 0.448,
+        "away_fair": -123,
+        "home_fair": 123
       },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
@@ -1246,7 +1277,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.7,
+          "projected": 6.9,
           "base_projected": 5.7,
           "fair": -186,
           "under_fair": 186,
@@ -1257,6 +1288,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -104,
           "base_under_play_to": 124,
+          "pitch_by_pitch_k_bonus": 0.24,
+          "pitch_by_pitch_sample_pitches": 632,
+          "putaway_rate": 0.195,
+          "csw_rate": 0.296,
+          "two_strike_whiff_rate": 0.283,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -1265,17 +1301,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
-          "projected": 5.3,
+          "projected": 5.0,
           "base_projected": 4.3,
-          "fair": -186,
-          "under_fair": 186,
+          "fair": -155,
+          "under_fair": 155,
           "base_fair": 121,
           "base_under_fair": -121,
           "book": null,
-          "play_to": -176,
-          "under_play_to": 196,
+          "play_to": -145,
+          "under_play_to": 165,
           "base_play_to": 131,
           "base_under_play_to": -111,
+          "pitch_by_pitch_k_bonus": -0.27,
+          "pitch_by_pitch_sample_pitches": 1677,
+          "putaway_rate": 0.155,
+          "csw_rate": 0.264,
+          "two_strike_whiff_rate": 0.18,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -1289,7 +1330,7 @@ const BOARD = {
       "home_name": "New York Mets",
       "away_starter": "Payton Tolle",
       "home_starter": "Zach Thornton",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "1:40 PM ET",
       "day_night": "day",
       "away_score": 4.0,
@@ -1524,7 +1565,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
-          "projected": 7.3,
+          "projected": 7.4,
           "base_projected": 6.1,
           "fair": -186,
           "under_fair": 186,
@@ -1535,6 +1576,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 150,
           "base_under_play_to": -130,
+          "pitch_by_pitch_k_bonus": 0.07,
+          "pitch_by_pitch_sample_pitches": 1158,
+          "putaway_rate": 0.225,
+          "csw_rate": 0.262,
+          "two_strike_whiff_rate": 0.225,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -1554,6 +1600,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 124,
           "base_under_play_to": -104,
+          "pitch_by_pitch_k_bonus": 0.0,
+          "pitch_by_pitch_sample_pitches": 141,
+          "putaway_rate": 0.256,
+          "csw_rate": 0.277,
+          "two_strike_whiff_rate": 0.25,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -1567,32 +1618,32 @@ const BOARD = {
       "home_name": "Tampa Bay Rays",
       "away_starter": "Emerson Hancock",
       "home_starter": "Ian Seymour",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "1:40 PM ET",
       "day_night": "day",
-      "away_score": 4.8,
-      "home_score": 4.1,
-      "total": 8.9,
-      "home_win_probability": 0.364,
+      "away_score": 4.5,
+      "home_score": 4.2,
+      "total": 8.7,
+      "home_win_probability": 0.44,
       "moneyline_fairs": {
-        "away_probability": 0.636,
-        "home_probability": 0.364,
-        "away_fair": -175,
-        "home_fair": 175
+        "away_probability": 0.56,
+        "home_probability": 0.44,
+        "away_fair": -127,
+        "home_fair": 127
       },
       "team_total_fairs": {
-        "away": 4.8,
-        "home": 4.1
+        "away": 4.5,
+        "home": 4.2
       },
       "f5": {
-        "away_score": 2.3,
-        "home_score": 2.1,
+        "away_score": 2.2,
+        "home_score": 2.2,
         "total": 4.4,
-        "home_win_probability": 0.448,
-        "away_fair": -123,
-        "home_fair": 123
+        "home_win_probability": 0.5,
+        "away_fair": -100,
+        "home_fair": -100
       },
-      "synthesis": "The board sees a balanced run environment. SEA has the clearer projected scoring path.",
+      "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
         {
           "player": "Jonathan Aranda",
@@ -1857,17 +1908,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
-          "projected": 7.0,
+          "projected": 6.9,
           "base_projected": 6.0,
-          "fair": -156,
-          "under_fair": 156,
+          "fair": -138,
+          "under_fair": 138,
           "base_fair": 156,
           "base_under_fair": -156,
           "book": null,
-          "play_to": -146,
-          "under_play_to": 166,
+          "play_to": -128,
+          "under_play_to": 148,
           "base_play_to": 166,
           "base_under_play_to": -146,
+          "pitch_by_pitch_k_bonus": -0.14,
+          "pitch_by_pitch_sample_pitches": 1418,
+          "putaway_rate": 0.194,
+          "csw_rate": 0.234,
+          "two_strike_whiff_rate": 0.21,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -1876,7 +1932,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.7,
+          "projected": 7.2,
           "base_projected": 5.6,
           "fair": -186,
           "under_fair": 186,
@@ -1887,6 +1943,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -97,
           "base_under_play_to": 117,
+          "pitch_by_pitch_k_bonus": 0.49,
+          "pitch_by_pitch_sample_pitches": 921,
+          "putaway_rate": 0.247,
+          "csw_rate": 0.314,
+          "two_strike_whiff_rate": 0.287,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -1900,32 +1961,32 @@ const BOARD = {
       "home_name": "Detroit Tigers",
       "away_starter": "Zack Wheeler",
       "home_starter": "Tarik Skubal",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "1:40 PM ET",
       "day_night": "day",
-      "away_score": 4.5,
-      "home_score": 4.8,
-      "total": 9.3,
-      "home_win_probability": 0.56,
+      "away_score": 4.2,
+      "home_score": 4.7,
+      "total": 8.9,
+      "home_win_probability": 0.599,
       "moneyline_fairs": {
-        "away_probability": 0.44,
-        "home_probability": 0.56,
-        "away_fair": 127,
-        "home_fair": -127
+        "away_probability": 0.401,
+        "home_probability": 0.599,
+        "away_fair": 149,
+        "home_fair": -149
       },
       "team_total_fairs": {
-        "away": 4.5,
-        "home": 4.8
+        "away": 4.2,
+        "home": 4.7
       },
       "f5": {
-        "away_score": 2.4,
+        "away_score": 2.2,
         "home_score": 2.5,
-        "total": 4.9,
-        "home_win_probability": 0.526,
-        "away_fair": 111,
-        "home_fair": -111
+        "total": 4.7,
+        "home_win_probability": 0.578,
+        "away_fair": 137,
+        "home_fair": -137
       },
-      "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
+      "synthesis": "The board sees a balanced run environment. DET has the clearer projected scoring path.",
       "batter_prop_angles": [
         {
           "player": "Edmundo Sosa",
@@ -2172,7 +2233,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 7.5,
-          "projected": 9.4,
+          "projected": 9.6,
           "base_projected": 7.9,
           "fair": -186,
           "under_fair": 186,
@@ -2183,6 +2244,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -138,
           "base_under_play_to": 158,
+          "pitch_by_pitch_k_bonus": 0.25,
+          "pitch_by_pitch_sample_pitches": 1323,
+          "putaway_rate": 0.224,
+          "csw_rate": 0.271,
+          "two_strike_whiff_rate": 0.255,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -2191,7 +2257,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 7.5,
-          "projected": 9.3,
+          "projected": 9.8,
           "base_projected": 7.8,
           "fair": -186,
           "under_fair": 186,
@@ -2202,6 +2268,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -119,
           "base_under_play_to": 139,
+          "pitch_by_pitch_k_bonus": 0.5,
+          "pitch_by_pitch_sample_pitches": 972,
+          "putaway_rate": 0.245,
+          "csw_rate": 0.313,
+          "two_strike_whiff_rate": 0.322,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -2215,22 +2286,22 @@ const BOARD = {
       "home_name": "Miami Marlins",
       "away_starter": "Joey Cantillo",
       "home_starter": "Tyler Phillips",
-      "status": "Scheduled",
+      "status": "Game Over",
       "time": "1:40 PM ET",
       "day_night": "day",
       "away_score": 4.0,
-      "home_score": 4.0,
-      "total": 8.0,
-      "home_win_probability": 0.5,
+      "home_score": 3.9,
+      "total": 7.9,
+      "home_win_probability": 0.48,
       "moneyline_fairs": {
-        "away_probability": 0.5,
-        "home_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "away_probability": 0.52,
+        "home_probability": 0.48,
+        "away_fair": -108,
+        "home_fair": 108
       },
       "team_total_fairs": {
         "away": 4.0,
-        "home": 4.0
+        "home": 3.9
       },
       "f5": {
         "away_score": 2.0,
@@ -2469,7 +2540,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.2,
+          "projected": 6.4,
           "base_projected": 5.2,
           "fair": -186,
           "under_fair": 186,
@@ -2480,6 +2551,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 145,
           "base_under_play_to": -125,
+          "pitch_by_pitch_k_bonus": 0.18,
+          "pitch_by_pitch_sample_pitches": 1601,
+          "putaway_rate": 0.208,
+          "csw_rate": 0.303,
+          "two_strike_whiff_rate": 0.252,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -2488,7 +2564,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 3.5,
-          "projected": 4.6,
+          "projected": 4.5,
           "base_projected": 3.7,
           "fair": -186,
           "under_fair": 186,
@@ -2499,6 +2575,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -110,
           "base_under_play_to": 130,
+          "pitch_by_pitch_k_bonus": -0.08,
+          "pitch_by_pitch_sample_pitches": 1156,
+          "putaway_rate": 0.188,
+          "csw_rate": 0.287,
+          "two_strike_whiff_rate": 0.22,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -2512,30 +2593,30 @@ const BOARD = {
       "home_name": "Minnesota Twins",
       "away_starter": "José Soriano",
       "home_starter": "Taj Bradley",
-      "status": "Scheduled",
+      "status": "Game Over",
       "time": "2:10 PM ET",
       "day_night": "day",
-      "away_score": 4.3,
-      "home_score": 4.3,
-      "total": 8.6,
-      "home_win_probability": 0.5,
+      "away_score": 4.2,
+      "home_score": 4.1,
+      "total": 8.3,
+      "home_win_probability": 0.48,
       "moneyline_fairs": {
-        "away_probability": 0.5,
-        "home_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "away_probability": 0.52,
+        "home_probability": 0.48,
+        "away_fair": -108,
+        "home_fair": 108
       },
       "team_total_fairs": {
-        "away": 4.3,
-        "home": 4.3
+        "away": 4.2,
+        "home": 4.1
       },
       "f5": {
         "away_score": 2.2,
-        "home_score": 2.2,
-        "total": 4.4,
-        "home_win_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "home_score": 2.1,
+        "total": 4.3,
+        "home_win_probability": 0.474,
+        "away_fair": -111,
+        "home_fair": 111
       },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
@@ -2764,7 +2845,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
-          "projected": 7.5,
+          "projected": 7.8,
           "base_projected": 6.3,
           "fair": -186,
           "under_fair": 186,
@@ -2775,6 +2856,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 133,
           "base_under_play_to": -113,
+          "pitch_by_pitch_k_bonus": 0.29,
+          "pitch_by_pitch_sample_pitches": 1721,
+          "putaway_rate": 0.228,
+          "csw_rate": 0.289,
+          "two_strike_whiff_rate": 0.283,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -2783,7 +2869,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 6.5,
-          "projected": 7.8,
+          "projected": 8.0,
           "base_projected": 6.8,
           "fair": -186,
           "under_fair": 186,
@@ -2794,6 +2880,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -121,
           "base_under_play_to": 141,
+          "pitch_by_pitch_k_bonus": 0.17,
+          "pitch_by_pitch_sample_pitches": 1569,
+          "putaway_rate": 0.216,
+          "csw_rate": 0.277,
+          "two_strike_whiff_rate": 0.226,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -2807,22 +2898,22 @@ const BOARD = {
       "home_name": "Chicago White Sox",
       "away_starter": "J.T. Ginn",
       "home_starter": "Noah Schultz",
-      "status": "Scheduled",
+      "status": "Final",
       "time": "2:10 PM ET",
       "day_night": "day",
-      "away_score": 4.2,
-      "home_score": 4.6,
+      "away_score": 4.3,
+      "home_score": 4.5,
       "total": 8.8,
-      "home_win_probability": 0.579,
+      "home_win_probability": 0.54,
       "moneyline_fairs": {
-        "away_probability": 0.421,
-        "home_probability": 0.579,
-        "away_fair": 138,
-        "home_fair": -138
+        "away_probability": 0.46,
+        "home_probability": 0.54,
+        "away_fair": 117,
+        "home_fair": -117
       },
       "team_total_fairs": {
-        "away": 4.2,
-        "home": 4.6
+        "away": 4.3,
+        "home": 4.5
       },
       "f5": {
         "away_score": 2.1,
@@ -2832,7 +2923,7 @@ const BOARD = {
         "away_fair": 123,
         "home_fair": -123
       },
-      "synthesis": "The board sees a balanced run environment. CWS has the clearer projected scoring path.",
+      "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
         {
           "player": "Tyler Soderstrom",
@@ -3061,7 +3152,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
-          "projected": 6.0,
+          "projected": 6.1,
           "base_projected": 4.9,
           "fair": -186,
           "under_fair": 186,
@@ -3072,6 +3163,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -133,
           "base_under_play_to": 153,
+          "pitch_by_pitch_k_bonus": 0.08,
+          "pitch_by_pitch_sample_pitches": 1375,
+          "putaway_rate": 0.231,
+          "csw_rate": 0.266,
+          "two_strike_whiff_rate": 0.247,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -3080,17 +3176,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
-          "projected": 4.9,
+          "projected": 4.7,
           "base_projected": 4.3,
-          "fair": -137,
-          "under_fair": 137,
+          "fair": -117,
+          "under_fair": 117,
           "base_fair": 121,
           "base_under_fair": -121,
           "book": null,
-          "play_to": -127,
-          "under_play_to": 147,
+          "play_to": -107,
+          "under_play_to": 127,
           "base_play_to": 131,
           "base_under_play_to": -111,
+          "pitch_by_pitch_k_bonus": -0.17,
+          "pitch_by_pitch_sample_pitches": 721,
+          "putaway_rate": 0.163,
+          "csw_rate": 0.265,
+          "two_strike_whiff_rate": 0.203,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -3102,34 +3203,34 @@ const BOARD = {
       "home": "STL",
       "away_name": "Atlanta Braves",
       "home_name": "St. Louis Cardinals",
-      "away_starter": "JR Ritchie",
+      "away_starter": "Danny Young",
       "home_starter": "Dustin May",
-      "status": "Scheduled",
+      "status": "In Progress",
       "time": "2:15 PM ET",
       "day_night": "day",
       "away_score": 4.8,
-      "home_score": 4.7,
-      "total": 9.5,
-      "home_win_probability": 0.48,
+      "home_score": 5.3,
+      "total": 10.1,
+      "home_win_probability": 0.599,
       "moneyline_fairs": {
-        "away_probability": 0.52,
-        "home_probability": 0.48,
-        "away_fair": -108,
-        "home_fair": 108
+        "away_probability": 0.401,
+        "home_probability": 0.599,
+        "away_fair": 149,
+        "home_fair": -149
       },
       "team_total_fairs": {
         "away": 4.8,
-        "home": 4.7
+        "home": 5.3
       },
       "f5": {
         "away_score": 2.4,
-        "home_score": 2.4,
-        "total": 4.8,
-        "home_win_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "home_score": 2.6,
+        "total": 5.0,
+        "home_win_probability": 0.552,
+        "away_fair": 123,
+        "home_fair": -123
       },
-      "synthesis": "The board sees a higher-scoring game script. Neither side has a meaningful projected scoring edge.",
+      "synthesis": "The board sees a higher-scoring game script. STL has the clearer projected scoring path.",
       "batter_prop_angles": [
         {
           "player": "Mauricio Dubón",
@@ -3150,26 +3251,6 @@ const BOARD = {
           "label": "Strong angle",
           "explainer": "Mauricio Dubón hits angle vs Dustin May on Cutter (22% usage): high contact fit, starter shows this pitch often, hit-market profile.",
           "metrics": "0.440 BA · 0.642 SLG · 3% barrel"
-        },
-        {
-          "player": "Alec Burleson",
-          "team": "STL",
-          "market": "Batter hits",
-          "side": "Over",
-          "line": 0.5,
-          "probability": 0.712,
-          "fair": -247,
-          "play_to": -237,
-          "pitcher": "JR Ritchie",
-          "pitch_type": "CU",
-          "pitch_name": "Curveball",
-          "usage": 26.0,
-          "ba": 0.359,
-          "slg": 0.691,
-          "barrel_rate": 0.152,
-          "label": "Strong angle",
-          "explainer": "Alec Burleson hits angle vs JR Ritchie on Curveball (26% usage): high contact fit, starter shows this pitch often, hit-market profile.",
-          "metrics": "0.359 BA · 0.691 SLG · 15% barrel"
         },
         {
           "player": "Jorge Mateo",
@@ -3232,46 +3313,6 @@ const BOARD = {
           "metrics": "0.327 BA · 0.606 SLG · 16% barrel"
         },
         {
-          "player": "Alec Burleson",
-          "team": "STL",
-          "market": "Batter HR",
-          "side": "Over",
-          "line": 0.5,
-          "probability": 0.108,
-          "fair": 826,
-          "play_to": 836,
-          "pitcher": "JR Ritchie",
-          "pitch_type": "CU",
-          "pitch_name": "Curveball",
-          "usage": 26.0,
-          "ba": 0.359,
-          "slg": 0.691,
-          "barrel_rate": 0.152,
-          "label": "Strong angle",
-          "explainer": "Alec Burleson HR angle vs JR Ritchie on Curveball (26% usage): home-run barrel signal, starter shows this pitch often.",
-          "metrics": "0.359 BA · 0.691 SLG · 15% barrel"
-        },
-        {
-          "player": "Jordan Walker",
-          "team": "STL",
-          "market": "Batter hits",
-          "side": "Over",
-          "line": 0.5,
-          "probability": 0.7,
-          "fair": -233,
-          "play_to": -223,
-          "pitcher": "JR Ritchie",
-          "pitch_type": "CH",
-          "pitch_name": "Changeup",
-          "usage": 17.1,
-          "ba": 0.333,
-          "slg": 0.611,
-          "barrel_rate": 0.136,
-          "label": "Angle",
-          "explainer": "Jordan Walker hits angle vs JR Ritchie on Changeup (17% usage): hit-market profile.",
-          "metrics": "0.333 BA · 0.611 SLG · 14% barrel"
-        },
-        {
           "player": "Matt Olson",
           "team": "ATL",
           "market": "Batter hits",
@@ -3312,72 +3353,113 @@ const BOARD = {
           "metrics": "0.300 BA · 0.600 SLG · 50% barrel"
         },
         {
-          "player": "Alec Burleson",
-          "team": "STL",
+          "player": "Mauricio Dubón",
+          "team": "ATL",
           "market": "Batter TB",
           "side": "Over",
           "line": 1.5,
-          "probability": 0.438,
-          "fair": 129,
-          "play_to": 139,
-          "pitcher": "JR Ritchie",
-          "pitch_type": "CU",
-          "pitch_name": "Curveball",
-          "usage": 26.0,
-          "ba": 0.359,
-          "slg": 0.691,
-          "barrel_rate": 0.152,
+          "probability": 0.426,
+          "fair": 135,
+          "play_to": 145,
+          "pitcher": "Dustin May",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 22.2,
+          "ba": 0.44,
+          "slg": 0.642,
+          "barrel_rate": 0.029,
           "label": "Angle",
-          "explainer": "Alec Burleson TB angle vs JR Ritchie on Curveball (26% usage): extra-base damage fit, barrel-backed contact, starter shows this pitch often.",
-          "metrics": "0.359 BA · 0.691 SLG · 15% barrel"
+          "explainer": "Mauricio Dubón TB angle vs Dustin May on Cutter (22% usage): starter shows this pitch often.",
+          "metrics": "0.440 BA · 0.642 SLG · 3% barrel"
+        },
+        {
+          "player": "Matt Olson",
+          "team": "ATL",
+          "market": "Batter TB",
+          "side": "Over",
+          "line": 1.5,
+          "probability": 0.416,
+          "fair": 140,
+          "play_to": 150,
+          "pitcher": "Dustin May",
+          "pitch_type": "SI",
+          "pitch_name": "Sinker",
+          "usage": 17.8,
+          "ba": 0.327,
+          "slg": 0.606,
+          "barrel_rate": 0.165,
+          "label": "Angle",
+          "explainer": "Matt Olson TB angle vs Dustin May on Sinker (18% usage): barrel-backed contact.",
+          "metrics": "0.327 BA · 0.606 SLG · 16% barrel"
+        },
+        {
+          "player": "Drake Baldwin",
+          "team": "ATL",
+          "market": "Batter TB",
+          "side": "Over",
+          "line": 1.5,
+          "probability": 0.415,
+          "fair": 141,
+          "play_to": 151,
+          "pitcher": "Dustin May",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 19.3,
+          "ba": 0.3,
+          "slg": 0.6,
+          "barrel_rate": 0.5,
+          "label": "Angle",
+          "explainer": "Drake Baldwin TB angle vs Dustin May on Sweeper (19% usage): barrel-backed contact, starter shows this pitch often.",
+          "metrics": "0.300 BA · 0.600 SLG · 50% barrel"
+        },
+        {
+          "player": "Jorge Mateo",
+          "team": "ATL",
+          "market": "Batter TB",
+          "side": "Over",
+          "line": 1.5,
+          "probability": 0.393,
+          "fair": 154,
+          "play_to": 164,
+          "pitcher": "Dustin May",
+          "pitch_type": "FF",
+          "pitch_name": "4-Seam Fastball",
+          "usage": 26.5,
+          "ba": 0.348,
+          "slg": 0.519,
+          "barrel_rate": 0.082,
+          "label": "Angle",
+          "explainer": "Jorge Mateo TB angle vs Dustin May on 4-Seam Fastball (26% usage): starter shows this pitch often.",
+          "metrics": "0.348 BA · 0.519 SLG · 8% barrel"
         }
       ],
       "k_targets": [
         {
           "batter": "Jordan Walker",
           "team": "STL",
-          "pitcher": "JR Ritchie",
-          "pitch_type": "CH",
-          "pitch_name": "Changeup",
-          "usage": 17.1,
-          "whiff_rate": 0.37,
-          "chase_rate": 0.397,
+          "pitcher": "Danny Young",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 45.7,
+          "whiff_rate": 0.341,
+          "chase_rate": 0.333,
           "market": "Batter strikeouts",
           "side": "Over",
           "line": 0.5,
-          "probability": 0.569,
-          "label": "K target",
-          "explainer": "Jordan Walker has a high whiff profile against Changeup; JR Ritchie throws it 17% of the time.",
-          "fair": -132,
-          "play_to": -122
+          "probability": 0.68,
+          "label": "Strong K target",
+          "explainer": "Jordan Walker has a high whiff profile against Sweeper; Danny Young throws it 46% of the time.",
+          "fair": -213,
+          "play_to": -203
         }
       ],
       "prop_angles": [
-        {
-          "player": "JR Ritchie",
-          "market": "Pitcher strikeouts",
-          "side": "Over",
-          "line": 4.5,
-          "projected": 5.5,
-          "base_projected": 4.7,
-          "fair": -186,
-          "under_fair": 186,
-          "base_fair": -115,
-          "base_under_fair": 115,
-          "book": null,
-          "play_to": -176,
-          "under_play_to": 196,
-          "base_play_to": -105,
-          "base_under_play_to": 125,
-          "designation": "Watch price",
-          "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
-        },
         {
           "player": "Dustin May",
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.2,
+          "projected": 6.3,
           "base_projected": 5.2,
           "fair": -186,
           "under_fair": 186,
@@ -3388,6 +3470,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 136,
           "base_under_play_to": -116,
+          "pitch_by_pitch_k_bonus": 0.03,
+          "pitch_by_pitch_sample_pitches": 1319,
+          "putaway_rate": 0.206,
+          "csw_rate": 0.281,
+          "two_strike_whiff_rate": 0.213,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -3401,30 +3488,30 @@ const BOARD = {
       "home_name": "Texas Rangers",
       "away_starter": "Cristian Javier",
       "home_starter": "MacKenzie Gore",
-      "status": "Scheduled",
+      "status": "In Progress",
       "time": "2:35 PM ET",
       "day_night": "day",
-      "away_score": 4.6,
-      "home_score": 3.7,
-      "total": 8.3,
-      "home_win_probability": 0.327,
+      "away_score": 4.5,
+      "home_score": 3.9,
+      "total": 8.4,
+      "home_win_probability": 0.382,
       "moneyline_fairs": {
-        "away_probability": 0.673,
-        "home_probability": 0.327,
-        "away_fair": -206,
-        "home_fair": 206
+        "away_probability": 0.618,
+        "home_probability": 0.382,
+        "away_fair": -162,
+        "home_fair": 162
       },
       "team_total_fairs": {
-        "away": 4.6,
-        "home": 3.7
+        "away": 4.5,
+        "home": 3.9
       },
       "f5": {
         "away_score": 2.3,
-        "home_score": 1.7,
-        "total": 4.0,
-        "home_win_probability": 0.347,
-        "away_fair": -188,
-        "home_fair": 188
+        "home_score": 1.8,
+        "total": 4.1,
+        "home_win_probability": 0.371,
+        "away_fair": -170,
+        "home_fair": 170
       },
       "synthesis": "The board sees a balanced run environment. HOU has the clearer projected scoring path.",
       "batter_prop_angles": [
@@ -3673,17 +3760,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 1.5,
-          "projected": 2.2,
+          "projected": 1.9,
           "base_projected": 1.7,
-          "fair": -186,
-          "under_fair": 186,
+          "fair": -139,
+          "under_fair": 139,
           "base_fair": -121,
           "base_under_fair": 121,
           "book": null,
-          "play_to": -176,
-          "under_play_to": 196,
+          "play_to": -129,
+          "under_play_to": 149,
           "base_play_to": -111,
           "base_under_play_to": 131,
+          "pitch_by_pitch_k_bonus": -0.35,
+          "pitch_by_pitch_sample_pitches": 227,
+          "putaway_rate": 0.115,
+          "csw_rate": 0.211,
+          "two_strike_whiff_rate": 0.161,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -3692,7 +3784,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 7.0,
+          "projected": 7.1,
           "base_projected": 5.9,
           "fair": -186,
           "under_fair": 186,
@@ -3703,6 +3795,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -136,
           "base_under_play_to": 156,
+          "pitch_by_pitch_k_bonus": 0.13,
+          "pitch_by_pitch_sample_pitches": 1648,
+          "putaway_rate": 0.216,
+          "csw_rate": 0.259,
+          "two_strike_whiff_rate": 0.261,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -3716,30 +3813,30 @@ const BOARD = {
       "home_name": "San Francisco Giants",
       "away_starter": "Michael Lorenzen",
       "home_starter": "Trevor McDonald",
-      "status": "Scheduled",
+      "status": "In Progress",
       "time": "4:05 PM ET",
       "day_night": "day",
-      "away_score": 4.4,
-      "home_score": 3.9,
-      "total": 8.3,
-      "home_win_probability": 0.401,
+      "away_score": 4.5,
+      "home_score": 4.1,
+      "total": 8.6,
+      "home_win_probability": 0.421,
       "moneyline_fairs": {
-        "away_probability": 0.599,
-        "home_probability": 0.401,
-        "away_fair": -149,
-        "home_fair": 149
+        "away_probability": 0.579,
+        "home_probability": 0.421,
+        "away_fair": -138,
+        "home_fair": 138
       },
       "team_total_fairs": {
-        "away": 4.4,
-        "home": 3.9
+        "away": 4.5,
+        "home": 4.1
       },
       "f5": {
         "away_score": 2.2,
-        "home_score": 1.9,
-        "total": 4.1,
-        "home_win_probability": 0.422,
-        "away_fair": -137,
-        "home_fair": 137
+        "home_score": 2.0,
+        "total": 4.2,
+        "home_win_probability": 0.448,
+        "away_fair": -123,
+        "home_fair": 123
       },
       "synthesis": "The board sees a balanced run environment. COL has the clearer projected scoring path.",
       "batter_prop_angles": [
@@ -3970,17 +4067,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 3.5,
-          "projected": 4.1,
+          "projected": 3.7,
           "base_projected": 3.4,
-          "fair": -169,
-          "under_fair": 169,
+          "fair": -123,
+          "under_fair": 123,
           "base_fair": 110,
           "base_under_fair": -110,
           "book": null,
-          "play_to": -159,
-          "under_play_to": 179,
+          "play_to": -113,
+          "under_play_to": 133,
           "base_play_to": 120,
           "base_under_play_to": -100,
+          "pitch_by_pitch_k_bonus": -0.35,
+          "pitch_by_pitch_sample_pitches": 1613,
+          "putaway_rate": 0.16,
+          "csw_rate": 0.254,
+          "two_strike_whiff_rate": 0.177,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -3989,17 +4091,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 4.5,
-          "projected": 5.0,
+          "projected": 4.8,
           "base_projected": 4.0,
-          "fair": -154,
-          "under_fair": 154,
+          "fair": -133,
+          "under_fair": 133,
           "base_fair": 151,
           "base_under_fair": -151,
           "book": null,
-          "play_to": -144,
-          "under_play_to": 164,
+          "play_to": -123,
+          "under_play_to": 143,
           "base_play_to": 161,
           "base_under_play_to": -141,
+          "pitch_by_pitch_k_bonus": -0.16,
+          "pitch_by_pitch_sample_pitches": 961,
+          "putaway_rate": 0.181,
+          "csw_rate": 0.274,
+          "two_strike_whiff_rate": 0.2,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -4013,21 +4120,21 @@ const BOARD = {
       "home_name": "Los Angeles Dodgers",
       "away_starter": "Mitch Bratt",
       "home_starter": "Emmet Sheehan",
-      "status": "Scheduled",
+      "status": "In Progress",
       "time": "4:10 PM ET",
       "day_night": "day",
-      "away_score": 4.5,
+      "away_score": 4.4,
       "home_score": 5.8,
-      "total": 10.3,
-      "home_win_probability": 0.739,
+      "total": 10.2,
+      "home_win_probability": 0.754,
       "moneyline_fairs": {
-        "away_probability": 0.261,
-        "home_probability": 0.739,
-        "away_fair": 283,
-        "home_fair": -283
+        "away_probability": 0.246,
+        "home_probability": 0.754,
+        "away_fair": 307,
+        "home_fair": -307
       },
       "team_total_fairs": {
-        "away": 4.5,
+        "away": 4.4,
         "home": 5.8
       },
       "f5": {
@@ -4278,6 +4385,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 164,
           "base_under_play_to": -144,
+          "pitch_by_pitch_k_bonus": 0.0,
+          "pitch_by_pitch_sample_pitches": 15,
+          "putaway_rate": 0.4,
+          "csw_rate": 0.333,
+          "two_strike_whiff_rate": 0.333,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -4286,7 +4398,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 6.6,
+          "projected": 6.8,
           "base_projected": 5.5,
           "fair": -186,
           "under_fair": 186,
@@ -4297,6 +4409,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": 113,
           "base_under_play_to": -93,
+          "pitch_by_pitch_k_bonus": 0.21,
+          "pitch_by_pitch_sample_pitches": 1367,
+          "putaway_rate": 0.207,
+          "csw_rate": 0.286,
+          "two_strike_whiff_rate": 0.267,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -4310,32 +4427,32 @@ const BOARD = {
       "home_name": "San Diego Padres",
       "away_starter": "Kevin Gausman",
       "home_starter": "Germán Márquez",
-      "status": "Scheduled",
+      "status": "In Progress",
       "time": "4:10 PM ET",
       "day_night": "day",
-      "away_score": 3.6,
+      "away_score": 3.8,
       "home_score": 4.4,
-      "total": 8.0,
-      "home_win_probability": 0.655,
+      "total": 8.2,
+      "home_win_probability": 0.618,
       "moneyline_fairs": {
-        "away_probability": 0.345,
-        "home_probability": 0.655,
-        "away_fair": 190,
-        "home_fair": -190
+        "away_probability": 0.382,
+        "home_probability": 0.618,
+        "away_fair": 162,
+        "home_fair": -162
       },
       "team_total_fairs": {
-        "away": 3.6,
+        "away": 3.8,
         "home": 4.4
       },
       "f5": {
-        "away_score": 1.8,
+        "away_score": 1.9,
         "home_score": 2.3,
-        "total": 4.1,
-        "home_win_probability": 0.629,
-        "away_fair": 170,
-        "home_fair": -170
+        "total": 4.2,
+        "home_win_probability": 0.604,
+        "away_fair": 153,
+        "home_fair": -153
       },
-      "synthesis": "The board sees a lower-scoring game script. SD has the clearer projected scoring path.",
+      "synthesis": "The board sees a balanced run environment. SD has the clearer projected scoring path.",
       "batter_prop_angles": [
         {
           "player": "Samad Taylor",
@@ -4444,7 +4561,7 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 5.5,
-          "projected": 7.1,
+          "projected": 7.2,
           "base_projected": 5.9,
           "fair": -186,
           "under_fair": 186,
@@ -4455,6 +4572,11 @@ const BOARD = {
           "under_play_to": 196,
           "base_play_to": -135,
           "base_under_play_to": 155,
+          "pitch_by_pitch_k_bonus": 0.04,
+          "pitch_by_pitch_sample_pitches": 1717,
+          "putaway_rate": 0.198,
+          "csw_rate": 0.276,
+          "two_strike_whiff_rate": 0.222,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         },
@@ -4463,17 +4585,22 @@ const BOARD = {
           "market": "Pitcher strikeouts",
           "side": "Over",
           "line": 3.5,
-          "projected": 3.9,
+          "projected": 3.5,
           "base_projected": 3.2,
-          "fair": -143,
-          "under_fair": 143,
+          "fair": -104,
+          "under_fair": 104,
           "base_fair": 129,
           "base_under_fair": -129,
           "book": null,
-          "play_to": -133,
-          "under_play_to": 153,
+          "play_to": -94,
+          "under_play_to": 114,
           "base_play_to": 139,
           "base_under_play_to": -119,
+          "pitch_by_pitch_k_bonus": -0.35,
+          "pitch_by_pitch_sample_pitches": 639,
+          "putaway_rate": 0.133,
+          "csw_rate": 0.227,
+          "two_strike_whiff_rate": 0.14,
           "designation": "Watch price",
           "explainer": "Ceiling game view: starts from base K workload, adds chase/whiff upside, and suppresses the ceiling when the starter's damage profile threatens early traffic or shorter leash."
         }
@@ -4525,44 +4652,44 @@ const BOARD = {
     ],
     "best_pitcher_strikeout_bets": [
       {
-        "title": "Zack Wheeler over Ks",
-        "subtitle": "Base 7.9 · ceiling 9.4 · fallback line 7.5",
+        "title": "Tarik Skubal over Ks",
+        "subtitle": "Base 7.8 · ceiling 9.8 · fallback line 7.5",
         "game": "PHI @ DET",
+        "fair": -186,
+        "play_to": -176,
+        "score": 2.3000000000000007
+      },
+      {
+        "title": "Zack Wheeler over Ks",
+        "subtitle": "Base 7.9 · ceiling 9.6 · fallback line 7.5",
+        "game": "PHI @ DET",
+        "fair": -186,
+        "play_to": -176,
+        "score": 2.0999999999999996
+      },
+      {
+        "title": "Paul Skenes over Ks",
+        "subtitle": "Base 6.9 · ceiling 8.4 · fallback line 6.5",
+        "game": "MIL @ PIT",
         "fair": -186,
         "play_to": -176,
         "score": 1.9000000000000004
       },
       {
-        "title": "Tarik Skubal over Ks",
-        "subtitle": "Base 7.8 · ceiling 9.3 · fallback line 7.5",
-        "game": "PHI @ DET",
+        "title": "Ian Seymour over Ks",
+        "subtitle": "Base 5.6 · ceiling 7.2 · fallback line 5.5",
+        "game": "SEA @ TB",
         "fair": -186,
         "play_to": -176,
-        "score": 1.8000000000000007
-      },
-      {
-        "title": "Paul Skenes over Ks",
-        "subtitle": "Base 6.9 · ceiling 8.2 · fallback line 6.5",
-        "game": "MIL @ PIT",
-        "fair": -186,
-        "play_to": -176,
-        "score": 1.6999999999999993
+        "score": 1.7000000000000002
       },
       {
         "title": "Kevin Gausman over Ks",
-        "subtitle": "Base 5.9 · ceiling 7.1 · fallback line 5.5",
+        "subtitle": "Base 5.9 · ceiling 7.2 · fallback line 5.5",
         "game": "TOR @ SD",
         "fair": -186,
         "play_to": -176,
-        "score": 1.5999999999999996
-      },
-      {
-        "title": "J.T. Ginn over Ks",
-        "subtitle": "Base 4.9 · ceiling 6.0 · fallback line 4.5",
-        "game": "ATH @ CWS",
-        "fair": -186,
-        "play_to": -176,
-        "score": 1.5
+        "score": 1.7000000000000002
       }
     ],
     "best_batter_strikeout_targets": [
@@ -4583,6 +4710,14 @@ const BOARD = {
         "score": 0.68
       },
       {
+        "title": "Jordan Walker over 0.5 K",
+        "subtitle": "STL vs Danny Young · Sweeper 45.7%",
+        "game": "ATL @ STL",
+        "fair": -213,
+        "play_to": -203,
+        "score": 0.68
+      },
+      {
         "title": "Esmerlyn Valdez over 0.5 K",
         "subtitle": "PIT vs Robert Gasser · 4-Seam Fastball 22.9%",
         "game": "MIL @ PIT",
@@ -4597,24 +4732,25 @@ const BOARD = {
         "fair": -165,
         "play_to": -155,
         "score": 0.622
-      },
-      {
-        "title": "Kyle Schwarber over 0.5 K",
-        "subtitle": "PHI vs Tarik Skubal · Changeup 24.9%",
-        "game": "PHI @ DET",
-        "fair": -161,
-        "play_to": -151,
-        "score": 0.617
       }
     ],
     "best_three_game_side_total_parlay": [
       {
         "title": "Over lean",
-        "subtitle": "Fair total 10.3",
+        "subtitle": "Fair total 10.2",
         "game": "AZ @ LAD",
         "fair": null,
         "play_to": null,
-        "score": 1.6000000000000014,
+        "score": 1.5,
+        "type": "total"
+      },
+      {
+        "title": "Over lean",
+        "subtitle": "Fair total 10.1",
+        "game": "ATL @ STL",
+        "fair": null,
+        "play_to": null,
+        "score": 1.4000000000000004,
         "type": "total"
       },
       {
@@ -4625,25 +4761,24 @@ const BOARD = {
         "play_to": null,
         "score": 1.200000000000001,
         "type": "total"
-      },
-      {
-        "title": "Over lean",
-        "subtitle": "Fair total 9.5",
-        "game": "ATL @ STL",
-        "fair": null,
-        "play_to": null,
-        "score": 0.8000000000000007,
-        "type": "total"
       }
     ],
     "best_total_bets": [
       {
         "title": "Over lean",
-        "subtitle": "Fair total 10.3",
+        "subtitle": "Fair total 10.2",
         "game": "AZ @ LAD",
         "fair": null,
         "play_to": null,
-        "score": 1.6000000000000014
+        "score": 1.5
+      },
+      {
+        "title": "Over lean",
+        "subtitle": "Fair total 10.1",
+        "game": "ATL @ STL",
+        "fair": null,
+        "play_to": null,
+        "score": 1.4000000000000004
       },
       {
         "title": "Over lean",
@@ -4654,34 +4789,25 @@ const BOARD = {
         "score": 1.200000000000001
       },
       {
-        "title": "Over lean",
-        "subtitle": "Fair total 9.5",
-        "game": "ATL @ STL",
-        "fair": null,
-        "play_to": null,
-        "score": 0.8000000000000007
-      },
-      {
         "title": "Under lean",
-        "subtitle": "Fair total 8.0",
+        "subtitle": "Fair total 7.9",
         "game": "CLE @ MIA",
         "fair": null,
         "play_to": null,
-        "score": 0.6999999999999993
+        "score": 0.7999999999999989
       },
       {
-        "title": "Under lean",
-        "subtitle": "Fair total 8.0",
-        "game": "TOR @ SD",
+        "title": "Over lean",
+        "subtitle": "Fair total 9.3",
+        "game": "CHC @ CIN",
         "fair": null,
         "play_to": null,
-        "score": 0.6999999999999993
+        "score": 0.6000000000000014
       }
     ]
   },
   "suppressed_games": []
-}
-;
+};
 
 // CUSTOMER_BOARD_SAFE: this component receives only published customer
 // forecasts. Model inputs, calibration tables, and scoring mechanics stay out
@@ -4691,6 +4817,7 @@ const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
 const PROP_PRICE_BLEND_WEIGHT = 0.18;
 const K_FAIR_SCALE = 1.55;
 const RESULTS_HISTORY_KEY = "cc-baseball-results-history-v1";
+const BET_LEDGER_KEY = "cc-baseball-bet-ledger-v1";
 
 const APP_CSS = `
   :root {
@@ -5185,6 +5312,7 @@ function propMarketLabel(key) {
   if (key === "batter_home_runs") return "Batter HR";
   if (key === "batter_hits") return "Batter hits";
   if (key === "batter_total_bases") return "Batter TB";
+  if (key === "batter_strikeouts") return "Batter strikeouts";
   return key;
 }
 
@@ -5192,6 +5320,7 @@ function propMarketText(market) {
   if (market === "Batter TB") return "total bases";
   if (market === "Batter HR") return "homerun";
   if (market === "Batter hits") return "hits";
+  if (market === "Batter strikeouts") return "strikeouts";
   return market || "Prop";
 }
 
@@ -5201,6 +5330,10 @@ function gameKey(game) {
 
 function isActionTone(tone) {
   return tone === "bet" || tone === "strong";
+}
+
+function isGradedBetTone(tone) {
+  return tone === "lean" || tone === "bet" || tone === "strong";
 }
 
 function tierRank(tone) {
@@ -5311,7 +5444,168 @@ function findStatsGameForProjection(statsGames, projection) {
   }) || null;
 }
 
-function gradeCompletedGames(projections, statsGames) {
+function sanitizeBetEdge(edge) {
+  if (!edge || !isGradedBetTone(edge.tone)) return null;
+  if (!edge.betKind || !validBookPrice(edge.book)) return null;
+  return {
+    category: edge.category || "Bet",
+    betKind: edge.betKind,
+    propMarket: edge.propMarket || null,
+    player: edge.player || null,
+    team: edge.team || null,
+    teamSide: edge.teamSide || null,
+    betSide: edge.betSide || null,
+    line: Number.isFinite(Number(edge.line)) ? Number(edge.line) : null,
+    title: edge.title || "Bet",
+    subtitle: edge.subtitle || "",
+    fair: Number.isFinite(Number(edge.fair)) ? Number(edge.fair) : null,
+    book: Number(edge.book),
+    bookName: edge.bookName || "Sportsbook",
+    label: edge.label || "Lean",
+    tone: edge.tone || "lean",
+    edge: Number.isFinite(Number(edge.edge)) ? Number(edge.edge) : null,
+  };
+}
+
+function betEdgesFromDisplay(display) {
+  return (display?.allEdges || []).map(sanitizeBetEdge).filter(Boolean);
+}
+
+function normalizeBetLedger(ledger) {
+  if (!ledger || typeof ledger !== "object") return {};
+  const normalized = {};
+  for (const [date, games] of Object.entries(ledger)) {
+    if (!date || !games || typeof games !== "object") continue;
+    const nextGames = {};
+    for (const [key, bets] of Object.entries(games)) {
+      const cleaned = Array.isArray(bets) ? bets.map(sanitizeBetEdge).filter(Boolean) : [];
+      if (cleaned.length) nextGames[key] = cleaned;
+    }
+    if (Object.keys(nextGames).length) normalized[date] = nextGames;
+  }
+  return normalized;
+}
+
+function readStoredBetLedger(date) {
+  if (typeof window === "undefined" || !window.localStorage) return {};
+  try {
+    const ledger = normalizeBetLedger(JSON.parse(window.localStorage.getItem(BET_LEDGER_KEY) || "{}"));
+    return date ? ledger[date] || {} : ledger;
+  } catch {
+    return {};
+  }
+}
+
+function writeStoredBetLedger(date, displays) {
+  if (typeof window === "undefined" || !window.localStorage || !date) return;
+  const gameBets = {};
+  for (const display of displays || []) {
+    const bets = betEdgesFromDisplay(display);
+    if (bets.length) gameBets[gameKey(display.game)] = bets;
+  }
+  if (!Object.keys(gameBets).length) return;
+  try {
+    const ledger = normalizeBetLedger(JSON.parse(window.localStorage.getItem(BET_LEDGER_KEY) || "{}"));
+    ledger[date] = { ...(ledger[date] || {}), ...gameBets };
+    window.localStorage.setItem(BET_LEDGER_KEY, JSON.stringify(ledger));
+  } catch {
+    // Bet results can still grade from in-memory odds during the current session.
+  }
+}
+
+function firstFiveScores(feed) {
+  const innings = feed?.liveData?.linescore?.innings;
+  if (!Array.isArray(innings) || innings.length < 5) return null;
+  const firstFive = innings.slice(0, 5);
+  const away = firstFive.reduce((sum, inning) => sum + (Number(inning?.away?.runs) || 0), 0);
+  const home = firstFive.reduce((sum, inning) => sum + (Number(inning?.home?.runs) || 0), 0);
+  return { away, home, total: away + home };
+}
+
+function findBoxPlayerStats(feed, playerName, group) {
+  const wanted = normal(playerName);
+  if (!wanted) return null;
+  const teams = feed?.liveData?.boxscore?.teams || {};
+  for (const side of ["away", "home"]) {
+    for (const player of Object.values(teams?.[side]?.players || {})) {
+      const fullName = player?.person?.fullName;
+      const name = normal(fullName);
+      if (!name || (name !== wanted && !name.includes(wanted) && !wanted.includes(name))) continue;
+      return player?.stats?.[group] || null;
+    }
+  }
+  return null;
+}
+
+function compareTotalSide(value, line, side) {
+  const actual = Number(value);
+  const target = Number(line);
+  const betSide = normal(side);
+  if (!Number.isFinite(actual) || !Number.isFinite(target) || !betSide) return { result: "Pending", correct: null, push: false };
+  if (actual === target) return { result: "Push", correct: null, push: true };
+  const won = betSide.includes("over") ? actual > target : actual < target;
+  return { result: won ? "Hit" : "Miss", correct: won, push: false };
+}
+
+function gradeBet(edge, projection, actual, feed) {
+  const base = {
+    ...edge,
+    result: "Pending",
+    correct: null,
+    push: false,
+    actual: null,
+  };
+  if (edge.betKind === "moneyline") {
+    if (actual.side === "tie") return { ...base, result: "Push", push: true };
+    const won = edge.betSide === actual.side;
+    return { ...base, result: won ? "Hit" : "Miss", correct: won, actual: actual.side === "away" ? projection.away : projection.home };
+  }
+  if (edge.betKind === "full_total") {
+    const graded = compareTotalSide(actual.total, edge.line, edge.betSide);
+    return { ...base, ...graded, actual: actual.total };
+  }
+  if (edge.betKind === "team_total") {
+    const teamRuns = edge.teamSide === "away" ? actual.away : edge.teamSide === "home" ? actual.home : null;
+    const graded = compareTotalSide(teamRuns, edge.line, edge.betSide);
+    return { ...base, ...graded, actual: teamRuns };
+  }
+  if (edge.betKind === "f5_moneyline" || edge.betKind === "f5_total") {
+    const f5 = firstFiveScores(feed);
+    if (!f5) return base;
+    if (edge.betKind === "f5_total") {
+      const graded = compareTotalSide(f5.total, edge.line, edge.betSide);
+      return { ...base, ...graded, actual: f5.total };
+    }
+    const f5Side = f5.home > f5.away ? "home" : f5.away > f5.home ? "away" : "tie";
+    if (f5Side === "tie") return { ...base, result: "Push", push: true, actual: "Tie" };
+    const won = edge.betSide === f5Side;
+    return { ...base, result: won ? "Hit" : "Miss", correct: won, actual: f5Side === "away" ? projection.away : projection.home };
+  }
+  if (edge.betKind === "pitcher_strikeouts") {
+    const stats = findBoxPlayerStats(feed, edge.player, "pitching");
+    const strikeouts = Number(stats?.strikeOuts);
+    const graded = compareTotalSide(strikeouts, edge.line, edge.betSide);
+    return { ...base, ...graded, actual: Number.isFinite(strikeouts) ? strikeouts : null };
+  }
+  if (edge.betKind === "batter_prop") {
+    const stats = findBoxPlayerStats(feed, edge.player, "batting");
+    const market = edge.propMarket;
+    const value = market === "Batter HR"
+      ? Number(stats?.homeRuns)
+      : market === "Batter hits"
+        ? Number(stats?.hits)
+        : market === "Batter TB"
+          ? Number(stats?.totalBases)
+          : market === "Batter strikeouts"
+            ? Number(stats?.strikeOuts)
+            : NaN;
+    const graded = compareTotalSide(value, edge.line, edge.betSide);
+    return { ...base, ...graded, actual: Number.isFinite(value) ? value : null };
+  }
+  return base;
+}
+
+function gradeCompletedGames(projections, statsGames, displayByGame = {}, detailByGame = {}, storedBetLedger = {}) {
   return (projections || []).map((projection) => {
     const statsGame = findStatsGameForProjection(statsGames || [], projection);
     if (!statsGame || !isFinalStatsGame(statsGame)) return null;
@@ -5322,40 +5616,33 @@ function gradeCompletedGames(projections, statsGames) {
     if (![actualAway, actualHome, projectedAway, projectedHome].every(Number.isFinite)) return null;
     const projectedTotal = Number.isFinite(Number(projection?.total)) ? Number(projection.total) : projectedAway + projectedHome;
     const actualTotal = actualAway + actualHome;
-    const totalLine = [
-      projection?.closing_total,
-      projection?.market_total,
-      projection?.book_total,
-      projection?.total_line,
-    ].map(Number).find(Number.isFinite);
     const projectedMargin = projectedHome - projectedAway;
     const actualMargin = actualHome - actualAway;
-    const pickSide = Math.abs(projectedMargin) < 0.05 ? null : projectedMargin > 0 ? "home" : "away";
     const actualSide = actualMargin > 0 ? "home" : actualMargin < 0 ? "away" : "tie";
-    const winnerCorrect = pickSide && actualSide !== "tie" ? pickSide === actualSide : null;
-    const pickTeam = pickSide === "away" ? projection.away : pickSide === "home" ? projection.home : "No side";
     const actualWinner = actualSide === "away" ? projection.away : actualSide === "home" ? projection.home : "Tie";
     const totalDelta = actualTotal - projectedTotal;
     const totalError = Math.abs(totalDelta);
-    const totalPick = Number.isFinite(totalLine) && Math.abs(projectedTotal - totalLine) >= 0.05 ? projectedTotal > totalLine ? "Over" : "Under" : null;
-    const actualTotalSide = Number.isFinite(totalLine) ? actualTotal > totalLine ? "Over" : actualTotal < totalLine ? "Under" : "Push" : null;
-    const totalPush = Boolean(totalPick && actualTotalSide === "Push");
-    const totalCorrect = totalPick && actualTotalSide && actualTotalSide !== "Push" ? totalPick === actualTotalSide : null;
+    const key = gameKey(projection);
+    const liveBets = betEdgesFromDisplay(displayByGame[key]);
+    const savedBets = storedBetLedger[key] || [];
+    const betsToGrade = liveBets.length ? liveBets : savedBets;
+    const actual = { away: actualAway, home: actualHome, total: actualTotal, side: actualSide };
+    const feed = detailByGame[String(statsGame.gamePk)] || detailByGame[key] || null;
+    const bets = betsToGrade.map((edge) => gradeBet(edge, projection, actual, feed)).filter((bet) => bet.result !== "Pending");
+    const betWins = bets.filter((bet) => bet.correct === true).length;
+    const betLosses = bets.filter((bet) => bet.correct === false).length;
+    const betPushes = bets.filter((bet) => bet.push).length;
     return {
       id: projection.id || statsGame.gamePk,
       matchup: `${projection.away} @ ${projection.home}`,
       projected: `${projection.away} ${score(projectedAway)} · ${score(projectedHome)} ${projection.home}`,
       final: `${projection.away} ${actualAway} · ${actualHome} ${projection.home}`,
-      pickTeam,
+      betCount: bets.length,
+      betWins,
+      betLosses,
+      betPushes,
+      bets,
       actualWinner,
-      winnerResult: winnerCorrect == null ? "No side" : winnerCorrect ? "Hit" : "Miss",
-      winnerCorrect,
-      totalLine: Number.isFinite(totalLine) ? totalLine : null,
-      totalPick,
-      actualTotalSide,
-      totalCorrect,
-      totalPush,
-      totalResult: !totalPick ? "No O/U pick" : totalPush ? "Push" : totalCorrect ? "Hit" : "Miss",
       scoreMae: (Math.abs(actualAway - projectedAway) + Math.abs(actualHome - projectedHome)) / 2,
       totalError,
       marginError: Math.abs(actualMargin - projectedMargin),
@@ -5435,19 +5722,22 @@ function resultDateRange(rows) {
 
 function summarizeResults(rows) {
   const completed = rows.length;
-  const sideRows = rows.filter((row) => row.winnerCorrect != null);
-  const totalPickRows = rows.filter((row) => row.totalPick && row.actualTotalSide);
-  const totalDecisionRows = totalPickRows.filter((row) => row.totalCorrect != null);
+  const bets = rows.flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
+  const decidedBets = bets.filter((bet) => bet.correct != null);
+  const marketBets = decidedBets.filter((bet) => bet.category === "Market");
+  const propBets = decidedBets.filter((bet) => bet.category === "Prop");
   const average = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
-  const sideWins = sideRows.filter((row) => row.winnerCorrect).length;
-  const totalWins = totalDecisionRows.filter((row) => row.totalCorrect).length;
-  const totalPushes = totalPickRows.filter((row) => row.totalPush).length;
+  const wins = decidedBets.filter((bet) => bet.correct).length;
+  const pushes = bets.filter((bet) => bet.push).length;
+  const marketWins = marketBets.filter((bet) => bet.correct).length;
+  const propWins = propBets.filter((bet) => bet.correct).length;
   const metrics = [
     { label: "Finals graded", value: String(completed) },
-    ...(sideRows.length ? [{ label: "Side record", value: recordText(sideWins, sideRows.length - sideWins) }] : []),
-    ...(sideRows.length ? [{ label: "Side win %", value: percentText(sideWins, sideRows.length) }] : []),
-    ...(totalPickRows.length ? [{ label: "Total O/U record", value: recordText(totalWins, totalDecisionRows.length - totalWins, totalPushes) }] : []),
-    ...(totalDecisionRows.length ? [{ label: "Total O/U win %", value: percentText(totalWins, totalDecisionRows.length) }] : []),
+    { label: "Bets graded", value: String(bets.length) },
+    ...(bets.length ? [{ label: "Bet record", value: recordText(wins, decidedBets.length - wins, pushes) }] : []),
+    ...(decidedBets.length ? [{ label: "Bet hit %", value: percentText(wins, decidedBets.length) }] : []),
+    ...(marketBets.length ? [{ label: "Market record", value: recordText(marketWins, marketBets.length - marketWins) }] : []),
+    ...(propBets.length ? [{ label: "Prop record", value: recordText(propWins, propBets.length - propWins) }] : []),
     { label: "Score MAE", value: gradeValue(average(rows.map((row) => row.scoreMae))) },
     { label: "Total MAE", value: gradeValue(average(rows.map((row) => row.totalError))) },
     { label: "Total bias", value: signedRun(average(rows.map((row) => row.totalDelta))) },
@@ -5718,17 +6008,15 @@ function ResultsPerformance({ rows, date }) {
               <div>
                 <strong>{row.matchup}</strong>
                 <div className="result-badges">
-                  <span className={`result-pill ${resultTone(row.winnerResult, row.winnerCorrect)}`}>{row.winnerResult}</span>
-                  <span>Pick {row.pickTeam}</span>
+                  <span>{row.betCount ? `Bets ${recordText(row.betWins || 0, row.betLosses || 0, row.betPushes || 0)}` : "No priced bets saved"}</span>
                   <span>Winner {row.actualWinner}</span>
                 </div>
               </div>
               <span>Projected<br />{row.projected}</span>
               <span>Final<br />{row.final}</span>
               <span className="result-grade">
-                <span>Total O/U</span>
-                <span className={`result-pill ${resultTone(row.totalResult, row.totalCorrect, row.totalPush)}`}>{row.totalResult}</span>
-                {row.totalPick ? <span>{row.totalPick} {row.totalLine}</span> : null}
+                <span>Suggested bets</span>
+                {row.betCount ? <span>{row.bets.slice(0, 3).map((bet) => `${bet.title}: ${bet.result}`).join(" · ")}</span> : <span>Refresh pregame odds before lock to save bets.</span>}
               </span>
               <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
             </article>)}
@@ -5905,6 +6193,10 @@ function marketEdgeFromCard(card) {
   if (card.marketType === "moneyline") {
     return {
       category: "Market",
+      betKind: card.betKind,
+      betSide: card.betSide,
+      teamSide: card.teamSide,
+      line: card.line ?? null,
       title: card.title,
       subtitle: `${card.group} · ${card.edgeMetric || card.designation.detail}`,
       fair: card.fairValue,
@@ -5921,12 +6213,16 @@ function marketEdgeFromCard(card) {
     const side = totalSideLabel(card.fairValue, card.bookLine);
     return {
       category: "Market",
+      betKind: card.betKind,
+      betSide: side,
+      teamSide: card.teamSide,
+      line: card.bookLine,
       title: side ? `${card.title} ${side}` : card.title,
       subtitle: `${card.group} · ${card.edgeMetric || card.designation.detail}`,
       fair: card.fairValue,
-      book: card.bookLine,
+      book: card.bookValue,
       fairDisplay: score(card.fairValue),
-      bookDisplay: card.bookLine == null ? "—" : `Line ${Number(card.bookLine).toFixed(1)}`,
+      bookDisplay: card.bookLine == null ? "—" : `Line ${Number(card.bookLine).toFixed(1)} · ${price(card.bookValue)}`,
       bookName: card.bookName,
       label: card.designation.label,
       tone: card.designation.tone,
@@ -5987,6 +6283,9 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     {
       group: "Full game",
       marketType: "moneyline",
+      betKind: "moneyline",
+      betSide: "away",
+      teamSide: "away",
       title: `${game.away} moneyline`,
       main: price(moneylineFairs.away_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.away_probability)}`, bookMeta(selectedH2h.away)],
@@ -5999,6 +6298,9 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     {
       group: "Full game",
       marketType: "moneyline",
+      betKind: "moneyline",
+      betSide: "home",
+      teamSide: "home",
       title: `${game.home} moneyline`,
       main: price(moneylineFairs.home_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.home_probability)}`, bookMeta(selectedH2h.home)],
@@ -6011,6 +6313,8 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     {
       group: "Full game",
       marketType: "total",
+      betKind: "full_total",
+      line: fullTotalPoint,
       title: "Full-game total",
       main: score(game.total),
       meta: [`Fair total`, `Line ${fullTotalPoint ?? "—"}`, marketLineMeta("Over", fullTotalPoint, fullOver), marketLineMeta("Under", fullTotalPoint, fullUnder)],
@@ -6018,11 +6322,14 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       edgeMetric: edgeMetricForTone(fullTotalDesignation.tone, runGapMetric(game.total, fullTotalPoint)),
       fairValue: game.total,
       bookLine: fullTotalPoint,
+      bookValue: marketBookForTotal(game.total, fullTotalPoint, fullOver, fullUnder)?.price,
       bookName: marketBookForTotal(game.total, fullTotalPoint, fullOver, fullUnder)?.book,
     },
     {
       group: "First five",
       marketType: "total",
+      betKind: "f5_total",
+      line: f5TotalPoint,
       title: "F5 total",
       main: score(f5.total),
       meta: [`Fair F5`, `Line ${f5TotalPoint ?? "—"}`, marketLineMeta("Over", f5TotalPoint, f5Over), marketLineMeta("Under", f5TotalPoint, f5Under)],
@@ -6030,11 +6337,15 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       edgeMetric: edgeMetricForTone(f5TotalDesignation.tone, runGapMetric(f5.total, f5TotalPoint)),
       fairValue: f5.total,
       bookLine: f5TotalPoint,
+      bookValue: marketBookForTotal(f5.total, f5TotalPoint, f5Over, f5Under)?.price,
       bookName: marketBookForTotal(f5.total, f5TotalPoint, f5Over, f5Under)?.book,
     },
     {
       group: "First five",
       marketType: "moneyline",
+      betKind: "f5_moneyline",
+      betSide: "away",
+      teamSide: "away",
       title: `${game.away} F5 ML`,
       main: price(awayF5Fair),
       meta: [`Fair probability ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, bookMeta(odds.f5H2h?.away)],
@@ -6047,6 +6358,9 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     {
       group: "First five",
       marketType: "moneyline",
+      betKind: "f5_moneyline",
+      betSide: "home",
+      teamSide: "home",
       title: `${game.home} F5 ML`,
       main: price(homeF5Fair),
       meta: [`Fair probability ${probabilityText(f5HomeProb)}`, bookMeta(odds.f5H2h?.home)],
@@ -6059,6 +6373,9 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     {
       group: "Team totals",
       marketType: "total",
+      betKind: "team_total",
+      teamSide: "away",
+      line: awayTTLine,
       title: `${game.away} team total`,
       main: score(awayTTFair),
       meta: [`Fair runs`, marketLineMeta("Over", awayTTLine, awayTTRows.over), marketLineMeta("Under", awayTTRows.under?.line ?? awayTTRows.over?.line, awayTTRows.under)],
@@ -6066,11 +6383,15 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       edgeMetric: edgeMetricForTone(awayTTDesignation.tone, runGapMetric(awayTTFair, awayTTLine)),
       fairValue: awayTTFair,
       bookLine: awayTTLine,
+      bookValue: marketBookForTotal(awayTTFair, awayTTLine, awayTTRows.over, awayTTRows.under)?.price,
       bookName: marketBookForTotal(awayTTFair, awayTTLine, awayTTRows.over, awayTTRows.under)?.book,
     },
     {
       group: "Team totals",
       marketType: "total",
+      betKind: "team_total",
+      teamSide: "home",
+      line: homeTTLine,
       title: `${game.home} team total`,
       main: score(homeTTFair),
       meta: [`Fair runs`, marketLineMeta("Over", homeTTLine, homeTTRows.over), marketLineMeta("Under", homeTTRows.under?.line ?? homeTTRows.over?.line, homeTTRows.under)],
@@ -6078,6 +6399,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       edgeMetric: edgeMetricForTone(homeTTDesignation.tone, runGapMetric(homeTTFair, homeTTLine)),
       fairValue: homeTTFair,
       bookLine: homeTTLine,
+      bookValue: marketBookForTotal(homeTTFair, homeTTLine, homeTTRows.over, homeTTRows.under)?.price,
       bookName: marketBookForTotal(homeTTFair, homeTTLine, homeTTRows.over, homeTTRows.under)?.book,
     },
   ];
@@ -6155,6 +6477,10 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
         kind: "batterProp",
         key: `${angle.player}-${angle.market}-${index}`,
         team: angle.team,
+        market: angle.market,
+        side: angle.side || "Over",
+        line: angle.line,
+        player: angle.player,
         title: `${angle.player || "Hitter"} ${propMarketText(angle.market)} ${angle.side || "Over"} ${angle.line ?? "—"}`,
         subtitle: `${angle.team || "—"} vs ${angle.pitcher || "starter"} · ${angle.pitch_name || angle.pitch_type || "Pitch"} ${angle.usage ?? "—"}%`,
         fair,
@@ -6170,6 +6496,10 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
   const pricedEdges = [
     ...pricedPitcherRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
       category: "Prop",
+      betKind: "pitcher_strikeouts",
+      player: row.player,
+      betSide: row.side,
+      line: row.line,
       title: row.title,
       subtitle: row.subtitle,
       fair: row.sideFair,
@@ -6183,6 +6513,12 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     })),
     ...pricedBatterRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
       category: "Prop",
+      betKind: "batter_prop",
+      propMarket: row.market,
+      player: row.player,
+      team: row.team,
+      betSide: row.side,
+      line: row.line,
       title: row.title,
       subtitle: row.subtitle,
       fair: row.fair,
@@ -6230,10 +6566,20 @@ function CustomerBoard() {
   const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
 
   const resultRows = useMemo(() => flattenResultsHistory(resultHistory), [resultHistory]);
+  const gameDisplays = useMemo(() => games.map((item, index) => ({
+    game: item,
+    ...buildGameDisplay(item, oddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
+  })), [games, oddsByGame, kMode, gameIndex, kLineOverrides]);
+  const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, oddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
+  const displayByGameKey = useMemo(() => Object.fromEntries(gameDisplays.map((display) => [gameKey(display.game), display])), [gameDisplays]);
 
   useEffect(() => {
     writeStoredResultsHistory(resultHistory);
   }, [resultHistory]);
+
+  useEffect(() => {
+    writeStoredBetLedger(BOARD.date, gameDisplays);
+  }, [gameDisplays]);
 
   useEffect(() => {
     let cancelled = false;
@@ -6254,7 +6600,19 @@ function CustomerBoard() {
         }
         if (!payload) return;
         const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
-        const graded = gradeCompletedGames(games, statsGames);
+        const finalGames = statsGames.filter(isFinalStatsGame);
+        const detailByGame = {};
+        await Promise.all(finalGames.map(async (statsGame) => {
+          const gamePk = statsGame?.gamePk;
+          if (!gamePk) return;
+          try {
+            const detail = await fetchJsonWithTimeout(`https://statsapi.mlb.com/api/v1.1/game/${gamePk}/feed/live`, 5000);
+            if (detail) detailByGame[String(gamePk)] = detail;
+          } catch {
+            // Full-game ML/totals can still grade from the schedule response.
+          }
+        }));
+        const graded = gradeCompletedGames(games, statsGames, displayByGameKey, detailByGame, readStoredBetLedger(slateDate));
         if (!cancelled && graded.length) {
           setResultHistory((current) => mergeResultsRowsForDate(current, slateDate, graded));
         }
@@ -6268,7 +6626,7 @@ function CustomerBoard() {
       cancelled = true;
       window.clearInterval(timer);
     };
-  }, [games, hasHostedProxy]);
+  }, [games, hasHostedProxy, displayByGameKey]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNowTick(Date.now()), 30 * 1000);
@@ -6394,7 +6752,7 @@ function CustomerBoard() {
           for (const bookmaker of propOdds.bookmakers || []) {
             for (const market of bookmaker.markets || []) {
               const label = propMarketLabel(market.key);
-              if (!["Batter HR", "Batter hits", "Batter TB"].includes(label)) continue;
+              if (!["Batter HR", "Batter hits", "Batter TB", "Batter strikeouts"].includes(label)) continue;
               for (const outcome of market.outcomes || []) {
                 const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
                 const key = propQuoteKey(label, outcome.description, outcome.name, line);
@@ -6421,7 +6779,7 @@ function CustomerBoard() {
         if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("pitcher K prices unavailable");
 
-        const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases");
+        const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases,batter_strikeouts");
         if (propOdds) parseBatterOdds(propOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
 
@@ -6454,11 +6812,6 @@ function CustomerBoard() {
   }
 
   if (!CUSTOMER_FACING) return null;
-  const gameDisplays = useMemo(() => games.map((item, index) => ({
-    game: item,
-    ...buildGameDisplay(item, oddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
-  })), [games, oddsByGame, kMode, gameIndex, kLineOverrides]);
-  const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, oddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
   const edgeCounts = useMemo(() => {
     const counts = {};
     for (const display of gameDisplays) {
