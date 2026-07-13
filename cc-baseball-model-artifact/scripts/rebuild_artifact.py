@@ -483,6 +483,13 @@ def normalize_results_history(history) -> dict:
         for row in rows:
             if isinstance(row, dict):
                 row = dict(row)
+                if not (
+                    finite(row.get("savedBetCount"))
+                    or finite(row.get("betCount"))
+                    or finite(row.get("pendingBetCount"))
+                    or row.get("bets")
+                ):
+                    continue
                 row.setdefault("resultDate", date)
                 by_id[str(row.get("id") or row.get("matchup") or len(by_id))] = row
         if by_id:
@@ -1518,8 +1525,6 @@ def main() -> None:
     results_history = normalize_results_history(existing_customer_board.get("results_history"))
     bet_ledger = existing_customer_board.get("bet_ledger") if isinstance(existing_customer_board.get("bet_ledger"), dict) else {}
     odds_history = normalize_odds_history(existing_customer_board.get("odds_history"))
-    previous_rows = grade_customer_board_results(existing_customer_board)
-    results_history = merge_results_history(results_history, existing_customer_board.get("date"), previous_rows)
     quality = read_json(DATA_DIR / "data_quality_report.json")
     starters = read_json(DATA_DIR / "starter_damage_allowed.json")
     pitch_types = read_json(DATA_DIR / "pitcher_pitch_type_damage_allowed.json")
