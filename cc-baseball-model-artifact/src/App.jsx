@@ -4816,7 +4816,7 @@ const CUSTOMER_FACING = true;
 const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
 const PROP_PRICE_BLEND_WEIGHT = 0.18;
 const K_FAIR_SCALE = 1.55;
-const RESULTS_HISTORY_KEY = "cc-baseball-results-history-v1";
+const RESULTS_HISTORY_KEY = "cc-baseball-results-history-v2";
 const BET_LEDGER_KEY = "cc-baseball-bet-ledger-v1";
 const ODDS_HISTORY_KEY = "cc-baseball-odds-history-v1";
 
@@ -5647,6 +5647,7 @@ function gradeCompletedGames(projections, statsGames, displayByGame = {}, detail
     const liveBets = betEdgesFromDisplay(displayByGame[key]);
     const savedBets = storedBetLedger[key] || [];
     const betsToGrade = liveBets.length ? liveBets : savedBets;
+    if (!betsToGrade.length) return null;
     const actual = { away: actualAway, home: actualHome, total: actualTotal, side: actualSide };
     const feed = detailByGame[String(statsGame.gamePk)] || detailByGame[key] || null;
     const gradedAllBets = betsToGrade.map((edge) => gradeBet(edge, projection, actual, feed));
@@ -5736,7 +5737,8 @@ function mergeResultsRowsForDate(history, date, rows) {
 function flattenResultsHistory(history) {
   return Object.entries(normalizeResultsHistory(history))
     .sort(([a], [b]) => String(b).localeCompare(String(a)))
-    .flatMap(([date, rows]) => rows.map((row) => ({ ...row, resultDate: row.resultDate || date })));
+    .flatMap(([date, rows]) => rows.map((row) => ({ ...row, resultDate: row.resultDate || date })))
+    .filter((row) => (Number(row.savedBetCount) || Number(row.betCount) || Number(row.pendingBetCount) || (Array.isArray(row.bets) ? row.bets.length : 0)) > 0);
 }
 
 function resultDateRange(rows) {
@@ -6012,6 +6014,7 @@ function resultTone(value, correct, push) {
 }
 
 function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
+  if (!rows.length) return null;
   const metrics = summarizeResults(rows);
   const groupedRows = Object.entries(
     (rows || []).reduce((groups, row) => {
@@ -6028,7 +6031,7 @@ function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
   ].filter(Boolean);
   return <section className="card">
     <div className="card-title"><h2>Results log</h2><span className="muted">{titleBits.join(" · ")}</span></div>
-    {rows.length ? <>
+    <>
       <div className="performance-grid">
         {metrics.map((metric) => <article className="performance-card" key={metric.label}>
           <span>{metric.label}</span>
@@ -6045,12 +6048,12 @@ function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
               const pendingCount = Number(row.pendingBetCount) || 0;
               const betSummary = savedCount
                 ? `Bets ${recordText(row.betWins || 0, row.betLosses || 0, row.betPushes || 0)}${pendingCount ? ` · ${pendingCount} pending stat${pendingCount === 1 ? "" : "s"}` : ""}`
-                : "No saved pregame priced bets";
+                : "—";
               const betDetail = row.betCount
                 ? row.bets.slice(0, 3).map((bet) => `${bet.title}: ${bet.result}`).join(" · ")
                 : pendingCount
-                  ? `Saved, waiting on boxscore stat match: ${(row.pendingBets || []).map((bet) => bet.title).join(" · ")}`
-                  : "Pregame book-backed plays must be saved before lock; historical book prices are not invented.";
+                  ? "Pending official stats"
+                  : "—";
               return <article className="result-row" key={`${groupDate}-${resultIdentity(row)}`}>
               <div>
                 <strong>{row.matchup}</strong>
@@ -6071,7 +6074,7 @@ function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
           </div>)}
         </div>
       </details>
-    </> : <div className="empty-state">No graded finals are saved yet. This log keeps prior dated results once official finals are available.</div>}
+    </>
   </section>;
 }
 
