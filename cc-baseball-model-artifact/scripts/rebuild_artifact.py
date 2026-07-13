@@ -1217,6 +1217,7 @@ def main() -> None:
     existing_customer_board_path = SRC_DIR / "customer_board.json"
     existing_customer_board = read_json(existing_customer_board_path) if existing_customer_board_path.exists() else {}
     results_history = normalize_results_history(existing_customer_board.get("results_history"))
+    bet_ledger = existing_customer_board.get("bet_ledger") if isinstance(existing_customer_board.get("bet_ledger"), dict) else {}
     previous_rows = grade_customer_board_results(existing_customer_board)
     results_history = merge_results_history(results_history, existing_customer_board.get("date"), previous_rows)
     quality = read_json(DATA_DIR / "data_quality_report.json")
@@ -1275,6 +1276,8 @@ def main() -> None:
     customer_board = build_customer_board(next_data)
     if results_history:
         customer_board["results_history"] = results_history
+    if bet_ledger:
+        customer_board["bet_ledger"] = bet_ledger
     (SRC_DIR / "customer_board.json").write_text(
         json.dumps(customer_board, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
