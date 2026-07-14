@@ -1,7 +1,23 @@
 {
-  "date": "2026-07-13",
-  "generated": "2026-07-13T23:43:17+00:00",
+  "date": "2026-07-14",
+  "generated": "2026-07-14T13:20:49+00:00",
   "games": [],
+  "special_events": [
+    {
+      "type": "all_star_game",
+      "title": "2026 MLB All-Star Game",
+      "away": "AL",
+      "home": "NL",
+      "away_name": "American League",
+      "home_name": "National League",
+      "start_time_et": "8:00 PM ET",
+      "venue": "Citizens Bank Park",
+      "away_score": 4.0,
+      "home_score": 3.6,
+      "home_win_probability": 0.421,
+      "synthesis": "The board sees a lower-scoring game script. AL has the clearer projected scoring path. It reflects a rotating one-inning All-Star staff rather than a conventional starter workload."
+    }
+  ],
   "top_board": {
     "best_hr_bets": [],
     "best_pitcher_strikeout_bets": [],
@@ -10,6 +26,5 @@
     "best_total_bets": []
   },
   "suppressed_games": [],
-  "empty_slate": true,
-  "notice": "No MLB games are scheduled for this slate."
+  "notice": "Special-event schedule information is shown with roster-backed score projections when official roster coverage is available. Prices and props are unavailable."
 }
