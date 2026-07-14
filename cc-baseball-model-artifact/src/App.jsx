@@ -1952,6 +1952,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
 
 function CustomerBoard() {
   const games = BOARD.games || [];
+  const specialEvents = Array.isArray(BOARD.special_events) ? BOARD.special_events : [];
   const [night, setNight] = useState(false);
   const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
   const [kMode, setKMode] = useState("base");
@@ -2253,10 +2254,21 @@ function CustomerBoard() {
         </div>
       </header>
       <div className="shell">
-        <section className="card">
-          <div className="card-title"><h2>No games today</h2><span className="muted">0 games</span></div>
-          <div className="copy"><p>{BOARD.empty_slate ? "No MLB games are scheduled for this slate." : "No customer board is available for this slate."}</p><p className="muted">Scores, prop angles, and prices will return with the next slate.</p></div>
-        </section>
+        {specialEvents.length ? specialEvents.map((event) => (
+          <section className="card" key={event.id || event.title || "special-event"}>
+            <div className="card-title"><h2>{event.title || "MLB special event"}</h2><span className="muted">Special event</span></div>
+            <div className="copy">
+              <p><strong>{event.away_name || event.away || "—"} vs {event.home_name || event.home || "—"}</strong>{event.start_time_et ? ` · ${event.start_time_et}` : ""}</p>
+              {(event.venue || event.status) ? <p className="muted">{[event.venue, event.status].filter(Boolean).join(" · ")}</p> : null}
+              <p className="muted">This special event is not a regular-season customer matchup, so projected scores, market prices, and prop angles are intentionally unavailable.</p>
+            </div>
+          </section>
+        )) : (
+          <section className="card">
+            <div className="card-title"><h2>No games today</h2><span className="muted">0 games</span></div>
+            <div className="copy"><p>{BOARD.empty_slate ? "No MLB games are scheduled for this slate." : "No customer board is available for this slate."}</p><p className="muted">Scores, prop angles, and prices will return with the next slate.</p></div>
+          </section>
+        )}
       </div>
     </main>
   );
