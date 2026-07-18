@@ -16,6 +16,12 @@ const BET_PROB_EDGE = 0.025;
 const LEAN_PROB_EDGE = 0.01;
 const TOTAL_RUN_TO_PROB = 0.11;
 const ODDS_HISTORY_KEY = "cc-baseball-odds-history-v1";
+const MARKET_TOTAL_BLEND_WEIGHT = 0.40;
+const MARKET_TOTAL_MAX_RUN_SHIFT = 0.80;
+const MARKET_MARGIN_BLEND_WEIGHT = 0.45;
+const MARKET_MARGIN_MAX_RUN_SHIFT = 1.00;
+const FULL_GAME_MARGIN_SCALE = 1.25;
+const F5_MARGIN_SCALE = 0.95;
 
 const APP_CSS = `
   :root {
@@ -1517,6 +1523,140 @@ function pickTeamTotalRows(rows, team, fairLine) {
   };
 }
 
+function consensusMarketPoint(rows, fairLine) {
+  const counts = new Map();
+  for (const row of rows || []) {
+    const line = Number(row?.line);
+    if (!Number.isFinite(line)) continue;
+    counts.set(line, (counts.get(line) || 0) + 1);
+  }
+  const anchor = Number.isFinite(Number(fairLine)) ? Number(fairLine) : 8.5;
+  const point = [...counts.entries()].sort((a, b) => b[1] - a[1] || Math.abs(a[0] - anchor) - Math.abs(b[0] - anchor) || a[0] - b[0])[0]?.[0];
+  return Number.isFinite(point) ? point : null;
+}
+
+function marketTeamTotalPoint(rows, game, side, fairLine) {
+  const team = side === "away" ? game?.away_name || game?.away : game?.home_name || game?.home;
+  const teamKey = normal(team);
+  if (!teamKey) return null;
+  const teamRows = (rows || []).filter((row) => {
+    const rowTeam = normal(row?.team);
+    return rowTeam && (rowTeam.includes(teamKey) || teamKey.includes(rowTeam));
+  });
+  return consensusMarketPoint(teamRows, fairLine);
+}
+
+function marketMarginFromHomeProbability(probability, scale) {
+  const value = Number(probability);
+  if (!Number.isFinite(value) || value <= 0 || value >= 1) return null;
+  const bounded = clamp(value, 0.01, 0.99);
+  return Math.log(bounded / (1 - bounded)) * scale;
+}
+
+function marketHomeProbabilityFromMargin(margin, scale) {
+  const value = Number(margin);
+  if (!Number.isFinite(value)) return null;
+  return clamp(1 / (1 + Math.exp(-value / scale)), 0.01, 0.99);
+}
+
+function blendedScorePair(awayScore, homeScore, {
+  marketTotal = null,
+  marketHomeProbability = null,
+  marketAwayTeamTotal = null,
+  marketHomeTeamTotal = null,
+  marginScale = FULL_GAME_MARGIN_SCALE,
+} = {}) {
+  const awayBase = Number(awayScore);
+  const homeBase = Number(homeScore);
+  if (!Number.isFinite(awayBase) || !Number.isFinite(homeBase)) return null;
+  const baseTotal = awayBase + homeBase;
+  const baseMargin = homeBase - awayBase;
+  const marketAway = Number(marketAwayTeamTotal);
+  const marketHome = Number(marketHomeTeamTotal);
+  const hasTeamTotals = Number.isFinite(marketAway) && Number.isFinite(marketHome);
+  const suppliedTotal = Number(marketTotal);
+  const totalTarget = Number.isFinite(suppliedTotal) ? suppliedTotal : hasTeamTotals ? marketAway + marketHome : null;
+  const marginTargets = [];
+  const moneylineMargin = marketMarginFromHomeProbability(marketHomeProbability, marginScale);
+  if (Number.isFinite(moneylineMargin)) marginTargets.push([moneylineMargin, 0.70]);
+  if (hasTeamTotals) marginTargets.push([marketHome - marketAway, 0.30]);
+  if (!Number.isFinite(totalTarget) && !marginTargets.length) return null;
+
+  const adjustedTotal = Number.isFinite(totalTarget)
+    ? baseTotal + clamp((totalTarget - baseTotal) * MARKET_TOTAL_BLEND_WEIGHT, -MARKET_TOTAL_MAX_RUN_SHIFT, MARKET_TOTAL_MAX_RUN_SHIFT)
+    : baseTotal;
+  const marginWeight = marginTargets.reduce((sum, [, weight]) => sum + weight, 0);
+  const targetMargin = marginWeight ? marginTargets.reduce((sum, [margin, weight]) => sum + margin * weight, 0) / marginWeight : baseMargin;
+  const adjustedMargin = marginWeight
+    ? baseMargin + clamp((targetMargin - baseMargin) * MARKET_MARGIN_BLEND_WEIGHT, -MARKET_MARGIN_MAX_RUN_SHIFT, MARKET_MARGIN_MAX_RUN_SHIFT)
+    : baseMargin;
+  const away = Math.round(clamp((adjustedTotal - adjustedMargin) / 2, 2, 8) * 10) / 10;
+  const home = Math.round(clamp((adjustedTotal + adjustedMargin) / 2, 2, 8) * 10) / 10;
+  const homeProbability = marketHomeProbabilityFromMargin(home - away, marginScale);
+  return {
+    away_score: away,
+    home_score: home,
+    total: Math.round((away + home) * 10) / 10,
+    home_win_probability: Number.isFinite(homeProbability) ? Math.round(homeProbability * 1000) / 1000 : null,
+  };
+}
+
+function marketAdjustedGame(game, odds = blankOdds()) {
+  if (!game || !hasOddsEntry(odds)) return game;
+  const awayScore = Number(game.away_score);
+  const homeScore = Number(game.home_score);
+  if (!Number.isFinite(awayScore) || !Number.isFinite(homeScore)) return game;
+  const homeMarketProbability = noVigBookProbability(odds.h2h?.home?.price, odds.h2h?.away?.price);
+  const full = blendedScorePair(awayScore, homeScore, {
+    marketTotal: consensusMarketPoint(odds.totals, awayScore + homeScore),
+    marketHomeProbability: homeMarketProbability,
+    marketAwayTeamTotal: marketTeamTotalPoint(odds.teamTotals, game, "away", awayScore),
+    marketHomeTeamTotal: marketTeamTotalPoint(odds.teamTotals, game, "home", homeScore),
+  });
+  if (!full) return game;
+
+  const moneylineFairs = {
+    away_probability: Math.round((1 - full.home_win_probability) * 1000) / 1000,
+    home_probability: full.home_win_probability,
+    away_fair: americanFromProbability(1 - full.home_win_probability),
+    home_fair: americanFromProbability(full.home_win_probability),
+  };
+  const originalF5 = game.f5 || {};
+  const originalF5Away = Number(originalF5.away_score);
+  const originalF5Home = Number(originalF5.home_score);
+  let f5 = originalF5;
+  if (Number.isFinite(originalF5Away) && Number.isFinite(originalF5Home)) {
+    const awayShare = awayScore > 0 ? originalF5Away / awayScore : 0.55;
+    const homeShare = homeScore > 0 ? originalF5Home / homeScore : 0.55;
+    const f5Away = Math.round(full.away_score * awayShare * 10) / 10;
+    const f5Home = Math.round(full.home_score * homeShare * 10) / 10;
+    const adjustedF5 = blendedScorePair(f5Away, f5Home, {
+      marketTotal: consensusMarketPoint(odds.f5Totals, f5Away + f5Home),
+      marketHomeProbability: noVigBookProbability(odds.f5H2h?.home?.price, odds.f5H2h?.away?.price),
+      marginScale: F5_MARGIN_SCALE,
+    });
+    const f5Projection = adjustedF5 || {
+      away_score: f5Away,
+      home_score: f5Home,
+      total: Math.round((f5Away + f5Home) * 10) / 10,
+      home_win_probability: Math.round(marketHomeProbabilityFromMargin(f5Home - f5Away, F5_MARGIN_SCALE) * 1000) / 1000,
+    };
+    f5 = {
+      ...originalF5,
+      ...f5Projection,
+      away_fair: americanFromProbability(1 - f5Projection.home_win_probability),
+      home_fair: americanFromProbability(f5Projection.home_win_probability),
+    };
+  }
+  return {
+    ...game,
+    ...full,
+    f5,
+    moneyline_fairs: moneylineFairs,
+    team_total_fairs: { away: full.away_score, home: full.home_score },
+  };
+}
+
 function bookMeta(row) {
   if (!validBookPrice(row?.price)) return "Book unavailable";
   return `Book ${row.book || "Sportsbook"} ${price(row.price)}`;
@@ -2045,18 +2185,19 @@ function CustomerBoard() {
   const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(readStoredOddsSnapshot(BOARD.date).fetched_at));
   const [nowTick, setNowTick] = useState(() => Date.now());
   const [edgeView, setEdgeView] = useState("game");
-  const game = games[gameIndex] || games[0] || null;
   const hostname = typeof window !== "undefined" ? window.location.hostname : "";
   const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(hostname);
   const hasHostedProxy = hostname.endsWith(".chatgpt.site");
   const canUseLocalKey = isLocalHost && !!PRELOADED_ODDS_API_KEY;
   const canRefreshOdds = hasHostedProxy || canUseLocalKey || !!ODDS_PROXY_ORIGIN;
 
+  const displayGames = useMemo(() => games.map((item) => marketAdjustedGame(item, oddsByGame[gameKey(item)] || blankOdds())), [games, oddsByGame]);
+  const game = displayGames[gameIndex] || displayGames[0] || null;
   const resultRows = useMemo(() => flattenResultsHistory(resultHistory), [resultHistory]);
-  const gameDisplays = useMemo(() => games.map((item, index) => ({
+  const gameDisplays = useMemo(() => displayGames.map((item, index) => ({
     game: item,
     ...buildGameDisplay(item, oddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
-  })), [games, oddsByGame, kMode, gameIndex, kLineOverrides]);
+  })), [displayGames, oddsByGame, kMode, gameIndex, kLineOverrides]);
   const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, oddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
   const displayByGameKey = useMemo(() => Object.fromEntries(gameDisplays.map((display) => [gameKey(display.game), display])), [gameDisplays]);
 
@@ -2279,10 +2420,14 @@ function CustomerBoard() {
         setMessage(warnings.has("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so pregame book prices are not available yet." : "No pregame sportsbook prices matched this slate.");
         return;
       }
-      const snapshotDisplays = games.map((item, index) => ({
-        game: item,
-        ...buildGameDisplay(item, nextOddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
-      }));
+      const snapshotDisplays = games.map((item, index) => {
+        const itemOdds = nextOddsByGame[gameKey(item)] || blankOdds();
+        const displayGame = marketAdjustedGame(item, itemOdds);
+        return {
+          game: displayGame,
+          ...buildGameDisplay(displayGame, itemOdds, kMode, index === gameIndex ? kLineOverrides : {}),
+        };
+      });
       const fetchedAt = new Date().toISOString();
       writeStoredOddsHistory(BOARD.date, nextOddsByGame, fetchedAt);
       const savedCount = writeStoredBetLedger(BOARD.date, snapshotDisplays);
@@ -2374,7 +2519,7 @@ function CustomerBoard() {
       </header>
 
       <div className="shell">
-        <Scoreboard games={games} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => { setGameIndex(index); setKLineOverrides({}); setMessage(""); }} />
+        <Scoreboard games={displayGames} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => { setGameIndex(index); setKLineOverrides({}); setMessage(""); }} />
 
         <section className="selected-summary">
           <div className="selected-main">
@@ -2427,7 +2572,7 @@ function CustomerBoard() {
         <ResultsPerformance rows={resultRows} date={BOARD.date} savedBetLedgerCount={savedBetLedgerCount} />
         <SlateHistoryBoard history={slateHistory} />
 
-        <ModelFooter games={games} message={message} />
+        <ModelFooter games={displayGames} message={message} />
       </div>
     </main>
   );
