@@ -12,8 +12,6 @@ const STRONG_PROB_EDGE = 0.045;
 const BET_PROB_EDGE = 0.025;
 const LEAN_PROB_EDGE = 0.01;
 const TOTAL_RUN_TO_PROB = 0.11;
-const RESULTS_HISTORY_KEY = "cc-baseball-results-history-v2";
-const BET_LEDGER_KEY = "cc-baseball-bet-ledger-v1";
 const ODDS_HISTORY_KEY = "cc-baseball-odds-history-v1";
 
 const APP_CSS = `
@@ -382,6 +380,20 @@ const APP_CSS = `
   .result-grade { display: grid; gap: 4px; }
   .night .result-pill.hit { color: #8FE4B9; background: #123326; border-color: #1D513C; }
   .night .result-pill.miss { color: #FFB4AA; background: #3A1715; border-color: #62302C; }
+  .history-list { display: grid; gap: 8px; padding: 10px 16px 16px; }
+  .history-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: start;
+    padding: 11px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-muted);
+  }
+  .history-row strong { color: var(--text-primary); font-size: 13px; font-weight: 700; }
+  .history-row span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
+  .history-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
   .info { padding: 14px 20px 20px; color: var(--text-secondary); font-size: 13px; line-height: 1.45; }
   .model-footer { padding: 16px 20px; color: var(--text-secondary); font-size: 12px; }
   .footer-grid { flex-wrap: wrap; justify-content: flex-start; }
@@ -698,36 +710,17 @@ function countBetLedgerEntries(games) {
 }
 
 function readStoredBetLedger(date) {
-  const boardLedger = normalizeBetLedger(BOARD.bet_ledger);
-  if (typeof window === "undefined" || !window.localStorage) {
-    return date ? boardLedger[date] || {} : boardLedger;
-  }
-  try {
-    const ledger = mergeBetLedgers(boardLedger, JSON.parse(window.localStorage.getItem(BET_LEDGER_KEY) || "{}"));
-    return date ? ledger[date] || {} : ledger;
-  } catch {
-    return date ? boardLedger[date] || {} : boardLedger;
-  }
+  return date ? {} : {};
 }
 
 function writeStoredBetLedger(date, displays) {
-  if (typeof window === "undefined" || !window.localStorage || !date) return 0;
+  if (!date) return 0;
   const gameBets = {};
   for (const display of displays || []) {
     const bets = betEdgesFromDisplay(display);
     if (bets.length) gameBets[gameKey(display.game)] = bets;
   }
-  const savedCount = countBetLedgerEntries(gameBets);
-  if (!savedCount) return 0;
-  try {
-    const ledger = normalizeBetLedger(JSON.parse(window.localStorage.getItem(BET_LEDGER_KEY) || "{}"));
-    ledger[date] = { ...(ledger[date] || {}), ...gameBets };
-    window.localStorage.setItem(BET_LEDGER_KEY, JSON.stringify(ledger));
-    return savedCount;
-  } catch {
-    // Bet results can still grade from in-memory odds during the current session.
-    return 0;
-  }
+  return countBetLedgerEntries(gameBets);
 }
 
 function firstFiveScores(feed) {
@@ -895,21 +888,11 @@ function normalizeResultsHistory(history) {
 }
 
 function readStoredResultsHistory() {
-  if (typeof window === "undefined" || !window.localStorage) return {};
-  try {
-    return normalizeResultsHistory(JSON.parse(window.localStorage.getItem(RESULTS_HISTORY_KEY) || "{}"));
-  } catch {
-    return {};
-  }
+  return {};
 }
 
 function writeStoredResultsHistory(history) {
-  if (typeof window === "undefined" || !window.localStorage) return;
-  try {
-    window.localStorage.setItem(RESULTS_HISTORY_KEY, JSON.stringify(normalizeResultsHistory(history)));
-  } catch {
-    // Storage is a convenience cache; rendering should never depend on it.
-  }
+  return normalizeResultsHistory(history);
 }
 
 function mergeResultsHistories(...histories) {
@@ -934,7 +917,14 @@ function flattenResultsHistory(history) {
   return Object.entries(normalizeResultsHistory(history))
     .sort(([a], [b]) => String(b).localeCompare(String(a)))
     .flatMap(([date, rows]) => rows.map((row) => ({ ...row, resultDate: row.resultDate || date })))
-    .filter((row) => (Number(row.savedBetCount) || Number(row.betCount) || Number(row.pendingBetCount) || (Array.isArray(row.bets) ? row.bets.length : 0)) > 0);
+    .filter((row) => (
+      Number(row.savedBetCount)
+      || Number(row.betCount)
+      || Number(row.pendingBetCount)
+      || (Array.isArray(row.bets) ? row.bets.length : 0)
+      || row.no_priced_wagers
+      || row.not_applicable
+    ));
 }
 
 function resultDateRange(rows) {
@@ -945,10 +935,11 @@ function resultDateRange(rows) {
 }
 
 function summarizeResults(rows) {
-  const completed = rows.length;
-  const bets = rows.flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
-  const savedBets = rows.reduce((sum, row) => sum + (Number(row.savedBetCount) || Number(row.betCount) || 0), 0);
-  const pendingBets = rows.reduce((sum, row) => sum + (Number(row.pendingBetCount) || 0), 0);
+  const gradeRows = rows.filter((row) => !row.not_applicable);
+  const completed = gradeRows.filter((row) => row.final || Number(row.scoreMae) || Number(row.totalError)).length;
+  const bets = gradeRows.flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
+  const savedBets = gradeRows.reduce((sum, row) => sum + (Number(row.savedBetCount) || Number(row.betCount) || 0), 0);
+  const pendingBets = gradeRows.reduce((sum, row) => sum + (Number(row.pendingBetCount) || 0), 0);
   const decidedBets = bets.filter((bet) => bet.correct != null);
   const marketBets = decidedBets.filter((bet) => bet.category === "Market");
   const propBets = decidedBets.filter((bet) => bet.category === "Prop");
@@ -959,7 +950,8 @@ function summarizeResults(rows) {
   const propWins = propBets.filter((bet) => bet.correct).length;
   const hasSavedBetLedger = savedBets > 0 || bets.length > 0 || pendingBets > 0;
   const metrics = [
-    { label: "Finals graded", value: String(completed) },
+    { label: "Tracked slates", value: String(rows.length) },
+    ...(completed ? [{ label: "Finals graded", value: String(completed) }] : []),
     ...(hasSavedBetLedger ? [{ label: "Saved bets", value: String(savedBets) }] : []),
     ...(hasSavedBetLedger ? [{ label: "Bets graded", value: String(bets.length) }] : []),
     ...(hasSavedBetLedger && pendingBets ? [{ label: "Pending stats", value: String(pendingBets) }] : []),
@@ -967,9 +959,9 @@ function summarizeResults(rows) {
     ...(decidedBets.length ? [{ label: "Bet hit %", value: percentText(wins, decidedBets.length) }] : []),
     ...(marketBets.length ? [{ label: "Market record", value: recordText(marketWins, marketBets.length - marketWins) }] : []),
     ...(propBets.length ? [{ label: "Prop record", value: recordText(propWins, propBets.length - propWins) }] : []),
-    { label: "Score MAE", value: gradeValue(average(rows.map((row) => row.scoreMae))) },
-    { label: "Total MAE", value: gradeValue(average(rows.map((row) => row.totalError))) },
-    { label: "Total bias", value: signedRun(average(rows.map((row) => row.totalDelta))) },
+    ...(completed ? [{ label: "Score MAE", value: gradeValue(average(gradeRows.map((row) => row.scoreMae))) }] : []),
+    ...(completed ? [{ label: "Total MAE", value: gradeValue(average(gradeRows.map((row) => row.totalError))) }] : []),
+    ...(completed ? [{ label: "Total bias", value: signedRun(average(gradeRows.map((row) => row.totalDelta))) }] : []),
   ];
   return metrics.filter((metric) => metric.value !== "—");
 }
@@ -1144,53 +1136,6 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange }) {
   </section>;
 }
 
-function PitcherKPricingBoard({ pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
-  if (!pitcherRows.length) return null;
-  return <section className="card">
-    <div className="card-title">
-      <h2>Pitcher strikeout pricing</h2>
-      <div className="edge-controls">
-        <span className="muted">Manual K lines · fair odds</span>
-        <div className="segmented" aria-label="K projection mode">
-          <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base</button>
-          <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling</button>
-        </div>
-      </div>
-    </div>
-    <div className="k-section single">
-      <div className="k-panel">
-        <div className="k-grid">
-          {pitcherRows.map((row) => {
-            const lineValue = lineOverrides[row.key] ?? lineInputValue(row.line);
-            return <article className="k-card" key={row.key}>
-              <div className="k-card-head">
-                <strong>{row.player || "Starter"}</strong>
-                <span className="pill">{kMode === "base" ? "Base" : "Ceiling"} {score(row.projected)} K</span>
-              </div>
-              <label className="line-control">
-                <span>K line</span>
-                <input
-                  type="number"
-                  inputMode="decimal"
-                  step="0.5"
-                  min="0.5"
-                  value={lineValue}
-                  onChange={(event) => onLineChange(row.key, event.target.value)}
-                />
-              </label>
-              <div className="mini-stats">
-                <span>Over fair <b>{price(row.fair)}</b></span>
-                <span>Under fair <b>{price(row.underFair)}</b></span>
-              </div>
-              {row.hasBook ? <span className="fair-note">Book {row.line}: {pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</span> : <span className="fair-note">Fair only unless a matching pregame K line is returned.</span>}
-            </article>;
-          })}
-        </div>
-      </div>
-    </div>
-  </section>;
-}
-
 function BatterKTargetsBoard({ targets }) {
   if (!targets.length) return null;
   return <section className="card">
@@ -1212,6 +1157,115 @@ function BatterKTargetsBoard({ targets }) {
           </article>)}
         </div>
       </div>
+    </div>
+  </section>;
+}
+
+function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
+  const rows = limitRowsPerTeam((angles || []).filter((angle) => angle?.player && angle?.market), 3);
+  const kRows = pitcherRows || [];
+  if (!rows.length && !kRows.length) return null;
+  return <section className="card">
+    <div className="card-title">
+      <h2>Player prop angles</h2>
+      <div className="edge-controls">
+        <span className="muted">Fairs only · odds decide bets</span>
+        {kRows.length ? <div className="segmented" aria-label="K projection mode">
+          <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base K</button>
+          <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling K</button>
+        </div> : null}
+      </div>
+    </div>
+    <div className="angle-list">
+      {kRows.map((row) => {
+        const lineValue = lineOverrides[row.key] ?? lineInputValue(row.line);
+        return <article className="angle" key={row.key}>
+          <div className="angle-top">
+            <div>
+              <h3>{row.player || "Starter"} strikeouts</h3>
+              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} projection {score(row.projected)} K · manual fair line</p>
+            </div>
+            <span className="pill watch">Fair only</span>
+          </div>
+          <label className="line-control" style={{ marginTop: 12, maxWidth: 220 }}>
+            <span>K line</span>
+            <input
+              type="number"
+              inputMode="decimal"
+              step="0.5"
+              min="0.5"
+              value={lineValue}
+              onChange={(event) => onLineChange(row.key, event.target.value)}
+            />
+          </label>
+          <div className="prices">
+            <span>Over fair <b>{price(row.fair)}</b></span>
+            <span>Under fair <b>{price(row.underFair)}</b></span>
+            {row.hasBook ? <span>Book <b>{pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</b></span> : null}
+          </div>
+          {row.explainer ? <p className="muted">{row.explainer}</p> : null}
+        </article>;
+      })}
+      {rows.map((angle, index) => <article className="angle" key={`${angle.player}-${angle.market}-${index}`}>
+        <div className="angle-top">
+          <div>
+            <h3>{angle.player} {propMarketText(angle.market)} {angle.side || "Over"} {angle.line ?? "—"}</h3>
+            <p className="muted">{angle.team || "—"} vs {angle.pitcher || "starter"} · {angle.pitch_name || angle.pitch_type || "Pitch"} {Number.isFinite(Number(angle.usage)) ? `${Math.round(Number(angle.usage))}%` : "—"}</p>
+          </div>
+          <span className={`pill ${normal(angle.label).includes("strong") ? "strong" : "watch"}`}>{angle.label || "Angle"}</span>
+        </div>
+        <div className="prices">
+          <span>Fair <b>{price(angle.fair)}</b></span>
+          <span>Play-to <b>{price(angle.play_to)}</b></span>
+          <span>Prob <b>{probabilityText(angle.probability)}</b></span>
+        </div>
+        {angle.explainer ? <p className="muted">{angle.explainer}</p> : null}
+      </article>)}
+    </div>
+  </section>;
+}
+
+function captureStatusLabel(row) {
+  if (row?.capture_status === "captured") return "Captured";
+  if (row?.capture_status === "no_qualifying_wagers") return "No qualifying wagers";
+  if (row?.capture_status === "unavailable") return "Odds unavailable";
+  if (row?.capture_status === "not_applicable" || row?.not_applicable) return "Not applicable";
+  return row?.no_priced_wagers ? "No wagers" : "Tracked";
+}
+
+function captureStatusTone(row) {
+  if (row?.capture_status === "captured") return "bet";
+  if (row?.capture_status === "no_qualifying_wagers") return "watch";
+  if (row?.capture_status === "unavailable") return "small";
+  return "watch";
+}
+
+function SlateHistoryBoard({ history }) {
+  const rows = Array.isArray(history) ? history.filter((row) => row && typeof row === "object") : [];
+  if (!rows.length) return null;
+  return <section className="card">
+    <div className="card-title"><h2>Slate history</h2><span className="muted">{rows.length} saved slate{rows.length === 1 ? "" : "s"}</span></div>
+    <div className="history-list">
+      {rows.map((row) => {
+        const firstGame = Array.isArray(row.games) ? row.games[0] : null;
+        const firstEvent = Array.isArray(row.special_events) ? row.special_events[0] : null;
+        const scoreLine = firstGame
+          ? `${firstGame.matchup || `${firstGame.away} @ ${firstGame.home}`} · ${score(firstGame.away_score)}-${score(firstGame.home_score)}`
+          : firstEvent
+            ? `${firstEvent.title || "MLB special event"}${Number.isFinite(Number(firstEvent.away_score)) && Number.isFinite(Number(firstEvent.home_score)) ? ` · ${score(firstEvent.away_score)}-${score(firstEvent.home_score)}` : ""}`
+            : row.summary;
+        return <article className="history-row" key={row.revision_id || `${row.date}-${row.generated}`}>
+          <div>
+            <strong>{row.date || "Undated"} · {row.label || row.type || "Slate"}</strong>
+            <div className="history-meta">
+              <span>{scoreLine || "No scheduled games"}</span>
+              <span>{Number(row.game_count) || 0} game{Number(row.game_count) === 1 ? "" : "s"}</span>
+              <span>{Number(row.priced_wager_count) || 0} priced wager{Number(row.priced_wager_count) === 1 ? "" : "s"}</span>
+            </div>
+          </div>
+          <span className={`pill ${captureStatusTone(row)}`}>{captureStatusLabel(row)}</span>
+        </article>;
+      })}
     </div>
   </section>;
 }
@@ -1254,6 +1308,20 @@ function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
           {groupedRows.map(([groupDate, groupRows]) => <div className="result-date-group" key={groupDate}>
             <h3 className="result-date-heading">{groupDate}</h3>
             {groupRows.map((row) => {
+              if (row.not_applicable || row.no_priced_wagers) {
+                return <article className="result-row" key={`${groupDate}-${resultIdentity(row)}`}>
+                  <div>
+                    <strong>{row.matchup || "Slate"}</strong>
+                    <div className="result-badges">
+                      <span>{row.not_applicable ? "Not applicable" : "No priced wagers"}</span>
+                    </div>
+                  </div>
+                  <span>Date<br />{row.resultDate || groupDate}</span>
+                  <span>Status<br />{row.not_applicable ? "No grading required" : "No saved wagers"}</span>
+                  <span className="result-grade"><span>Suggested bets</span><span>—</span></span>
+                  <span>Result<br />—</span>
+                </article>;
+              }
               const savedCount = Number(row.savedBetCount) || Number(row.betCount) || 0;
               const pendingCount = Number(row.pendingBetCount) || 0;
               const betSummary = savedCount
@@ -1626,15 +1694,14 @@ function timestampMs(value) {
 }
 
 function readStoredOddsSnapshot(date) {
-  const boardHistory = normalizeOddsHistory(BOARD.odds_history);
   if (typeof window === "undefined" || !window.localStorage) {
-    return date ? boardHistory[date] || { games: {}, fetched_at: null } : { games: {}, fetched_at: null };
+    return { games: {}, fetched_at: null };
   }
   try {
-    const history = mergeOddsHistories(boardHistory, JSON.parse(window.localStorage.getItem(ODDS_HISTORY_KEY) || "{}"));
+    const history = normalizeOddsHistory(JSON.parse(window.localStorage.getItem(ODDS_HISTORY_KEY) || "{}"));
     return date ? history[date] || { games: {}, fetched_at: null } : { games: {}, fetched_at: null };
   } catch {
-    return date ? boardHistory[date] || { games: {}, fetched_at: null } : { games: {}, fetched_at: null };
+    return { games: {}, fetched_at: null };
   }
 }
 
@@ -1961,11 +2028,12 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
 function CustomerBoard() {
   const games = BOARD.games || [];
   const specialEvents = Array.isArray(BOARD.special_events) ? BOARD.special_events : [];
+  const slateHistory = Array.isArray(BOARD.slate_history) ? BOARD.slate_history : [];
   const [night, setNight] = useState(false);
   const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
   const [kMode, setKMode] = useState("base");
   const [kLineOverrides, setKLineOverrides] = useState({});
-  const [resultHistory, setResultHistory] = useState(() => mergeResultsHistories(BOARD.results_history, readStoredResultsHistory()));
+  const [resultHistory, setResultHistory] = useState(() => normalizeResultsHistory(BOARD.results_history));
   const [savedBetLedgerCount, setSavedBetLedgerCount] = useState(() => countBetLedgerEntries(readStoredBetLedger(BOARD.date)));
   const [resultRefreshKey, setResultRefreshKey] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -1975,8 +2043,11 @@ function CustomerBoard() {
   const [nowTick, setNowTick] = useState(() => Date.now());
   const [edgeView, setEdgeView] = useState("game");
   const game = games[gameIndex] || games[0] || null;
-  const hasHostedProxy = typeof window !== "undefined" && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
-  const canUseLocalKey = !hasHostedProxy && !!PRELOADED_ODDS_API_KEY;
+  const hostname = typeof window !== "undefined" ? window.location.hostname : "";
+  const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(hostname);
+  const hasHostedProxy = hostname.endsWith(".chatgpt.site");
+  const canUseLocalKey = isLocalHost && !!PRELOADED_ODDS_API_KEY;
+  const canRefreshOdds = hasHostedProxy || canUseLocalKey;
 
   const resultRows = useMemo(() => flattenResultsHistory(resultHistory), [resultHistory]);
   const gameDisplays = useMemo(() => games.map((item, index) => ({
@@ -1987,12 +2058,8 @@ function CustomerBoard() {
   const displayByGameKey = useMemo(() => Object.fromEntries(gameDisplays.map((display) => [gameKey(display.game), display])), [gameDisplays]);
 
   useEffect(() => {
-    writeStoredResultsHistory(resultHistory);
-  }, [resultHistory]);
-
-  useEffect(() => {
     const saved = writeStoredBetLedger(BOARD.date, gameDisplays);
-    if (saved) setSavedBetLedgerCount(countBetLedgerEntries(readStoredBetLedger(BOARD.date)));
+    if (saved) setSavedBetLedgerCount(saved);
   }, [gameDisplays]);
 
   useEffect(() => {
@@ -2002,16 +2069,7 @@ function CustomerBoard() {
       if (!slateDate || !games.length) return;
       try {
         const directUrl = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${encodeURIComponent(slateDate)}`;
-        const scheduleUrls = hasHostedProxy ? [`/api/mlb/schedule?date=${encodeURIComponent(slateDate)}`, directUrl] : [directUrl];
-        let payload = null;
-        for (const scheduleUrl of scheduleUrls) {
-          try {
-            payload = await fetchJsonWithTimeout(scheduleUrl);
-            if (payload) break;
-          } catch {
-            payload = null;
-          }
-        }
+        const payload = await fetchJsonWithTimeout(directUrl);
         if (!payload) return;
         const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
         const finalGames = statsGames.filter(isFinalStatsGame);
@@ -2040,7 +2098,7 @@ function CustomerBoard() {
       cancelled = true;
       window.clearInterval(timer);
     };
-  }, [games, hasHostedProxy, displayByGameKey, resultRefreshKey]);
+  }, [games, displayByGameKey, resultRefreshKey]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNowTick(Date.now()), 30 * 1000);
@@ -2048,6 +2106,10 @@ function CustomerBoard() {
   }, []);
 
   async function refreshOdds() {
+    if (!canRefreshOdds) {
+      setMessage("Pregame odds refresh is not available on this static view.");
+      return;
+    }
     const pregameGames = games.filter(isPregameGame);
     if (!pregameGames.length) {
       setMessage("Pregame odds only. No games on this slate are currently in a pregame state.");
@@ -2064,6 +2126,7 @@ function CustomerBoard() {
           const glue = qs ? `${qs}&` : "";
           return `https://api.the-odds-api.com/v4/${endpoint}?${glue}apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`;
         }
+        if (!hasHostedProxy) throw new Error("Pregame odds refresh is not available on this static view.");
         return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
       };
       const eventsResponse = await fetch(oddsUrl("sports/baseball_mlb/events"));
@@ -2223,7 +2286,7 @@ function CustomerBoard() {
       setLastOddsUpdatedAt(Date.parse(fetchedAt));
       setNowTick(Date.now());
       const warningList = [...warnings];
-      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}. ${savedCount ? `Saved ${savedCount} odds-backed play${savedCount === 1 ? "" : "s"} for results grading.` : "No odds-backed play cleared the grading rules, so no bets were saved."} A price must clear the displayed play-to number before any consideration.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
+      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}. ${savedCount ? `${savedCount} odds-backed edge${savedCount === 1 ? "" : "s"} identified on this view.` : "No odds-backed edge cleared."}${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Pregame odds are unavailable right now.");
     } finally {
@@ -2284,6 +2347,7 @@ function CustomerBoard() {
             <div className="copy"><p>{BOARD.empty_slate ? "No MLB games are scheduled for this slate." : "No customer board is available for this slate."}</p><p className="muted">Scores, prop angles, and prices will return with the next slate.</p></div>
           </section>
         )}
+        <SlateHistoryBoard history={slateHistory} />
       </div>
     </main>
   );
@@ -2299,7 +2363,7 @@ function CustomerBoard() {
         <div className="top-actions">
           <button type="button" className="mode" onClick={() => setNight((value) => !value)}>{night ? "Day mode" : "Night mode"}</button>
           {oddsStamp ? <span className="odds-stamp">{oddsStamp}</span> : null}
-          <button type="button" className="refresh" onClick={refreshOdds} disabled={loading}>{loading ? "Refreshing…" : "Refresh pregame odds"}</button>
+          {canRefreshOdds ? <button type="button" className="refresh" onClick={refreshOdds} disabled={loading}>{loading ? "Refreshing…" : "Refresh pregame odds"}</button> : null}
         </div>
       </header>
 
@@ -2323,7 +2387,8 @@ function CustomerBoard() {
           onViewChange={setEdgeView}
         />
 
-        <PitcherKPricingBoard
+        <PlayerPropAnglesBoard
+          angles={game.batter_prop_angles || []}
           pitcherRows={selectedDisplay.pitcherKFairRows}
           kMode={kMode}
           onKModeChange={setKMode}
@@ -2354,6 +2419,7 @@ function CustomerBoard() {
         </section>
 
         <ResultsPerformance rows={resultRows} date={BOARD.date} savedBetLedgerCount={savedBetLedgerCount} />
+        <SlateHistoryBoard history={slateHistory} />
 
         <ModelFooter games={games} message={message} />
       </div>
