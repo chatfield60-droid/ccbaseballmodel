@@ -9,7 +9,9 @@ const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
 // Public customer boards use the separate worker endpoint. It holds the Odds
 // API credential server-side; this URL is routing information, not a secret.
 const ODDS_PROXY_ORIGIN = "https://cc-baseball-board-20260710.chatfield60.chatgpt.site";
-const PROP_PRICE_BLEND_WEIGHT = 0.18;
+// Props receive a deliberately lighter price check than sides/totals. When a
+// paired price exists, use its no-vig probability and move the fair only 15%.
+const PROP_PRICE_BLEND_WEIGHT = 0.15;
 const K_FAIR_SCALE = 1.55;
 const STRONG_PROB_EDGE = 0.045;
 const BET_PROB_EDGE = 0.025;
@@ -610,9 +612,9 @@ function runGapMetric(fairLine, liveLine) {
   return `Fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} · ${signedRun(fair - live)}`;
 }
 
-function blendPropFairWithBook(fair, book) {
+function blendPropFairWithBook(fair, book, oppositeBook = null) {
   const fairProbability = impliedProbability(fair);
-  const bookProbability = impliedProbability(book);
+  const bookProbability = noVigBookProbability(book, oppositeBook);
   if (!Number.isFinite(fairProbability) || !Number.isFinite(bookProbability)) return fair;
   return americanFromProbability(fairProbability + (bookProbability - fairProbability) * PROP_PRICE_BLEND_WEIGHT);
 }
@@ -1094,6 +1096,24 @@ function limitRowsPerTeam(rows, limit = 3) {
   return output;
 }
 
+function prioritizeBatterPropAngles(angles, limit = 3) {
+  const byTeam = new Map();
+  for (const angle of angles || []) {
+    if (!angle?.player || !angle?.market) continue;
+    const team = angle.team || "unknown";
+    if (!byTeam.has(team)) byTeam.set(team, []);
+    byTeam.get(team).push(angle);
+  }
+  const output = [];
+  for (const teamAngles of byTeam.values()) {
+    const homeruns = teamAngles.filter((angle) => angle.market === "Batter HR");
+    const otherAngles = teamAngles.filter((angle) => angle.market !== "Batter HR");
+    const hrCount = Math.min(homeruns.length, 1);
+    output.push(...homeruns.slice(0, hrCount), ...otherAngles.slice(0, Math.max(0, limit - hrCount)));
+  }
+  return output;
+}
+
 function edgeCents(fair, book) {
   const fairNumber = Number(fair);
   const bookNumber = Number(book);
@@ -1154,7 +1174,7 @@ function BatterKTargetsBoard({ targets }) {
         <div className="k-grid">
           {targets.map((target, index) => <article className="k-card" key={`${target.batter}-${target.pitcher}-${index}`}>
             <div className="k-card-head">
-              <strong>{target.batter || "Batter"} over {target.line ?? 0.5} K</strong>
+              <strong>{target.batter || "Batter"} over {target.line ?? "—"} K</strong>
               <span className="pill watch">Fair only</span>
             </div>
             <span>{target.team || "—"} vs {target.pitcher || "starter"} · {target.pitch_name || target.pitch_type || "Pitch"} {Number.isFinite(Number(target.usage)) ? `${Math.round(Number(target.usage))}%` : "—"}</span>
@@ -1171,7 +1191,7 @@ function BatterKTargetsBoard({ targets }) {
 }
 
 function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
-  const rows = limitRowsPerTeam((angles || []).filter((angle) => angle?.player && angle?.market), 3);
+  const rows = prioritizeBatterPropAngles(angles, 3);
   const kRows = pitcherRows || [];
   if (!rows.length && !kRows.length) return null;
   return <section className="card">
@@ -1221,12 +1241,13 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
             <h3>{angle.player} {propMarketText(angle.market)} {angle.side || "Over"} {angle.line ?? "—"}</h3>
             <p className="muted">{angle.team || "—"} vs {angle.pitcher || "starter"} · {angle.pitch_name || angle.pitch_type || "Pitch"} {Number.isFinite(Number(angle.usage)) ? `${Math.round(Number(angle.usage))}%` : "—"}</p>
           </div>
-          <span className={`pill ${normal(angle.label).includes("strong") ? "strong" : "watch"}`}>{angle.label || "Angle"}</span>
+          <span className={`pill ${angle.hasBook ? (angle.designation?.tone || "watch") : (normal(angle.label).includes("strong") ? "strong" : "watch")}`}>{angle.hasBook ? (angle.designation?.label || "Watch price") : (angle.label || "Angle")}</span>
         </div>
         <div className="prices">
           <span>Fair <b>{price(angle.fair)}</b></span>
           <span>Play-to <b>{price(angle.play_to)}</b></span>
           <span>Prob <b>{probabilityText(angle.probability)}</b></span>
+          {angle.hasBook ? <span>Book <b>{price(angle.book?.price)} · {angle.book?.book || "—"}</b></span> : null}
         </div>
         {angle.explainer ? <p className="muted">{angle.explainer}</p> : null}
       </article>)}
@@ -1866,7 +1887,7 @@ function writeStoredOddsHistory(date, oddsByGame, fetchedAt = new Date().toISOSt
 
 function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrides = {}) {
   if (!game) {
-    return { marketCards: [], marketEdges: [], pitcherKFairRows: [], kTargetRows: [], pricedEdges: [], allEdges: [], hasAnyOdds: false };
+    return { marketCards: [], marketEdges: [], pitcherKFairRows: [], batterPropRows: [], kTargetRows: [], pricedEdges: [], allEdges: [], hasAnyOdds: false };
   }
   const teamTotals = (odds.teamTotals || []).filter((row) => row.away === game.away && row.home === game.home);
   const selectedH2h = odds.h2h || {};
@@ -2051,6 +2072,25 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       explainer: angle.explainer,
     };
   });
+  const batterPropRows = (game.batter_prop_angles || []).map((angle, index) => {
+    const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
+    const hasBook = validBookPrice(live?.price);
+    const oppositeSide = propSideKey(angle.side || "Over") === "over" ? "Under" : "Over";
+    const oppositeLive = odds.batter?.[propQuoteKey(angle.market, angle.player, oppositeSide, angle.line)];
+    const fair = hasBook ? blendPropFairWithBook(angle.fair, live.price, oppositeLive?.price) : angle.fair;
+    const designation = hasBook
+      ? designationForOdds(fair, live.price, oppositeLive?.price)
+      : { label: "Fair only", tone: "watch", detail: "Refresh pregame odds to price this angle." };
+    return {
+      ...angle,
+      key: `${angle.player}-${angle.market}-${index}`,
+      fair,
+      play_to: playToFromFair(fair) ?? angle.play_to,
+      book: hasBook ? live : null,
+      hasBook,
+      designation,
+    };
+  }).filter((angle) => angle?.player && angle?.market && Number.isFinite(Number(angle.fair)));
   const kTargetRows = [...(game.k_targets || [])]
     .filter((target) => target?.batter && Number.isFinite(Number(target.fair)))
     .sort((a, b) => Number(b.probability || 0) - Number(a.probability || 0));
@@ -2058,8 +2098,8 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     const overBook = row.overBook;
     const underBook = row.underBook;
     if (!validBookPrice(overBook?.price) && !validBookPrice(underBook?.price)) return [];
-    const anchoredOverFair = blendPropFairWithBook(row.fair, overBook?.price);
-    const anchoredUnderFair = blendPropFairWithBook(row.underFair, underBook?.price);
+    const anchoredOverFair = blendPropFairWithBook(row.fair, overBook?.price, underBook?.price);
+    const anchoredUnderFair = blendPropFairWithBook(row.underFair, underBook?.price, overBook?.price);
     const overDesignation = designationForOdds(anchoredOverFair, overBook?.price, underBook?.price);
     const underDesignation = designationForOdds(anchoredUnderFair, underBook?.price, overBook?.price);
     const side = (underDesignation.edgeScore ?? -Infinity) > (overDesignation.edgeScore ?? -Infinity) ? "Under" : "Over";
@@ -2087,15 +2127,12 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     }];
   }).sort((a, b) => b.edge - a.edge);
 
-  const pricedBatterRows = limitRowsPerTeam([
-    ...(game.batter_prop_angles || []).map((angle, index) => {
-      const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
-      if (!validBookPrice(live?.price)) return null;
-      const fair = blendPropFairWithBook(angle.fair, live.price);
-      const designation = designationForOdds(fair, live.price);
-      return {
+  const pricedBatterRows = limitRowsPerTeam(
+    batterPropRows
+      .filter((angle) => angle.hasBook)
+      .map((angle) => ({
         kind: "batterProp",
-        key: `${angle.player}-${angle.market}-${index}`,
+        key: angle.key,
         team: angle.team,
         market: angle.market,
         side: angle.side || "Over",
@@ -2103,16 +2140,17 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
         player: angle.player,
         title: `${angle.player || "Hitter"} ${propMarketText(angle.market)} ${angle.side || "Over"} ${angle.line ?? "—"}`,
         subtitle: `${angle.team || "—"} vs ${angle.pitcher || "starter"} · ${angle.pitch_name || angle.pitch_type || "Pitch"} ${angle.usage ?? "—"}%`,
-        fair,
-        playTo: playToFromFair(fair) ?? angle.play_to,
-        book: live,
-        designation,
-        edge: designation.edgeScore ?? -999,
+        fair: angle.fair,
+        playTo: angle.play_to,
+        book: angle.book,
+        designation: angle.designation,
+        edge: angle.designation.edgeScore ?? -999,
         metrics: angle.metrics,
         explainer: angle.explainer,
-      };
-    }),
-  ].filter(Boolean).sort((a, b) => b.edge - a.edge), 3);
+      }))
+      .sort((a, b) => b.edge - a.edge),
+    3,
+  );
   const pricedEdges = [
     ...pricedPitcherRows.filter((row) => ["lean", "bet", "strong"].includes(row.designation.tone)).map((row) => ({
       category: "Prop",
@@ -2161,6 +2199,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     marketCards,
     marketEdges,
     pitcherKFairRows,
+    batterPropRows,
     kTargetRows,
     pricedEdges,
     allEdges,
@@ -2539,7 +2578,7 @@ function CustomerBoard() {
         />
 
         <PlayerPropAnglesBoard
-          angles={game.batter_prop_angles || []}
+          angles={selectedDisplay.batterPropRows}
           pitcherRows={selectedDisplay.pitcherKFairRows}
           kMode={kMode}
           onKModeChange={setKMode}
