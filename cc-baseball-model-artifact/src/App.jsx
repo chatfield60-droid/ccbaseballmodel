@@ -6,6 +6,9 @@ import BOARD from "./customer_board.json";
 // of the browser bundle.
 const CUSTOMER_FACING = true;
 const PRELOADED_ODDS_API_KEY = import.meta.env.VITE_ODDS_API_KEY || "";
+// Public customer boards use the separate worker endpoint. It holds the Odds
+// API credential server-side; this URL is routing information, not a secret.
+const ODDS_PROXY_ORIGIN = "https://cc-baseball-board-20260710.chatfield60.chatgpt.site";
 const PROP_PRICE_BLEND_WEIGHT = 0.18;
 const K_FAIR_SCALE = 1.55;
 const STRONG_PROB_EDGE = 0.045;
@@ -2047,7 +2050,7 @@ function CustomerBoard() {
   const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(hostname);
   const hasHostedProxy = hostname.endsWith(".chatgpt.site");
   const canUseLocalKey = isLocalHost && !!PRELOADED_ODDS_API_KEY;
-  const canRefreshOdds = hasHostedProxy || canUseLocalKey;
+  const canRefreshOdds = hasHostedProxy || canUseLocalKey || !!ODDS_PROXY_ORIGIN;
 
   const resultRows = useMemo(() => flattenResultsHistory(resultHistory), [resultHistory]);
   const gameDisplays = useMemo(() => games.map((item, index) => ({
@@ -2126,8 +2129,11 @@ function CustomerBoard() {
           const glue = qs ? `${qs}&` : "";
           return `https://api.the-odds-api.com/v4/${endpoint}?${glue}apiKey=${encodeURIComponent(PRELOADED_ODDS_API_KEY)}`;
         }
-        if (!hasHostedProxy) throw new Error("Pregame odds refresh is not available on this static view.");
-        return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
+        if (hasHostedProxy) {
+          return `/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
+        }
+        if (!ODDS_PROXY_ORIGIN) throw new Error("Pregame odds refresh is not available on this static view.");
+        return `${ODDS_PROXY_ORIGIN}/api/odds/sports?target=${encodeURIComponent(endpoint)}${qs ? `&${qs}` : ""}`;
       };
       const eventsResponse = await fetch(oddsUrl("sports/baseball_mlb/events"));
       if (!eventsResponse.ok) throw new Error(`Pregame odds events request returned HTTP ${eventsResponse.status}`);
