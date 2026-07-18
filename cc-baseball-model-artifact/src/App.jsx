@@ -18,8 +18,11 @@ const BET_PROB_EDGE = 0.025;
 const LEAN_PROB_EDGE = 0.01;
 const TOTAL_RUN_TO_PROB = 0.11;
 const ODDS_HISTORY_KEY = "cc-baseball-odds-history-v1";
-const MARKET_TOTAL_BLEND_WEIGHT = 0.40;
-const MARKET_TOTAL_MAX_RUN_SHIFT = 0.80;
+const MARKET_TOTAL_BLEND_WEIGHT = 0.55;
+const MARKET_TOTAL_MAX_RUN_SHIFT = 1.50;
+const MARKET_TOTAL_EXTREME_GAP = 2.00;
+const MARKET_TOTAL_EXTREME_BLEND_WEIGHT = 0.72;
+const MARKET_TOTAL_EXTREME_MAX_RUN_SHIFT = 3.50;
 const MARKET_MARGIN_BLEND_WEIGHT = 0.45;
 const MARKET_MARGIN_MAX_RUN_SHIFT = 1.00;
 const FULL_GAME_MARGIN_SCALE = 1.25;
@@ -1580,6 +1583,16 @@ function marketHomeProbabilityFromMargin(margin, scale) {
   return clamp(1 / (1 + Math.exp(-value / scale)), 0.01, 0.99);
 }
 
+function blendTotalTowardMarket(baseTotal, marketTotal) {
+  const base = Number(baseTotal);
+  const market = Number(marketTotal);
+  if (!Number.isFinite(base) || !Number.isFinite(market)) return base;
+  const gap = Math.abs(market - base);
+  const weight = gap >= MARKET_TOTAL_EXTREME_GAP ? MARKET_TOTAL_EXTREME_BLEND_WEIGHT : MARKET_TOTAL_BLEND_WEIGHT;
+  const maxShift = gap >= MARKET_TOTAL_EXTREME_GAP ? MARKET_TOTAL_EXTREME_MAX_RUN_SHIFT : MARKET_TOTAL_MAX_RUN_SHIFT;
+  return base + clamp((market - base) * weight, -maxShift, maxShift);
+}
+
 function blendedScorePair(awayScore, homeScore, {
   marketTotal = null,
   marketHomeProbability = null,
@@ -1604,7 +1617,7 @@ function blendedScorePair(awayScore, homeScore, {
   if (!Number.isFinite(totalTarget) && !marginTargets.length) return null;
 
   const adjustedTotal = Number.isFinite(totalTarget)
-    ? baseTotal + clamp((totalTarget - baseTotal) * MARKET_TOTAL_BLEND_WEIGHT, -MARKET_TOTAL_MAX_RUN_SHIFT, MARKET_TOTAL_MAX_RUN_SHIFT)
+    ? blendTotalTowardMarket(baseTotal, totalTarget)
     : baseTotal;
   const marginWeight = marginTargets.reduce((sum, [, weight]) => sum + weight, 0);
   const targetMargin = marginWeight ? marginTargets.reduce((sum, [margin, weight]) => sum + margin * weight, 0) / marginWeight : baseMargin;
