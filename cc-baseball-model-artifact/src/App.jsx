@@ -371,6 +371,7 @@ const APP_CSS = `
     border-radius: var(--radius-md);
     background: var(--surface);
   }
+  .result-row.forecast-row { grid-template-columns: minmax(220px, 1.25fr) repeat(3, minmax(120px, 1fr)); }
   .result-row strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .result-row span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
   .result-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
@@ -936,8 +937,7 @@ function flattenResultsHistory(history) {
       || Number(row.betCount)
       || Number(row.pendingBetCount)
       || (Array.isArray(row.bets) ? row.bets.length : 0)
-      || row.no_priced_wagers
-      || row.not_applicable
+      || row.forecast_result
     ));
 }
 
@@ -1194,14 +1194,14 @@ function BatterKTargetsBoard({ targets }) {
 }
 
 function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
-  const rows = prioritizeBatterPropAngles(angles, 3);
-  const kRows = pitcherRows || [];
+  const rows = prioritizeBatterPropAngles((angles || []).filter((angle) => angle?.hasBook), 3);
+  const kRows = (pitcherRows || []).filter((row) => row?.hasBook);
   if (!rows.length && !kRows.length) return null;
   return <section className="card">
     <div className="card-title">
       <h2>Player prop angles</h2>
       <div className="edge-controls">
-        <span className="muted">Fairs only · odds decide bets</span>
+        <span className="muted">Current pregame book price</span>
         {kRows.length ? <div className="segmented" aria-label="K projection mode">
           <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base K</button>
           <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling K</button>
@@ -1215,9 +1215,9 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
           <div className="angle-top">
             <div>
               <h3>{row.player || "Starter"} strikeouts</h3>
-              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} projection {score(row.projected)} K · manual fair line</p>
+              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} projection {score(row.projected)} K · selected market line</p>
             </div>
-            <span className="pill watch">Fair only</span>
+            <span className="pill watch">Pregame price</span>
           </div>
           <label className="line-control" style={{ marginTop: 12, maxWidth: 220 }}>
             <span>K line</span>
@@ -1244,13 +1244,13 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
             <h3>{angle.player} {propMarketText(angle.market)} {angle.side || "Over"} {angle.line ?? "—"}</h3>
             <p className="muted">{angle.team || "—"} vs {angle.pitcher || "starter"} · {angle.pitch_name || angle.pitch_type || "Pitch"} {Number.isFinite(Number(angle.usage)) ? `${Math.round(Number(angle.usage))}%` : "—"}</p>
           </div>
-          <span className={`pill ${angle.hasBook ? (angle.designation?.tone || "watch") : (normal(angle.label).includes("strong") ? "strong" : "watch")}`}>{angle.hasBook ? (angle.designation?.label || "Watch price") : (angle.label || "Angle")}</span>
+          <span className={`pill ${angle.designation?.tone || "watch"}`}>{angle.designation?.label || "Watch price"}</span>
         </div>
         <div className="prices">
           <span>Fair <b>{price(angle.fair)}</b></span>
           <span>Play-to <b>{price(angle.play_to)}</b></span>
           <span>Prob <b>{probabilityText(angle.probability)}</b></span>
-          {angle.hasBook ? <span>Book <b>{price(angle.book?.price)} · {angle.book?.book || "—"}</b></span> : null}
+          <span>Book <b>{price(angle.book?.price)} · {angle.book?.book || "—"}</b></span>
         </div>
         {angle.explainer ? <p className="muted">{angle.explainer}</p> : null}
       </article>)}
@@ -1310,9 +1310,10 @@ function resultTone(value, correct, push) {
   return "neutral";
 }
 
-function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
+function ResultsPerformance({ rows, date }) {
   if (!rows.length) return null;
   const metrics = summarizeResults(rows);
+  const hasBetActivity = rows.some((row) => Number(row.savedBetCount) || Number(row.betCount) || Number(row.pendingBetCount) || (Array.isArray(row.bets) && row.bets.length));
   const groupedRows = Object.entries(
     (rows || []).reduce((groups, row) => {
       const key = row.resultDate || date || "Undated";
@@ -1323,11 +1324,10 @@ function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
   ).sort(([a], [b]) => String(b).localeCompare(String(a)));
   const titleBits = [
     resultDateRange(rows),
-    savedBetLedgerCount ? `${savedBetLedgerCount} saved pregame priced bet${savedBetLedgerCount === 1 ? "" : "s"}` : null,
     "cumulative official finals",
   ].filter(Boolean);
   return <section className="card">
-    <div className="card-title"><h2>Results log</h2><span className="muted">{titleBits.join(" · ")}</span></div>
+    <div className="card-title"><h2>{hasBetActivity ? "Results log" : "Forecast results"}</h2><span className="muted">{titleBits.join(" · ")}</span></div>
     <>
       <div className="performance-grid">
         {metrics.map((metric) => <article className="performance-card" key={metric.label}>
@@ -1336,23 +1336,22 @@ function ResultsPerformance({ rows, date, savedBetLedgerCount = 0 }) {
         </article>)}
       </div>
       <details className="results-details">
-        <summary>Game-by-game results ({rows.length})</summary>
+        <summary>{hasBetActivity ? "Game-by-game results" : "Game-by-game forecast results"} ({rows.length})</summary>
         <div className="results-list">
           {groupedRows.map(([groupDate, groupRows]) => <div className="result-date-group" key={groupDate}>
             <h3 className="result-date-heading">{groupDate}</h3>
             {groupRows.map((row) => {
-              if (row.not_applicable || row.no_priced_wagers) {
-                return <article className="result-row" key={`${groupDate}-${resultIdentity(row)}`}>
+              if (row.forecast_result && !Number(row.savedBetCount) && !Number(row.betCount) && !Number(row.pendingBetCount)) {
+                return <article className="result-row forecast-row" key={`${groupDate}-${resultIdentity(row)}`}>
                   <div>
-                    <strong>{row.matchup || "Slate"}</strong>
+                    <strong>{row.matchup}</strong>
                     <div className="result-badges">
-                      <span>{row.not_applicable ? "Not applicable" : "No priced wagers"}</span>
+                      <span>Winner {row.actualWinner}</span>
                     </div>
                   </div>
-                  <span>Date<br />{row.resultDate || groupDate}</span>
-                  <span>Status<br />{row.not_applicable ? "No grading required" : "No saved wagers"}</span>
-                  <span className="result-grade"><span>Suggested bets</span><span>—</span></span>
-                  <span>Result<br />—</span>
+                  <span>Projected<br />{row.projected}</span>
+                  <span>Final<br />{row.final}</span>
+                  <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
                 </article>;
               }
               const savedCount = Number(row.savedBetCount) || Number(row.betCount) || 0;
@@ -1515,6 +1514,11 @@ function setBestTeamPrice(store, side, candidate) {
 
 function findOddsForGame(items, game) {
   return Array.isArray(items) ? items.find((item) => normal(item.away_team) === normal(game.away_name) && normal(item.home_team) === normal(game.home_name)) : null;
+}
+
+function isPregameOddsEvent(event) {
+  const start = Date.parse(String(event?.commence_time || ""));
+  return !Number.isFinite(start) || start > Date.now();
 }
 
 function mainPoint(rows) {
@@ -1882,6 +1886,25 @@ function readStoredOddsSnapshot(date) {
   }
 }
 
+function readPublishedOddsSnapshot(date) {
+  if (!date || !BOARD.pregame_quotes || typeof BOARD.pregame_quotes !== "object") {
+    return { games: {}, fetched_at: null };
+  }
+  return normalizeOddsHistory({ [date]: BOARD.pregame_quotes })[date] || { games: {}, fetched_at: null };
+}
+
+function initialOddsSnapshot(date) {
+  const published = readPublishedOddsSnapshot(date);
+  const stored = readStoredOddsSnapshot(date);
+  const merged = mergeOddsHistories({ [date]: published }, { [date]: stored })[date] || { games: {}, fetched_at: null };
+  const publishedAt = timestampMs(published.fetched_at) || 0;
+  const storedAt = timestampMs(stored.fetched_at) || 0;
+  return {
+    ...merged,
+    fetched_at: storedAt > publishedAt ? stored.fetched_at : published.fetched_at || stored.fetched_at || null,
+  };
+}
+
 function writeStoredOddsHistory(date, oddsByGame, fetchedAt = new Date().toISOString()) {
   if (typeof window === "undefined" || !window.localStorage || !date) return 0;
   const normalized = normalizeOddsHistory({ [date]: { fetched_at: fetchedAt, source: "manual pregame odds refresh", games: oddsByGame } });
@@ -2086,7 +2109,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     };
   });
   const batterPropRows = (game.batter_prop_angles || []).map((angle, index) => {
-    const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)];
+    const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)] || angle.book_quote || null;
     const hasBook = validBookPrice(live?.price);
     const oppositeSide = propSideKey(angle.side || "Over") === "over" ? "Under" : "Over";
     const oppositeLive = odds.batter?.[propQuoteKey(angle.market, angle.player, oppositeSide, angle.line)];
@@ -2103,7 +2126,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       hasBook,
       designation,
     };
-  }).filter((angle) => angle?.player && angle?.market && Number.isFinite(Number(angle.fair)));
+  }).filter((angle) => angle?.player && angle?.market && Number.isFinite(Number(angle.fair)) && angle.hasBook);
   const kTargetRows = [...(game.k_targets || [])]
     .filter((target) => target?.batter && Number.isFinite(Number(target.fair)))
     .sort((a, b) => Number(b.probability || 0) - Number(a.probability || 0));
@@ -2228,13 +2251,11 @@ function CustomerBoard() {
   const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
   const [kMode, setKMode] = useState("base");
   const [kLineOverrides, setKLineOverrides] = useState({});
-  const [resultHistory, setResultHistory] = useState(() => normalizeResultsHistory(BOARD.results_history));
-  const [savedBetLedgerCount, setSavedBetLedgerCount] = useState(() => countBetLedgerEntries(readStoredBetLedger(BOARD.date)));
-  const [resultRefreshKey, setResultRefreshKey] = useState(0);
+  const [resultHistory] = useState(() => normalizeResultsHistory(BOARD.results_history));
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [oddsByGame, setOddsByGame] = useState(() => readStoredOddsSnapshot(BOARD.date).games || {});
-  const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(readStoredOddsSnapshot(BOARD.date).fetched_at));
+  const [oddsByGame, setOddsByGame] = useState(() => initialOddsSnapshot(BOARD.date).games || {});
+  const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(initialOddsSnapshot(BOARD.date).fetched_at));
   const [nowTick, setNowTick] = useState(() => Date.now());
   const [edgeView, setEdgeView] = useState("game");
   const hostname = typeof window !== "undefined" ? window.location.hostname : "";
@@ -2251,50 +2272,6 @@ function CustomerBoard() {
     ...buildGameDisplay(item, oddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
   })), [displayGames, oddsByGame, kMode, gameIndex, kLineOverrides]);
   const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, oddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
-  const displayByGameKey = useMemo(() => Object.fromEntries(gameDisplays.map((display) => [gameKey(display.game), display])), [gameDisplays]);
-
-  useEffect(() => {
-    const saved = writeStoredBetLedger(BOARD.date, gameDisplays);
-    if (saved) setSavedBetLedgerCount(saved);
-  }, [gameDisplays]);
-
-  useEffect(() => {
-    let cancelled = false;
-    const slateDate = BOARD.date;
-    async function refreshResults() {
-      if (!slateDate || !games.length) return;
-      try {
-        const directUrl = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${encodeURIComponent(slateDate)}`;
-        const payload = await fetchJsonWithTimeout(directUrl);
-        if (!payload) return;
-        const statsGames = payload?.dates?.flatMap((date) => date.games || []) || [];
-        const finalGames = statsGames.filter(isFinalStatsGame);
-        const detailByGame = {};
-        await Promise.all(finalGames.map(async (statsGame) => {
-          const gamePk = statsGame?.gamePk;
-          if (!gamePk) return;
-          try {
-            const detail = await fetchJsonWithTimeout(`https://statsapi.mlb.com/api/v1.1/game/${gamePk}/feed/live`, 5000);
-            if (detail) detailByGame[String(gamePk)] = detail;
-          } catch {
-            // Full-game ML/totals can still grade from the schedule response.
-          }
-        }));
-        const graded = gradeCompletedGames(games, statsGames, displayByGameKey, detailByGame, readStoredBetLedger(slateDate));
-        if (!cancelled && graded.length) {
-          setResultHistory((current) => mergeResultsRowsForDate(current, slateDate, graded));
-        }
-      } catch {
-        // Keep the saved results history intact if the official feed is unavailable.
-      }
-    }
-    refreshResults();
-    const timer = window.setInterval(refreshResults, 5 * 60 * 1000);
-    return () => {
-      cancelled = true;
-      window.clearInterval(timer);
-    };
-  }, [games, displayByGameKey, resultRefreshKey]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNowTick(Date.now()), 30 * 1000);
@@ -2335,7 +2312,7 @@ function CustomerBoard() {
 
       const fetchGameOdds = async (targetGame) => {
         const event = findOddsForGame(events, targetGame);
-        if (!event) return null;
+        if (!event || !isPregameOddsEvent(event)) return null;
         const nextK = {};
         const nextBatter = {};
         const nextTotals = [];
@@ -2472,24 +2449,13 @@ function CustomerBoard() {
         setMessage(warnings.has("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so pregame book prices are not available yet." : "No pregame sportsbook prices matched this slate.");
         return;
       }
-      const snapshotDisplays = games.map((item, index) => {
-        const itemOdds = nextOddsByGame[gameKey(item)] || blankOdds();
-        const displayGame = marketAdjustedGame(item, itemOdds);
-        return {
-          game: displayGame,
-          ...buildGameDisplay(displayGame, itemOdds, kMode, index === gameIndex ? kLineOverrides : {}),
-        };
-      });
       const fetchedAt = new Date().toISOString();
       writeStoredOddsHistory(BOARD.date, nextOddsByGame, fetchedAt);
-      const savedCount = writeStoredBetLedger(BOARD.date, snapshotDisplays);
       setOddsByGame(nextOddsByGame);
-      setSavedBetLedgerCount(countBetLedgerEntries(readStoredBetLedger(BOARD.date)));
-      setResultRefreshKey((value) => value + 1);
       setLastOddsUpdatedAt(Date.parse(fetchedAt));
       setNowTick(Date.now());
       const warningList = [...warnings];
-      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}. ${savedCount ? `${savedCount} odds-backed edge${savedCount === 1 ? "" : "s"} identified on this view.` : "No odds-backed edge cleared."}${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
+      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Pregame odds are unavailable right now.");
     } finally {
@@ -2621,7 +2587,7 @@ function CustomerBoard() {
           </div>
         </section>
 
-        <ResultsPerformance rows={resultRows} date={BOARD.date} savedBetLedgerCount={savedBetLedgerCount} />
+        <ResultsPerformance rows={resultRows} date={BOARD.date} />
         <SlateHistoryBoard history={slateHistory} />
 
         <ModelFooter games={displayGames} message={message} />
