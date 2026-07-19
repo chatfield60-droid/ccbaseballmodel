@@ -6247,90 +6247,8 @@
   ],
   "special_events": [],
   "top_board": {
-    "best_hr_bets": [
-      {
-        "title": "Brandon Valenzuela HR",
-        "subtitle": "TOR vs Sean Burke · Slider 17.6%",
-        "game": "CWS @ TOR",
-        "fair": 457,
-        "play_to": 467,
-        "score": 0.18
-      },
-      {
-        "title": "Jarred Kelenic HR",
-        "subtitle": "TEX vs Grant Holmes · Slider 37.0%",
-        "game": "TEX @ ATL",
-        "fair": 457,
-        "play_to": 467,
-        "score": 0.18
-      },
-      {
-        "title": "Esteury Ruiz HR",
-        "subtitle": "MIA vs Robert Gasser · Cutter 16.8%",
-        "game": "MIA @ MIL",
-        "fair": 457,
-        "play_to": 467,
-        "score": 0.18
-      },
-      {
-        "title": "Matt Wallner HR",
-        "subtitle": "MIN vs Shota Imanaga · Sweeper 14.2%",
-        "game": "MIN @ CHC",
-        "fair": 457,
-        "play_to": 467,
-        "score": 0.18
-      },
-      {
-        "title": "Chad Stevens HR",
-        "subtitle": "COL vs Hunter Greene · 4-Seam Fastball 54.4%",
-        "game": "CIN @ COL",
-        "fair": 457,
-        "play_to": 467,
-        "score": 0.18
-      }
-    ],
-    "best_pitcher_strikeout_bets": [
-      {
-        "title": "Nathan Eovaldi over Ks",
-        "subtitle": "Base 6.5 · ceiling 8.5 · fallback line 6.5",
-        "game": "TEX @ ATL",
-        "fair": -290,
-        "play_to": -280,
-        "score": 2.0
-      },
-      {
-        "title": "Hunter Greene over Ks",
-        "subtitle": "Base 9.5 · ceiling 11.3 · fallback line 9.5",
-        "game": "CIN @ COL",
-        "fair": -219,
-        "play_to": -209,
-        "score": 1.8000000000000007
-      },
-      {
-        "title": "Cam Schlittler over Ks",
-        "subtitle": "Base 6.8 · ceiling 8.3 · fallback line 6.5",
-        "game": "LAD @ NYY",
-        "fair": -259,
-        "play_to": -249,
-        "score": 1.8000000000000007
-      },
-      {
-        "title": "Sonny Gray over Ks",
-        "subtitle": "Base 4.9 · ceiling 6.1 · fallback line 4.5",
-        "game": "TB @ BOS",
-        "fair": -265,
-        "play_to": -255,
-        "score": 1.5999999999999996
-      },
-      {
-        "title": "Shane McClanahan over Ks",
-        "subtitle": "Base 4.8 · ceiling 6.0 · fallback line 4.5",
-        "game": "TB @ BOS",
-        "fair": -244,
-        "play_to": -234,
-        "score": 1.5
-      }
-    ],
+    "best_hr_bets": [],
+    "best_pitcher_strikeout_bets": [],
     "best_batter_strikeout_targets": [
       {
         "title": "Edouard Julien over 1.5 K",
@@ -6454,6 +6372,367 @@
     }
   ],
   "slate_history": [
+    {
+      "date": "2026-07-19",
+      "generated": "2026-07-19T12:46:20+00:00",
+      "type": "regular",
+      "label": "Regular slate",
+      "game_count": 15,
+      "games": [
+        {
+          "id": 822786,
+          "matchup": "CWS @ TOR",
+          "away": "CWS",
+          "home": "TOR",
+          "away_name": "Chicago White Sox",
+          "home_name": "Toronto Blue Jays",
+          "time": "12:15 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.0,
+          "home_score": 3.9,
+          "total": 8.9,
+          "favorite": {
+            "team": "CWS",
+            "probability": 0.707
+          }
+        },
+        {
+          "id": 824739,
+          "matchup": "TB @ BOS",
+          "away": "TB",
+          "home": "BOS",
+          "away_name": "Tampa Bay Rays",
+          "home_name": "Boston Red Sox",
+          "time": "1:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.3,
+          "home_score": 4.0,
+          "total": 8.3,
+          "favorite": {
+            "team": "TB",
+            "probability": 0.56
+          }
+        },
+        {
+          "id": 823439,
+          "matchup": "NYM @ PHI",
+          "away": "NYM",
+          "home": "PHI",
+          "away_name": "New York Mets",
+          "home_name": "Philadelphia Phillies",
+          "time": "1:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.2,
+          "home_score": 4.2,
+          "total": 8.4,
+          "favorite": {
+            "team": "PHI",
+            "probability": 0.5
+          }
+        },
+        {
+          "id": 824897,
+          "matchup": "TEX @ ATL",
+          "away": "TEX",
+          "home": "ATL",
+          "away_name": "Texas Rangers",
+          "home_name": "Atlanta Braves",
+          "time": "1:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.9,
+          "home_score": 4.6,
+          "total": 8.5,
+          "favorite": {
+            "team": "ATL",
+            "probability": 0.636
+          }
+        },
+        {
+          "id": 824411,
+          "matchup": "PIT @ CLE",
+          "away": "PIT",
+          "home": "CLE",
+          "away_name": "Pittsburgh Pirates",
+          "home_name": "Cleveland Guardians",
+          "time": "1:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.1,
+          "home_score": 3.9,
+          "total": 9.0,
+          "favorite": {
+            "team": "PIT",
+            "probability": 0.723
+          }
+        },
+        {
+          "id": 824168,
+          "matchup": "BAL @ HOU",
+          "away": "BAL",
+          "home": "HOU",
+          "away_name": "Baltimore Orioles",
+          "home_name": "Houston Astros",
+          "time": "2:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.6,
+          "home_score": 4.5,
+          "total": 9.1,
+          "favorite": {
+            "team": "BAL",
+            "probability": 0.52
+          }
+        },
+        {
+          "id": 824086,
+          "matchup": "SD @ KC",
+          "away": "SD",
+          "home": "KC",
+          "away_name": "San Diego Padres",
+          "home_name": "Kansas City Royals",
+          "time": "2:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.6,
+          "home_score": 4.1,
+          "total": 7.7,
+          "favorite": {
+            "team": "KC",
+            "probability": 0.599
+          }
+        },
+        {
+          "id": 823764,
+          "matchup": "MIA @ MIL",
+          "away": "MIA",
+          "home": "MIL",
+          "away_name": "Miami Marlins",
+          "home_name": "Milwaukee Brewers",
+          "time": "2:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.4,
+          "home_score": 4.8,
+          "total": 9.2,
+          "favorite": {
+            "team": "MIL",
+            "probability": 0.579
+          }
+        },
+        {
+          "id": 824653,
+          "matchup": "MIN @ CHC",
+          "away": "MIN",
+          "home": "CHC",
+          "away_name": "Minnesota Twins",
+          "home_name": "Chicago Cubs",
+          "time": "2:20 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.7,
+          "home_score": 4.9,
+          "total": 9.6,
+          "favorite": {
+            "team": "CHC",
+            "probability": 0.54
+          }
+        },
+        {
+          "id": 824330,
+          "matchup": "CIN @ COL",
+          "away": "CIN",
+          "home": "COL",
+          "away_name": "Cincinnati Reds",
+          "home_name": "Colorado Rockies",
+          "time": "3:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.0,
+          "home_score": 4.0,
+          "total": 8.0,
+          "favorite": {
+            "team": "COL",
+            "probability": 0.5
+          }
+        },
+        {
+          "id": 824978,
+          "matchup": "WSH @ ATH",
+          "away": "WSH",
+          "home": "ATH",
+          "away_name": "Washington Nationals",
+          "home_name": "Athletics",
+          "time": "4:05 PM ET",
+          "status": "Scheduled",
+          "away_score": 6.1,
+          "home_score": 4.2,
+          "total": 10.3,
+          "favorite": {
+            "team": "WSH",
+            "probability": 0.821
+          }
+        },
+        {
+          "id": 824007,
+          "matchup": "DET @ LAA",
+          "away": "DET",
+          "home": "LAA",
+          "away_name": "Detroit Tigers",
+          "home_name": "Los Angeles Angels",
+          "time": "4:07 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.3,
+          "home_score": 4.3,
+          "total": 8.6,
+          "favorite": {
+            "team": "LAA",
+            "probability": 0.5
+          }
+        },
+        {
+          "id": 823113,
+          "matchup": "SF @ SEA",
+          "away": "SF",
+          "home": "SEA",
+          "away_name": "San Francisco Giants",
+          "home_name": "Seattle Mariners",
+          "time": "4:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.9,
+          "home_score": 4.0,
+          "total": 7.9,
+          "favorite": {
+            "team": "SEA",
+            "probability": 0.52
+          }
+        },
+        {
+          "id": 825057,
+          "matchup": "STL @ AZ",
+          "away": "STL",
+          "home": "AZ",
+          "away_name": "St. Louis Cardinals",
+          "home_name": "Arizona Diamondbacks",
+          "time": "4:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.6,
+          "home_score": 4.4,
+          "total": 9.0,
+          "favorite": {
+            "team": "STL",
+            "probability": 0.54
+          }
+        },
+        {
+          "id": 823523,
+          "matchup": "LAD @ NYY",
+          "away": "LAD",
+          "home": "NYY",
+          "away_name": "Los Angeles Dodgers",
+          "home_name": "New York Yankees",
+          "time": "12:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.4,
+          "home_score": 5.0,
+          "total": 10.4,
+          "favorite": {
+            "team": "LAD",
+            "probability": 0.579
+          }
+        }
+      ],
+      "special_events": [],
+      "top_picks": [
+        {
+          "category": "Best batter K targets",
+          "title": "Edouard Julien over 1.5 K",
+          "game": "CIN @ COL",
+          "subtitle": "COL vs Hunter Greene · Slider 36.3%",
+          "fair": 109,
+          "play_to": 119
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Braxton Fulford over 1.5 K",
+          "game": "CIN @ COL",
+          "subtitle": "COL vs Hunter Greene · 4-Seam Fastball 54.4%",
+          "fair": 113,
+          "play_to": 123
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Hunter Goodman over 1.5 K",
+          "game": "CIN @ COL",
+          "subtitle": "COL vs Hunter Greene · Slider 36.3%",
+          "fair": 128,
+          "play_to": 138
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Aaron Judge over 1.5 K",
+          "game": "LAD @ NYY",
+          "subtitle": "NYY vs Yoshinobu Yamamoto · Split-Finger 26.9%",
+          "fair": 149,
+          "play_to": 159
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Jose Siri over 1.5 K",
+          "game": "DET @ LAA",
+          "subtitle": "LAA vs Casey Mize · Slider 24.9%",
+          "fair": 164,
+          "play_to": 174
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "LAD @ NYY",
+          "subtitle": "Fair total 10.4"
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "WSH @ ATH",
+          "subtitle": "Fair total 10.3"
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Under lean",
+          "game": "SD @ KC",
+          "subtitle": "Fair total 7.7"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "LAD @ NYY",
+          "subtitle": "Fair total 10.4"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "WSH @ ATH",
+          "subtitle": "Fair total 10.3"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Under lean",
+          "game": "SD @ KC",
+          "subtitle": "Fair total 7.7"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "MIN @ CHC",
+          "subtitle": "Fair total 9.6"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Under lean",
+          "game": "SF @ SEA",
+          "subtitle": "Fair total 7.9"
+        }
+      ],
+      "priced_wager_count": 0,
+      "no_priced_wagers": true,
+      "not_applicable": false,
+      "capture_status": "unavailable",
+      "summary": "15 games",
+      "revision_id": "e4edc4d813d1f9909deb"
+    },
     {
       "date": "2026-07-19",
       "generated": "2026-07-19T12:46:20+00:00",
@@ -8437,6 +8716,17 @@
     "2026-07-19": [
       {
         "id": "0e8422eb1a017af7baa8",
+        "matchup": "15 games",
+        "resultDate": "2026-07-19",
+        "savedBetCount": 0,
+        "betCount": 0,
+        "bets": [],
+        "no_priced_wagers": true,
+        "not_applicable": false,
+        "capture_status": "unavailable"
+      },
+      {
+        "id": "e4edc4d813d1f9909deb",
         "matchup": "15 games",
         "resultDate": "2026-07-19",
         "savedBetCount": 0,
