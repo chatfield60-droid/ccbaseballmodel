@@ -966,8 +966,8 @@ function summarizeResults(rows) {
   const metrics = [
     { label: "Tracked slates", value: String(rows.length) },
     ...(completed ? [{ label: "Finals graded", value: String(completed) }] : []),
-    ...(hasSavedBetLedger ? [{ label: "Saved bets", value: String(savedBets) }] : []),
-    ...(hasSavedBetLedger ? [{ label: "Bets graded", value: String(bets.length) }] : []),
+    ...(savedBets ? [{ label: "Saved bets", value: String(savedBets) }] : []),
+    ...(bets.length ? [{ label: "Bets graded", value: String(bets.length) }] : []),
     ...(hasSavedBetLedger && pendingBets ? [{ label: "Pending stats", value: String(pendingBets) }] : []),
     ...(bets.length ? [{ label: "Bet record", value: recordText(wins, decidedBets.length - wins, pushes) }] : []),
     ...(decidedBets.length ? [{ label: "Bet hit %", value: percentText(wins, decidedBets.length) }] : []),
@@ -1258,21 +1258,6 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
   </section>;
 }
 
-function captureStatusLabel(row) {
-  if (row?.capture_status === "captured") return "Captured";
-  if (row?.capture_status === "no_qualifying_wagers") return "No qualifying wagers";
-  if (row?.capture_status === "unavailable") return "Odds unavailable";
-  if (row?.capture_status === "not_applicable" || row?.not_applicable) return "Not applicable";
-  return row?.no_priced_wagers ? "No wagers" : "Tracked";
-}
-
-function captureStatusTone(row) {
-  if (row?.capture_status === "captured") return "bet";
-  if (row?.capture_status === "no_qualifying_wagers") return "watch";
-  if (row?.capture_status === "unavailable") return "small";
-  return "watch";
-}
-
 function SlateHistoryBoard({ history }) {
   const rows = Array.isArray(history) ? history.filter((row) => row && typeof row === "object") : [];
   if (!rows.length) return null;
@@ -1282,6 +1267,8 @@ function SlateHistoryBoard({ history }) {
       {rows.map((row) => {
         const firstGame = Array.isArray(row.games) ? row.games[0] : null;
         const firstEvent = Array.isArray(row.special_events) ? row.special_events[0] : null;
+        const pricedWagerCount = Number(row.priced_wager_count) || 0;
+        const showCapturedPicks = pricedWagerCount > 0 && row.capture_status === "captured";
         const scoreLine = firstGame
           ? `${firstGame.matchup || `${firstGame.away} @ ${firstGame.home}`} · ${score(firstGame.away_score)}-${score(firstGame.home_score)}`
           : firstEvent
@@ -1293,10 +1280,10 @@ function SlateHistoryBoard({ history }) {
             <div className="history-meta">
               <span>{scoreLine || "No scheduled games"}</span>
               <span>{Number(row.game_count) || 0} game{Number(row.game_count) === 1 ? "" : "s"}</span>
-              <span>{Number(row.priced_wager_count) || 0} priced wager{Number(row.priced_wager_count) === 1 ? "" : "s"}</span>
+              {showCapturedPicks ? <span>{pricedWagerCount} saved pick{pricedWagerCount === 1 ? "" : "s"}</span> : null}
             </div>
           </div>
-          <span className={`pill ${captureStatusTone(row)}`}>{captureStatusLabel(row)}</span>
+          {showCapturedPicks ? <span className="pill bet">Captured</span> : null}
         </article>;
       })}
     </div>
