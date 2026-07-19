@@ -406,20 +406,6 @@ const APP_CSS = `
   .result-pill.push, .result-pill.neutral { color: var(--text-secondary); background: var(--surface-muted); }
   .night .result-pill.hit { color: #8FE4B9; background: #123326; border-color: #1D513C; }
   .night .result-pill.miss { color: #FFB4AA; background: #3A1715; border-color: #62302C; }
-  .history-list { display: grid; gap: 8px; padding: 10px 16px 16px; }
-  .history-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 12px;
-    align-items: start;
-    padding: 11px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--surface-muted);
-  }
-  .history-row strong { color: var(--text-primary); font-size: 13px; font-weight: 700; }
-  .history-row span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
-  .history-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
   .info { padding: 14px 20px 20px; color: var(--text-secondary); font-size: 13px; line-height: 1.45; }
   .model-footer { padding: 16px 20px; color: var(--text-secondary); font-size: 12px; }
   .footer-grid { flex-wrap: wrap; justify-content: flex-start; }
@@ -1285,38 +1271,6 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
         </div>
         {angle.explainer ? <p className="muted">{angle.explainer}</p> : null}
       </article>)}
-    </div>
-  </section>;
-}
-
-function SlateHistoryBoard({ history }) {
-  const rows = Array.isArray(history) ? history.filter((row) => row && typeof row === "object") : [];
-  if (!rows.length) return null;
-  return <section className="card">
-    <div className="card-title"><h2>Slate history</h2><span className="muted">{rows.length} saved slate{rows.length === 1 ? "" : "s"}</span></div>
-    <div className="history-list">
-      {rows.map((row) => {
-        const firstGame = Array.isArray(row.games) ? row.games[0] : null;
-        const firstEvent = Array.isArray(row.special_events) ? row.special_events[0] : null;
-        const pricedWagerCount = Number(row.priced_wager_count) || 0;
-        const showCapturedPicks = pricedWagerCount > 0 && row.capture_status === "captured";
-        const scoreLine = firstGame
-          ? `${firstGame.matchup || `${firstGame.away} @ ${firstGame.home}`} · ${score(firstGame.away_score)}-${score(firstGame.home_score)}`
-          : firstEvent
-            ? `${firstEvent.title || "MLB special event"}${Number.isFinite(Number(firstEvent.away_score)) && Number.isFinite(Number(firstEvent.home_score)) ? ` · ${score(firstEvent.away_score)}-${score(firstEvent.home_score)}` : ""}`
-            : row.summary;
-        return <article className="history-row" key={row.revision_id || `${row.date}-${row.generated}`}>
-          <div>
-            <strong>{row.date || "Undated"} · {row.label || row.type || "Slate"}</strong>
-            <div className="history-meta">
-              <span>{scoreLine || "No scheduled games"}</span>
-              <span>{Number(row.game_count) || 0} game{Number(row.game_count) === 1 ? "" : "s"}</span>
-              {showCapturedPicks ? <span>{pricedWagerCount} saved pick{pricedWagerCount === 1 ? "" : "s"}</span> : null}
-            </div>
-          </div>
-          {showCapturedPicks ? <span className="pill bet">Captured</span> : null}
-        </article>;
-      })}
     </div>
   </section>;
 }
@@ -2243,7 +2197,6 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
 function CustomerBoard() {
   const games = BOARD.games || [];
   const specialEvents = Array.isArray(BOARD.special_events) ? BOARD.special_events : [];
-  const slateHistory = Array.isArray(BOARD.slate_history) ? BOARD.slate_history : [];
   const [night, setNight] = useState(false);
   const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
   const [kMode, setKMode] = useState("base");
@@ -2513,7 +2466,6 @@ function CustomerBoard() {
             <div className="copy"><p>{BOARD.empty_slate ? "No MLB games are scheduled for this slate." : "No customer board is available for this slate."}</p><p className="muted">Scores, prop angles, and prices will return with the next slate.</p></div>
           </section>
         )}
-        <SlateHistoryBoard history={slateHistory} />
       </div>
     </main>
   );
@@ -2585,8 +2537,6 @@ function CustomerBoard() {
         </section>
 
         <ResultsPerformance rows={resultRows} date={BOARD.date} />
-        <SlateHistoryBoard history={slateHistory} />
-
         <ModelFooter games={displayGames} message={message} />
       </div>
     </main>
