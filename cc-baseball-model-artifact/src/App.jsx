@@ -361,20 +361,32 @@ const APP_CSS = `
   .results-list { display: grid; gap: 8px; padding: 0 16px 16px; }
   .result-date-group { display: grid; gap: 8px; }
   .result-date-heading { color: var(--text-primary); font-size: 12px; font-weight: 750; letter-spacing: .01em; }
-  .result-row {
+  .result-slate {
     display: grid;
-    grid-template-columns: minmax(220px, 1.25fr) repeat(4, minmax(120px, 1fr));
     gap: 10px;
-    align-items: start;
-    padding: 10px 12px;
+    padding: 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface);
   }
-  .result-row.forecast-row { grid-template-columns: minmax(220px, 1.25fr) repeat(3, minmax(120px, 1fr)); }
-  .result-row strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
-  .result-row span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .result-slate-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .result-slate strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .result-net { color: var(--positive) !important; font-size: 14px !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .result-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .result-badges span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
+  .bet-result-list { display: grid; gap: 7px; }
+  .bet-result-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .bet-result-copy { display: grid; gap: 3px; min-width: 0; }
+  .bet-result-copy strong { overflow-wrap: anywhere; }
+  .bet-result-copy span, .bet-result-units { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .bet-result-units { color: var(--text-primary); font-weight: 700; white-space: nowrap; }
   .result-pill {
     display: inline-flex;
     width: fit-content;
@@ -392,7 +404,6 @@ const APP_CSS = `
   .result-pill.hit { color: var(--positive); background: #EAF8F2; border-color: #CDEDE0; }
   .result-pill.miss { color: #B42318; background: #FEF3F2; border-color: #F8C9C5; }
   .result-pill.push, .result-pill.neutral { color: var(--text-secondary); background: var(--surface-muted); }
-  .result-grade { display: grid; gap: 4px; }
   .night .result-pill.hit { color: #8FE4B9; background: #123326; border-color: #1D513C; }
   .night .result-pill.miss { color: #FFB4AA; background: #3A1715; border-color: #62302C; }
   .history-list { display: grid; gap: 8px; padding: 10px 16px 16px; }
@@ -423,7 +434,8 @@ const APP_CSS = `
   @media (max-width: 1080px) {
     .compact-scores, .market-grid, .edge-grid, .top-grid, .performance-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .k-section { grid-template-columns: 1fr; }
-    .result-row { grid-template-columns: 1fr 1fr; }
+    .bet-result-item { grid-template-columns: minmax(0, 1fr) auto; }
+    .bet-result-units { grid-column: 1 / -1; }
   }
   @media (max-width: 760px) {
     .topbar { align-items: flex-start; flex-direction: column; padding: 18px; }
@@ -431,7 +443,7 @@ const APP_CSS = `
     .mode, .refresh { flex: 1; }
     .shell { padding: 18px; gap: 18px; }
     .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid, .result-row { grid-template-columns: 1fr; }
+    .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid { grid-template-columns: 1fr; }
     .edge-card { grid-template-columns: 1fr; }
     .edge-data { justify-items: start; padding-top: 0; }
     .selected-main { flex-direction: column; }
@@ -509,6 +521,36 @@ function percentText(wins, attempts) {
   const total = Number(attempts);
   if (!Number.isFinite(made) || !Number.isFinite(total) || total <= 0) return "—";
   return `${Math.round((made / total) * 100)}%`;
+}
+
+function percentSigned(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return "—";
+  return `${numeric > 0 ? "+" : ""}${(numeric * 100).toFixed(1)}%`;
+}
+
+function unitText(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return "—";
+  return `${numeric > 0 ? "+" : ""}${numeric.toFixed(1)}u`;
+}
+
+function trackedMarketText(value) {
+  const labels = {
+    moneyline: "Moneyline",
+    full_total: "Full-game total",
+    team_total: "Team total",
+    f5_moneyline: "F5 moneyline",
+    f5_total: "F5 total",
+    pitcher_strikeouts: "Pitcher strikeouts",
+    batter_hr: "Homerun",
+    batter_home_runs: "Homerun",
+    batter_hits: "Hits",
+    batter_tb: "Total bases",
+    batter_total_bases: "Total bases",
+    batter_strikeouts: "Batter strikeouts",
+  };
+  return labels[value] || String(value || "Bet").replace(/_/g, " ");
 }
 
 function quoteIsBetter(candidate, current) {
@@ -937,7 +979,6 @@ function flattenResultsHistory(history) {
       || Number(row.betCount)
       || Number(row.pendingBetCount)
       || (Array.isArray(row.bets) ? row.bets.length : 0)
-      || row.forecast_result
     ));
 }
 
@@ -949,33 +990,23 @@ function resultDateRange(rows) {
 }
 
 function summarizeResults(rows) {
-  const gradeRows = rows.filter((row) => !row.not_applicable);
-  const completed = gradeRows.filter((row) => row.final || Number(row.scoreMae) || Number(row.totalError)).length;
-  const bets = gradeRows.flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
-  const savedBets = gradeRows.reduce((sum, row) => sum + (Number(row.savedBetCount) || Number(row.betCount) || 0), 0);
-  const pendingBets = gradeRows.reduce((sum, row) => sum + (Number(row.pendingBetCount) || 0), 0);
-  const decidedBets = bets.filter((bet) => bet.correct != null);
-  const marketBets = decidedBets.filter((bet) => bet.category === "Market");
-  const propBets = decidedBets.filter((bet) => bet.category === "Prop");
-  const average = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
-  const wins = decidedBets.filter((bet) => bet.correct).length;
-  const pushes = bets.filter((bet) => bet.push).length;
-  const marketWins = marketBets.filter((bet) => bet.correct).length;
-  const propWins = propBets.filter((bet) => bet.correct).length;
-  const hasSavedBetLedger = savedBets > 0 || bets.length > 0 || pendingBets > 0;
+  const bets = (rows || []).flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
+  const settledBets = bets.filter((bet) => ["Win", "Loss", "Push"].includes(bet?.result));
+  const decidedBets = settledBets.filter((bet) => ["Win", "Loss"].includes(bet?.result));
+  const wins = decidedBets.filter((bet) => bet.result === "Win").length;
+  const losses = decidedBets.length - wins;
+  const pushes = settledBets.filter((bet) => bet.result === "Push").length;
+  const pendingBets = bets.filter((bet) => bet?.result === "Pending").length;
+  const riskedUnits = decidedBets.reduce((sum, bet) => sum + (Number(bet.riskUnits) || 0), 0);
+  const netUnits = settledBets.reduce((sum, bet) => sum + (Number(bet.netUnits) || 0), 0);
+  const roi = riskedUnits > 0 ? netUnits / riskedUnits : null;
   const metrics = [
-    { label: "Tracked slates", value: String(rows.length) },
-    ...(completed ? [{ label: "Finals graded", value: String(completed) }] : []),
-    ...(savedBets ? [{ label: "Saved bets", value: String(savedBets) }] : []),
-    ...(bets.length ? [{ label: "Bets graded", value: String(bets.length) }] : []),
-    ...(hasSavedBetLedger && pendingBets ? [{ label: "Pending stats", value: String(pendingBets) }] : []),
-    ...(bets.length ? [{ label: "Bet record", value: recordText(wins, decidedBets.length - wins, pushes) }] : []),
-    ...(decidedBets.length ? [{ label: "Bet hit %", value: percentText(wins, decidedBets.length) }] : []),
-    ...(marketBets.length ? [{ label: "Market record", value: recordText(marketWins, marketBets.length - marketWins) }] : []),
-    ...(propBets.length ? [{ label: "Prop record", value: recordText(propWins, propBets.length - propWins) }] : []),
-    ...(completed ? [{ label: "Score MAE", value: gradeValue(average(gradeRows.map((row) => row.scoreMae))) }] : []),
-    ...(completed ? [{ label: "Total MAE", value: gradeValue(average(gradeRows.map((row) => row.totalError))) }] : []),
-    ...(completed ? [{ label: "Total bias", value: signedRun(average(gradeRows.map((row) => row.totalDelta))) }] : []),
+    { label: "Posted picks", value: String(bets.length) },
+    ...(settledBets.length ? [{ label: "Record", value: recordText(wins, losses, pushes) }] : []),
+    ...(decidedBets.length ? [{ label: "Accuracy", value: percentText(wins, decidedBets.length) }] : []),
+    ...(settledBets.length ? [{ label: "Net units", value: unitText(netUnits) }] : []),
+    ...(roi != null ? [{ label: "ROI", value: percentSigned(roi) }] : []),
+    ...(pendingBets ? [{ label: "Open", value: String(pendingBets) }] : []),
   ];
   return metrics.filter((metric) => metric.value !== "—");
 }
@@ -1292,15 +1323,15 @@ function SlateHistoryBoard({ history }) {
 
 function resultTone(value, correct, push) {
   if (push || value === "Push") return "push";
-  if (correct === true || value === "Hit") return "hit";
-  if (correct === false || value === "Miss") return "miss";
+  if (correct === true || value === "Hit" || value === "Win") return "hit";
+  if (correct === false || value === "Miss" || value === "Loss") return "miss";
   return "neutral";
 }
 
 function ResultsPerformance({ rows, date }) {
-  if (!rows.length) return null;
+  const bets = (rows || []).flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
+  if (!bets.length) return null;
   const metrics = summarizeResults(rows);
-  const hasBetActivity = rows.some((row) => Number(row.savedBetCount) || Number(row.betCount) || Number(row.pendingBetCount) || (Array.isArray(row.bets) && row.bets.length));
   const groupedRows = Object.entries(
     (rows || []).reduce((groups, row) => {
       const key = row.resultDate || date || "Undated";
@@ -1311,67 +1342,46 @@ function ResultsPerformance({ rows, date }) {
   ).sort(([a], [b]) => String(b).localeCompare(String(a)));
   const titleBits = [
     resultDateRange(rows),
-    "cumulative official finals",
+    "captured pregame prices",
   ].filter(Boolean);
   return <section className="card">
-    <div className="card-title"><h2>{hasBetActivity ? "Results log" : "Forecast results"}</h2><span className="muted">{titleBits.join(" · ")}</span></div>
-    <>
-      <div className="performance-grid">
-        {metrics.map((metric) => <article className="performance-card" key={metric.label}>
-          <span>{metric.label}</span>
-          <strong>{metric.value}</strong>
-        </article>)}
-      </div>
-      <details className="results-details">
-        <summary>{hasBetActivity ? "Game-by-game results" : "Game-by-game forecast results"} ({rows.length})</summary>
-        <div className="results-list">
-          {groupedRows.map(([groupDate, groupRows]) => <div className="result-date-group" key={groupDate}>
-            <h3 className="result-date-heading">{groupDate}</h3>
-            {groupRows.map((row) => {
-              if (row.forecast_result && !Number(row.savedBetCount) && !Number(row.betCount) && !Number(row.pendingBetCount)) {
-                return <article className="result-row forecast-row" key={`${groupDate}-${resultIdentity(row)}`}>
-                  <div>
-                    <strong>{row.matchup}</strong>
-                    <div className="result-badges">
-                      <span>Winner {row.actualWinner}</span>
-                    </div>
-                  </div>
-                  <span>Projected<br />{row.projected}</span>
-                  <span>Final<br />{row.final}</span>
-                  <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
-                </article>;
-              }
-              const savedCount = Number(row.savedBetCount) || Number(row.betCount) || 0;
-              const pendingCount = Number(row.pendingBetCount) || 0;
-              const betSummary = savedCount
-                ? `Bets ${recordText(row.betWins || 0, row.betLosses || 0, row.betPushes || 0)}${pendingCount ? ` · ${pendingCount} pending stat${pendingCount === 1 ? "" : "s"}` : ""}`
-                : "—";
-              const betDetail = row.betCount
-                ? row.bets.slice(0, 3).map((bet) => `${bet.title}: ${bet.result}`).join(" · ")
-                : pendingCount
-                  ? "Pending official stats"
-                  : "—";
-              return <article className="result-row" key={`${groupDate}-${resultIdentity(row)}`}>
+    <div className="card-title"><h2>Bet results</h2><span className="muted">{titleBits.join(" · ")}</span></div>
+    <div className="performance-grid">
+      {metrics.map((metric) => <article className="performance-card" key={metric.label}>
+        <span>{metric.label}</span>
+        <strong>{metric.value}</strong>
+      </article>)}
+    </div>
+    <details className="results-details">
+      <summary>Posted picks by slate ({bets.length})</summary>
+      <div className="results-list">
+        {groupedRows.map(([groupDate, groupRows]) => <div className="result-date-group" key={groupDate}>
+          <h3 className="result-date-heading">{groupDate}</h3>
+          {groupRows.map((row) => <article className="result-slate" key={`${groupDate}-${resultIdentity(row)}`}>
+            <div className="result-slate-head">
               <div>
-                <strong>{row.matchup}</strong>
+                <strong>{row.matchup || "MLB slate"}</strong>
                 <div className="result-badges">
-                  <span>{betSummary}</span>
-                  <span>Winner {row.actualWinner}</span>
+                  {Number(row.betCount) ? <span>{recordText(row.betWins || 0, row.betLosses || 0, row.betPushes || 0)}</span> : null}
+                  {Number(row.pendingBetCount) ? <span>{row.pendingBetCount} open</span> : null}
                 </div>
               </div>
-              <span>Projected<br />{row.projected}</span>
-              <span>Final<br />{row.final}</span>
-              <span className="result-grade">
-                <span>Suggested bets</span>
-                <span>{betDetail}</span>
-              </span>
-              <span>Total Δ<br />{signedRun(row.totalDelta)}</span>
-            </article>;
-            })}
-          </div>)}
-        </div>
-      </details>
-    </>
+              {Number(row.betCount) ? <strong className="result-net">{unitText(row.netUnits)}</strong> : null}
+            </div>
+            <div className="bet-result-list">
+              {(row.bets || []).map((bet, index) => <div className="bet-result-item" key={`${row.id || groupDate}-${bet.title}-${index}`}>
+                <div className="bet-result-copy">
+                  <strong>{bet.title || "Posted pick"}</strong>
+                  <span>{bet.matchup || trackedMarketText(bet.market)} · {bet.book || "—"} {price(bet.bookOdds)}</span>
+                </div>
+                <span className={`result-pill ${resultTone(bet.result)}`}>{bet.result || "Pending"}</span>
+                <span className="bet-result-units">{bet.result === "Pending" ? `Risk ${unitText(bet.riskUnits)}` : unitText(bet.netUnits)}</span>
+              </div>)}
+            </div>
+          </article>)}
+        </div>)}
+      </div>
+    </details>
   </section>;
 }
 
