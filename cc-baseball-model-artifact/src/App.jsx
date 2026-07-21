@@ -536,7 +536,7 @@ const APP_CSS = `
   .top-pick:first-of-type { border-top: 0; padding-top: 0; }
   .top-pick strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .top-pick span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
-  .biggest-edges-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 10px 16px 16px; }
+  .biggest-edges-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 10px 16px 16px; }
   .biggest-edge-group { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
   .biggest-edge-group h3 { margin: 0; color: var(--text-primary); font-size: 13px; font-weight: 750; }
   .biggest-edge-list { display: grid; gap: 7px; }
@@ -1359,16 +1359,6 @@ function lineInputValue(line) {
   return String(numeric);
 }
 
-function isHitterPropEdge(edge) {
-  if (edge?.betKind !== "batter_prop") return false;
-  return ["batter hr", "batter home runs", "batter hits", "batter tb", "batter total bases"].includes(normal(edge.propMarket));
-}
-
-function isStrikeoutEdge(edge) {
-  return edge?.betKind === "pitcher_strikeouts"
-    || (edge?.betKind === "batter_prop" && normal(edge.propMarket) === "batter strikeouts");
-}
-
 function biggestEdgeValue(value) {
   const numeric = Number(value);
   return Number.isFinite(numeric) ? numeric : -Infinity;
@@ -1388,13 +1378,12 @@ function rankBiggestEdges(edges, predicate) {
 function BiggestEdgesBoard({ edges, hasOdds, onSelectGame }) {
   if (!hasOdds) return null;
   const sections = [
-    ["Best moneylines", rankBiggestEdges(edges, (edge) => edge.betKind === "moneyline")],
-    ["Best props", rankBiggestEdges(edges, isHitterPropEdge)],
-    ["Best strikeouts", rankBiggestEdges(edges, isStrikeoutEdge)],
-    ["Best totals", rankBiggestEdges(edges, (edge) => ["full_total", "team_total", "f5_total"].includes(edge.betKind))],
+    ["Sides", rankBiggestEdges(edges, (edge) => ["moneyline", "run_line"].includes(edge.betKind))],
+    ["Full-game totals", rankBiggestEdges(edges, (edge) => edge.betKind === "full_total")],
+    ["Homerun bets", rankBiggestEdges(edges, (edge) => edge.betKind === "batter_prop" && normal(edge.propMarket) === "batter home runs")],
   ];
-  return <section className="card" aria-label="Biggest full-slate edges">
-    <div className="card-title"><h2>Biggest edges</h2><span className="muted">Price-gated full slate</span></div>
+  return <section className="card" aria-label="Price-gated full-slate picks">
+    <div className="card-title"><h2>Slate picks</h2><span className="muted">Price-gated full slate</span></div>
     <div className="biggest-edges-grid">
       {sections.map(([title, items]) => <article className="biggest-edge-group" key={title}>
         <h3>{title}</h3>
