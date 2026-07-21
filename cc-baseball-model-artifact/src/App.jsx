@@ -940,6 +940,55 @@ function resultMarketInfo(value) {
   };
 }
 
+function resultBetIdentity(bet) {
+  return [
+    String(bet?.resultDate || ""),
+    normal(bet?.resultMatchup || bet?.matchup),
+    resultMarketKey(bet?.market),
+    normal(bet?.title),
+  ].join("|");
+}
+
+function resultSettlementRank(value) {
+  if (["Win", "Loss", "Push"].includes(value)) return 3;
+  if (value === "Void") return 2;
+  return 1;
+}
+
+function preferredResultBet(candidate, current) {
+  if (!current) return candidate;
+  const candidateSettlement = resultSettlementRank(candidate?.result);
+  const currentSettlement = resultSettlementRank(current?.result);
+  if (candidateSettlement !== currentSettlement) return candidateSettlement > currentSettlement ? candidate : current;
+  const candidatePrice = Number(candidate?.bookOdds);
+  const currentPrice = Number(current?.bookOdds);
+  if (Number.isFinite(candidatePrice) && (!Number.isFinite(currentPrice) || candidatePrice !== currentPrice)) {
+    return candidatePrice > currentPrice ? candidate : current;
+  }
+  const candidateBook = normal(candidate?.book);
+  const currentBook = normal(current?.book);
+  return candidateBook < currentBook ? candidate : current;
+}
+
+function uniqueResultBets(rows) {
+  const unique = new Map();
+  for (const row of rows || []) {
+    const resultDate = row?.resultDate || "Undated";
+    for (const bet of row?.bets || []) {
+      if (!bet || typeof bet !== "object") continue;
+      const candidate = {
+        ...bet,
+        resultDate,
+        resultMatchup: bet.matchup || row.matchup || "MLB slate",
+        resultId: row.id || resultDate,
+      };
+      const identity = resultBetIdentity(candidate);
+      unique.set(identity, preferredResultBet(candidate, unique.get(identity)));
+    }
+  }
+  return [...unique.values()];
+}
+
 function summarizeResultMarket(bets) {
   const settled = bets.filter((bet) => ["Win", "Loss", "Push"].includes(bet?.result));
   const decided = settled.filter((bet) => ["Win", "Loss"].includes(bet?.result));
@@ -974,15 +1023,11 @@ function summarizeResultMarket(bets) {
 
 function resultMarketGroups(rows) {
   const groups = new Map();
-  for (const row of rows || []) {
-    const resultDate = row?.resultDate || "Undated";
-    for (const bet of row?.bets || []) {
-      if (!bet || typeof bet !== "object") continue;
-      const info = resultMarketInfo(bet.market);
-      const group = groups.get(info.key) || { info, bets: [] };
-      group.bets.push({ ...bet, resultDate, resultMatchup: bet.matchup || row.matchup || "MLB slate", resultId: row.id || resultDate });
-      groups.set(info.key, group);
-    }
+  for (const bet of uniqueResultBets(rows)) {
+    const info = resultMarketInfo(bet.market);
+    const group = groups.get(info.key) || { info, bets: [] };
+    group.bets.push(bet);
+    groups.set(info.key, group);
   }
   return [...groups.values()]
     .map((group) => ({
@@ -1525,7 +1570,7 @@ function resultDateRange(rows) {
 }
 
 function summarizeResults(rows) {
-  const bets = (rows || []).flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
+  const bets = uniqueResultBets(rows);
   const settledBets = bets.filter((bet) => ["Win", "Loss", "Push"].includes(bet?.result));
   const decidedBets = settledBets.filter((bet) => ["Win", "Loss"].includes(bet?.result));
   const wins = decidedBets.filter((bet) => bet.result === "Win").length;
@@ -2012,7 +2057,7 @@ function ResultsPerformance({ rows, date }) {
   const [marketSort, setMarketSort] = useState("net");
   const [marketScope, setMarketScope] = useState("all");
   const [performanceTab, setPerformanceTab] = useState("overview");
-  const bets = (rows || []).flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
+  const bets = uniqueResultBets(rows);
   if (!bets.length) return null;
   const metrics = summarizeResults(rows);
   const marketGroups = resultMarketGroups(rows);
