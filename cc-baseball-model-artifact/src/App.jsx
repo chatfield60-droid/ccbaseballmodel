@@ -402,7 +402,7 @@ const APP_CSS = `
   .performance-tabs { display: flex; gap: 4px; overflow-x: auto; padding: 12px 16px 0; }
   .performance-tabs button { min-height: 30px; padding: 0 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--text-secondary); font-size: 12px; font-weight: 700; white-space: nowrap; }
   .performance-tabs button.active { border-color: color-mix(in srgb, var(--accent) 48%, var(--border)); color: var(--accent); background: var(--accent-soft); }
-  .performance-highlights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 12px 16px 16px; }
+  .performance-highlights { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 12px 16px 16px; }
   .performance-highlight { display: grid; gap: 3px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
   .performance-highlight span { color: var(--text-tertiary); font-size: 10px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
   .performance-highlight strong { color: var(--text-primary); font-size: 20px; font-weight: 760; font-variant-numeric: tabular-nums; }
@@ -2042,8 +2042,7 @@ function ResultsPerformance({ rows, date }) {
     });
   const highlights = ["Record", "Accuracy", "Net units", "ROI"]
     .map((label) => metrics.find((metric) => metric.label === label))
-    .filter(Boolean)
-    .slice(0, 3);
+    .filter(Boolean);
   const performanceTitle = performanceTab === "overview" ? "Performance by market" : `${performanceTab[0].toUpperCase()}${performanceTab.slice(1)} performance`;
   return <details className="card performance-disclosure" id="performance">
     <summary>
