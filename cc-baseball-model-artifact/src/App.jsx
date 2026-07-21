@@ -336,6 +336,8 @@ const APP_CSS = `
   .segmented { display: inline-flex; padding: 3px; gap: 3px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-muted); }
   .segmented button { min-height: 30px; padding: 0 10px; border: 0; border-radius: 6px; background: transparent; color: var(--text-secondary); font-weight: 650; font-size: 12px; }
   .segmented button.active { background: var(--surface); color: var(--accent); }
+  .edge-tier-filter { display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 12px; font-weight: 650; }
+  .edge-tier-filter select { min-height: 32px; max-width: 148px; padding: 0 28px 0 9px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-primary); font: inherit; font-size: 12px; font-weight: 650; }
   .k-section { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 10px; padding: 10px 16px 16px; }
   .k-section.single { grid-template-columns: 1fr; }
   .k-panel { display: grid; align-content: start; gap: 8px; }
@@ -414,6 +416,10 @@ const APP_CSS = `
   .market-result-head h3 { margin: 0; color: var(--text-primary); font-size: 13px; font-weight: 750; }
   .market-result-head span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; }
   .market-result-record { color: var(--text-primary) !important; font-weight: 750; white-space: nowrap; }
+  .market-result-date { display: grid; gap: 7px; }
+  .market-result-date + .market-result-date { padding-top: 10px; border-top: 1px solid var(--border); }
+  .market-result-date-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: var(--text-secondary); font-size: 11px; font-weight: 750; font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+  .market-result-date-head strong { color: var(--text-primary); font-size: 12px; }
   .bet-result-list { display: grid; gap: 7px; }
   .bet-result-item {
     display: grid;
@@ -607,6 +613,12 @@ function summarizeResultMarket(bets) {
   const voids = bets.filter((bet) => bet?.result === "Void").length;
   const riskedUnits = decided.reduce((sum, bet) => sum + (Number(bet.riskUnits) || 0), 0);
   const netUnits = settled.reduce((sum, bet) => sum + (Number(bet.netUnits) || 0), 0);
+  const wonUnits = settled
+    .filter((bet) => bet.result === "Win")
+    .reduce((sum, bet) => sum + Math.max(0, Number(bet.netUnits) || 0), 0);
+  const lostUnits = settled
+    .filter((bet) => bet.result === "Loss")
+    .reduce((sum, bet) => sum + Math.abs(Math.min(0, Number(bet.netUnits) || 0)), 0);
   return {
     posted: bets.length,
     settled: settled.length,
@@ -617,6 +629,8 @@ function summarizeResultMarket(bets) {
     pending,
     voids,
     netUnits,
+    wonUnits,
+    lostUnits,
     roi: riskedUnits > 0 ? netUnits / riskedUnits : null,
   };
 }
@@ -644,6 +658,19 @@ function resultMarketGroups(rows) {
     }))
     .map((group) => ({ ...group, summary: summarizeResultMarket(group.bets) }))
     .sort((a, b) => a.info.rank - b.info.rank || a.info.label.localeCompare(b.info.label));
+}
+
+function resultDateGroups(bets, fallbackDate) {
+  const groups = new Map();
+  for (const bet of bets || []) {
+    const date = String(bet?.resultDate || fallbackDate || "Undated");
+    const group = groups.get(date) || [];
+    group.push(bet);
+    groups.set(date, group);
+  }
+  return [...groups.entries()]
+    .sort(([left], [right]) => String(right).localeCompare(String(left)))
+    .map(([date, groupedBets]) => ({ date, bets: groupedBets }));
 }
 
 function displayBetTitle(bet) {
@@ -1277,8 +1304,10 @@ function TierLegend() {
   </details>;
 }
 
-function PricedEdgeBoard({ edges, hasOdds, view, onViewChange }) {
-  const status = edges.length ? `${edges.length} edge${edges.length === 1 ? "" : "s"}` : hasOdds ? "No qualifying edges" : "Waiting for odds";
+function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChange }) {
+  const visibleEdges = tier === "all" ? edges : edges.filter((edge) => edge.tone === tier);
+  const tierLabel = tier === "all" ? "all tiers" : tier === "strong" ? "strong bets" : `${tier}s`;
+  const status = visibleEdges.length ? `${visibleEdges.length} ${tierLabel}` : hasOdds ? `No ${tierLabel} on this board` : "Waiting for odds";
   return <section className="card">
     <div className="card-title">
       <h2>Edge board</h2>
@@ -1288,11 +1317,20 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange }) {
           <button type="button" className={view === "game" ? "active" : ""} onClick={() => onViewChange("game")}>This game</button>
           <button type="button" className={view === "slate" ? "active" : ""} onClick={() => onViewChange("slate")}>Full slate</button>
         </div>
+        <label className="edge-tier-filter">
+          <span>Tier</span>
+          <select value={tier} onChange={(event) => onTierChange(event.target.value)} aria-label="Filter edge tier">
+            <option value="all">All tiers</option>
+            <option value="strong">Strong bets</option>
+            <option value="bet">Bets</option>
+            <option value="lean">Leans</option>
+          </select>
+        </label>
         <TierLegend />
       </div>
     </div>
-    {edges.length ? <div className="edge-grid">
-      {edges.slice(0, view === "slate" ? 12 : 8).map((edge, index) => <article className={`edge-card ${edge.tone || "lean"}`} key={`${edge.title}-${edge.gameLabel || ""}-${index}`}>
+    {visibleEdges.length ? <div className="edge-grid">
+      {visibleEdges.slice(0, view === "slate" ? 12 : 8).map((edge, index) => <article className={`edge-card ${edge.tone || "lean"}`} key={`${edge.title}-${edge.gameLabel || ""}-${index}`}>
         <div className="edge-main">
           <span className="edge-category">{edge.category || "Edge"}</span>
           <strong>{edge.title}</strong>
@@ -1305,7 +1343,7 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange }) {
         </div>
         <span className={`pill ${edge.tone || "lean"}`}>{edge.label}</span>
       </article>)}
-    </div> : <div className="empty-state">{hasOdds ? "No prop or market edge cleared the current book numbers." : "Refresh pregame odds to populate prop and market edges. No book price, no edge label."}</div>}
+    </div> : <div className="empty-state">{hasOdds ? `No ${tierLabel} cleared the current book numbers.` : "Refresh pregame odds to populate prop and market edges. No book price, no edge label."}</div>}
   </section>;
 }
 
@@ -1424,8 +1462,8 @@ function ResultsPerformance({ rows, date }) {
         <strong>{metric.value}</strong>
       </article>)}
     </div>
-    <section className="results-market-summary" aria-label="Results by bet type">
-      <div className="results-section-label">By bet type</div>
+    <section className="results-market-summary" aria-label="Cumulative performance by market">
+      <div className="results-section-label">Cumulative by market · all posted sides and props</div>
       <div className="results-market-grid">
         {marketGroups.map((group) => {
           const summary = group.summary;
@@ -1435,7 +1473,9 @@ function ResultsPerformance({ rows, date }) {
             <div className="market-performance-head"><strong>{group.info.label}</strong><span>{summary.posted} posted</span></div>
             <div className="market-performance-main"><strong>{mainValue}</strong><span>{secondaryValue}</span></div>
             <div className="market-performance-footer">
-              {summary.settled ? <span>{unitText(summary.netUnits)}</span> : null}
+              {summary.decided ? <span>Won {unitText(summary.wonUnits)}</span> : null}
+              {summary.decided ? <span>Lost {unitText(-summary.lostUnits)}</span> : null}
+              {summary.settled ? <span>Net {unitText(summary.netUnits)}</span> : null}
               {summary.roi != null ? <span>ROI {percentSigned(summary.roi)}</span> : null}
               {summary.pending ? <span>{summary.pending} open</span> : null}
               {summary.voids ? <span>{summary.voids} void</span> : null}
@@ -1455,16 +1495,19 @@ function ResultsPerformance({ rows, date }) {
             </div>
             {group.summary.decided ? <span className="market-result-record">{recordText(group.summary.wins, group.summary.losses, group.summary.pushes)} · {unitText(group.summary.netUnits)}</span> : null}
           </div>
-          <div className="bet-result-list">
-            {group.bets.map((bet, index) => <div className="bet-result-item" key={`${bet.resultId}-${bet.resultDate}-${bet.market}-${bet.title}-${index}`}>
-              <div className="bet-result-copy">
-                <strong>{displayBetTitle(bet)}</strong>
-                <span>{bet.resultDate || date || "—"} · {bet.resultMatchup || bet.matchup || trackedMarketText(bet.market)} · {bet.book || "—"} {price(bet.bookOdds)}</span>
-              </div>
-              <span className={`result-pill ${resultTone(bet.result)}`}>{bet.result || "Pending"}</span>
-              <span className="bet-result-units">{bet.result === "Pending" ? `Risk ${unitText(bet.riskUnits)}` : bet.result === "Void" ? "No action" : unitText(bet.netUnits)}</span>
-            </div>)}
-          </div>
+          {resultDateGroups(group.bets, date).map((dateGroup) => <section className="market-result-date" key={dateGroup.date}>
+            <div className="market-result-date-head"><strong>{dateGroup.date}</strong><span>{dateGroup.bets.length} posted</span></div>
+            <div className="bet-result-list">
+              {dateGroup.bets.map((bet, index) => <div className="bet-result-item" key={`${bet.resultId}-${bet.resultDate}-${bet.market}-${bet.title}-${index}`}>
+                <div className="bet-result-copy">
+                  <strong>{displayBetTitle(bet)}</strong>
+                  <span>{bet.resultMatchup || bet.matchup || trackedMarketText(bet.market)} · {bet.book || "—"} {price(bet.bookOdds)}</span>
+                </div>
+                <span className={`result-pill ${resultTone(bet.result)}`}>{bet.result || "Pending"}</span>
+                <span className="bet-result-units">{bet.result === "Pending" ? `Risk ${unitText(bet.riskUnits)}` : bet.result === "Void" ? "No action" : unitText(bet.netUnits)}</span>
+              </div>)}
+            </div>
+          </section>)}
         </article>)}
       </div>
     </details>
@@ -2340,6 +2383,7 @@ function CustomerBoard() {
   const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(initialOddsSnapshot(BOARD.date).fetched_at));
   const [nowTick, setNowTick] = useState(() => Date.now());
   const [edgeView, setEdgeView] = useState("game");
+  const [edgeTier, setEdgeTier] = useState("all");
   const hostname = typeof window !== "undefined" ? window.location.hostname : "";
   const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(hostname);
   const hasHostedProxy = hostname.endsWith(".chatgpt.site");
@@ -2635,6 +2679,8 @@ function CustomerBoard() {
           hasOdds={edgeView === "slate" ? fullSlatePricedEdges.length > 0 || Object.keys(oddsByGame).length > 0 : selectedDisplay.hasAnyOdds}
           view={edgeView}
           onViewChange={setEdgeView}
+          tier={edgeTier}
+          onTierChange={setEdgeTier}
         />
 
         <PlayerPropAnglesBoard
