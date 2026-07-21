@@ -782,10 +782,11 @@ function updatedAgoText(timestamp, now) {
   return `Updated ${Math.floor(seconds / 3600)}h ago`;
 }
 
-function centsVsFairMetric(fair, book) {
-  const edge = edgeCents(fair, book);
-  if (!Number.isFinite(edge)) return null;
-  return `${edge > 0 ? "+" : ""}${Math.round(edge)} cents vs fair`;
+function moneylineValueMetric(fair, book) {
+  const fairProbability = impliedProbability(fair);
+  const ev = expectedValuePerUnit(fairProbability, book);
+  if (!Number.isFinite(ev)) return null;
+  return `${percentSigned(ev)} EV vs fair`;
 }
 
 function runGapMetric(fairLine, liveLine) {
@@ -1283,13 +1284,6 @@ function prioritizeBatterPropAngles(angles, limit = 3) {
     output.push(...homeruns.slice(0, hrCount), ...otherAngles.slice(0, Math.max(0, limit - hrCount)));
   }
   return output;
-}
-
-function edgeCents(fair, book) {
-  const fairNumber = Number(fair);
-  const bookNumber = Number(book);
-  if (!Number.isFinite(fairNumber) || !Number.isFinite(bookNumber)) return null;
-  return bookNumber - fairNumber;
 }
 
 function TierLegend() {
@@ -2093,7 +2087,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       main: price(moneylineFairs.away_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.away_probability)}`, bookMeta(selectedH2h.away)],
       designation: awayMlDesignation,
-      edgeMetric: edgeMetricForTone(awayMlDesignation.tone, centsVsFairMetric(moneylineFairs.away_fair, selectedH2h.away?.price)),
+      edgeMetric: edgeMetricForTone(awayMlDesignation.tone, moneylineValueMetric(moneylineFairs.away_fair, selectedH2h.away?.price)),
       fairValue: moneylineFairs.away_fair,
       bookValue: selectedH2h.away?.price,
       bookName: selectedH2h.away?.book,
@@ -2108,7 +2102,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       main: price(moneylineFairs.home_fair),
       meta: [`Fair probability ${probabilityText(moneylineFairs.home_probability)}`, bookMeta(selectedH2h.home)],
       designation: homeMlDesignation,
-      edgeMetric: edgeMetricForTone(homeMlDesignation.tone, centsVsFairMetric(moneylineFairs.home_fair, selectedH2h.home?.price)),
+      edgeMetric: edgeMetricForTone(homeMlDesignation.tone, moneylineValueMetric(moneylineFairs.home_fair, selectedH2h.home?.price)),
       fairValue: moneylineFairs.home_fair,
       bookValue: selectedH2h.home?.price,
       bookName: selectedH2h.home?.book,
@@ -2153,7 +2147,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       main: price(awayF5Fair),
       meta: [`Fair probability ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, bookMeta(odds.f5H2h?.away)],
       designation: awayF5Designation,
-      edgeMetric: edgeMetricForTone(awayF5Designation.tone, centsVsFairMetric(awayF5Fair, odds.f5H2h?.away?.price)),
+      edgeMetric: edgeMetricForTone(awayF5Designation.tone, moneylineValueMetric(awayF5Fair, odds.f5H2h?.away?.price)),
       fairValue: awayF5Fair,
       bookValue: odds.f5H2h?.away?.price,
       bookName: odds.f5H2h?.away?.book,
@@ -2168,7 +2162,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       main: price(homeF5Fair),
       meta: [`Fair probability ${probabilityText(f5HomeProb)}`, bookMeta(odds.f5H2h?.home)],
       designation: homeF5Designation,
-      edgeMetric: edgeMetricForTone(homeF5Designation.tone, centsVsFairMetric(homeF5Fair, odds.f5H2h?.home?.price)),
+      edgeMetric: edgeMetricForTone(homeF5Designation.tone, moneylineValueMetric(homeF5Fair, odds.f5H2h?.home?.price)),
       fairValue: homeF5Fair,
       bookValue: odds.f5H2h?.home?.price,
       bookName: odds.f5H2h?.home?.book,
