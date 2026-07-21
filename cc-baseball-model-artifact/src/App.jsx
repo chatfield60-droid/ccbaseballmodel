@@ -1840,7 +1840,7 @@ function BatterKTargetsBoard({ targets }) {
   const remainingTargets = targets.slice(featuredTargets.length);
   const targetCard = (target, index) => <article className="k-card" key={`${target.batter}-${target.pitcher}-${index}`}>
     <div className="k-card-head">
-      <strong>{target.batter || "Batter"} over {target.line ?? "—"} K</strong>
+      <strong>{target.batter || "Batter"} strikeouts Over {target.line ?? "—"}</strong>
       <span className="pill watch">Fair only</span>
     </div>
     <span>{target.team || "—"} vs {target.pitcher || "starter"} · {target.pitch_name || target.pitch_type || "Pitch"} {Number.isFinite(Number(target.usage)) ? `${Math.round(Number(target.usage))}%` : "—"}</span>
@@ -1851,7 +1851,7 @@ function BatterKTargetsBoard({ targets }) {
     <span className="fair-note">Play-to {price(target.play_to)}</span>
   </article>;
   return <section className="panel-section props-panel">
-    <div className="panel-heading"><h2>Batter K targets</h2><span className="muted">{lineupPending ? "Active roster · lineup pending" : "Confirmed lineup"} · fair only</span></div>
+    <div className="panel-heading"><h2>Batter strikeout angles</h2><span className="muted">Over 1.5 K · {lineupPending ? "active roster" : "confirmed lineup"} · fair prices</span></div>
     <div className="k-grid">
       {featuredTargets.map(targetCard)}
     </div>
@@ -1861,11 +1861,11 @@ function BatterKTargetsBoard({ targets }) {
 
 function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
   const rows = prioritizeBatterPropAngles((angles || []).filter((angle) => angle?.hasBook), 3);
-  const kRows = (pitcherRows || []).filter((row) => row?.hasBook);
+  const kRows = (pitcherRows || []).filter((row) => row?.hasBook && validBookPrice(row?.sideBook?.price));
   if (!rows.length && !kRows.length) return null;
   return <section className="panel-section props-panel" id="props">
     <div className="panel-heading">
-      <div><h2>Player props</h2><p className="muted">Pregame book-backed angles</p></div>
+      <div><h2>Bet angles</h2><p className="muted">Book price compared with fair</p></div>
       {kRows.length ? <div className="segmented" aria-label="K projection mode">
         <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base K</button>
         <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling K</button>
@@ -1878,9 +1878,9 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
           <div className="angle-top">
             <div>
               <h3>{row.player || "Starter"} strikeouts</h3>
-              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} {score(row.projected)} K · current market line</p>
+              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} {score(row.projected)} K · {row.side} is the current side</p>
             </div>
-            <span className="pill watch">Pregame</span>
+            <span className={`pill ${row.designation?.tone || "watch"}`}>{confidenceLabel(row.designation?.tone)}</span>
           </div>
           <label className="line-control" style={{ marginTop: 12, maxWidth: 220 }}>
             <span>K line</span>
@@ -1894,10 +1894,11 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
             />
           </label>
           <div className="prices">
-            <span>Over fair <b>{price(row.fair)}</b></span>
-            <span>Under fair <b>{price(row.underFair)}</b></span>
+            <span>Over fair <b>{price(row.displayOverFair ?? row.fair)}</b></span>
+            <span>Under fair <b>{price(row.displayUnderFair ?? row.underFair)}</b></span>
             <span>Book <b>{pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</b></span>
           </div>
+          {row.designation?.detail ? <p className="muted">{row.designation.detail}</p> : null}
           {row.explainer ? <details className="angle-details"><summary>Why this angle</summary><p>{row.explainer}</p></details> : null}
         </article>;
       })}
@@ -1980,8 +1981,8 @@ function SelectedGameWorkspace({ game, display, awayHand, homeHand, activeTab, o
       </div>
     </div> : null}
     {activeTab === "props" ? <div className="game-tab-panel">
-      <PlayerPropAnglesBoard angles={display.batterPropRows} pitcherRows={display.pitcherKFairRows} kMode={kMode} onKModeChange={onKModeChange} lineOverrides={lineOverrides} onLineChange={onLineChange} />
       <BatterKTargetsBoard targets={display.kTargetRows} />
+      <PlayerPropAnglesBoard angles={display.batterPropRows} pitcherRows={display.pitcherKFairRows} kMode={kMode} onKModeChange={onKModeChange} lineOverrides={lineOverrides} onLineChange={onLineChange} />
     </div> : null}
     {activeTab === "model" ? <div className="game-tab-panel">
       <article className="selected-model-copy">
@@ -2261,6 +2262,23 @@ function designationForOdds(fair, book, oppositeBook = null) {
   const ev = expectedValuePerUnit(fairProbability, book);
   const detail = `${probabilityEdgeMetric(edge)} · fair ${price(fair)} vs book ${price(book)}.`;
   return tieredDesignation(edge, ev, detail);
+}
+
+function pitcherKPriceAngle({ fair, underFair, overBook, underBook }) {
+  const displayOverFair = blendPropFairWithBook(fair, overBook?.price, underBook?.price);
+  const displayUnderFair = blendPropFairWithBook(underFair, underBook?.price, overBook?.price);
+  const overDesignation = designationForOdds(displayOverFair, overBook?.price, underBook?.price);
+  const underDesignation = designationForOdds(displayUnderFair, underBook?.price, overBook?.price);
+  const underHasBetterEdge = (underDesignation.edgeScore ?? -Infinity) > (overDesignation.edgeScore ?? -Infinity);
+  const side = underHasBetterEdge ? "Under" : "Over";
+  return {
+    displayOverFair,
+    displayUnderFair,
+    side,
+    sideFair: underHasBetterEdge ? displayUnderFair : displayOverFair,
+    sideBook: underHasBetterEdge ? underBook : overBook,
+    designation: underHasBetterEdge ? underDesignation : overDesignation,
+  };
 }
 
 function teamSideFromText(text, game) {
@@ -3016,6 +3034,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     const underFair = recalculated.under ?? (kMode === "base" && angle.base_under_fair != null ? angle.base_under_fair : angle.under_fair);
     const overBook = book?.over ?? odds.k?.[quoteKey(angle.player, "Over", displayLine)];
     const underBook = book?.under ?? odds.k?.[quoteKey(angle.player, "Under", displayLine)];
+    const pricing = pitcherKPriceAngle({ fair, underFair, overBook, underBook });
     return {
       key,
       player: angle.player,
@@ -3027,8 +3046,9 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       underBook,
       hasBook: validBookPrice(overBook?.price) || validBookPrice(underBook?.price),
       explainer: angle.explainer,
+      ...pricing,
     };
-  });
+  }).filter((row) => row.hasBook);
   const batterPropRows = (game.batter_prop_angles || []).map((angle, index) => {
     const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)] || angle.book_quote || null;
     const hasBook = validBookPrice(live?.price);
@@ -3052,34 +3072,24 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     .filter((target) => target?.batter && Number.isFinite(Number(target.fair)))
     .sort((a, b) => Number(b.probability || 0) - Number(a.probability || 0));
   const pricedPitcherRows = pitcherKFairRows.flatMap((row) => {
-    const overBook = row.overBook;
-    const underBook = row.underBook;
-    if (!validBookPrice(overBook?.price) && !validBookPrice(underBook?.price)) return [];
-    const anchoredOverFair = blendPropFairWithBook(row.fair, overBook?.price, underBook?.price);
-    const anchoredUnderFair = blendPropFairWithBook(row.underFair, underBook?.price, overBook?.price);
-    const overDesignation = designationForOdds(anchoredOverFair, overBook?.price, underBook?.price);
-    const underDesignation = designationForOdds(anchoredUnderFair, underBook?.price, overBook?.price);
-    const side = (underDesignation.edgeScore ?? -Infinity) > (overDesignation.edgeScore ?? -Infinity) ? "Under" : "Over";
-    const sideFair = side === "Under" ? anchoredUnderFair : anchoredOverFair;
-    const sideBook = side === "Under" ? underBook : overBook;
-    const designation = side === "Under" ? underDesignation : overDesignation;
+    if (!row.hasBook) return [];
     return [{
       kind: "pitcherK",
       key: row.key,
-      title: `${row.player || "Starter"} ${side} ${row.line} K`,
+      title: `${row.player || "Starter"} ${row.side} ${row.line} K`,
       subtitle: `${kMode === "base" ? "Base" : "Ceiling"} projection ${row.projected ?? "—"} K`,
       player: row.player,
       line: row.line,
       projected: row.projected,
-      fair: anchoredOverFair,
-      underFair: anchoredUnderFair,
-      overBook,
-      underBook,
-      side,
-      sideFair,
-      sideBook,
-      designation,
-      edge: designation.edgeScore ?? -999,
+      fair: row.displayOverFair,
+      underFair: row.displayUnderFair,
+      overBook: row.overBook,
+      underBook: row.underBook,
+      side: row.side,
+      sideFair: row.sideFair,
+      sideBook: row.sideBook,
+      designation: row.designation,
+      edge: row.designation.edgeScore ?? -999,
       explainer: row.explainer,
     }];
   }).sort((a, b) => b.edge - a.edge);
