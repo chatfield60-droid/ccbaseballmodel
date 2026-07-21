@@ -27692,7 +27692,7 @@
         "betWins": 32,
         "betLosses": 27,
         "betPushes": 1,
-        "riskedUnits": 71.05,
+        "riskedUnits": 71.07,
         "netUnits": 7.75,
         "bets": [
           {
@@ -28302,7 +28302,7 @@
             "book": "MyBookie.ag",
             "bookOdds": -102,
             "result": "Win",
-            "riskUnits": 1.0,
+            "riskUnits": 1.02,
             "netUnits": 1.0
           },
           {
