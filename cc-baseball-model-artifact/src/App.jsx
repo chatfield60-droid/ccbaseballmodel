@@ -948,7 +948,18 @@ function blendPropFairWithBook(fair, book, oppositeBook = null) {
 }
 
 function blankOdds() {
-  return { k: {}, pitcherK: {}, batter: {}, teamTotals: [], h2h: {}, totals: [], f5H2h: {}, f5Totals: [] };
+  return {
+    k: {},
+    pitcherK: {},
+    batter: {},
+    teamTotals: [],
+    h2h: {},
+    spreads: [],
+    totals: [],
+    f5H2h: {},
+    f5Spreads: [],
+    f5Totals: [],
+  };
 }
 
 function defaultGameIndex(games) {
@@ -1889,6 +1900,63 @@ function mainPoint(rows) {
   return [...counts.entries()].sort((a, b) => b[1] - a[1] || Math.abs(Number(a[0]) - 8.5) - Math.abs(Number(b[0]) - 8.5))[0]?.[0];
 }
 
+function isHalfRunLine(line) {
+  const value = Number(line);
+  if (!Number.isFinite(value)) return false;
+  return Math.abs(value * 2 - Math.round(value * 2)) < 1e-9 && Math.abs(value - Math.round(value)) > 1e-9;
+}
+
+function poissonRunDistribution(meanValue, maxRuns) {
+  const mean = Number(meanValue);
+  if (!Number.isFinite(mean) || mean < 0 || maxRuns < 0) return null;
+  const values = [];
+  let term = Math.exp(-mean);
+  for (let runs = 0; runs <= maxRuns; runs += 1) {
+    if (runs) term *= mean / runs;
+    values.push(term);
+  }
+  return values;
+}
+
+function runLineProbability(awayScore, homeScore, teamSide, line) {
+  const awayMean = Number(awayScore);
+  const homeMean = Number(homeScore);
+  const point = Number(line);
+  if (!Number.isFinite(awayMean) || !Number.isFinite(homeMean) || awayMean < 0 || homeMean < 0 || !["away", "home"].includes(teamSide) || !isHalfRunLine(point)) return null;
+  const maxMean = Math.max(awayMean, homeMean);
+  const maxRuns = Math.max(25, Math.ceil(maxMean + 10 * Math.sqrt(Math.max(maxMean, 1))));
+  const awayDistribution = poissonRunDistribution(awayMean, maxRuns);
+  const homeDistribution = poissonRunDistribution(homeMean, maxRuns);
+  if (!awayDistribution || !homeDistribution) return null;
+  let probability = 0;
+  awayDistribution.forEach((awayProbability, awayRuns) => {
+    homeDistribution.forEach((homeProbability, homeRuns) => {
+      const teamRuns = teamSide === "away" ? awayRuns : homeRuns;
+      const opponentRuns = teamSide === "away" ? homeRuns : awayRuns;
+      if (teamRuns + point > opponentRuns) probability += awayProbability * homeProbability;
+    });
+  });
+  return clamp(probability, 0.01, 0.99);
+}
+
+function mainSpreadPoint(rows, teamSide) {
+  const counts = new Map();
+  for (const row of rows || []) {
+    const line = Number(row?.line);
+    if (row?.side !== teamSide || !isHalfRunLine(line)) continue;
+    counts.set(line, (counts.get(line) || 0) + 1);
+  }
+  const point = [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || Math.abs(Math.abs(a[0]) - 1.5) - Math.abs(Math.abs(b[0]) - 1.5) || a[0] - b[0])[0]?.[0];
+  return Number.isFinite(point) ? point : null;
+}
+
+function bestSpreadRow(rows, teamSide, line) {
+  const point = Number(line);
+  if (!Number.isFinite(point)) return null;
+  return bestRow(rows, (row) => row?.side === teamSide && Number(row?.line) === point);
+}
+
 function bestRow(rows, predicate) {
   let best = null;
   for (const row of rows || []) {
@@ -2120,7 +2188,7 @@ function totalSideLabel(fairLine, liveLine) {
 
 function marketEdgeFromCard(card) {
   if (!card || !["lean", "bet", "strong"].includes(card.designation?.tone)) return null;
-  if (card.marketType === "moneyline") {
+  if (["moneyline", "run_line"].includes(card.marketType)) {
     return {
       category: "Market",
       betKind: card.betKind,
@@ -2166,7 +2234,9 @@ function hasOddsEntry(odds) {
   return Boolean(
     Object.keys(odds?.h2h || {}).length
     || Object.keys(odds?.f5H2h || {}).length
+    || (odds?.spreads || []).length
     || (odds?.totals || []).length
+    || (odds?.f5Spreads || []).length
     || (odds?.f5Totals || []).length
     || (odds?.teamTotals || []).length
     || Object.keys(odds?.k || {}).length
@@ -2182,8 +2252,10 @@ function normalizeOddsEntry(entry) {
     batter: { ...(entry.batter || {}) },
     teamTotals: Array.isArray(entry.teamTotals) ? entry.teamTotals : [],
     h2h: { ...(entry.h2h || {}) },
+    spreads: Array.isArray(entry.spreads) ? entry.spreads : [],
     totals: Array.isArray(entry.totals) ? entry.totals : [],
     f5H2h: { ...(entry.f5H2h || {}) },
+    f5Spreads: Array.isArray(entry.f5Spreads) ? entry.f5Spreads : [],
     f5Totals: Array.isArray(entry.f5Totals) ? entry.f5Totals : [],
   };
 }
@@ -2302,12 +2374,32 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
   const homeTTRows = pickTeamTotalRows(teamTotals, game.home_name, game.team_total_fairs?.home ?? game.home_score);
   const awayMlDesignation = designationForOdds(moneylineFairs.away_fair, selectedH2h.away?.price, selectedH2h.home?.price);
   const homeMlDesignation = designationForOdds(moneylineFairs.home_fair, selectedH2h.home?.price, selectedH2h.away?.price);
+  const awayRunLinePoint = mainSpreadPoint(odds.spreads, "away");
+  const homeRunLinePoint = mainSpreadPoint(odds.spreads, "home");
+  const awayRunLineBook = bestSpreadRow(odds.spreads, "away", awayRunLinePoint);
+  const homeRunLineBook = bestSpreadRow(odds.spreads, "home", homeRunLinePoint);
+  const awayRunLineProbability = runLineProbability(game.away_score, game.home_score, "away", awayRunLinePoint);
+  const homeRunLineProbability = runLineProbability(game.away_score, game.home_score, "home", homeRunLinePoint);
+  const awayRunLineFair = americanFromProbability(awayRunLineProbability);
+  const homeRunLineFair = americanFromProbability(homeRunLineProbability);
+  const awayRunLineDesignation = designationForOdds(awayRunLineFair, awayRunLineBook?.price, homeRunLineBook?.price);
+  const homeRunLineDesignation = designationForOdds(homeRunLineFair, homeRunLineBook?.price, awayRunLineBook?.price);
   const fullTotalDesignation = lineLean(game.total, fullTotalPoint, fullOver, fullUnder);
   const f5TotalDesignation = lineLean(f5.total, f5TotalPoint, f5Over, f5Under);
   const awayF5Fair = f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb);
   const homeF5Fair = f5.home_fair ?? americanFromProbability(f5HomeProb);
   const awayF5Designation = designationForOdds(awayF5Fair, odds.f5H2h?.away?.price, odds.f5H2h?.home?.price);
   const homeF5Designation = designationForOdds(homeF5Fair, odds.f5H2h?.home?.price, odds.f5H2h?.away?.price);
+  const awayF5RunLinePoint = mainSpreadPoint(odds.f5Spreads, "away");
+  const homeF5RunLinePoint = mainSpreadPoint(odds.f5Spreads, "home");
+  const awayF5RunLineBook = bestSpreadRow(odds.f5Spreads, "away", awayF5RunLinePoint);
+  const homeF5RunLineBook = bestSpreadRow(odds.f5Spreads, "home", homeF5RunLinePoint);
+  const awayF5RunLineProbability = runLineProbability(f5.away_score, f5.home_score, "away", awayF5RunLinePoint);
+  const homeF5RunLineProbability = runLineProbability(f5.away_score, f5.home_score, "home", homeF5RunLinePoint);
+  const awayF5RunLineFair = americanFromProbability(awayF5RunLineProbability);
+  const homeF5RunLineFair = americanFromProbability(homeF5RunLineProbability);
+  const awayF5RunLineDesignation = designationForOdds(awayF5RunLineFair, awayF5RunLineBook?.price, homeF5RunLineBook?.price);
+  const homeF5RunLineDesignation = designationForOdds(homeF5RunLineFair, homeF5RunLineBook?.price, awayF5RunLineBook?.price);
   const awayTTLine = awayTTRows.over?.line ?? awayTTRows.under?.line;
   const homeTTLine = homeTTRows.over?.line ?? homeTTRows.under?.line;
   const awayTTFair = game.team_total_fairs?.away ?? game.away_score;
@@ -2345,6 +2437,38 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       bookValue: selectedH2h.home?.price,
       bookName: selectedH2h.home?.book,
     },
+    ...(Number.isFinite(awayRunLinePoint) && Number.isFinite(awayRunLineFair) ? [{
+      group: "Full game",
+      marketType: "run_line",
+      betKind: "run_line",
+      betSide: "away",
+      teamSide: "away",
+      line: awayRunLinePoint,
+      title: `${game.away} ${signedRun(awayRunLinePoint)} run line`,
+      main: price(awayRunLineFair),
+      meta: [`Fair cover probability ${probabilityText(awayRunLineProbability)}`, bookMeta(awayRunLineBook)],
+      designation: awayRunLineDesignation,
+      edgeMetric: edgeMetricForTone(awayRunLineDesignation.tone, moneylineValueMetric(awayRunLineFair, awayRunLineBook?.price)),
+      fairValue: awayRunLineFair,
+      bookValue: awayRunLineBook?.price,
+      bookName: awayRunLineBook?.book,
+    }] : []),
+    ...(Number.isFinite(homeRunLinePoint) && Number.isFinite(homeRunLineFair) ? [{
+      group: "Full game",
+      marketType: "run_line",
+      betKind: "run_line",
+      betSide: "home",
+      teamSide: "home",
+      line: homeRunLinePoint,
+      title: `${game.home} ${signedRun(homeRunLinePoint)} run line`,
+      main: price(homeRunLineFair),
+      meta: [`Fair cover probability ${probabilityText(homeRunLineProbability)}`, bookMeta(homeRunLineBook)],
+      designation: homeRunLineDesignation,
+      edgeMetric: edgeMetricForTone(homeRunLineDesignation.tone, moneylineValueMetric(homeRunLineFair, homeRunLineBook?.price)),
+      fairValue: homeRunLineFair,
+      bookValue: homeRunLineBook?.price,
+      bookName: homeRunLineBook?.book,
+    }] : []),
     {
       group: "Full game",
       marketType: "total",
@@ -2405,6 +2529,38 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       bookValue: odds.f5H2h?.home?.price,
       bookName: odds.f5H2h?.home?.book,
     },
+    ...(Number.isFinite(awayF5RunLinePoint) && Number.isFinite(awayF5RunLineFair) ? [{
+      group: "First five",
+      marketType: "run_line",
+      betKind: "f5_run_line",
+      betSide: "away",
+      teamSide: "away",
+      line: awayF5RunLinePoint,
+      title: `${game.away} F5 ${signedRun(awayF5RunLinePoint)} run line`,
+      main: price(awayF5RunLineFair),
+      meta: [`Fair cover probability ${probabilityText(awayF5RunLineProbability)}`, bookMeta(awayF5RunLineBook)],
+      designation: awayF5RunLineDesignation,
+      edgeMetric: edgeMetricForTone(awayF5RunLineDesignation.tone, moneylineValueMetric(awayF5RunLineFair, awayF5RunLineBook?.price)),
+      fairValue: awayF5RunLineFair,
+      bookValue: awayF5RunLineBook?.price,
+      bookName: awayF5RunLineBook?.book,
+    }] : []),
+    ...(Number.isFinite(homeF5RunLinePoint) && Number.isFinite(homeF5RunLineFair) ? [{
+      group: "First five",
+      marketType: "run_line",
+      betKind: "f5_run_line",
+      betSide: "home",
+      teamSide: "home",
+      line: homeF5RunLinePoint,
+      title: `${game.home} F5 ${signedRun(homeF5RunLinePoint)} run line`,
+      main: price(homeF5RunLineFair),
+      meta: [`Fair cover probability ${probabilityText(homeF5RunLineProbability)}`, bookMeta(homeF5RunLineBook)],
+      designation: homeF5RunLineDesignation,
+      edgeMetric: edgeMetricForTone(homeF5RunLineDesignation.tone, moneylineValueMetric(homeF5RunLineFair, homeF5RunLineBook?.price)),
+      fairValue: homeF5RunLineFair,
+      bookValue: homeF5RunLineBook?.price,
+      bookName: homeF5RunLineBook?.book,
+    }] : []),
     {
       group: "Team totals",
       marketType: "total",
@@ -2675,7 +2831,9 @@ function CustomerBoard() {
         const nextBatter = {};
         const nextTotals = [];
         const nextH2h = {};
+        const nextSpreads = [];
         const nextF5H2h = {};
+        const nextF5Spreads = [];
         const nextGameTotals = [];
         const nextF5Totals = [];
 
@@ -2707,6 +2865,20 @@ function CustomerBoard() {
                 for (const outcome of market.outcomes || []) {
                   const side = teamSideFromText(outcome.name, targetGame);
                   setBestTeamPrice(store, side, { price: outcome.price, book: bookmaker.title || "Sportsbook" });
+                }
+              }
+              if (market.key === "spreads" || market.key === "spreads_1st_5_innings") {
+                const rows = market.key === "spreads" ? nextSpreads : nextF5Spreads;
+                for (const outcome of market.outcomes || []) {
+                  const side = teamSideFromText(outcome.name, targetGame);
+                  const line = Number(outcome.point);
+                  if (!side || !Number.isFinite(line)) continue;
+                  rows.push({
+                    side,
+                    line,
+                    price: outcome.price ?? null,
+                    book: bookmaker.title || "Sportsbook",
+                  });
                 }
               }
               if (market.key === "totals" || market.key === "totals_1st_5_innings") {
@@ -2773,15 +2945,15 @@ function CustomerBoard() {
           }
         };
 
-        const mainOdds = await fetchOddsPayload("h2h,totals");
+        const mainOdds = await fetchOddsPayload("h2h,spreads,totals");
         if (mainOdds) parseStandardOdds(mainOdds);
-        else if (!warnings.has("sportsbook odds key rejected")) warnings.add("moneyline/total prices unavailable");
+        else if (!warnings.has("sportsbook odds key rejected")) warnings.add("moneyline/run-line/total prices unavailable");
 
         const teamTotalOdds = await fetchOddsPayload("team_totals");
         if (teamTotalOdds) parseStandardOdds(teamTotalOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("team total prices unavailable");
 
-        const f5Odds = await fetchOddsPayload("h2h_1st_5_innings,totals_1st_5_innings");
+        const f5Odds = await fetchOddsPayload("h2h_1st_5_innings,spreads_1st_5_innings,totals_1st_5_innings");
         if (f5Odds) parseStandardOdds(f5Odds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("F5 prices unavailable");
 
@@ -2793,7 +2965,18 @@ function CustomerBoard() {
         if (propOdds) parseBatterOdds(propOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
 
-        const entry = { k: nextK, pitcherK: nextK, batter: nextBatter, teamTotals: nextTotals, h2h: nextH2h, totals: nextGameTotals, f5H2h: nextF5H2h, f5Totals: nextF5Totals };
+        const entry = {
+          k: nextK,
+          pitcherK: nextK,
+          batter: nextBatter,
+          teamTotals: nextTotals,
+          h2h: nextH2h,
+          spreads: nextSpreads,
+          totals: nextGameTotals,
+          f5H2h: nextF5H2h,
+          f5Spreads: nextF5Spreads,
+          f5Totals: nextF5Totals,
+        };
         return hasOddsEntry(entry) ? entry : null;
       };
 
@@ -2941,7 +3124,7 @@ function CustomerBoard() {
         <BatterKTargetsBoard targets={selectedDisplay.kTargetRows} />
 
         <section className="card">
-          <div className="card-title"><h2>Selected game markets</h2><span className="muted">ML · totals · F5 · team totals</span></div>
+          <div className="card-title"><h2>Selected game markets</h2><span className="muted">ML · run lines · totals · F5 · team totals</span></div>
           <div className="market-section">
             <div className="market-grid">
               {selectedDisplay.marketCards.map((card) => (
