@@ -12,6 +12,12 @@ const ODDS_PROXY_ORIGIN = "https://cc-baseball-board-20260710.chatfield60.chatgp
 // Props receive a deliberately lighter price check than sides/totals. When a
 // paired price exists, use its no-vig probability and move the fair only 15%.
 const PROP_PRICE_BLEND_WEIGHT = 0.15;
+// Sides and run lines use a stronger reconciliation than props. Extreme
+// model-vs-market gaps retain a model residual, but cannot surface as a
+// customer-facing price that ignores the paired pregame book.
+const SIDE_PRICE_BLEND_WEIGHT = 0.60;
+const SIDE_PRICE_EXTREME_GAP = 0.12;
+const SIDE_PRICE_EXTREME_BLEND_WEIGHT = 0.80;
 const K_FAIR_SCALE = 1.55;
 const STRONG_PROB_EDGE = 0.045;
 const BET_PROB_EDGE = 0.025;
@@ -2220,6 +2226,36 @@ function noVigBookProbability(book, oppositeBook = null) {
   return total > 0 ? sideProbability / total : sideProbability;
 }
 
+function marketSuppressedProbability(modelProbability, marketProbability) {
+  const model = Number(modelProbability);
+  const market = Number(marketProbability);
+  if (!Number.isFinite(model) || !Number.isFinite(market)) return model;
+  const weight = Math.abs(model - market) >= SIDE_PRICE_EXTREME_GAP
+    ? SIDE_PRICE_EXTREME_BLEND_WEIGHT
+    : SIDE_PRICE_BLEND_WEIGHT;
+  return clamp(model + (market - model) * weight, 0.02, 0.98);
+}
+
+function marketSuppressedFair(fair, book, oppositeBook = null) {
+  const modelProbability = impliedProbability(fair);
+  const marketProbability = noVigBookProbability(book, oppositeBook);
+  if (!Number.isFinite(modelProbability) || !Number.isFinite(marketProbability)) return fair;
+  return americanFromProbability(marketSuppressedProbability(modelProbability, marketProbability));
+}
+
+function marketSuppressedMoneylineFairs(fairs, homeBook, awayBook) {
+  const modelHomeProbability = Number(fairs?.home_probability);
+  const marketHomeProbability = noVigBookProbability(homeBook, awayBook);
+  if (!Number.isFinite(modelHomeProbability) || !Number.isFinite(marketHomeProbability)) return fairs;
+  const homeProbability = Math.round(marketSuppressedProbability(modelHomeProbability, marketHomeProbability) * 1000) / 1000;
+  return {
+    away_probability: Math.round((1 - homeProbability) * 1000) / 1000,
+    home_probability: homeProbability,
+    away_fair: americanFromProbability(1 - homeProbability),
+    home_fair: americanFromProbability(homeProbability),
+  };
+}
+
 function bookProfitPerUnit(priceValue) {
   const priceNumber = Number(priceValue);
   if (!validBookPrice(priceNumber)) return null;
@@ -2496,12 +2532,17 @@ function marketAdjustedGame(game, odds = blankOdds()) {
   });
   if (!full) return game;
 
-  const moneylineFairs = {
+  const scoreMoneylineFairs = {
     away_probability: Math.round((1 - full.home_win_probability) * 1000) / 1000,
     home_probability: full.home_win_probability,
     away_fair: americanFromProbability(1 - full.home_win_probability),
     home_fair: americanFromProbability(full.home_win_probability),
   };
+  const moneylineFairs = marketSuppressedMoneylineFairs(
+    scoreMoneylineFairs,
+    odds.h2h?.home?.price,
+    odds.h2h?.away?.price,
+  );
   const originalF5 = game.f5 || {};
   const originalF5Away = Number(originalF5.away_score);
   const originalF5Home = Number(originalF5.home_score);
@@ -2522,16 +2563,29 @@ function marketAdjustedGame(game, odds = blankOdds()) {
       total: Math.round((f5Away + f5Home) * 10) / 10,
       home_win_probability: Math.round(marketHomeProbabilityFromMargin(f5Home - f5Away, F5_MARGIN_SCALE) * 1000) / 1000,
     };
+    const scoreF5Fairs = {
+      away_probability: Math.round((1 - f5Projection.home_win_probability) * 1000) / 1000,
+      home_probability: f5Projection.home_win_probability,
+      away_fair: americanFromProbability(1 - f5Projection.home_win_probability),
+      home_fair: americanFromProbability(f5Projection.home_win_probability),
+    };
+    const f5Fairs = marketSuppressedMoneylineFairs(
+      scoreF5Fairs,
+      odds.f5H2h?.home?.price,
+      odds.f5H2h?.away?.price,
+    );
     f5 = {
       ...originalF5,
       ...f5Projection,
-      away_fair: americanFromProbability(1 - f5Projection.home_win_probability),
-      home_fair: americanFromProbability(f5Projection.home_win_probability),
+      home_win_probability: f5Fairs.home_probability,
+      away_fair: f5Fairs.away_fair,
+      home_fair: f5Fairs.home_fair,
     };
   }
   return {
     ...game,
     ...full,
+    home_win_probability: moneylineFairs.home_probability,
     f5,
     moneyline_fairs: moneylineFairs,
     team_total_fairs: { away: full.away_score, home: full.home_score },
@@ -2805,14 +2859,30 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
   const homeRunLineBook = bestSpreadRow(odds.spreads, "home", homeRunLinePoint);
   const awayRunLineProbability = runLineProbability(game.away_score, game.home_score, "away", awayRunLinePoint);
   const homeRunLineProbability = runLineProbability(game.away_score, game.home_score, "home", homeRunLinePoint);
-  const awayRunLineFair = americanFromProbability(awayRunLineProbability);
-  const homeRunLineFair = americanFromProbability(homeRunLineProbability);
+  const awayRunLineFair = marketSuppressedFair(
+    americanFromProbability(awayRunLineProbability),
+    awayRunLineBook?.price,
+    homeRunLineBook?.price,
+  );
+  const homeRunLineFair = marketSuppressedFair(
+    americanFromProbability(homeRunLineProbability),
+    homeRunLineBook?.price,
+    awayRunLineBook?.price,
+  );
   const awayRunLineDesignation = designationForOdds(awayRunLineFair, awayRunLineBook?.price, homeRunLineBook?.price);
   const homeRunLineDesignation = designationForOdds(homeRunLineFair, homeRunLineBook?.price, awayRunLineBook?.price);
   const fullTotalDesignation = lineLean(game.total, fullTotalPoint, fullOver, fullUnder);
   const f5TotalDesignation = lineLean(f5.total, f5TotalPoint, f5Over, f5Under);
-  const awayF5Fair = f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb);
-  const homeF5Fair = f5.home_fair ?? americanFromProbability(f5HomeProb);
+  const awayF5Fair = marketSuppressedFair(
+    f5.away_fair ?? americanFromProbability(f5HomeProb == null ? null : 1 - f5HomeProb),
+    odds.f5H2h?.away?.price,
+    odds.f5H2h?.home?.price,
+  );
+  const homeF5Fair = marketSuppressedFair(
+    f5.home_fair ?? americanFromProbability(f5HomeProb),
+    odds.f5H2h?.home?.price,
+    odds.f5H2h?.away?.price,
+  );
   const awayF5Designation = designationForOdds(awayF5Fair, odds.f5H2h?.away?.price, odds.f5H2h?.home?.price);
   const homeF5Designation = designationForOdds(homeF5Fair, odds.f5H2h?.home?.price, odds.f5H2h?.away?.price);
   const awayF5RunLinePoint = mainSpreadPoint(odds.f5Spreads, "away");
@@ -2821,8 +2891,16 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
   const homeF5RunLineBook = bestSpreadRow(odds.f5Spreads, "home", homeF5RunLinePoint);
   const awayF5RunLineProbability = runLineProbability(f5.away_score, f5.home_score, "away", awayF5RunLinePoint);
   const homeF5RunLineProbability = runLineProbability(f5.away_score, f5.home_score, "home", homeF5RunLinePoint);
-  const awayF5RunLineFair = americanFromProbability(awayF5RunLineProbability);
-  const homeF5RunLineFair = americanFromProbability(homeF5RunLineProbability);
+  const awayF5RunLineFair = marketSuppressedFair(
+    americanFromProbability(awayF5RunLineProbability),
+    awayF5RunLineBook?.price,
+    homeF5RunLineBook?.price,
+  );
+  const homeF5RunLineFair = marketSuppressedFair(
+    americanFromProbability(homeF5RunLineProbability),
+    homeF5RunLineBook?.price,
+    awayF5RunLineBook?.price,
+  );
   const awayF5RunLineDesignation = designationForOdds(awayF5RunLineFair, awayF5RunLineBook?.price, homeF5RunLineBook?.price);
   const homeF5RunLineDesignation = designationForOdds(homeF5RunLineFair, homeF5RunLineBook?.price, awayF5RunLineBook?.price);
   const awayTTLine = awayTTRows.over?.line ?? awayTTRows.under?.line;
@@ -2871,7 +2949,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       line: awayRunLinePoint,
       title: `${game.away} ${signedRun(awayRunLinePoint)} run line`,
       main: price(awayRunLineFair),
-      meta: [`Fair cover probability ${probabilityText(awayRunLineProbability)}`, bookMeta(awayRunLineBook)],
+      meta: [`Fair cover probability ${probabilityText(impliedProbability(awayRunLineFair) ?? awayRunLineProbability)}`, bookMeta(awayRunLineBook)],
       designation: awayRunLineDesignation,
       edgeMetric: edgeMetricForTone(awayRunLineDesignation.tone, moneylineValueMetric(awayRunLineFair, awayRunLineBook?.price)),
       fairValue: awayRunLineFair,
@@ -2887,7 +2965,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       line: homeRunLinePoint,
       title: `${game.home} ${signedRun(homeRunLinePoint)} run line`,
       main: price(homeRunLineFair),
-      meta: [`Fair cover probability ${probabilityText(homeRunLineProbability)}`, bookMeta(homeRunLineBook)],
+      meta: [`Fair cover probability ${probabilityText(impliedProbability(homeRunLineFair) ?? homeRunLineProbability)}`, bookMeta(homeRunLineBook)],
       designation: homeRunLineDesignation,
       edgeMetric: edgeMetricForTone(homeRunLineDesignation.tone, moneylineValueMetric(homeRunLineFair, homeRunLineBook?.price)),
       fairValue: homeRunLineFair,
@@ -2932,7 +3010,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       teamSide: "away",
       title: `${game.away} F5 ML`,
       main: price(awayF5Fair),
-      meta: [`Fair probability ${probabilityText(f5HomeProb == null ? null : 1 - f5HomeProb)}`, bookMeta(odds.f5H2h?.away)],
+      meta: [`Fair probability ${probabilityText(impliedProbability(awayF5Fair) ?? (f5HomeProb == null ? null : 1 - f5HomeProb))}`, bookMeta(odds.f5H2h?.away)],
       designation: awayF5Designation,
       edgeMetric: edgeMetricForTone(awayF5Designation.tone, moneylineValueMetric(awayF5Fair, odds.f5H2h?.away?.price)),
       fairValue: awayF5Fair,
@@ -2947,7 +3025,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       teamSide: "home",
       title: `${game.home} F5 ML`,
       main: price(homeF5Fair),
-      meta: [`Fair probability ${probabilityText(f5HomeProb)}`, bookMeta(odds.f5H2h?.home)],
+      meta: [`Fair probability ${probabilityText(impliedProbability(homeF5Fair) ?? f5HomeProb)}`, bookMeta(odds.f5H2h?.home)],
       designation: homeF5Designation,
       edgeMetric: edgeMetricForTone(homeF5Designation.tone, moneylineValueMetric(homeF5Fair, odds.f5H2h?.home?.price)),
       fairValue: homeF5Fair,
@@ -2963,7 +3041,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       line: awayF5RunLinePoint,
       title: `${game.away} F5 ${signedRun(awayF5RunLinePoint)} run line`,
       main: price(awayF5RunLineFair),
-      meta: [`Fair cover probability ${probabilityText(awayF5RunLineProbability)}`, bookMeta(awayF5RunLineBook)],
+      meta: [`Fair cover probability ${probabilityText(impliedProbability(awayF5RunLineFair) ?? awayF5RunLineProbability)}`, bookMeta(awayF5RunLineBook)],
       designation: awayF5RunLineDesignation,
       edgeMetric: edgeMetricForTone(awayF5RunLineDesignation.tone, moneylineValueMetric(awayF5RunLineFair, awayF5RunLineBook?.price)),
       fairValue: awayF5RunLineFair,
@@ -2979,7 +3057,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       line: homeF5RunLinePoint,
       title: `${game.home} F5 ${signedRun(homeF5RunLinePoint)} run line`,
       main: price(homeF5RunLineFair),
-      meta: [`Fair cover probability ${probabilityText(homeF5RunLineProbability)}`, bookMeta(homeF5RunLineBook)],
+      meta: [`Fair cover probability ${probabilityText(impliedProbability(homeF5RunLineFair) ?? homeF5RunLineProbability)}`, bookMeta(homeF5RunLineBook)],
       designation: homeF5RunLineDesignation,
       edgeMetric: edgeMetricForTone(homeF5RunLineDesignation.tone, moneylineValueMetric(homeF5RunLineFair, homeF5RunLineBook?.price)),
       fairValue: homeF5RunLineFair,
