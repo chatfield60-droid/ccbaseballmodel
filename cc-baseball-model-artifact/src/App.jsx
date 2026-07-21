@@ -96,19 +96,33 @@ const APP_CSS = `
   h3 { color: var(--text-primary); font-size: 13px; font-weight: 650; letter-spacing: 0; }
   .muted, .subline { color: var(--text-secondary); font-size: 13px; line-height: 1.45; }
   .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 5;
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    padding: 18px max(28px, calc((100vw - 1320px) / 2));
+    padding: 14px max(22px, calc((100vw - 1320px) / 2));
     border-bottom: 1px solid var(--border);
     background: color-mix(in srgb, var(--page-bg) 90%, var(--surface));
   }
-  .brand { color: var(--text-primary); font-size: 20px; font-weight: 700; letter-spacing: 0; }
+  .topbar-copy { display: grid; gap: 4px; }
+  .brand { color: var(--text-primary); font-size: 21px; font-weight: 750; letter-spacing: 0; }
   .brand b { color: var(--accent); }
+  .header-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .header-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    padding: 0 7px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    background: var(--surface-muted);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+  }
   .top-actions { display: flex; align-items: center; gap: 10px; }
   .odds-stamp { color: var(--text-secondary); font-size: 12px; white-space: nowrap; }
   .mode, .refresh {
@@ -125,6 +139,33 @@ const APP_CSS = `
   .refresh:disabled { cursor: wait; opacity: .68; }
   .mode:hover, .refresh:hover:not(:disabled), .score-tile:hover { transform: translateY(-1px); }
   .shell { width: min(1320px, 100%); margin: 0 auto; padding: 22px; display: grid; gap: 16px; }
+  .dashboard-nav {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--page-bg) 94%, var(--surface));
+  }
+  .dashboard-nav-inner {
+    display: flex;
+    width: min(1320px, 100%);
+    margin: 0 auto;
+    padding: 8px 22px;
+    gap: 4px;
+  }
+  .dashboard-nav button {
+    min-height: 32px;
+    padding: 0 11px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease;
+  }
+  .dashboard-nav button:hover { background: var(--accent-soft); color: var(--accent); }
   .card {
     overflow: hidden;
     border: 1px solid var(--border);
@@ -202,6 +243,159 @@ const APP_CSS = `
     padding: 0 4px;
     border-bottom: 1px solid var(--border);
   }
+  .decision-hero {
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    scroll-margin-top: 54px;
+  }
+  .decision-hero-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .eyebrow { color: var(--text-tertiary); font-size: 11px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+  .decision-hero h1 { margin-top: 4px; color: var(--text-primary); font-size: 24px; font-weight: 760; letter-spacing: 0; line-height: 1.1; }
+  .decision-hero-status { color: var(--text-secondary); font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .decision-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .decision-pick {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+    min-width: 0;
+    min-height: 172px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-muted);
+    color: inherit;
+    text-align: left;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .decision-pick.strong { border-left: 4px solid var(--positive); background: color-mix(in srgb, #EAF8F2 54%, var(--surface)); box-shadow: 0 6px 16px rgba(22, 131, 91, .08); }
+  .decision-pick.bet { border-color: color-mix(in srgb, var(--positive) 44%, var(--border)); }
+  .decision-pick:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--positive) 54%, var(--border)); }
+  .decision-pick-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .confidence-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 21px;
+    padding: 0 7px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    background: var(--surface);
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .confidence-pill.strong { color: #fff; border-color: var(--positive); background: var(--positive); }
+  .confidence-pill.bet { color: var(--positive); border-color: #CDEDE0; background: #EAF8F2; }
+  .confidence-pill.lean, .confidence-pill.small { color: var(--text-secondary); }
+  .decision-pick-edge { color: var(--text-secondary); font-size: 11px; font-weight: 750; font-variant-numeric: tabular-nums; }
+  .decision-pick strong { overflow: hidden; color: var(--text-primary); font-size: 14px; font-weight: 750; line-height: 1.28; text-overflow: ellipsis; }
+  .decision-pick > span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
+  .decision-pick-prices { display: flex; flex-wrap: wrap; gap: 4px 8px; color: var(--text-secondary); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .decision-pick-prices b { color: var(--text-primary); font-weight: 750; }
+  .decision-pick p { color: var(--text-secondary); font-size: 11px; line-height: 1.35; }
+  .decision-hero-empty { padding: 14px; border-radius: var(--radius-sm); background: var(--surface-muted); color: var(--text-secondary); font-size: 13px; }
+  .game-browser { scroll-margin-top: 54px; }
+  .game-score-grid { gap: 10px; padding: 10px 12px 14px; }
+  .game-score-card { min-height: 114px; gap: 10px; padding: 13px; }
+  .game-score-top, .game-score-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .game-score-top { color: var(--text-secondary); font-size: 11px; line-height: 1.3; }
+  .game-score-top b { color: var(--text-primary); font-size: 12px; font-weight: 750; }
+  .game-score-line { display: flex; align-items: baseline; gap: 7px; color: var(--text-primary); font-size: 27px; font-weight: 760; line-height: 1; font-variant-numeric: tabular-nums; }
+  .game-score-line i { color: var(--text-tertiary); font-size: 17px; font-style: normal; font-weight: 500; }
+  .game-score-line .score-high { color: var(--accent); font-size: 1.12em; }
+  .game-score-meta { color: var(--text-secondary); font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .game-score-card.active { border-color: color-mix(in srgb, var(--accent) 88%, var(--border)); background: color-mix(in srgb, var(--accent-soft) 76%, var(--surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent); }
+  .selected-game { display: grid; gap: 16px; scroll-margin-top: 54px; }
+  .selected-game-head { display: grid; gap: 12px; padding: 4px 2px 0; border-bottom: 1px solid var(--border); }
+  .selected-game-head .selected-main { padding: 0 0 14px; }
+  .game-tabs { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 10px; }
+  .game-tabs button {
+    min-height: 31px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-muted);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .game-tabs button.active { border-color: color-mix(in srgb, var(--accent) 48%, var(--border)); background: var(--accent-soft); color: var(--accent); }
+  .game-tab-panel { display: grid; gap: 16px; }
+  .overview-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 12px; }
+  .score-focus, .overview-picks { display: grid; align-content: start; gap: 10px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+  .score-focus .eyebrow, .overview-picks .eyebrow { font-size: 10px; }
+  .selected-score-large { color: var(--text-primary); font-size: 36px; font-weight: 760; line-height: 1; font-variant-numeric: tabular-nums; }
+  .score-focus p, .overview-picks > span { color: var(--text-secondary); font-size: 12px; line-height: 1.4; }
+  .overview-pick-list { display: grid; gap: 7px; }
+  .overview-pick { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 7px; border-top: 1px solid var(--border); color: inherit; text-align: left; }
+  .overview-pick:first-child { padding-top: 0; border-top: 0; }
+  .overview-pick strong { color: var(--text-primary); font-size: 13px; font-weight: 700; }
+  .overview-pick span { color: var(--text-secondary); font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .overview-empty { color: var(--text-secondary); font-size: 12px; line-height: 1.45; }
+  .selected-model-copy { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+  .selected-model-copy p { color: var(--text-secondary); font-size: 13px; line-height: 1.5; }
+  .selected-model-copy strong { color: var(--text-primary); }
+  .market-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .market-compare div { display: grid; gap: 2px; min-width: 0; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-muted); }
+  .market-compare span { color: var(--text-tertiary); font-size: 10px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+  .market-compare b { overflow: hidden; color: var(--text-primary); font-size: 12px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .panel-section { display: grid; gap: 10px; }
+  .panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 0 2px; }
+  .panel-heading h2 { font-size: 18px; }
+  .panel-heading .muted { font-size: 12px; text-align: right; }
+  .props-panel { scroll-margin-top: 54px; }
+  .props-panel .angle-list { padding: 0; gap: 8px; }
+  .props-panel .angle { padding: 14px; background: var(--surface); }
+  .target-details { display: grid; gap: 10px; }
+  .target-details summary { width: fit-content; cursor: pointer; color: var(--text-secondary); font-size: 12px; font-weight: 700; }
+  .target-details[open] summary { color: var(--accent); }
+  .prop-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .prop-tag { display: inline-flex; align-items: center; min-height: 21px; padding: 0 7px; border: 1px solid var(--border); border-radius: 999px; color: var(--text-secondary); background: var(--surface-muted); font-size: 10px; font-weight: 750; }
+  .angle-details { margin-top: 10px; color: var(--text-secondary); font-size: 12px; line-height: 1.45; }
+  .angle-details summary { width: fit-content; cursor: pointer; color: var(--text-secondary); font-size: 12px; font-weight: 700; }
+  .angle-details p { margin-top: 7px; }
+  .advanced-disclosure { scroll-margin-top: 54px; }
+  .advanced-disclosure > summary, .performance-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 16px; cursor: pointer; list-style: none; }
+  .advanced-disclosure > summary::-webkit-details-marker, .performance-disclosure > summary::-webkit-details-marker { display: none; }
+  .advanced-disclosure > summary h2, .performance-disclosure > summary h2 { display: inline; }
+  .advanced-summary-copy { color: var(--text-secondary); font-size: 12px; }
+  .advanced-controls { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 10px; padding: 0 16px 12px; }
+  .performance-disclosure { scroll-margin-top: 54px; }
+  .performance-disclosure[open] > summary { border-bottom: 1px solid var(--border); }
+  .performance-tabs { display: flex; gap: 4px; overflow-x: auto; padding: 12px 16px 0; }
+  .performance-tabs button { min-height: 30px; padding: 0 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--text-secondary); font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .performance-tabs button.active { border-color: color-mix(in srgb, var(--accent) 48%, var(--border)); color: var(--accent); background: var(--accent-soft); }
+  .performance-highlights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 12px 16px 16px; }
+  .performance-highlight { display: grid; gap: 3px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
+  .performance-highlight span { color: var(--text-tertiary); font-size: 10px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+  .performance-highlight strong { color: var(--text-primary); font-size: 20px; font-weight: 760; font-variant-numeric: tabular-nums; }
+  .pick-drawer {
+    position: fixed;
+    z-index: 12;
+    right: max(18px, calc((100vw - 1320px) / 2));
+    bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1px solid color-mix(in srgb, var(--positive) 42%, var(--border));
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-primary);
+    box-shadow: 0 8px 24px rgba(23, 32, 51, .12);
+    font-size: 12px;
+    font-weight: 750;
+  }
+  .pick-drawer b { color: var(--positive); }
+  .night .confidence-pill.strong { color: #06150E; background: #8FE4B9; border-color: #8FE4B9; }
+  .night .confidence-pill.bet { color: #8FE4B9; background: #123326; border-color: #1D513C; }
+  .night .decision-pick.strong { background: color-mix(in srgb, #123326 54%, var(--surface)); box-shadow: 0 6px 16px rgba(0, 0, 0, .2); }
   .selected-main { padding: 2px 0 14px; align-items: flex-start; }
   .selected-main h2 { margin-bottom: 4px; font-size: 20px; }
   .selected-score {
@@ -313,12 +507,12 @@ const APP_CSS = `
     line-height: 1.2;
     border: 1px solid var(--border);
   }
-  .pill.small, .pill.lean { color: #8A5B08; background: #FFF7E8; border-color: #F4DFB8; }
+  .pill.small, .pill.lean { color: var(--text-secondary); background: var(--surface-muted); border-color: var(--border); }
   .pill.bet { color: var(--positive); background: #EAF8F2; border-color: #CDEDE0; }
   .pill.strong { color: #fff; background: var(--positive); border-color: var(--positive); }
   .pill.pass, .pill.watch { color: var(--text-secondary); background: var(--surface-muted); border-color: var(--border); }
   .pill.pass { opacity: .72; filter: saturate(.7); }
-  .night .pill.small, .night .pill.lean { color: #F0C777; background: #3A2A13; border-color: #574019; }
+  .night .pill.small, .night .pill.lean { color: var(--text-secondary); background: var(--surface-muted); border-color: var(--border); }
   .night .pill.bet { color: #8FE4B9; background: #123326; border-color: #1D513C; }
   .night .pill.strong { color: #06150E; background: #8FE4B9; border-color: #8FE4B9; }
   .night .edge-badge { color: #06150E; background: #8FE4B9; }
@@ -401,17 +595,17 @@ const APP_CSS = `
   }
   .results-market-scope .segmented { padding: 2px; }
   .results-market-scope .segmented button { min-height: 28px; padding: 0 8px; }
-  .results-market-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .results-market-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
   .market-performance-card {
     --performance-accent: #7D8796;
     --performance-soft: #F7F9FC;
     position: relative;
     display: grid;
     align-content: start;
-    gap: 16px;
+    gap: 10px;
     min-width: 0;
-    min-height: 248px;
-    padding: 20px;
+    min-height: 216px;
+    padding: 14px;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--border) 82%, var(--surface));
     border-top: 3px solid var(--performance-accent);
@@ -430,38 +624,38 @@ const APP_CSS = `
   @media (prefers-reduced-motion: reduce) {
     .market-performance-card { transition: none; }
   }
-  .market-performance-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-  .market-performance-card-head h4 { margin: 0; min-width: 0; color: var(--text-primary); font-size: 16px; font-weight: 750; line-height: 1.25; overflow-wrap: anywhere; }
+  .market-performance-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 7px; }
+  .market-performance-card-head h4 { margin: 0; min-width: 0; color: var(--text-primary); font-size: 14px; font-weight: 750; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .market-performance-count, .market-performance-sample, .market-performance-roi {
     display: inline-flex;
     align-items: center;
     width: fit-content;
     border: 1px solid var(--border);
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 750;
     line-height: 1.2;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
   }
-  .market-performance-count { flex: 0 0 auto; padding: 4px 7px; background: var(--surface-muted); color: var(--text-secondary); }
-  .market-performance-primary { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .78fr); gap: 14px; }
-  .market-performance-value { display: grid; gap: 4px; min-width: 0; }
-  .market-performance-value span, .market-performance-label, .market-performance-support span { color: var(--text-tertiary); font-size: 11px; font-weight: 750; line-height: 1.2; letter-spacing: .04em; text-transform: uppercase; }
-  .market-performance-value strong { color: var(--text-primary); font-size: 30px; font-weight: 760; line-height: 1; letter-spacing: 0; font-variant-numeric: tabular-nums; }
-  .market-performance-value.accuracy strong { font-size: 20px; line-height: 1.1; }
-  .market-performance-financial { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; padding-top: 2px; }
-  .market-performance-financial strong { color: var(--performance-accent); font-size: 26px; font-weight: 760; line-height: 1; font-variant-numeric: tabular-nums; }
-  .market-performance-roi { gap: 4px; padding: 5px 7px; color: var(--performance-accent); border-color: color-mix(in srgb, var(--performance-accent) 26%, var(--border)); background: var(--performance-soft); }
-  .market-performance-roi span { color: inherit; font-size: 10px; font-weight: 750; letter-spacing: .03em; text-transform: uppercase; }
-  .market-performance-sample { margin-top: -8px; padding: 4px 7px; color: #8A5A00; border-color: #F1D29A; background: #FFF7E8; }
-  .market-performance-support { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 14px; }
-  .market-performance-support div { display: grid; gap: 3px; min-width: 0; }
-  .market-performance-support b { color: var(--text-primary); font-size: 14px; font-weight: 700; line-height: 1.25; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .market-performance-count { flex: 0 0 auto; padding: 3px 6px; background: var(--surface-muted); color: var(--text-secondary); }
+  .market-performance-primary { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .78fr); gap: 10px; }
+  .market-performance-value { display: grid; gap: 3px; min-width: 0; }
+  .market-performance-value span, .market-performance-label, .market-performance-support span { color: var(--text-tertiary); font-size: 10px; font-weight: 750; line-height: 1.2; letter-spacing: .04em; text-transform: uppercase; }
+  .market-performance-value strong { color: var(--text-primary); font-size: 26px; font-weight: 760; line-height: 1; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+  .market-performance-value.accuracy strong { font-size: 18px; line-height: 1.1; }
+  .market-performance-financial { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; padding-top: 1px; }
+  .market-performance-financial strong { color: var(--performance-accent); font-size: 23px; font-weight: 760; line-height: 1; font-variant-numeric: tabular-nums; }
+  .market-performance-roi { gap: 3px; padding: 4px 6px; color: var(--performance-accent); border-color: color-mix(in srgb, var(--performance-accent) 26%, var(--border)); background: var(--performance-soft); }
+  .market-performance-roi span { color: inherit; font-size: 9px; font-weight: 750; letter-spacing: .03em; text-transform: uppercase; }
+  .market-performance-sample { margin-top: -4px; padding: 3px 6px; color: #8A5A00; border-color: #F1D29A; background: #FFF7E8; }
+  .market-performance-support { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 10px; }
+  .market-performance-support div { display: grid; gap: 2px; min-width: 0; }
+  .market-performance-support b { color: var(--text-primary); font-size: 13px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
   .market-performance-support .open b { color: #5C718B; }
   .market-performance-support .void b { color: var(--text-secondary); }
-  .market-performance-progress { display: grid; align-self: end; gap: 6px; }
-  .market-performance-progress-label { color: var(--text-tertiary); font-size: 11px; font-weight: 650; line-height: 1.2; }
+  .market-performance-progress { display: grid; align-self: end; gap: 4px; }
+  .market-performance-progress-label { color: var(--text-tertiary); font-size: 10px; font-weight: 650; line-height: 1.2; }
   .market-performance-track { height: 4px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--performance-soft) 58%, var(--border)); }
   .market-performance-fill { display: block; height: 100%; border-radius: inherit; background: var(--performance-accent); }
   .market-performance-empty { color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
@@ -550,6 +744,8 @@ const APP_CSS = `
   @media (max-width: 1080px) {
     .compact-scores, .market-grid, .edge-grid, .top-grid, .performance-grid, .results-market-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .biggest-edges-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .decision-picks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .overview-grid { grid-template-columns: 1fr; }
     .k-section { grid-template-columns: 1fr; }
     .bet-result-item { grid-template-columns: minmax(0, 1fr) auto; }
     .bet-result-units { grid-column: 1 / -1; }
@@ -564,8 +760,10 @@ const APP_CSS = `
     .top-actions { width: 100%; flex-wrap: wrap; }
     .mode, .refresh { flex: 1; }
     .shell { padding: 18px; gap: 18px; }
+    .dashboard-nav-inner { overflow-x: auto; padding: 8px 18px; }
     .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid, .biggest-edges-grid { grid-template-columns: 1fr; }
+    .decision-picks, .performance-highlights { grid-template-columns: 1fr; }
     .results-market-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .results-market-heading { align-items: flex-start; flex-direction: column; }
     .results-market-controls { justify-content: flex-start; }
@@ -573,6 +771,11 @@ const APP_CSS = `
     .edge-data { justify-items: start; padding-top: 0; }
     .selected-main { flex-direction: column; }
     .selected-score { font-size: 24px; }
+    .selected-score-large { font-size: 30px; }
+    .panel-heading { align-items: flex-start; flex-direction: column; }
+    .panel-heading .muted { text-align: left; }
+    .advanced-controls { justify-content: flex-start; }
+    .pick-drawer { right: 14px; bottom: 14px; }
     .table { min-width: 680px; }
     .card:has(.table) { overflow-x: auto; }
   }
@@ -580,6 +783,13 @@ const APP_CSS = `
     .shell { padding: 14px; }
     .card-title { align-items: flex-start; flex-direction: column; gap: 4px; }
     .compact-scores { grid-template-columns: 1fr; }
+    .decision-hero { padding: 16px; }
+    .decision-hero h1 { font-size: 21px; }
+    .decision-picks { grid-template-columns: 1fr; }
+    .decision-pick { min-height: 0; }
+    .game-score-line { font-size: 25px; }
+    .dashboard-nav-inner { padding: 8px 14px; }
+    .dashboard-nav button { padding: 0 9px; }
     .results-market-grid { grid-template-columns: 1fr; }
     .market-performance-card { min-height: 0; padding: 18px; }
     .results-market-controls { align-items: flex-start; flex-direction: column; }
@@ -1404,27 +1614,106 @@ function BiggestEdgesBoard({ edges, hasOdds, onSelectGame }) {
   </section>;
 }
 
+function confidenceLabel(tone) {
+  return ({
+    strong: "Elite",
+    bet: "Strong",
+    lean: "Good",
+    small: "Lean",
+    watch: "Watch",
+    pass: "No edge",
+  })[tone] || "Watch";
+}
+
+function edgePercent(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return "—";
+  return `${numeric >= 0 ? "+" : ""}${(numeric * 100).toFixed(1)}%`;
+}
+
+function firstSentence(value) {
+  const text = String(value || "").trim();
+  if (!text) return "Current pregame book price has cleared fair.";
+  const sentence = text.split(/[!?]/)[0].split(/\. (?=[A-Z])/)[0].trim();
+  return sentence || text;
+}
+
+function propAngleTags(angle) {
+  const tags = [];
+  if (Number.isFinite(Number(angle?.xba))) tags.push("xBA");
+  if (Number.isFinite(Number(angle?.xslg))) tags.push("xSLG");
+  if (Number.isFinite(Number(angle?.xwoba))) tags.push("xwOBA");
+  if (Number.isFinite(Number(angle?.barrel_rate))) tags.push("Barrel");
+  if (angle?.pitch_name || angle?.pitch_type) tags.push("Pitch matchup");
+  return [...new Set(tags)].slice(0, 4);
+}
+
+function TodayBestBets({ edges, hasOdds, onSelectGame }) {
+  const actionable = (edges || []).filter((edge) => isGradedBetTone(edge?.tone));
+  const priority = actionable.filter((edge) => ["strong", "bet"].includes(edge.tone));
+  const picks = (priority.length ? priority : actionable).slice(0, 3);
+  return <section className="decision-hero" id="best-bets" aria-label="Today's best bets">
+    <div className="decision-hero-heading">
+      <div>
+        <p className="eyebrow">Today&apos;s best bets</p>
+        <h1>Actionable pregame edges</h1>
+      </div>
+      <span className="decision-hero-status">{hasOdds ? `${picks.length} featured` : "Waiting for odds"}</span>
+    </div>
+    {hasOdds && picks.length ? <div className="decision-picks">
+      {picks.map((edge, index) => <button
+        className={`decision-pick ${edge.tone || "lean"}`}
+        type="button"
+        key={`${edge.gameKey || edge.gameLabel || "game"}-${edge.title}-${index}`}
+        onClick={() => onSelectGame(edge.gameIndex)}
+      >
+        <div className="decision-pick-top">
+          <span className={`confidence-pill ${edge.tone || "lean"}`}>{confidenceLabel(edge.tone)}</span>
+          <span className="decision-pick-edge">{edgePercent(edge.edge)} edge</span>
+        </div>
+        <strong>{edge.title}</strong>
+        <span>{edge.gameLabel}</span>
+        <div className="decision-pick-prices">
+          <span>Fair <b>{edge.fairDisplay || price(edge.fair)}</b></span>
+          <span>Book <b>{edge.bookDisplay || price(edge.book)}</b></span>
+          <span>{edge.bookName || "Sportsbook"}</span>
+        </div>
+        <p>{firstSentence(edge.subtitle)}</p>
+      </button>)}
+    </div> : <div className="decision-hero-empty">Pregame book prices are needed before a play appears here.</div>}
+  </section>;
+}
+
+function DashboardNav({ onNavigate }) {
+  const items = [
+    ["best-bets", "Best bets"],
+    ["games", "Games"],
+    ["props", "Props"],
+    ["performance", "Performance"],
+  ];
+  return <nav className="dashboard-nav" aria-label="Board sections">
+    <div className="dashboard-nav-inner">
+      {items.map(([target, label]) => <button type="button" key={target} onClick={() => onNavigate(target)}>{label}</button>)}
+    </div>
+  </nav>;
+}
+
 function Scoreboard({ games, gameIndex, onSelect, edgeCounts }) {
-  return <section className="card">
-    <div className="card-title"><h2>Projected scores</h2><span className="muted">{games.length} games · tap a game for detail</span></div>
-    <div className="compact-scores">
+  return <section className="card game-browser" id="games">
+    <div className="card-title"><h2>Projected games</h2><span className="muted">{games.length} games</span></div>
+    <div className="compact-scores game-score-grid">
       {games.map((item, index) => {
         const moneylineFairs = baseMoneylineFairs(item);
         const favorite = favoriteFromMoneyline(item, moneylineFairs);
         const awayScore = Number(item.away_score);
         const homeScore = Number(item.home_score);
-        const awayHigh = Number.isFinite(awayScore) && Number.isFinite(homeScore) && awayScore > homeScore;
-        const homeHigh = Number.isFinite(awayScore) && Number.isFinite(homeScore) && homeScore > awayScore;
         const edgeCount = edgeCounts?.[gameKey(item)] || 0;
-        return <button className={`score-tile ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => onSelect(index)}>
-          <span className="tile-head"><span>{item.away} @ {item.home}</span><span>{item.time || item.status || "—"}</span></span>
-          <span className="tile-line"><span className={awayHigh ? "score-high" : ""}><small>{item.away}</small><b>{score(item.away_score)}</b></span><span className={homeHigh ? "score-high" : ""}><b>{score(item.home_score)}</b><small>{item.home}</small></span></span>
-          <span className="tile-meta">
-            <span>Total {score(item.total)}</span>
-            <span className="tile-meta-right">
-              <span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%` : "—"}</span>
-              {edgeCount ? <span className="edge-badge">{edgeCount} edge{edgeCount === 1 ? "" : "s"}</span> : null}
-            </span>
+        return <button className={`score-tile game-score-card ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => onSelect(index)}>
+          <span className="game-score-top"><b>{item.away} @ {item.home}</b><span>{item.time || item.status || "—"}</span></span>
+          <span className="game-score-line"><b className={awayScore > homeScore ? "score-high" : ""}>{score(awayScore)}</b><i>—</i><b className={homeScore > awayScore ? "score-high" : ""}>{score(homeScore)}</b></span>
+          <span className="game-score-meta">
+            <span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%` : "—"}</span>
+            {edgeCount ? <span className="edge-badge">{edgeCount} edge{edgeCount === 1 ? "" : "s"}</span> : <span>Total {score(item.total)}</span>}
           </span>
         </button>;
       })}
@@ -1467,9 +1756,9 @@ function TierLegend() {
   return <details className="tier-legend">
     <summary>Tier guide</summary>
     <div>
-      <span><b>Strong bet:</b> best actionable sportsbook gap.</span>
-      <span><b>Bet:</b> clear sportsbook gap.</span>
-      <span><b>Lean / small edge:</b> thinner gap, worth monitoring.</span>
+      <span><b>Elite:</b> the largest current price gap.</span>
+      <span><b>Strong:</b> a clear current price gap.</span>
+      <span><b>Good / lean:</b> a thinner gap worth monitoring.</span>
       <span><b>No edge:</b> book price has not cleared fair.</span>
     </div>
   </details>;
@@ -1477,28 +1766,28 @@ function TierLegend() {
 
 function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChange }) {
   const visibleEdges = tier === "all" ? edges : edges.filter((edge) => edge.tone === tier);
-  const tierLabel = tier === "all" ? "all tiers" : tier === "strong" ? "strong bets" : `${tier}s`;
+  const tierLabel = tier === "all" ? "all tiers" : confidenceLabel(tier).toLowerCase();
   const status = visibleEdges.length ? `${visibleEdges.length} ${tierLabel}` : hasOdds ? `No ${tierLabel} on this board` : "Waiting for odds";
-  return <section className="card">
-    <div className="card-title">
-      <h2>Edge board</h2>
-      <div className="edge-controls">
-        <span className="muted">{status} · props + markets</span>
-        <div className="segmented" aria-label="Priced edge scope">
-          <button type="button" className={view === "game" ? "active" : ""} onClick={() => onViewChange("game")}>This game</button>
-          <button type="button" className={view === "slate" ? "active" : ""} onClick={() => onViewChange("slate")}>Full slate</button>
-        </div>
-        <label className="edge-tier-filter">
-          <span>Tier</span>
-          <select value={tier} onChange={(event) => onTierChange(event.target.value)} aria-label="Filter edge tier">
-            <option value="all">All tiers</option>
-            <option value="strong">Strong bets</option>
-            <option value="bet">Bets</option>
-            <option value="lean">Leans</option>
-          </select>
-        </label>
-        <TierLegend />
+  return <details className="card advanced-disclosure" id="advanced-markets">
+    <summary>
+      <span><h2>Advanced markets</h2></span>
+      <span className="advanced-summary-copy">{status}</span>
+    </summary>
+    <div className="advanced-controls">
+      <div className="segmented" aria-label="Priced edge scope">
+        <button type="button" className={view === "game" ? "active" : ""} onClick={() => onViewChange("game")}>This game</button>
+        <button type="button" className={view === "slate" ? "active" : ""} onClick={() => onViewChange("slate")}>Full slate</button>
       </div>
+      <label className="edge-tier-filter">
+        <span>Tier</span>
+        <select value={tier} onChange={(event) => onTierChange(event.target.value)} aria-label="Filter edge tier">
+          <option value="all">All tiers</option>
+          <option value="strong">Elite</option>
+          <option value="bet">Strong</option>
+          <option value="lean">Good</option>
+        </select>
+      </label>
+      <TierLegend />
     </div>
     {visibleEdges.length ? <div className="edge-grid">
       {visibleEdges.slice(0, view === "slate" ? 12 : 8).map((edge, index) => <article className={`edge-card ${edge.tone || "lean"}`} key={`${edge.title}-${edge.gameLabel || ""}-${index}`}>
@@ -1512,34 +1801,35 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChang
           <span>Book <b>{edge.bookDisplay || price(edge.book)}</b></span>
           <span>{edge.bookName || "Sportsbook"}</span>
         </div>
-        <span className={`pill ${edge.tone || "lean"}`}>{edge.label}</span>
+        <span className={`pill ${edge.tone || "lean"}`}>{confidenceLabel(edge.tone)}</span>
       </article>)}
     </div> : <div className="empty-state">{hasOdds ? `No ${tierLabel} cleared the current book numbers.` : "Refresh pregame odds to populate prop and market edges. No book price, no edge label."}</div>}
-  </section>;
+  </details>;
 }
 
 function BatterKTargetsBoard({ targets }) {
   if (!targets.length) return null;
-  return <section className="card">
-    <div className="card-title"><h2>Batter K target fairs</h2><span className="muted">Fair only · no book prices required</span></div>
-    <div className="k-section single">
-      <div className="k-panel">
-        <div className="k-grid">
-          {targets.map((target, index) => <article className="k-card" key={`${target.batter}-${target.pitcher}-${index}`}>
-            <div className="k-card-head">
-              <strong>{target.batter || "Batter"} over {target.line ?? "—"} K</strong>
-              <span className="pill watch">Fair only</span>
-            </div>
-            <span>{target.team || "—"} vs {target.pitcher || "starter"} · {target.pitch_name || target.pitch_type || "Pitch"} {Number.isFinite(Number(target.usage)) ? `${Math.round(Number(target.usage))}%` : "—"}</span>
-            <div className="mini-stats">
-              <span>Fair <b>{price(target.fair)}</b></span>
-              <span>Prob <b>{probabilityText(target.probability)}</b></span>
-            </div>
-            <span className="fair-note">Play-to {price(target.play_to)}</span>
-          </article>)}
-        </div>
-      </div>
+  const lineupPending = targets.some((target) => target?.eligibility_source === "active_roster");
+  const featuredTargets = targets.slice(0, 8);
+  const remainingTargets = targets.slice(featuredTargets.length);
+  const targetCard = (target, index) => <article className="k-card" key={`${target.batter}-${target.pitcher}-${index}`}>
+    <div className="k-card-head">
+      <strong>{target.batter || "Batter"} over {target.line ?? "—"} K</strong>
+      <span className="pill watch">Fair only</span>
     </div>
+    <span>{target.team || "—"} vs {target.pitcher || "starter"} · {target.pitch_name || target.pitch_type || "Pitch"} {Number.isFinite(Number(target.usage)) ? `${Math.round(Number(target.usage))}%` : "—"}</span>
+    <div className="mini-stats">
+      <span>Fair <b>{price(target.fair)}</b></span>
+      <span>Prob <b>{probabilityText(target.probability)}</b></span>
+    </div>
+    <span className="fair-note">Play-to {price(target.play_to)}</span>
+  </article>;
+  return <section className="panel-section props-panel">
+    <div className="panel-heading"><h2>Batter K targets</h2><span className="muted">{lineupPending ? "Active roster · lineup pending" : "Confirmed lineup"} · fair only</span></div>
+    <div className="k-grid">
+      {featuredTargets.map(targetCard)}
+    </div>
+    {remainingTargets.length ? <details className="target-details"><summary>Show all {targets.length} targets</summary><div className="k-grid">{remainingTargets.map((target, index) => targetCard(target, featuredTargets.length + index))}</div></details> : null}
   </section>;
 }
 
@@ -1547,16 +1837,13 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
   const rows = prioritizeBatterPropAngles((angles || []).filter((angle) => angle?.hasBook), 3);
   const kRows = (pitcherRows || []).filter((row) => row?.hasBook);
   if (!rows.length && !kRows.length) return null;
-  return <section className="card">
-    <div className="card-title">
-      <h2>Player prop angles</h2>
-      <div className="edge-controls">
-        <span className="muted">Current pregame book price</span>
-        {kRows.length ? <div className="segmented" aria-label="K projection mode">
-          <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base K</button>
-          <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling K</button>
-        </div> : null}
-      </div>
+  return <section className="panel-section props-panel" id="props">
+    <div className="panel-heading">
+      <div><h2>Player props</h2><p className="muted">Pregame book-backed angles</p></div>
+      {kRows.length ? <div className="segmented" aria-label="K projection mode">
+        <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base K</button>
+        <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling K</button>
+      </div> : null}
     </div>
     <div className="angle-list">
       {kRows.map((row) => {
@@ -1565,9 +1852,9 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
           <div className="angle-top">
             <div>
               <h3>{row.player || "Starter"} strikeouts</h3>
-              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} projection {score(row.projected)} K · selected market line</p>
+              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} {score(row.projected)} K · current market line</p>
             </div>
-            <span className="pill watch">Pregame price</span>
+            <span className="pill watch">Pregame</span>
           </div>
           <label className="line-control" style={{ marginTop: 12, maxWidth: 220 }}>
             <span>K line</span>
@@ -1583,9 +1870,9 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
           <div className="prices">
             <span>Over fair <b>{price(row.fair)}</b></span>
             <span>Under fair <b>{price(row.underFair)}</b></span>
-            {row.hasBook ? <span>Book <b>{pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</b></span> : null}
+            <span>Book <b>{pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</b></span>
           </div>
-          {row.explainer ? <p className="muted">{row.explainer}</p> : null}
+          {row.explainer ? <details className="angle-details"><summary>Why this angle</summary><p>{row.explainer}</p></details> : null}
         </article>;
       })}
       {rows.map((angle, index) => <article className="angle" key={`${angle.player}-${angle.market}-${index}`}>
@@ -1594,17 +1881,89 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
             <h3>{angle.player} {propMarketText(angle.market)} {angle.side || "Over"} {angle.line ?? "—"}</h3>
             <p className="muted">{angle.team || "—"} vs {angle.pitcher || "starter"} · {angle.pitch_name || angle.pitch_type || "Pitch"} {Number.isFinite(Number(angle.usage)) ? `${Math.round(Number(angle.usage))}%` : "—"}</p>
           </div>
-          <span className={`pill ${angle.designation?.tone || "watch"}`}>{angle.designation?.label || "Watch price"}</span>
+          <span className={`pill ${angle.designation?.tone || "watch"}`}>{confidenceLabel(angle.designation?.tone)}</span>
         </div>
+        {propAngleTags(angle).length ? <div className="prop-tags">{propAngleTags(angle).map((tag) => <span className="prop-tag" key={tag}>{tag}</span>)}</div> : null}
         <div className="prices">
           <span>Fair <b>{price(angle.fair)}</b></span>
-          <span>Play-to <b>{price(angle.play_to)}</b></span>
-          <span>Prob <b>{probabilityText(angle.probability)}</b></span>
           <span>Book <b>{price(angle.book?.price)} · {angle.book?.book || "—"}</b></span>
+          <span>Prob <b>{probabilityText(angle.probability)}</b></span>
         </div>
-        {angle.explainer ? <p className="muted">{angle.explainer}</p> : null}
+        {angle.explainer ? <details className="angle-details"><summary>Why this angle</summary><p>{angle.explainer}</p></details> : null}
       </article>)}
     </div>
+  </section>;
+}
+
+function marketBookDisplay(card) {
+  if (card?.marketType === "total") {
+    if (!Number.isFinite(Number(card.bookLine))) return "—";
+    const side = totalSideLabel(card.fairValue, card.bookLine);
+    return `${side ? `${side} ` : ""}${Number(card.bookLine).toFixed(1)} · ${price(card.bookValue)}`;
+  }
+  return price(card?.bookValue);
+}
+
+function SelectedGameWorkspace({ game, display, awayHand, homeHand, activeTab, onTabChange, kMode, onKModeChange, lineOverrides, onLineChange }) {
+  const favorite = favoriteForGame(game);
+  const topEdges = (display?.allEdges || []).filter((edge) => isGradedBetTone(edge?.tone)).slice(0, 3);
+  const tabs = [
+    ["overview", "Overview"],
+    ["markets", "Markets"],
+    ["props", "Props"],
+    ["model", "Model"],
+  ];
+  return <section className="selected-game" id="selected-game">
+    <header className="selected-game-head">
+      <div className="selected-main">
+        <div>
+          <h2>{game.away} @ {game.home}</h2>
+          <p className="muted">{starterLabel(game.away, game.away_starter, awayHand)} vs {starterLabel(game.home, game.home_starter, homeHand)} · {game.time || game.status || "—"}</p>
+        </div>
+        <div className="selected-score">{game.away} {score(game.away_score)} · {score(game.home_score)} {game.home}</div>
+      </div>
+      <div className="game-tabs" role="tablist" aria-label="Selected game views">
+        {tabs.map(([key, label]) => <button type="button" role="tab" aria-selected={activeTab === key} className={activeTab === key ? "active" : ""} key={key} onClick={() => onTabChange(key)}>{label}</button>)}
+      </div>
+    </header>
+    {activeTab === "overview" ? <div className="game-tab-panel">
+      <div className="overview-grid">
+        <article className="score-focus">
+          <span className="eyebrow">Projected score</span>
+          <strong className="selected-score-large">{game.away} {score(game.away_score)} — {score(game.home_score)} {game.home}</strong>
+          <p>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}% favorite` : "Win probability unavailable"}</p>
+        </article>
+        <article className="overview-picks">
+          <span className="eyebrow">Best for this game</span>
+          <div className="overview-pick-list">
+            {topEdges.length ? topEdges.map((edge, index) => <div className="overview-pick" key={`${edge.title}-${index}`}>
+              <strong>{edge.title}</strong><span>{confidenceLabel(edge.tone)}</span>
+            </div>) : <p className="overview-empty">No book-backed play is currently showing for this matchup.</p>}
+          </div>
+        </article>
+      </div>
+    </div> : null}
+    {activeTab === "markets" ? <div className="game-tab-panel">
+      <div className="market-grid">
+        {display.marketCards.map((card) => <article className={`market-card ${card.designation.tone}`} key={card.title}>
+          <div className="market-top"><h3>{card.title}</h3><span className={`pill ${card.designation.tone}`}>{confidenceLabel(card.designation.tone)}</span></div>
+          <div className="market-compare"><div><span>Fair</span><b>{card.main}</b></div><div><span>Book</span><b>{marketBookDisplay(card)}</b></div></div>
+          {card.edgeMetric ? <div className="market-edge">{card.edgeMetric}</div> : null}
+          <p className="muted">{card.designation.detail}</p>
+        </article>)}
+      </div>
+    </div> : null}
+    {activeTab === "props" ? <div className="game-tab-panel">
+      <PlayerPropAnglesBoard angles={display.batterPropRows} pitcherRows={display.pitcherKFairRows} kMode={kMode} onKModeChange={onKModeChange} lineOverrides={lineOverrides} onLineChange={onLineChange} />
+      <BatterKTargetsBoard targets={display.kTargetRows} />
+    </div> : null}
+    {activeTab === "model" ? <div className="game-tab-panel">
+      <article className="selected-model-copy">
+        <span className="eyebrow">Matchup note</span>
+        <p>{game.synthesis || "A customer-safe matchup summary is not available for this game."}</p>
+        <p><strong>Starter context:</strong> {starterLabel(game.away, game.away_starter, awayHand)} vs {starterLabel(game.home, game.home_starter, homeHand)}.</p>
+      </article>
+    </div> : null}
   </section>;
 }
 
@@ -1617,8 +1976,9 @@ function resultTone(value, correct, push) {
 }
 
 function ResultsPerformance({ rows, date }) {
-  const [marketSort, setMarketSort] = useState("volume");
+  const [marketSort, setMarketSort] = useState("net");
   const [marketScope, setMarketScope] = useState("all");
+  const [performanceTab, setPerformanceTab] = useState("overview");
   const bets = (rows || []).flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
   if (!bets.length) return null;
   const metrics = summarizeResults(rows);
@@ -1631,19 +1991,43 @@ function ResultsPerformance({ rows, date }) {
     resultDateRange(rows),
     "captured pregame prices",
   ].filter(Boolean);
-  return <section className="card">
-    <div className="card-title"><h2>Results dashboard</h2><span className="muted">{titleBits.join(" · ")}</span></div>
-    <div className="performance-grid">
-      {metrics.map((metric) => <article className="performance-card" key={metric.label}>
-        <span>{metric.label}</span>
-        <strong>{metric.value}</strong>
-      </article>)}
+  const tabs = [
+    ["overview", "Overview"],
+    ["sides", "Sides"],
+    ["totals", "Totals"],
+    ["props", "Props"],
+  ];
+  const sideMarkets = new Set(["moneyline", "run_line", "f5_moneyline", "f5_run_line"]);
+  const totalMarkets = new Set(["full_total", "team_total", "f5_total"]);
+  const tabMarketGroups = performanceTab === "overview"
+    ? visibleMarketGroups
+    : visibleMarketGroups.filter((group) => {
+      const key = group.info?.key;
+      if (performanceTab === "sides") return sideMarkets.has(key);
+      if (performanceTab === "totals") return totalMarkets.has(key);
+      return !sideMarkets.has(key) && !totalMarkets.has(key);
+    });
+  const highlights = ["Record", "Accuracy", "Net units", "ROI"]
+    .map((label) => metrics.find((metric) => metric.label === label))
+    .filter(Boolean)
+    .slice(0, 3);
+  const performanceTitle = performanceTab === "overview" ? "Performance by market" : `${performanceTab[0].toUpperCase()}${performanceTab.slice(1)} performance`;
+  return <details className="card performance-disclosure" id="performance">
+    <summary>
+      <span><h2>Performance</h2></span>
+      <span className="advanced-summary-copy">{titleBits.join(" · ")}</span>
+    </summary>
+    <div className="performance-tabs" role="tablist" aria-label="Performance views">
+      {tabs.map(([key, label]) => <button type="button" role="tab" aria-selected={performanceTab === key} className={performanceTab === key ? "active" : ""} key={key} onClick={() => setPerformanceTab(key)}>{label}</button>)}
     </div>
+    {highlights.length ? <div className="performance-highlights">
+      {highlights.map((metric) => <article className="performance-highlight" key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong></article>)}
+    </div> : null}
     <section className="results-market-summary" aria-label="Cumulative performance by market">
       <div className="results-market-heading">
         <div className="results-market-heading-copy">
-          <h3>Performance by Market</h3>
-          <p className="results-section-label">Cumulative results for all posted sides and props</p>
+          <h3>{performanceTitle}</h3>
+          <p className="results-section-label">Cumulative results for posted picks with captured pregame prices</p>
         </div>
         <div className="results-market-controls">
           <label className="results-market-sort">
@@ -1664,7 +2048,7 @@ function ResultsPerformance({ rows, date }) {
         </div>
       </div>
       <div className="results-market-grid">
-        {visibleMarketGroups.map((group) => {
+        {tabMarketGroups.map((group) => {
           const summary = group.summary;
           const settled = Number(summary.settled) || 0;
           const smallSample = settled > 0 && settled < 10;
@@ -1713,7 +2097,7 @@ function ResultsPerformance({ rows, date }) {
             </div> : null}
           </article>;
         })}
-        {!visibleMarketGroups.length ? <p className="market-performance-empty">No graded markets yet.</p> : null}
+        {!tabMarketGroups.length ? <p className="market-performance-empty">No posted markets in this view yet.</p> : null}
       </div>
     </section>
     <details className="results-details">
@@ -1743,7 +2127,7 @@ function ResultsPerformance({ rows, date }) {
         </article>)}
       </div>
     </details>
-  </section>;
+  </details>;
 }
 
 function ModelFooter({ games, message }) {
@@ -1753,12 +2137,12 @@ function ModelFooter({ games, message }) {
   const tight = [...(games || [])].filter((game) => Number.isFinite(Number(game.away_score)) && Number.isFinite(Number(game.home_score))).sort((a, b) => Math.abs(Number(a.away_score) - Number(a.home_score)) - Math.abs(Number(b.away_score) - Number(b.home_score)))[0];
   return <footer className="card model-footer">
     <div className="footer-grid">
-      <span>Model snapshot: {BOARD.date || "—"}</span>
+      <span>Slate {BOARD.date || "—"}</span>
       <span>{games.length} games</span>
       <span>Avg total {score(avgTotal)}</span>
       <span>Highest total {highest ? `${highest.away}/${highest.home} ${score(highest.total)}` : "—"}</span>
       <span>Closest game {tight ? `${tight.away}/${tight.home}` : "—"}</span>
-      <span>{message || "Props are odds-gated; no book number, no bet label."}</span>
+      {message ? <span>{message}</span> : null}
     </div>
   </footer>;
 }
@@ -2751,6 +3135,7 @@ function CustomerBoard() {
   const specialEvents = Array.isArray(BOARD.special_events) ? BOARD.special_events : [];
   const [night, setNight] = useState(false);
   const [gameIndex, setGameIndex] = useState(() => defaultGameIndex(games));
+  const [gameTab, setGameTab] = useState("overview");
   const [kMode, setKMode] = useState("base");
   const [kLineOverrides, setKLineOverrides] = useState({});
   const [resultHistory] = useState(() => normalizeResultsHistory(BOARD.results_history));
@@ -3012,14 +3397,35 @@ function CustomerBoard() {
   const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.allEdges;
   const hasFreshSlateOdds = Number.isFinite(lastOddsUpdatedAt)
     && Object.values(oddsByGame).some((entry) => hasOddsEntry(entry));
+  const elitePickCount = fullSlatePricedEdges.filter((edge) => edge.tone === "strong").length;
+  const featuredPickCount = Math.min(3, fullSlatePricedEdges.filter((edge) => isGradedBetTone(edge.tone)).length);
+  const headerMetrics = summarizeResults(resultRows);
+  const headerRecord = headerMetrics.find((metric) => metric.label === "Record");
+  const headerNet = headerMetrics.find((metric) => metric.label === "Net units");
   const oddsStamp = updatedAgoText(lastOddsUpdatedAt, nowTick);
   const awayHand = starterHand(game, "away");
   const homeHand = starterHand(game, "home");
+
+  function selectGame(index, tab = "overview") {
+    if (!Number.isInteger(index) || index < 0 || index >= displayGames.length) return;
+    setGameIndex(index);
+    setGameTab(tab);
+    setKLineOverrides({});
+    setMessage("");
+    window.requestAnimationFrame(() => document.getElementById("selected-game")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+
+  function navigateDashboard(target) {
+    if (target === "props") setGameTab("props");
+    if (target === "performance") document.getElementById("performance")?.setAttribute("open", "");
+    const destination = target === "props" ? "selected-game" : target;
+    window.requestAnimationFrame(() => document.getElementById(destination)?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
   if (!game) return (
     <main className={`app ${night ? "night" : ""}`}>
       <style>{APP_CSS}</style>
       <header className="topbar">
-        <div>
+        <div className="topbar-copy">
           <div className="brand"><b>CC</b> Baseball Board</div>
           <div className="subline">Customer slate · {BOARD.date || "—"}</div>
         </div>
@@ -3058,9 +3464,15 @@ function CustomerBoard() {
     <main className={`app ${night ? "night" : ""}`}>
       <style>{APP_CSS}</style>
       <header className="topbar">
-        <div>
+        <div className="topbar-copy">
           <div className="brand"><b>CC</b> Baseball Board</div>
-          <div className="subline">Customer slate · {BOARD.date || "—"} · private model details hidden</div>
+          <div className="header-meta">
+            <span className="header-chip">{BOARD.date || "—"}</span>
+            <span className="header-chip">{displayGames.length} games</span>
+            {hasFreshSlateOdds && elitePickCount ? <span className="header-chip">{Math.min(3, elitePickCount)} elite picks</span> : null}
+            {headerRecord ? <span className="header-chip">{headerRecord.value}</span> : null}
+            {headerNet ? <span className="header-chip">{headerNet.value}</span> : null}
+          </div>
         </div>
         <div className="top-actions">
           <button type="button" className="mode" onClick={() => setNight((value) => !value)}>{night ? "Day mode" : "Night mode"}</button>
@@ -3069,29 +3481,30 @@ function CustomerBoard() {
         </div>
       </header>
 
+      <DashboardNav onNavigate={navigateDashboard} />
+
       <div className="shell">
-        <BiggestEdgesBoard
+        <TodayBestBets
           edges={fullSlatePricedEdges}
           hasOdds={hasFreshSlateOdds}
-          onSelectGame={(index) => {
-            if (!Number.isInteger(index) || index < 0 || index >= displayGames.length) return;
-            setGameIndex(index);
-            setKLineOverrides({});
-            setMessage("");
-          }}
+          onSelectGame={(index) => selectGame(index)}
         />
-        <Scoreboard games={displayGames} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => { setGameIndex(index); setKLineOverrides({}); setMessage(""); }} />
+        <Scoreboard games={displayGames} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => selectGame(index)} />
 
-        <section className="selected-summary">
-          <div className="selected-main">
-            <div>
-              <h2>{game.away} @ {game.home}</h2>
-              <p className="muted">{starterLabel(game.away, game.away_starter, awayHand)} vs {starterLabel(game.home, game.home_starter, homeHand)} · {game.time || game.status || "—"}</p>
-            </div>
-            <div className="selected-score">{game.away} {score(game.away_score)} · {score(game.home_score)} {game.home}</div>
-          </div>
-        </section>
+        <SelectedGameWorkspace
+          game={game}
+          display={selectedDisplay}
+          awayHand={awayHand}
+          homeHand={homeHand}
+          activeTab={gameTab}
+          onTabChange={setGameTab}
+          kMode={kMode}
+          onKModeChange={setKMode}
+          lineOverrides={kLineOverrides}
+          onLineChange={(key, value) => setKLineOverrides((current) => ({ ...current, [key]: value }))}
+        />
 
+        <ResultsPerformance rows={resultRows} date={BOARD.date} />
         <PricedEdgeBoard
           edges={displayedPricedEdges}
           hasOdds={edgeView === "slate" ? fullSlatePricedEdges.length > 0 || Object.keys(oddsByGame).length > 0 : selectedDisplay.hasAnyOdds}
@@ -3100,44 +3513,11 @@ function CustomerBoard() {
           tier={edgeTier}
           onTierChange={setEdgeTier}
         />
-
-        <PlayerPropAnglesBoard
-          angles={selectedDisplay.batterPropRows}
-          pitcherRows={selectedDisplay.pitcherKFairRows}
-          kMode={kMode}
-          onKModeChange={setKMode}
-          lineOverrides={kLineOverrides}
-          onLineChange={(key, value) => setKLineOverrides((current) => ({ ...current, [key]: value }))}
-        />
-
-        <BatterKTargetsBoard targets={selectedDisplay.kTargetRows} />
-
-        <section className="card">
-          <div className="card-title"><h2>Selected game markets</h2><span className="muted">ML · run lines · totals · F5 · team totals</span></div>
-          <div className="market-section">
-            <div className="market-grid">
-              {selectedDisplay.marketCards.map((card) => (
-                <article className={`market-card ${card.designation.tone}`} key={card.title}>
-                  <div className="market-top">
-                    <h3>{card.title}</h3>
-                    <span className={`pill ${card.designation.tone}`}>{card.designation.label}</span>
-                  </div>
-                  <div className="market-main">{card.main}</div>
-                  {card.edgeMetric ? <div className="market-edge">{card.edgeMetric}</div> : null}
-                  <div className="market-meta">{card.meta.map((item) => <span key={item}>{item}</span>)}</div>
-                  <p className="muted">{card.designation.detail}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <ResultsPerformance rows={resultRows} date={BOARD.date} />
         <ModelFooter games={displayGames} message={message} />
       </div>
+      {hasFreshSlateOdds && featuredPickCount ? <button type="button" className="pick-drawer" onClick={() => navigateDashboard("best-bets")}><b>Today&apos;s picks</b><span>{featuredPickCount} featured</span><span>View</span></button> : null}
     </main>
   );
 }
 
 export default CustomerBoard;
-BiggestEdgesBoard
