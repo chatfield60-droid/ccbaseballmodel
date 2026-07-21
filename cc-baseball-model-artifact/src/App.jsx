@@ -81,6 +81,12 @@ const RESULT_MARKET_ALIASES = {
   f5_ml: "f5_moneyline",
   f5_money_line: "f5_moneyline",
   f5_totals: "f5_total",
+  "batter hits": "batter_hits",
+  "batter hr": "batter_hr",
+  "batter home runs": "batter_hr",
+  "batter tb": "batter_total_bases",
+  "batter total bases": "batter_total_bases",
+  "batter strikeouts": "batter_strikeouts",
   batter_tb: "batter_total_bases",
   batter_home_runs: "batter_hr",
 };
@@ -834,6 +840,12 @@ function normal(value) {
   return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
+function finiteNumber(value) {
+  if (value == null || value === "") return null;
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
 function clamp(value, low, high) {
   return Math.max(low, Math.min(high, value));
 }
@@ -863,23 +875,24 @@ function americanFromProbability(probability) {
 }
 
 function probabilityText(value) {
-  const numeric = Number(value);
-  return Number.isFinite(numeric) ? `${Math.round(numeric * 100)}%` : "—";
+  const numeric = finiteNumber(value);
+  return numeric != null ? `${Math.round(numeric * 100)}%` : "—";
 }
 
 function score(value) {
-  return Number.isFinite(Number(value)) ? Number(value).toFixed(1) : "—";
+  const numeric = finiteNumber(value);
+  return numeric == null ? "—" : numeric.toFixed(1);
 }
 
 function signedRun(value) {
-  const numeric = Number(value);
-  if (!Number.isFinite(numeric)) return "—";
+  const numeric = finiteNumber(value);
+  if (numeric == null) return "—";
   return `${numeric > 0 ? "+" : ""}${numeric.toFixed(1)}`;
 }
 
 function gradeValue(value) {
-  const numeric = Number(value);
-  return Number.isFinite(numeric) ? numeric.toFixed(1) : "—";
+  const numeric = finiteNumber(value);
+  return numeric == null ? "—" : numeric.toFixed(1);
 }
 
 function recordText(wins, losses, pushes = 0) {
@@ -938,6 +951,20 @@ function resultMarketInfo(value) {
     label: trackedMarketText(value),
     rank: 999,
   };
+}
+
+function liveEdgeMarketKey(edge) {
+  if (edge?.betKind === "batter_prop") return resultMarketKey(edge?.propMarket);
+  return resultMarketKey(edge?.betKind);
+}
+
+function liveEdgeCountsByMarket(edges) {
+  return (edges || []).reduce((counts, edge) => {
+    if (!isActionTone(edge?.tone)) return counts;
+    const key = liveEdgeMarketKey(edge);
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, {});
 }
 
 function resultBetIdentity(bet) {
@@ -1221,9 +1248,9 @@ function moneylineValueMetric(fair, book) {
 }
 
 function runGapMetric(fairLine, liveLine) {
-  const fair = Number(fairLine);
-  const live = Number(liveLine);
-  if (!Number.isFinite(fair) || !Number.isFinite(live)) return null;
+  const fair = finiteNumber(fairLine);
+  const live = finiteNumber(liveLine);
+  if (fair == null || live == null) return null;
   return `Fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} · ${signedRun(fair - live)}`;
 }
 
@@ -1776,18 +1803,19 @@ function DashboardNav({ onNavigate }) {
 }
 
 function Scoreboard({ games, gameIndex, onSelect, edgeCounts }) {
+  const totalEdges = Object.values(edgeCounts || {}).reduce((sum, count) => sum + (Number(count) || 0), 0);
   return <section className="card game-browser" id="games">
-    <div className="card-title"><h2>Projected games</h2><span className="muted">{games.length} games</span></div>
+    <div className="card-title"><h2>Projected games</h2><span className="muted">{games.length} games{totalEdges ? ` · ${totalEdges} edges` : ""}</span></div>
     <div className="compact-scores game-score-grid">
       {games.map((item, index) => {
         const moneylineFairs = baseMoneylineFairs(item);
         const favorite = favoriteFromMoneyline(item, moneylineFairs);
-        const awayScore = Number(item.away_score);
-        const homeScore = Number(item.home_score);
+        const awayScore = finiteNumber(item.away_score);
+        const homeScore = finiteNumber(item.home_score);
         const edgeCount = edgeCounts?.[gameKey(item)] || 0;
         return <button className={`score-tile game-score-card ${index === gameIndex ? "active" : ""}`} type="button" key={`${item.id || index}-${item.away}-${item.home}`} onClick={() => onSelect(index)}>
           <span className="game-score-top"><b>{item.away} @ {item.home}</b><span>{item.time || item.status || "—"}</span></span>
-          <span className="game-score-line"><b className={awayScore > homeScore ? "score-high" : ""}>{score(awayScore)}</b><i>—</i><b className={homeScore > awayScore ? "score-high" : ""}>{score(homeScore)}</b></span>
+          <span className="game-score-line"><b className={awayScore != null && homeScore != null && awayScore > homeScore ? "score-high" : ""}>{score(awayScore)}</b><i>—</i><b className={awayScore != null && homeScore != null && homeScore > awayScore ? "score-high" : ""}>{score(homeScore)}</b></span>
           <span className="game-score-meta">
             <span>{favorite ? `${favorite.team} ${Math.round(favorite.probability * 100)}%` : "—"}</span>
             {edgeCount ? <span className="edge-badge">{edgeCount} edge{edgeCount === 1 ? "" : "s"}</span> : <span>Total {score(item.total)}</span>}
@@ -2053,7 +2081,7 @@ function resultTone(value, correct, push) {
   return "neutral";
 }
 
-function ResultsPerformance({ rows, date }) {
+function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal }) {
   const [marketSort, setMarketSort] = useState("net");
   const [marketScope, setMarketScope] = useState("all");
   const [performanceTab, setPerformanceTab] = useState("overview");
@@ -2104,7 +2132,7 @@ function ResultsPerformance({ rows, date }) {
       <div className="results-market-heading">
         <div className="results-market-heading-copy">
           <h3>{performanceTitle}</h3>
-          <p className="results-section-label">Cumulative results for posted picks with captured pregame prices</p>
+          <p className="results-section-label">Cumulative results for captured Bet / Strong picks. Today: {currentEdgeTotal} edge{currentEdgeTotal === 1 ? "" : "s"}, mapped to the projected-game badges.</p>
         </div>
         <div className="results-market-controls">
           <label className="results-market-sort">
@@ -2127,6 +2155,7 @@ function ResultsPerformance({ rows, date }) {
       <div className="results-market-grid">
         {tabMarketGroups.map((group) => {
           const summary = group.summary;
+          const liveEdgeCount = Number(currentEdgeCounts?.[group.info.key]) || 0;
           const settled = Number(summary.settled) || 0;
           const smallSample = settled > 0 && settled < 10;
           const record = settled ? recordText(summary.wins, summary.losses, summary.pushes) : "—";
@@ -2138,7 +2167,7 @@ function ResultsPerformance({ rows, date }) {
           return <article className={`market-performance-card ${tone}`} key={group.info.key} aria-label={`${group.info.label}: record ${record}, net ${net}, ROI ${roi}`}>
             <div className="market-performance-card-head">
               <h4>{group.info.label}</h4>
-              <span className="market-performance-count">{summary.posted} posted</span>
+              {liveEdgeCount ? <span className="market-performance-count">Today: {liveEdgeCount} edge{liveEdgeCount === 1 ? "" : "s"}</span> : null}
             </div>
             <div className="market-performance-primary">
               <div className="market-performance-value">
@@ -2178,18 +2207,18 @@ function ResultsPerformance({ rows, date }) {
       </div>
     </section>
     <details className="results-details">
-      <summary>Posted picks by bet type ({bets.length})</summary>
+      <summary>Tracked picks by bet type ({bets.length})</summary>
       <div className="results-list">
         {marketGroups.map((group) => <article className="market-result-group" key={group.info.key}>
           <div className="market-result-head">
             <div>
               <h3>{group.info.label}</h3>
-              <span>{group.summary.posted} posted · {group.summary.pending ? `${group.summary.pending} open` : `${group.summary.settled} settled`}</span>
+              <span>{group.summary.posted} tracked pick{group.summary.posted === 1 ? "" : "s"} · {group.summary.pending ? `${group.summary.pending} open` : `${group.summary.settled} settled`}</span>
             </div>
             {group.summary.decided ? <span className="market-result-record">{recordText(group.summary.wins, group.summary.losses, group.summary.pushes)} · {unitText(group.summary.netUnits)}</span> : null}
           </div>
           {resultDateGroups(group.bets, date).map((dateGroup) => <section className="market-result-date" key={dateGroup.date}>
-            <div className="market-result-date-head"><strong>{dateGroup.date}</strong><span>{dateGroup.bets.length} posted</span></div>
+            <div className="market-result-date-head"><strong>{dateGroup.date}</strong><span>{dateGroup.bets.length} tracked pick{dateGroup.bets.length === 1 ? "" : "s"}</span></div>
             <div className="bet-result-list">
               {dateGroup.bets.map((bet, index) => <div className="bet-result-item" key={`${bet.resultId}-${bet.resultDate}-${bet.market}-${bet.title}-${index}`}>
                 <div className="bet-result-copy">
@@ -2208,10 +2237,10 @@ function ResultsPerformance({ rows, date }) {
 }
 
 function ModelFooter({ games, message }) {
-  const totals = (games || []).map((game) => Number(game.total)).filter(Number.isFinite);
+  const totals = (games || []).map((game) => finiteNumber(game.total)).filter((value) => value != null);
   const avgTotal = totals.length ? totals.reduce((sum, value) => sum + value, 0) / totals.length : null;
-  const highest = [...(games || [])].filter((game) => Number.isFinite(Number(game.total))).sort((a, b) => Number(b.total) - Number(a.total))[0];
-  const tight = [...(games || [])].filter((game) => Number.isFinite(Number(game.away_score)) && Number.isFinite(Number(game.home_score))).sort((a, b) => Math.abs(Number(a.away_score) - Number(a.home_score)) - Math.abs(Number(b.away_score) - Number(b.home_score)))[0];
+  const highest = [...(games || [])].filter((game) => finiteNumber(game.total) != null).sort((a, b) => finiteNumber(b.total) - finiteNumber(a.total))[0];
+  const tight = [...(games || [])].filter((game) => finiteNumber(game.away_score) != null && finiteNumber(game.home_score) != null).sort((a, b) => Math.abs(finiteNumber(a.away_score) - finiteNumber(a.home_score)) - Math.abs(finiteNumber(b.away_score) - finiteNumber(b.home_score)))[0];
   return <footer className="card model-footer">
     <div className="footer-grid">
       <span>Slate {BOARD.date || "—"}</span>
@@ -2229,29 +2258,29 @@ function favoriteForGame(game) {
 }
 
 function favoriteFromMoneyline(game, moneylineFairs) {
-  const homeProbability = Number(moneylineFairs?.home_probability);
-  const awayProbability = Number(moneylineFairs?.away_probability);
-  if (!Number.isFinite(homeProbability) || !Number.isFinite(awayProbability)) return null;
+  const homeProbability = finiteNumber(moneylineFairs?.home_probability);
+  const awayProbability = finiteNumber(moneylineFairs?.away_probability);
+  if (homeProbability == null || awayProbability == null) return null;
   if (homeProbability >= awayProbability) return { team: game.home, probability: homeProbability };
   return { team: game.away, probability: awayProbability };
 }
 
 function specialEventFavorite(event) {
-  const homeProbability = Number(event?.home_win_probability);
-  if (!Number.isFinite(homeProbability)) return null;
+  const homeProbability = finiteNumber(event?.home_win_probability);
+  if (homeProbability == null) return null;
   const awayProbability = 1 - homeProbability;
   if (homeProbability >= awayProbability) return { team: event.home_name || event.home, probability: homeProbability };
   return { team: event.away_name || event.away, probability: awayProbability };
 }
 
 function baseMoneylineFairs(game) {
-  const homeProbability = Number(game?.moneyline_fairs?.home_probability ?? game?.home_win_probability);
-  const awayProbability = Number(game?.moneyline_fairs?.away_probability ?? (Number.isFinite(homeProbability) ? 1 - homeProbability : null));
+  const homeProbability = finiteNumber(game?.moneyline_fairs?.home_probability ?? game?.home_win_probability);
+  const awayProbability = finiteNumber(game?.moneyline_fairs?.away_probability ?? (homeProbability != null ? 1 - homeProbability : null));
   return {
-    away_probability: Number.isFinite(awayProbability) ? awayProbability : null,
-    home_probability: Number.isFinite(homeProbability) ? homeProbability : null,
-    away_fair: game?.moneyline_fairs?.away_fair ?? americanFromProbability(awayProbability),
-    home_fair: game?.moneyline_fairs?.home_fair ?? americanFromProbability(homeProbability),
+    away_probability: awayProbability,
+    home_probability: homeProbability,
+    away_fair: finiteNumber(game?.moneyline_fairs?.away_fair) ?? americanFromProbability(awayProbability),
+    home_fair: finiteNumber(game?.moneyline_fairs?.home_fair) ?? americanFromProbability(homeProbability),
   };
 }
 
@@ -2271,9 +2300,9 @@ function noVigBookProbability(book, oppositeBook = null) {
 }
 
 function marketSuppressedProbability(modelProbability, marketProbability) {
-  const model = Number(modelProbability);
-  const market = Number(marketProbability);
-  if (!Number.isFinite(model) || !Number.isFinite(market)) return model;
+  const model = finiteNumber(modelProbability);
+  const market = finiteNumber(marketProbability);
+  if (model == null || market == null) return model;
   const weight = Math.abs(model - market) >= SIDE_PRICE_EXTREME_GAP
     ? SIDE_PRICE_EXTREME_BLEND_WEIGHT
     : SIDE_PRICE_BLEND_WEIGHT;
@@ -2288,9 +2317,9 @@ function marketSuppressedFair(fair, book, oppositeBook = null) {
 }
 
 function marketSuppressedMoneylineFairs(fairs, homeBook, awayBook) {
-  const modelHomeProbability = Number(fairs?.home_probability);
+  const modelHomeProbability = finiteNumber(fairs?.home_probability);
   const marketHomeProbability = noVigBookProbability(homeBook, awayBook);
-  if (!Number.isFinite(modelHomeProbability) || !Number.isFinite(marketHomeProbability)) return fairs;
+  if (modelHomeProbability == null || !Number.isFinite(marketHomeProbability)) return fairs;
   const homeProbability = Math.round(marketSuppressedProbability(modelHomeProbability, marketHomeProbability) * 1000) / 1000;
   return {
     away_probability: Math.round((1 - homeProbability) * 1000) / 1000,
@@ -2390,16 +2419,17 @@ function isPregameOddsEvent(event) {
 function mainPoint(rows) {
   const counts = new Map();
   for (const row of rows || []) {
-    if (!Number.isFinite(Number(row.line))) continue;
-    const key = String(Number(row.line));
+    const line = finiteNumber(row?.line);
+    if (line == null) continue;
+    const key = String(line);
     counts.set(key, (counts.get(key) || 0) + 1);
   }
   return [...counts.entries()].sort((a, b) => b[1] - a[1] || Math.abs(Number(a[0]) - 8.5) - Math.abs(Number(b[0]) - 8.5))[0]?.[0];
 }
 
 function isHalfRunLine(line) {
-  const value = Number(line);
-  if (!Number.isFinite(value)) return false;
+  const value = finiteNumber(line);
+  if (value == null) return false;
   return Math.abs(value * 2 - Math.round(value * 2)) < 1e-9 && Math.abs(value - Math.round(value)) > 1e-9;
 }
 
@@ -2416,10 +2446,10 @@ function poissonRunDistribution(meanValue, maxRuns) {
 }
 
 function runLineProbability(awayScore, homeScore, teamSide, line) {
-  const awayMean = Number(awayScore);
-  const homeMean = Number(homeScore);
-  const point = Number(line);
-  if (!Number.isFinite(awayMean) || !Number.isFinite(homeMean) || awayMean < 0 || homeMean < 0 || !["away", "home"].includes(teamSide) || !isHalfRunLine(point)) return null;
+  const awayMean = finiteNumber(awayScore);
+  const homeMean = finiteNumber(homeScore);
+  const point = finiteNumber(line);
+  if (awayMean == null || homeMean == null || point == null || awayMean < 0 || homeMean < 0 || !["away", "home"].includes(teamSide) || !isHalfRunLine(point)) return null;
   const maxMean = Math.max(awayMean, homeMean);
   const maxRuns = Math.max(25, Math.ceil(maxMean + 10 * Math.sqrt(Math.max(maxMean, 1))));
   const awayDistribution = poissonRunDistribution(awayMean, maxRuns);
@@ -2464,10 +2494,12 @@ function bestRow(rows, predicate) {
 }
 
 function pickTeamTotalRows(rows, team, fairLine) {
+  const fair = finiteNumber(fairLine);
+  if (fair == null) return { over: null, under: null };
   const teamRows = (rows || []).filter((row) => normal(row.team).includes(normal(team)) || normal(team).includes(normal(row.team)));
   if (!teamRows.length) return { over: null, under: null };
-  const points = [...new Set(teamRows.map((row) => Number(row.line)).filter(Number.isFinite))];
-  const point = points.sort((a, b) => Math.abs(a - Number(fairLine)) - Math.abs(b - Number(fairLine)))[0];
+  const points = [...new Set(teamRows.map((row) => finiteNumber(row.line)).filter((value) => value != null))];
+  const point = points.sort((a, b) => Math.abs(a - fair) - Math.abs(b - fair))[0];
   return {
     over: bestRow(teamRows, (row) => Number(row.line) === point && normal(row.side) === "over"),
     under: bestRow(teamRows, (row) => Number(row.line) === point && normal(row.side) === "under"),
@@ -2527,9 +2559,9 @@ function blendedScorePair(awayScore, homeScore, {
   marketHomeTeamTotal = null,
   marginScale = FULL_GAME_MARGIN_SCALE,
 } = {}) {
-  const awayBase = Number(awayScore);
-  const homeBase = Number(homeScore);
-  if (!Number.isFinite(awayBase) || !Number.isFinite(homeBase)) return null;
+  const awayBase = finiteNumber(awayScore);
+  const homeBase = finiteNumber(homeScore);
+  if (awayBase == null || homeBase == null) return null;
   const baseTotal = awayBase + homeBase;
   const baseMargin = homeBase - awayBase;
   const marketAway = Number(marketAwayTeamTotal);
@@ -2564,9 +2596,9 @@ function blendedScorePair(awayScore, homeScore, {
 
 function marketAdjustedGame(game, odds = blankOdds()) {
   if (!game || !hasOddsEntry(odds)) return game;
-  const awayScore = Number(game.away_score);
-  const homeScore = Number(game.home_score);
-  if (!Number.isFinite(awayScore) || !Number.isFinite(homeScore)) return game;
+  const awayScore = finiteNumber(game.away_score);
+  const homeScore = finiteNumber(game.home_score);
+  if (awayScore == null || homeScore == null) return game;
   const homeMarketProbability = noVigBookProbability(odds.h2h?.home?.price, odds.h2h?.away?.price);
   const full = blendedScorePair(awayScore, homeScore, {
     marketTotal: consensusMarketPoint(odds.totals, awayScore + homeScore),
@@ -2588,10 +2620,10 @@ function marketAdjustedGame(game, odds = blankOdds()) {
     odds.h2h?.away?.price,
   );
   const originalF5 = game.f5 || {};
-  const originalF5Away = Number(originalF5.away_score);
-  const originalF5Home = Number(originalF5.home_score);
+  const originalF5Away = finiteNumber(originalF5.away_score);
+  const originalF5Home = finiteNumber(originalF5.home_score);
   let f5 = originalF5;
-  if (Number.isFinite(originalF5Away) && Number.isFinite(originalF5Home)) {
+  if (originalF5Away != null && originalF5Home != null) {
     const awayShare = awayScore > 0 ? originalF5Away / awayScore : 0.55;
     const homeShare = homeScore > 0 ? originalF5Home / homeScore : 0.55;
     const f5Away = Math.round(full.away_score * awayShare * 10) / 10;
@@ -2653,20 +2685,20 @@ function pairedBookMeta(label, row) {
 }
 
 function totalSideProbability(fairLine, liveLine, side) {
-  const fair = Number(fairLine);
-  const live = Number(liveLine);
-  if (!Number.isFinite(fair) || !Number.isFinite(live)) return null;
+  const fair = finiteNumber(fairLine);
+  const live = finiteNumber(liveLine);
+  if (fair == null || live == null) return null;
   const directionalGap = side === "Under" ? live - fair : fair - live;
   if (directionalGap <= 0) return 0.5;
   return clamp(0.5 + directionalGap * TOTAL_RUN_TO_PROB, 0.5, 0.78);
 }
 
 function lineLean(fairLine, liveLine, overRow, underRow) {
-  const fair = Number(fairLine);
-  const live = Number(liveLine);
+  const fair = finiteNumber(fairLine);
+  const live = finiteNumber(liveLine);
   const overPrice = overRow?.price;
   const underPrice = underRow?.price;
-  if (!Number.isFinite(fair) || !Number.isFinite(live)) return { label: "Waiting", tone: "watch", detail: "No pregame line loaded." };
+  if (fair == null || live == null) return { label: "Waiting", tone: "watch", detail: "No pregame line loaded." };
   const diff = fair - live;
   const side = diff >= 0 ? "Over" : "Under";
   const row = side === "Over" ? overRow : underRow;
@@ -2688,16 +2720,16 @@ function edgeMetricForTone(tone, metric) {
 }
 
 function marketBookForTotal(fairLine, liveLine, overRow, underRow) {
-  const fair = Number(fairLine);
-  const live = Number(liveLine);
-  if (!Number.isFinite(fair) || !Number.isFinite(live)) return null;
+  const fair = finiteNumber(fairLine);
+  const live = finiteNumber(liveLine);
+  if (fair == null || live == null) return null;
   return fair >= live ? overRow : underRow;
 }
 
 function totalSideLabel(fairLine, liveLine) {
-  const fair = Number(fairLine);
-  const live = Number(liveLine);
-  if (!Number.isFinite(fair) || !Number.isFinite(live)) return "";
+  const fair = finiteNumber(fairLine);
+  const live = finiteNumber(liveLine);
+  if (fair == null || live == null) return "";
   return fair >= live ? "Over" : "Under";
 }
 
@@ -2881,12 +2913,17 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
   const teamTotals = (odds.teamTotals || []).filter((row) => row.away === game.away && row.home === game.home);
   const selectedH2h = odds.h2h || {};
   const moneylineFairs = baseMoneylineFairs(game);
+  const baseAwayScore = finiteNumber(game.away_score);
+  const baseHomeScore = finiteNumber(game.home_score);
+  const baseTotal = finiteNumber(game.total);
   const f5 = game.f5 || {
-    away_score: Number.isFinite(Number(game.away_score)) ? Number(game.away_score) * 0.55 : null,
-    home_score: Number.isFinite(Number(game.home_score)) ? Number(game.home_score) * 0.55 : null,
-    total: Number.isFinite(Number(game.total)) ? Number(game.total) * 0.55 : null,
+    away_score: baseAwayScore == null ? null : baseAwayScore * 0.55,
+    home_score: baseHomeScore == null ? null : baseHomeScore * 0.55,
+    total: baseTotal == null ? null : baseTotal * 0.55,
   };
-  const f5HomeProb = f5.home_win_probability ?? (Number.isFinite(Number(f5.away_score)) && Number.isFinite(Number(f5.home_score)) ? 1 / (1 + Math.exp(-(Number(f5.home_score) - Number(f5.away_score)) / 0.95)) : null);
+  const f5AwayScore = finiteNumber(f5.away_score);
+  const f5HomeScore = finiteNumber(f5.home_score);
+  const f5HomeProb = finiteNumber(f5.home_win_probability) ?? (f5AwayScore != null && f5HomeScore != null ? 1 / (1 + Math.exp(-(f5HomeScore - f5AwayScore) / 0.95)) : null);
   const fullTotalPoint = mainPoint(odds.totals);
   const fullOver = bestRow(odds.totals, (row) => String(Number(row.line)) === String(fullTotalPoint) && normal(row.side) === "over");
   const fullUnder = bestRow(odds.totals, (row) => String(Number(row.line)) === String(fullTotalPoint) && normal(row.side) === "under");
@@ -3569,6 +3606,18 @@ function CustomerBoard() {
       gameLabel: `${display.game.away} @ ${display.game.home}`,
     })))
     .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0)), [gameDisplays]);
+  const fullSlateActionEdges = useMemo(
+    () => fullSlatePricedEdges.filter((edge) => isActionTone(edge.tone)),
+    [fullSlatePricedEdges],
+  );
+  const currentEdgeCounts = useMemo(
+    () => liveEdgeCountsByMarket(fullSlateActionEdges),
+    [fullSlateActionEdges],
+  );
+  const currentEdgeTotal = useMemo(
+    () => Object.values(edgeCounts).reduce((sum, count) => sum + (Number(count) || 0), 0),
+    [edgeCounts],
+  );
   const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.allEdges;
   const elitePickCount = fullSlatePricedEdges.filter((edge) => edge.tone === "strong").length;
   const featuredPickCount = Math.min(3, fullSlatePricedEdges.filter((edge) => isGradedBetTone(edge.tone)).length);
@@ -3677,7 +3726,12 @@ function CustomerBoard() {
           onLineChange={(key, value) => setKLineOverrides((current) => ({ ...current, [key]: value }))}
         />
 
-        <ResultsPerformance rows={resultRows} date={BOARD.date} />
+        <ResultsPerformance
+          rows={resultRows}
+          date={BOARD.date}
+          currentEdgeCounts={currentEdgeCounts}
+          currentEdgeTotal={currentEdgeTotal}
+        />
         <PricedEdgeBoard
           edges={displayedPricedEdges}
           hasOdds={hasPublishedDailyCapture && (edgeView === "slate" ? fullSlatePricedEdges.length > 0 || Object.keys(activeOddsByGame).length > 0 : selectedDisplay.hasAnyOdds)}
