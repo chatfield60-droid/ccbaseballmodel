@@ -18,6 +18,7 @@ const BET_PROB_EDGE = 0.025;
 const LEAN_PROB_EDGE = 0.01;
 const TOTAL_RUN_TO_PROB = 0.11;
 const ODDS_HISTORY_KEY = "cc-baseball-odds-history-v1";
+const EMPTY_ODDS_BY_GAME = Object.freeze({});
 const MARKET_TOTAL_BLEND_WEIGHT = 0.55;
 const MARKET_TOTAL_MAX_RUN_SHIFT = 1.50;
 const MARKET_TOTAL_EXTREME_GAP = 2.00;
@@ -27,6 +28,31 @@ const MARKET_MARGIN_BLEND_WEIGHT = 0.45;
 const MARKET_MARGIN_MAX_RUN_SHIFT = 1.00;
 const FULL_GAME_MARGIN_SCALE = 1.25;
 const F5_MARGIN_SCALE = 0.95;
+
+function easternDateForTimestamp(value) {
+  const numeric = Number(value);
+  const date = Number.isFinite(numeric) ? new Date(numeric) : new Date(String(value || ""));
+  if (Number.isNaN(date.getTime())) return null;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const part = (type) => parts.find((item) => item.type === type)?.value || null;
+  const year = part("year");
+  const month = part("month");
+  const day = part("day");
+  return year && month && day ? `${year}-${month}-${day}` : null;
+}
+
+function hasDailyPregameCapture(slateDate, fetchedAt, hasUsableQuotes) {
+  return Boolean(
+    slateDate
+    && hasUsableQuotes
+    && easternDateForTimestamp(fetchedAt) === String(slateDate),
+  );
+}
 const RESULT_MARKET_TYPES = [
   { key: "moneyline", label: "Moneyline", rank: 10 },
   { key: "run_line", label: "Run line", rank: 20 },
@@ -2698,6 +2724,14 @@ function readPublishedOddsSnapshot(date) {
 
 function initialOddsSnapshot(date) {
   const published = readPublishedOddsSnapshot(date);
+  const publishedHasDailyCapture = hasDailyPregameCapture(
+    date,
+    published.fetched_at,
+    Object.values(published.games || {}).some((entry) => hasOddsEntry(entry)),
+  );
+  // Browser storage can refine an already published daily capture, but it can
+  // never become the shared source that unlocks customer plays on its own.
+  if (!publishedHasDailyCapture) return { games: {}, fetched_at: null };
   const stored = readStoredOddsSnapshot(date);
   const merged = mergeOddsHistories({ [date]: published }, { [date]: stored })[date] || { games: {}, fetched_at: null };
   const publishedAt = timestampMs(published.fetched_at) || 0;
@@ -3141,8 +3175,10 @@ function CustomerBoard() {
   const [resultHistory] = useState(() => normalizeResultsHistory(BOARD.results_history));
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [oddsByGame, setOddsByGame] = useState(() => initialOddsSnapshot(BOARD.date).games || {});
-  const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(initialOddsSnapshot(BOARD.date).fetched_at));
+  const [publishedOdds] = useState(() => readPublishedOddsSnapshot(BOARD.date));
+  const [initialOdds] = useState(() => initialOddsSnapshot(BOARD.date));
+  const [oddsByGame, setOddsByGame] = useState(() => initialOdds.games || {});
+  const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(initialOdds.fetched_at));
   const [nowTick, setNowTick] = useState(() => Date.now());
   const [edgeView, setEdgeView] = useState("game");
   const [edgeTier, setEdgeTier] = useState("all");
@@ -3151,15 +3187,21 @@ function CustomerBoard() {
   const hasHostedProxy = hostname.endsWith(".chatgpt.site");
   const canUseLocalKey = isLocalHost && !!PRELOADED_ODDS_API_KEY;
   const canRefreshOdds = hasHostedProxy || canUseLocalKey || !!ODDS_PROXY_ORIGIN;
+  const hasPublishedDailyCapture = hasDailyPregameCapture(
+    BOARD.date,
+    publishedOdds.fetched_at,
+    Object.values(publishedOdds.games || {}).some((entry) => hasOddsEntry(entry)),
+  );
+  const activeOddsByGame = hasPublishedDailyCapture ? oddsByGame : EMPTY_ODDS_BY_GAME;
 
-  const displayGames = useMemo(() => games.map((item) => marketAdjustedGame(item, oddsByGame[gameKey(item)] || blankOdds())), [games, oddsByGame]);
+  const displayGames = useMemo(() => games.map((item) => marketAdjustedGame(item, activeOddsByGame[gameKey(item)] || blankOdds())), [games, activeOddsByGame]);
   const game = displayGames[gameIndex] || displayGames[0] || null;
   const resultRows = useMemo(() => flattenResultsHistory(resultHistory), [resultHistory]);
   const gameDisplays = useMemo(() => displayGames.map((item, index) => ({
     game: item,
-    ...buildGameDisplay(item, oddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
-  })), [displayGames, oddsByGame, kMode, gameIndex, kLineOverrides]);
-  const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, oddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
+    ...buildGameDisplay(item, activeOddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
+  })), [displayGames, activeOddsByGame, kMode, gameIndex, kLineOverrides]);
+  const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, activeOddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNowTick(Date.now()), 30 * 1000);
@@ -3370,7 +3412,8 @@ function CustomerBoard() {
       setLastOddsUpdatedAt(Date.parse(fetchedAt));
       setNowTick(Date.now());
       const warningList = [...warnings];
-      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}.${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
+      const captureNote = hasPublishedDailyCapture ? "" : " The shared daily capture is still required before customer plays unlock.";
+      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}.${captureNote}${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Pregame odds are unavailable right now.");
     } finally {
@@ -3395,14 +3438,12 @@ function CustomerBoard() {
     })))
     .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0)), [gameDisplays]);
   const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.allEdges;
-  const hasFreshSlateOdds = Number.isFinite(lastOddsUpdatedAt)
-    && Object.values(oddsByGame).some((entry) => hasOddsEntry(entry));
   const elitePickCount = fullSlatePricedEdges.filter((edge) => edge.tone === "strong").length;
   const featuredPickCount = Math.min(3, fullSlatePricedEdges.filter((edge) => isGradedBetTone(edge.tone)).length);
   const headerMetrics = summarizeResults(resultRows);
   const headerRecord = headerMetrics.find((metric) => metric.label === "Record");
   const headerNet = headerMetrics.find((metric) => metric.label === "Net units");
-  const oddsStamp = updatedAgoText(lastOddsUpdatedAt, nowTick);
+  const oddsStamp = hasPublishedDailyCapture ? updatedAgoText(lastOddsUpdatedAt, nowTick) : null;
   const awayHand = starterHand(game, "away");
   const homeHand = starterHand(game, "home");
 
@@ -3469,7 +3510,7 @@ function CustomerBoard() {
           <div className="header-meta">
             <span className="header-chip">{BOARD.date || "—"}</span>
             <span className="header-chip">{displayGames.length} games</span>
-            {hasFreshSlateOdds && elitePickCount ? <span className="header-chip">{Math.min(3, elitePickCount)} elite picks</span> : null}
+            {hasPublishedDailyCapture && elitePickCount ? <span className="header-chip">{Math.min(3, elitePickCount)} elite picks</span> : null}
             {headerRecord ? <span className="header-chip">{headerRecord.value}</span> : null}
             {headerNet ? <span className="header-chip">{headerNet.value}</span> : null}
           </div>
@@ -3486,7 +3527,7 @@ function CustomerBoard() {
       <div className="shell">
         <TodayBestBets
           edges={fullSlatePricedEdges}
-          hasOdds={hasFreshSlateOdds}
+          hasOdds={hasPublishedDailyCapture}
           onSelectGame={(index) => selectGame(index)}
         />
         <Scoreboard games={displayGames} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => selectGame(index)} />
@@ -3507,7 +3548,7 @@ function CustomerBoard() {
         <ResultsPerformance rows={resultRows} date={BOARD.date} />
         <PricedEdgeBoard
           edges={displayedPricedEdges}
-          hasOdds={edgeView === "slate" ? fullSlatePricedEdges.length > 0 || Object.keys(oddsByGame).length > 0 : selectedDisplay.hasAnyOdds}
+          hasOdds={hasPublishedDailyCapture && (edgeView === "slate" ? fullSlatePricedEdges.length > 0 || Object.keys(activeOddsByGame).length > 0 : selectedDisplay.hasAnyOdds)}
           view={edgeView}
           onViewChange={setEdgeView}
           tier={edgeTier}
@@ -3515,7 +3556,7 @@ function CustomerBoard() {
         />
         <ModelFooter games={displayGames} message={message} />
       </div>
-      {hasFreshSlateOdds && featuredPickCount ? <button type="button" className="pick-drawer" onClick={() => navigateDashboard("best-bets")}><b>Today&apos;s picks</b><span>{featuredPickCount} featured</span><span>View</span></button> : null}
+      {hasPublishedDailyCapture && featuredPickCount ? <button type="button" className="pick-drawer" onClick={() => navigateDashboard("best-bets")}><b>Today&apos;s picks</b><span>{featuredPickCount} featured</span><span>View</span></button> : null}
     </main>
   );
 }
