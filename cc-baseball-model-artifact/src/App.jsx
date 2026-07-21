@@ -539,6 +539,23 @@ function trackedMarketText(value) {
   return labels[value] || String(value || "Bet").replace(/_/g, " ");
 }
 
+function displayBetTitle(bet) {
+  const title = String(bet?.title || "Posted pick");
+  const labels = {
+    batter_hr: "homerun",
+    batter_home_runs: "homerun",
+    batter_hits: "hits",
+    batter_tb: "total bases",
+    batter_total_bases: "total bases",
+    batter_strikeouts: "strikeouts",
+    pitcher_strikeouts: "strikeouts",
+  };
+  const market = labels[bet?.market];
+  if (!market || normal(title).includes(normal(market))) return title;
+  const match = title.match(/^(.*?)(\s+(?:over|under)\s+[-+]?\d+(?:\.\d+)?(?:\s+.*)?)$/i);
+  return match ? `${match[1]} ${market}${match[2]}` : `${title} ${market}`;
+}
+
 function quoteIsBetter(candidate, current) {
   if (!validBookPrice(candidate?.price)) return false;
   return !current || Number(candidate.price) > Number(current.price);
@@ -1276,6 +1293,7 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
 }
 
 function resultTone(value, correct, push) {
+  if (value === "Void") return "neutral";
   if (push || value === "Push") return "push";
   if (correct === true || value === "Hit" || value === "Win") return "hit";
   if (correct === false || value === "Miss" || value === "Loss") return "miss";
@@ -1317,6 +1335,7 @@ function ResultsPerformance({ rows, date }) {
                 <strong>{row.matchup || "MLB slate"}</strong>
                 <div className="result-badges">
                   {Number(row.betCount) ? <span>{recordText(row.betWins || 0, row.betLosses || 0, row.betPushes || 0)}</span> : null}
+                  {Number(row.voidBetCount) ? <span>{row.voidBetCount} void</span> : null}
                   {Number(row.pendingBetCount) ? <span>{row.pendingBetCount} open</span> : null}
                 </div>
               </div>
@@ -1325,11 +1344,11 @@ function ResultsPerformance({ rows, date }) {
             <div className="bet-result-list">
               {(row.bets || []).map((bet, index) => <div className="bet-result-item" key={`${row.id || groupDate}-${bet.title}-${index}`}>
                 <div className="bet-result-copy">
-                  <strong>{bet.title || "Posted pick"}</strong>
+                  <strong>{displayBetTitle(bet)}</strong>
                   <span>{bet.matchup || trackedMarketText(bet.market)} · {bet.book || "—"} {price(bet.bookOdds)}</span>
                 </div>
                 <span className={`result-pill ${resultTone(bet.result)}`}>{bet.result || "Pending"}</span>
-                <span className="bet-result-units">{bet.result === "Pending" ? `Risk ${unitText(bet.riskUnits)}` : unitText(bet.netUnits)}</span>
+                <span className="bet-result-units">{bet.result === "Pending" ? `Risk ${unitText(bet.riskUnits)}` : bet.result === "Void" ? "No action" : unitText(bet.netUnits)}</span>
               </div>)}
             </div>
           </article>)}
