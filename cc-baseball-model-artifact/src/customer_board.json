@@ -26845,55 +26845,25 @@
         "id": "2da37ac5d05230de6d02",
         "matchup": "15 games",
         "resultDate": "2026-07-20",
-        "savedBetCount": 99,
-        "betCount": 88,
+        "savedBetCount": 56,
+        "betCount": 49,
         "pendingBetCount": 0,
-        "voidBetCount": 11,
-        "betWins": 49,
-        "betLosses": 39,
+        "voidBetCount": 7,
+        "betWins": 30,
+        "betLosses": 19,
         "betPushes": 0,
-        "riskedUnits": 123.79,
-        "netUnits": 5.44,
+        "riskedUnits": 70.07,
+        "netUnits": 5.04,
         "bets": [
           {
-            "title": "CLE F5 ML",
-            "matchup": "MIN @ CLE",
-            "market": "f5_moneyline",
-            "book": "BetRivers",
-            "bookOdds": 118,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.18
-          },
-          {
-            "title": "Joe Ryan Over 6.5",
-            "matchup": "MIN @ CLE",
-            "market": "pitcher_strikeouts",
+            "title": "Adley Rutschman Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
             "book": "BetMGM",
-            "bookOdds": -110,
-            "result": "Loss",
-            "riskUnits": 1.1,
-            "netUnits": -1.1
-          },
-          {
-            "title": "Tanner Bibee Over 4.5",
-            "matchup": "MIN @ CLE",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": -113,
-            "result": "Win",
-            "riskUnits": 1.13,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Alan Roden Over 0.5",
-            "matchup": "MIN @ CLE",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 850,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
+            "bookOdds": -210,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
           },
           {
             "title": "Alan Roden Over 0.5",
@@ -26906,344 +26876,14 @@
             "netUnits": -1.29
           },
           {
-            "title": "Ryan Jeffers Over 0.5",
-            "matchup": "MIN @ CLE",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -195,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "Gabriel Arias Over 0.5",
-            "matchup": "MIN @ CLE",
+            "title": "Bryce Eldridge Over 0.5",
+            "matchup": "SF @ KC",
             "market": "batter_hits",
             "book": "BetMGM",
-            "bookOdds": -105,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "Josh Bell Over 0.5",
-            "matchup": "MIN @ CLE",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -186,
-            "result": "Win",
-            "riskUnits": 1.86,
-            "netUnits": 1.0
-          },
-          {
-            "title": "PIT",
-            "matchup": "PIT @ NYY",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": 105,
+            "bookOdds": -235,
             "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Braxton Ashcraft Over 6.5",
-            "matchup": "PIT @ NYY",
-            "market": "pitcher_strikeouts",
-            "book": "BetMGM",
-            "bookOdds": -118,
-            "result": "Loss",
-            "riskUnits": 1.18,
-            "netUnits": -1.18
-          },
-          {
-            "title": "Ryan Weathers Over 6.5",
-            "matchup": "PIT @ NYY",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 120,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Ben Rice Over 0.5",
-            "matchup": "PIT @ NYY",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -200,
-            "result": "Win",
-            "riskUnits": 2.0,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Esmerlyn Valdez Over 0.5",
-            "matchup": "PIT @ NYY",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -165,
-            "result": "Win",
-            "riskUnits": 1.65,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Max Schuemann Over 0.5",
-            "matchup": "PIT @ NYY",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -123,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "TB",
-            "matchup": "TB @ TOR",
-            "market": "moneyline",
-            "book": "BetRivers",
-            "bookOdds": 135,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.35
-          },
-          {
-            "title": "Full-game total Over 7.5",
-            "matchup": "TB @ TOR",
-            "market": "full_total",
-            "book": "Bovada",
-            "bookOdds": 100,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.0
-          },
-          {
-            "title": "TB F5 ML",
-            "matchup": "TB @ TOR",
-            "market": "f5_moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 137,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.37
-          },
-          {
-            "title": "TB team total Over 3.5",
-            "matchup": "TB @ TOR",
-            "market": "team_total",
-            "book": "BetRivers",
-            "bookOdds": 104,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.04
-          },
-          {
-            "title": "Nick Martinez Over 3.5",
-            "matchup": "TB @ TOR",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 120,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Victor Mesa Jr. Over 0.5",
-            "matchup": "TB @ TOR",
-            "market": "batter_hr",
-            "book": "BetRivers",
-            "bookOdds": 650,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 6.5
-          },
-          {
-            "title": "Junior Caminero Over 0.5",
-            "matchup": "TB @ TOR",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -175,
-            "result": "Win",
-            "riskUnits": 1.75,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Yandy Díaz Over 0.5",
-            "matchup": "TB @ TOR",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Win",
-            "riskUnits": 2.1,
-            "netUnits": 1.0
-          },
-          {
-            "title": "BAL team total Over 3.5",
-            "matchup": "BAL @ BOS",
-            "market": "team_total",
-            "book": "Caesars",
-            "bookOdds": -125,
-            "result": "Win",
-            "riskUnits": 1.25,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Shane Baz Over 5.5",
-            "matchup": "BAL @ BOS",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 110,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.1
-          },
-          {
-            "title": "Payton Tolle Over 5.5",
-            "matchup": "BAL @ BOS",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": -156,
-            "result": "Win",
-            "riskUnits": 1.56,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Adley Rutschman Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 500,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "Carlos Narváez Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 625,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "Carlos Narváez Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -140,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "Jackson Holliday Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -121,
-            "result": "Loss",
-            "riskUnits": 1.21,
-            "netUnits": -1.21
-          },
-          {
-            "title": "Adley Rutschman Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "Pete Alonso Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -175,
-            "result": "Win",
-            "riskUnits": 1.75,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Adley Rutschman Over 1.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_tb",
-            "book": "BetMGM",
-            "bookOdds": 135,
-            "result": "Void",
-            "riskUnits": 0.0,
-            "netUnits": 0.0
-          },
-          {
-            "title": "LAD",
-            "matchup": "LAD @ PHI",
-            "market": "moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 119,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Full-game total Over 8.5",
-            "matchup": "LAD @ PHI",
-            "market": "full_total",
-            "book": "BetMGM",
-            "bookOdds": -102,
-            "result": "Win",
-            "riskUnits": 1.02,
-            "netUnits": 1.0
-          },
-          {
-            "title": "LAD F5 ML",
-            "matchup": "LAD @ PHI",
-            "market": "f5_moneyline",
-            "book": "FanDuel",
-            "bookOdds": 134,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "LAD team total Over 3.5",
-            "matchup": "LAD @ PHI",
-            "market": "team_total",
-            "book": "BetOnline.ag",
-            "bookOdds": -125,
-            "result": "Win",
-            "riskUnits": 1.25,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Emmet Sheehan Over 5.5",
-            "matchup": "LAD @ PHI",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": -118,
-            "result": "Win",
-            "riskUnits": 1.18,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Tommy Edman Over 0.5",
-            "matchup": "LAD @ PHI",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -205,
-            "result": "Win",
-            "riskUnits": 2.05,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Shohei Ohtani Over 0.5",
-            "matchup": "LAD @ PHI",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -205,
-            "result": "Loss",
-            "riskUnits": 2.05,
-            "netUnits": -2.05
+            "riskUnits": 2.35,
+            "netUnits": -2.35
           },
           {
             "title": "Bryce Harper Over 0.5",
@@ -27253,56 +26893,6 @@
             "bookOdds": -196,
             "result": "Win",
             "riskUnits": 1.96,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Kyle Schwarber Over 0.5",
-            "matchup": "LAD @ PHI",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -140,
-            "result": "Loss",
-            "riskUnits": 1.4,
-            "netUnits": -1.4
-          },
-          {
-            "title": "Full-game total Under 9",
-            "matchup": "SD @ ATL",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": 103,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.03
-          },
-          {
-            "title": "SD F5 ML",
-            "matchup": "SD @ ATL",
-            "market": "f5_moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 126,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Joey Bart Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 500,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Joey Bart Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -137,
-            "result": "Win",
-            "riskUnits": 1.37,
             "netUnits": 1.0
           },
           {
@@ -27316,134 +26906,44 @@
             "netUnits": -2.5
           },
           {
-            "title": "Luis Campusano Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -165,
-            "result": "Loss",
-            "riskUnits": 1.65,
-            "netUnits": -1.65
-          },
-          {
-            "title": "Matt Olson Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -235,
-            "result": "Loss",
-            "riskUnits": 2.35,
-            "netUnits": -2.35
-          },
-          {
-            "title": "SF",
-            "matchup": "SF @ KC",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": 104,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "SF F5 ML",
-            "matchup": "SF @ KC",
-            "market": "f5_moneyline",
-            "book": "FanDuel",
-            "bookOdds": 100,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Michael Wacha Over 4.5",
-            "matchup": "SF @ KC",
-            "market": "pitcher_strikeouts",
-            "book": "BetOnline.ag",
-            "bookOdds": 109,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.09
-          },
-          {
-            "title": "Lane Thomas Over 0.5",
-            "matchup": "SF @ KC",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Win",
-            "riskUnits": 2.1,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Bryce Eldridge Over 0.5",
-            "matchup": "SF @ KC",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -235,
-            "result": "Loss",
-            "riskUnits": 2.35,
-            "netUnits": -2.35
-          },
-          {
-            "title": "MIL",
-            "matchup": "NYM @ MIL",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": -190,
-            "result": "Win",
-            "riskUnits": 1.9,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Full-game total Over 7.5",
-            "matchup": "NYM @ MIL",
-            "market": "full_total",
-            "book": "MyBookie.ag",
-            "bookOdds": 100,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.0
-          },
-          {
-            "title": "NYM F5 ML",
-            "matchup": "NYM @ MIL",
-            "market": "f5_moneyline",
-            "book": "FanDuel",
-            "bookOdds": 186,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Freddy Peralta Over 5.5",
-            "matchup": "NYM @ MIL",
-            "market": "pitcher_strikeouts",
-            "book": "DraftKings",
-            "bookOdds": 108,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.08
-          },
-          {
-            "title": "Jacob Misiorowski Over 9.5",
-            "matchup": "NYM @ MIL",
-            "market": "pitcher_strikeouts",
-            "book": "DraftKings",
-            "bookOdds": 118,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "Luis Lara Over 0.5",
+            "title": "Francisco Alvarez Over 0.5",
             "matchup": "NYM @ MIL",
             "market": "batter_hits",
             "book": "DraftKings",
-            "bookOdds": -141,
+            "bookOdds": 114,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.14
+          },
+          {
+            "title": "Gabriel Arias Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -105,
             "result": "Void",
             "riskUnits": 0.0,
             "netUnits": 0.0
+          },
+          {
+            "title": "Garrett Mitchell Over 0.5",
+            "matchup": "NYM @ MIL",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -149,
+            "result": "Win",
+            "riskUnits": 1.49,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Iván Herrera Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -217,
+            "result": "Loss",
+            "riskUnits": 2.17,
+            "netUnits": -2.17
           },
           {
             "title": "Jake Bauers Over 0.5",
@@ -27456,23 +26956,53 @@
             "netUnits": -1.35
           },
           {
-            "title": "Francisco Alvarez Over 0.5",
-            "matchup": "NYM @ MIL",
+            "title": "Jo Adell Over 0.5",
+            "matchup": "STL @ LAA",
             "market": "batter_hits",
             "book": "DraftKings",
-            "bookOdds": 114,
+            "bookOdds": -185,
             "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.14
+            "riskUnits": 1.85,
+            "netUnits": 1.0
           },
           {
-            "title": "Garrett Mitchell Over 0.5",
-            "matchup": "NYM @ MIL",
+            "title": "Joc Pederson Over 0.5",
+            "matchup": "CWS @ TEX",
             "market": "batter_hits",
             "book": "BetOnline.ag",
-            "bookOdds": -149,
+            "bookOdds": -185,
             "result": "Win",
-            "riskUnits": 1.49,
+            "riskUnits": 1.85,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Jonah Heim Over 0.5",
+            "matchup": "ATH @ AZ",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -233,
+            "result": "Win",
+            "riskUnits": 2.33,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Jordan Walker Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -227,
+            "result": "Win",
+            "riskUnits": 2.27,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Josh Bell Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -186,
+            "result": "Win",
+            "riskUnits": 1.86,
             "netUnits": 1.0
           },
           {
@@ -27486,24 +27016,274 @@
             "netUnits": -1.21
           },
           {
-            "title": "CHC",
-            "matchup": "DET @ CHC",
-            "market": "moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": -108,
-            "result": "Loss",
-            "riskUnits": 1.08,
-            "netUnits": -1.08
+            "title": "Lane Thomas Over 0.5",
+            "matchup": "SF @ KC",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -210,
+            "result": "Win",
+            "riskUnits": 2.1,
+            "netUnits": 1.0
           },
           {
-            "title": "DET team total Under 5.5",
+            "title": "Logan O'Hoppe Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -164,
+            "result": "Loss",
+            "riskUnits": 1.64,
+            "netUnits": -1.64
+          },
+          {
+            "title": "Max Schuemann Over 0.5",
+            "matchup": "PIT @ NYY",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -123,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
+          },
+          {
+            "title": "Michael Busch Over 0.5",
             "matchup": "DET @ CHC",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 100,
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -233,
+            "result": "Win",
+            "riskUnits": 2.33,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Mike Trout Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -222,
+            "result": "Loss",
+            "riskUnits": 2.22,
+            "netUnits": -2.22
+          },
+          {
+            "title": "Pete Alonso Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -175,
+            "result": "Win",
+            "riskUnits": 1.75,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Ryan Jeffers Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -195,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
+          },
+          {
+            "title": "Tommy Edman Over 0.5",
+            "matchup": "LAD @ PHI",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -205,
+            "result": "Win",
+            "riskUnits": 2.05,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Tyler Stephenson Over 0.5",
+            "matchup": "CIN @ SEA",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -175,
+            "result": "Loss",
+            "riskUnits": 1.75,
+            "netUnits": -1.75
+          },
+          {
+            "title": "Yandy Díaz Over 0.5",
+            "matchup": "TB @ TOR",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -210,
+            "result": "Win",
+            "riskUnits": 2.1,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Adley Rutschman Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hr",
+            "book": "Caesars",
+            "bookOdds": 500,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
+          },
+          {
+            "title": "Alan Roden Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hr",
+            "book": "Caesars",
+            "bookOdds": 850,
             "result": "Loss",
             "riskUnits": 1.0,
             "netUnits": -1.0
+          },
+          {
+            "title": "J.P. Crawford Over 0.5",
+            "matchup": "CIN @ SEA",
+            "market": "batter_hr",
+            "book": "Caesars",
+            "bookOdds": 850,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
+          },
+          {
+            "title": "Joey Bart Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hr",
+            "book": "Caesars",
+            "bookOdds": 500,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Adley Rutschman Over 1.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_tb",
+            "book": "BetMGM",
+            "bookOdds": 135,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
+          },
+          {
+            "title": "CLE F5 ML",
+            "matchup": "MIN @ CLE",
+            "market": "f5_moneyline",
+            "book": "BetRivers",
+            "bookOdds": 118,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.18
+          },
+          {
+            "title": "LAD F5 ML",
+            "matchup": "LAD @ PHI",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": 134,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "SD F5 ML",
+            "matchup": "SD @ ATL",
+            "market": "f5_moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 126,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Full-game total Over 7.5",
+            "matchup": "TB @ TOR",
+            "market": "full_total",
+            "book": "Bovada",
+            "bookOdds": 100,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Full-game total Over 7.5",
+            "matchup": "NYM @ MIL",
+            "market": "full_total",
+            "book": "MyBookie.ag",
+            "bookOdds": 100,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Full-game total Over 8.5",
+            "matchup": "LAD @ PHI",
+            "market": "full_total",
+            "book": "BetMGM",
+            "bookOdds": -102,
+            "result": "Win",
+            "riskUnits": 1.02,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Full-game total Under 9",
+            "matchup": "SD @ ATL",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": 103,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.03
+          },
+          {
+            "title": "Full-game total Under 9",
+            "matchup": "ATH @ AZ",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": 103,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.03
+          },
+          {
+            "title": "CWS",
+            "matchup": "CWS @ TEX",
+            "market": "moneyline",
+            "book": "BetRivers",
+            "bookOdds": 155,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.55
+          },
+          {
+            "title": "MIL",
+            "matchup": "NYM @ MIL",
+            "market": "moneyline",
+            "book": "BetUS",
+            "bookOdds": -190,
+            "result": "Win",
+            "riskUnits": 1.9,
+            "netUnits": 1.0
+          },
+          {
+            "title": "SF",
+            "matchup": "SF @ KC",
+            "market": "moneyline",
+            "book": "BetUS",
+            "bookOdds": 104,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Freddy Peralta Over 5.5",
+            "matchup": "NYM @ MIL",
+            "market": "pitcher_strikeouts",
+            "book": "DraftKings",
+            "bookOdds": 108,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.08
           },
           {
             "title": "Jack Flaherty Over 5.5",
@@ -27526,113 +27306,139 @@
             "netUnits": 1.32
           },
           {
-            "title": "Riley Greene Over 0.5",
-            "matchup": "DET @ CHC",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -267,
-            "result": "Win",
-            "riskUnits": 2.67,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Colt Keith Over 0.5",
-            "matchup": "DET @ CHC",
-            "market": "batter_hits",
+            "title": "Joe Ryan Over 6.5",
+            "matchup": "MIN @ CLE",
+            "market": "pitcher_strikeouts",
             "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Win",
-            "riskUnits": 2.1,
-            "netUnits": 1.0
+            "bookOdds": -110,
+            "result": "Loss",
+            "riskUnits": 1.1,
+            "netUnits": -1.1
           },
           {
-            "title": "Michael Busch Over 0.5",
-            "matchup": "DET @ CHC",
-            "market": "batter_hits",
+            "title": "Michael Wacha Over 4.5",
+            "matchup": "SF @ KC",
+            "market": "pitcher_strikeouts",
             "book": "BetOnline.ag",
-            "bookOdds": -233,
-            "result": "Win",
-            "riskUnits": 2.33,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Pedro Ramírez Over 0.5",
-            "matchup": "DET @ CHC",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Win",
-            "riskUnits": 2.1,
-            "netUnits": 1.0
-          },
-          {
-            "title": "CWS",
-            "matchup": "CWS @ TEX",
-            "market": "moneyline",
-            "book": "BetRivers",
-            "bookOdds": 155,
+            "bookOdds": 109,
             "result": "Win",
             "riskUnits": 1.0,
-            "netUnits": 1.55
+            "netUnits": 1.09
           },
           {
-            "title": "CWS F5 ML",
-            "matchup": "CWS @ TEX",
-            "market": "f5_moneyline",
+            "title": "Ryan Weathers Over 6.5",
+            "matchup": "PIT @ NYY",
+            "market": "pitcher_strikeouts",
             "book": "FanDuel",
-            "bookOdds": 148,
-            "result": "Win",
+            "bookOdds": 120,
+            "result": "Loss",
             "riskUnits": 1.0,
-            "netUnits": 1.48
+            "netUnits": -1.0
           },
           {
-            "title": "CWS team total Over 3.5",
-            "matchup": "CWS @ TEX",
+            "title": "Shane Baz Over 5.5",
+            "matchup": "BAL @ BOS",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 110,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.1
+          },
+          {
+            "title": "Tanner Bibee Over 4.5",
+            "matchup": "MIN @ CLE",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": -113,
+            "result": "Win",
+            "riskUnits": 1.13,
+            "netUnits": 1.0
+          },
+          {
+            "title": "BAL team total Over 3.5",
+            "matchup": "BAL @ BOS",
+            "market": "team_total",
+            "book": "Caesars",
+            "bookOdds": -125,
+            "result": "Win",
+            "riskUnits": 1.25,
+            "netUnits": 1.0
+          },
+          {
+            "title": "CIN team total Over 3.5",
+            "matchup": "CIN @ SEA",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 106,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "DET team total Under 5.5",
+            "matchup": "DET @ CHC",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 100,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "HOU team total Over 4.5",
+            "matchup": "MIA @ HOU",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 106,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.06
+          },
+          {
+            "title": "LAD team total Over 3.5",
+            "matchup": "LAD @ PHI",
+            "market": "team_total",
+            "book": "BetOnline.ag",
+            "bookOdds": -125,
+            "result": "Win",
+            "riskUnits": 1.25,
+            "netUnits": 1.0
+          },
+          {
+            "title": "TB team total Over 3.5",
+            "matchup": "TB @ TOR",
             "market": "team_total",
             "book": "BetRivers",
-            "bookOdds": 112,
+            "bookOdds": 104,
             "result": "Win",
             "riskUnits": 1.0,
-            "netUnits": 1.12
-          },
+            "netUnits": 1.04
+          }
+        ]
+      },
+      {
+        "id": "892de8d492e72469891f",
+        "matchup": "15 games",
+        "resultDate": "2026-07-20",
+        "savedBetCount": 64,
+        "betCount": 60,
+        "pendingBetCount": 0,
+        "voidBetCount": 4,
+        "betWins": 31,
+        "betLosses": 28,
+        "betPushes": 1,
+        "riskedUnits": 75.58,
+        "netUnits": 3.84,
+        "bets": [
           {
-            "title": "Erick Fedde Over 3.5",
-            "matchup": "CWS @ TEX",
-            "market": "pitcher_strikeouts",
-            "book": "Bovada",
-            "bookOdds": 115,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.15
-          },
-          {
-            "title": "Jacob deGrom Over 6.5",
-            "matchup": "CWS @ TEX",
-            "market": "pitcher_strikeouts",
-            "book": "DraftKings",
-            "bookOdds": -127,
-            "result": "Loss",
-            "riskUnits": 1.27,
-            "netUnits": -1.27
-          },
-          {
-            "title": "Joc Pederson Over 0.5",
-            "matchup": "CWS @ TEX",
+            "title": "Ben Rice Over 0.5",
+            "matchup": "PIT @ NYY",
             "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -185,
+            "book": "BetMGM",
+            "bookOdds": -200,
             "result": "Win",
-            "riskUnits": 1.85,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Josh Jung Over 0.5",
-            "matchup": "CWS @ TEX",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -238,
-            "result": "Win",
-            "riskUnits": 2.38,
+            "riskUnits": 2.0,
             "netUnits": 1.0
           },
           {
@@ -27646,56 +27452,6 @@
             "netUnits": -2.25
           },
           {
-            "title": "HOU team total Over 4.5",
-            "matchup": "MIA @ HOU",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 106,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.06
-          },
-          {
-            "title": "Cam Smith Over 1.5",
-            "matchup": "MIA @ HOU",
-            "market": "batter_tb",
-            "book": "BetOnline.ag",
-            "bookOdds": 164,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "WSH",
-            "matchup": "WSH @ COL",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": -116,
-            "result": "Win",
-            "riskUnits": 1.16,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Full-game total Under 11.5",
-            "matchup": "WSH @ COL",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": 103,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.03
-          },
-          {
-            "title": "Kyle Freeland Over 4.5",
-            "matchup": "WSH @ COL",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 118,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
             "title": "Braxton Fulford Over 0.5",
             "matchup": "WSH @ COL",
             "market": "batter_hits",
@@ -27706,54 +27462,34 @@
             "netUnits": -1.36
           },
           {
-            "title": "Full-game total Under 9",
-            "matchup": "ATH @ AZ",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": 103,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.03
-          },
-          {
-            "title": "Jonah Heim Over 0.5",
-            "matchup": "ATH @ AZ",
+            "title": "Carlos Narváez Over 0.5",
+            "matchup": "BAL @ BOS",
             "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -233,
-            "result": "Win",
-            "riskUnits": 2.33,
-            "netUnits": 1.0
-          },
-          {
-            "title": "CIN",
-            "matchup": "CIN @ SEA",
-            "market": "moneyline",
-            "book": "FanDuel",
-            "bookOdds": 136,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "CIN team total Over 3.5",
-            "matchup": "CIN @ SEA",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 106,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "J.P. Crawford Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 850,
+            "book": "BetMGM",
+            "bookOdds": -140,
             "result": "Void",
             "riskUnits": 0.0,
             "netUnits": 0.0
+          },
+          {
+            "title": "Colt Keith Over 0.5",
+            "matchup": "DET @ CHC",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -210,
+            "result": "Win",
+            "riskUnits": 2.1,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Esmerlyn Valdez Over 0.5",
+            "matchup": "PIT @ NYY",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -165,
+            "result": "Win",
+            "riskUnits": 1.65,
+            "netUnits": 1.0
           },
           {
             "title": "J.P. Crawford Over 0.5",
@@ -27766,150 +27502,144 @@
             "netUnits": 0.0
           },
           {
-            "title": "Tyler Stephenson Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -175,
-            "result": "Loss",
-            "riskUnits": 1.75,
-            "netUnits": -1.75
-          },
-          {
-            "title": "STL",
-            "matchup": "STL @ LAA",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": 107,
-            "result": "Loss",
-            "riskUnits": 1.0,
-            "netUnits": -1.0
-          },
-          {
-            "title": "José Soriano Over 5.5",
-            "matchup": "STL @ LAA",
-            "market": "pitcher_strikeouts",
-            "book": "Fanatics",
-            "bookOdds": 120,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.2
-          },
-          {
-            "title": "Jordan Walker Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -227,
-            "result": "Win",
-            "riskUnits": 2.27,
-            "netUnits": 1.0
-          },
-          {
-            "title": "Iván Herrera Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -217,
-            "result": "Loss",
-            "riskUnits": 2.17,
-            "netUnits": -2.17
-          },
-          {
-            "title": "Logan O'Hoppe Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -164,
-            "result": "Loss",
-            "riskUnits": 1.64,
-            "netUnits": -1.64
-          },
-          {
-            "title": "Mike Trout Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -222,
-            "result": "Loss",
-            "riskUnits": 2.22,
-            "netUnits": -2.22
-          },
-          {
-            "title": "Jo Adell Over 0.5",
-            "matchup": "STL @ LAA",
+            "title": "Jackson Holliday Over 0.5",
+            "matchup": "BAL @ BOS",
             "market": "batter_hits",
             "book": "DraftKings",
-            "bookOdds": -185,
-            "result": "Win",
-            "riskUnits": 1.85,
-            "netUnits": 1.0
-          }
-        ]
-      },
-      {
-        "id": "892de8d492e72469891f",
-        "matchup": "15 games",
-        "resultDate": "2026-07-20",
-        "savedBetCount": 21,
-        "betCount": 21,
-        "pendingBetCount": 0,
-        "voidBetCount": 0,
-        "betWins": 12,
-        "betLosses": 8,
-        "betPushes": 1,
-        "riskedUnits": 21.86,
-        "netUnits": 3.44,
-        "bets": [
-          {
-            "title": "MIN",
-            "matchup": "MIN @ CLE",
-            "market": "moneyline",
-            "book": "MyBookie.ag",
-            "bookOdds": -119,
+            "bookOdds": -121,
             "result": "Loss",
-            "riskUnits": 1.19,
-            "netUnits": -1.19
+            "riskUnits": 1.21,
+            "netUnits": -1.21
           },
           {
-            "title": "Full-game total Over 7.5",
-            "matchup": "MIN @ CLE",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": -107,
+            "title": "Joey Bart Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -137,
             "result": "Win",
-            "riskUnits": 1.07,
+            "riskUnits": 1.37,
             "netUnits": 1.0
           },
           {
-            "title": "Full-game total Over 7.5",
-            "matchup": "PIT @ NYY",
-            "market": "full_total",
-            "book": "MyBookie.ag",
-            "bookOdds": -120,
-            "result": "Win",
-            "riskUnits": 1.2,
-            "netUnits": 1.0
-          },
-          {
-            "title": "BAL",
-            "matchup": "BAL @ BOS",
-            "market": "moneyline",
+            "title": "Josh Jung Over 0.5",
+            "matchup": "CWS @ TEX",
+            "market": "batter_hits",
             "book": "BetOnline.ag",
-            "bookOdds": 126,
+            "bookOdds": -238,
+            "result": "Win",
+            "riskUnits": 2.38,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Junior Caminero Over 0.5",
+            "matchup": "TB @ TOR",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -175,
+            "result": "Win",
+            "riskUnits": 1.75,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Kyle Schwarber Over 0.5",
+            "matchup": "LAD @ PHI",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -140,
+            "result": "Loss",
+            "riskUnits": 1.4,
+            "netUnits": -1.4
+          },
+          {
+            "title": "Luis Campusano Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -165,
+            "result": "Loss",
+            "riskUnits": 1.65,
+            "netUnits": -1.65
+          },
+          {
+            "title": "Luis Lara Over 0.5",
+            "matchup": "NYM @ MIL",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -141,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
+          },
+          {
+            "title": "Matt Olson Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -235,
+            "result": "Loss",
+            "riskUnits": 2.35,
+            "netUnits": -2.35
+          },
+          {
+            "title": "Pedro Ramírez Over 0.5",
+            "matchup": "DET @ CHC",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -210,
+            "result": "Win",
+            "riskUnits": 2.1,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Riley Greene Over 0.5",
+            "matchup": "DET @ CHC",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -267,
+            "result": "Win",
+            "riskUnits": 2.67,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Shohei Ohtani Over 0.5",
+            "matchup": "LAD @ PHI",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -205,
+            "result": "Loss",
+            "riskUnits": 2.05,
+            "netUnits": -2.05
+          },
+          {
+            "title": "Carlos Narváez Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hr",
+            "book": "Caesars",
+            "bookOdds": 625,
+            "result": "Void",
+            "riskUnits": 0.0,
+            "netUnits": 0.0
+          },
+          {
+            "title": "Victor Mesa Jr. Over 0.5",
+            "matchup": "TB @ TOR",
+            "market": "batter_hr",
+            "book": "BetRivers",
+            "bookOdds": 650,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 6.5
+          },
+          {
+            "title": "Cam Smith Over 1.5",
+            "matchup": "MIA @ HOU",
+            "market": "batter_tb",
+            "book": "BetOnline.ag",
+            "bookOdds": 164,
             "result": "Loss",
             "riskUnits": 1.0,
             "netUnits": -1.0
-          },
-          {
-            "title": "Full-game total Over 8.5",
-            "matchup": "BAL @ BOS",
-            "market": "full_total",
-            "book": "Fanatics",
-            "bookOdds": -105,
-            "result": "Win",
-            "riskUnits": 1.05,
-            "netUnits": 1.0
           },
           {
             "title": "BAL F5 ML",
@@ -27922,6 +27652,86 @@
             "netUnits": -1.0
           },
           {
+            "title": "CHC F5 ML",
+            "matchup": "DET @ CHC",
+            "market": "f5_moneyline",
+            "book": "DraftKings",
+            "bookOdds": -105,
+            "result": "Loss",
+            "riskUnits": 1.05,
+            "netUnits": -1.05
+          },
+          {
+            "title": "CIN F5 ML",
+            "matchup": "CIN @ SEA",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": 132,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "CWS F5 ML",
+            "matchup": "CWS @ TEX",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": 148,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.48
+          },
+          {
+            "title": "NYM F5 ML",
+            "matchup": "NYM @ MIL",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": 186,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "SF F5 ML",
+            "matchup": "SF @ KC",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": 100,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "STL F5 ML",
+            "matchup": "STL @ LAA",
+            "market": "f5_moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 105,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.05
+          },
+          {
+            "title": "TB F5 ML",
+            "matchup": "TB @ TOR",
+            "market": "f5_moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 137,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.37
+          },
+          {
+            "title": "WSH F5 ML",
+            "matchup": "WSH @ COL",
+            "market": "f5_moneyline",
+            "book": "BetRivers",
+            "bookOdds": -134,
+            "result": "Push",
+            "riskUnits": 1.34,
+            "netUnits": 0.0
+          },
+          {
             "title": "F5 total Over 4.5",
             "matchup": "BAL @ BOS",
             "market": "f5_total",
@@ -27929,6 +27739,16 @@
             "bookOdds": 100,
             "result": "Win",
             "riskUnits": 1.0,
+            "netUnits": 1.0
+          },
+          {
+            "title": "F5 total Under 5",
+            "matchup": "ATH @ AZ",
+            "market": "f5_total",
+            "book": "BetOnline.ag",
+            "bookOdds": -103,
+            "result": "Win",
+            "riskUnits": 1.03,
             "netUnits": 1.0
           },
           {
@@ -27940,56 +27760,6 @@
             "result": "Win",
             "riskUnits": 1.15,
             "netUnits": 1.0
-          },
-          {
-            "title": "Full-game total Under 10.5",
-            "matchup": "SF @ KC",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": -110,
-            "result": "Win",
-            "riskUnits": 1.1,
-            "netUnits": 1.0
-          },
-          {
-            "title": "NYM team total Over 2.5",
-            "matchup": "NYM @ MIL",
-            "market": "team_total",
-            "book": "DraftKings",
-            "bookOdds": -140,
-            "result": "Win",
-            "riskUnits": 1.4,
-            "netUnits": 1.0
-          },
-          {
-            "title": "MIL team total Over 4.5",
-            "matchup": "NYM @ MIL",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 108,
-            "result": "Win",
-            "riskUnits": 1.0,
-            "netUnits": 1.08
-          },
-          {
-            "title": "Full-game total Under 11.5",
-            "matchup": "DET @ CHC",
-            "market": "full_total",
-            "book": "FanDuel",
-            "bookOdds": -105,
-            "result": "Loss",
-            "riskUnits": 1.05,
-            "netUnits": -1.05
-          },
-          {
-            "title": "CHC F5 ML",
-            "matchup": "DET @ CHC",
-            "market": "f5_moneyline",
-            "book": "DraftKings",
-            "bookOdds": -105,
-            "result": "Loss",
-            "riskUnits": 1.05,
-            "netUnits": -1.05
           },
           {
             "title": "F5 total Under 6.5",
@@ -28012,36 +27782,6 @@
             "netUnits": 1.0
           },
           {
-            "title": "WSH F5 ML",
-            "matchup": "WSH @ COL",
-            "market": "f5_moneyline",
-            "book": "BetRivers",
-            "bookOdds": -134,
-            "result": "Push",
-            "riskUnits": 1.34,
-            "netUnits": 0.0
-          },
-          {
-            "title": "WSH team total Under 6.5",
-            "matchup": "WSH @ COL",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": -130,
-            "result": "Loss",
-            "riskUnits": 1.3,
-            "netUnits": -1.3
-          },
-          {
-            "title": "F5 total Under 5",
-            "matchup": "ATH @ AZ",
-            "market": "f5_total",
-            "book": "BetOnline.ag",
-            "bookOdds": -103,
-            "result": "Win",
-            "riskUnits": 1.03,
-            "netUnits": 1.0
-          },
-          {
             "title": "Full-game total Over 7.5",
             "matchup": "CIN @ SEA",
             "market": "full_total",
@@ -28052,36 +27792,296 @@
             "netUnits": 1.0
           },
           {
-            "title": "CIN F5 ML",
-            "matchup": "CIN @ SEA",
-            "market": "f5_moneyline",
+            "title": "Full-game total Over 7.5",
+            "matchup": "PIT @ NYY",
+            "market": "full_total",
+            "book": "MyBookie.ag",
+            "bookOdds": -120,
+            "result": "Win",
+            "riskUnits": 1.2,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Full-game total Over 7.5",
+            "matchup": "MIN @ CLE",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": -107,
+            "result": "Win",
+            "riskUnits": 1.07,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Full-game total Over 8.5",
+            "matchup": "BAL @ BOS",
+            "market": "full_total",
+            "book": "Fanatics",
+            "bookOdds": -105,
+            "result": "Win",
+            "riskUnits": 1.05,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Full-game total Under 10.5",
+            "matchup": "SF @ KC",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": -110,
+            "result": "Win",
+            "riskUnits": 1.1,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Full-game total Under 11.5",
+            "matchup": "WSH @ COL",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": 103,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.03
+          },
+          {
+            "title": "Full-game total Under 11.5",
+            "matchup": "DET @ CHC",
+            "market": "full_total",
             "book": "FanDuel",
-            "bookOdds": 132,
+            "bookOdds": -105,
+            "result": "Loss",
+            "riskUnits": 1.05,
+            "netUnits": -1.05
+          },
+          {
+            "title": "BAL",
+            "matchup": "BAL @ BOS",
+            "market": "moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 126,
             "result": "Loss",
             "riskUnits": 1.0,
             "netUnits": -1.0
           },
           {
-            "title": "STL F5 ML",
-            "matchup": "STL @ LAA",
-            "market": "f5_moneyline",
+            "title": "CHC",
+            "matchup": "DET @ CHC",
+            "market": "moneyline",
             "book": "BetOnline.ag",
+            "bookOdds": -108,
+            "result": "Loss",
+            "riskUnits": 1.08,
+            "netUnits": -1.08
+          },
+          {
+            "title": "CIN",
+            "matchup": "CIN @ SEA",
+            "market": "moneyline",
+            "book": "FanDuel",
+            "bookOdds": 136,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "LAD",
+            "matchup": "LAD @ PHI",
+            "market": "moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 119,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "MIN",
+            "matchup": "MIN @ CLE",
+            "market": "moneyline",
+            "book": "MyBookie.ag",
+            "bookOdds": -119,
+            "result": "Loss",
+            "riskUnits": 1.19,
+            "netUnits": -1.19
+          },
+          {
+            "title": "PIT",
+            "matchup": "PIT @ NYY",
+            "market": "moneyline",
+            "book": "BetUS",
             "bookOdds": 105,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "STL",
+            "matchup": "STL @ LAA",
+            "market": "moneyline",
+            "book": "BetUS",
+            "bookOdds": 107,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "TB",
+            "matchup": "TB @ TOR",
+            "market": "moneyline",
+            "book": "BetRivers",
+            "bookOdds": 135,
             "result": "Win",
             "riskUnits": 1.0,
-            "netUnits": 1.05
+            "netUnits": 1.35
+          },
+          {
+            "title": "WSH",
+            "matchup": "WSH @ COL",
+            "market": "moneyline",
+            "book": "BetUS",
+            "bookOdds": -116,
+            "result": "Win",
+            "riskUnits": 1.16,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Braxton Ashcraft Over 6.5",
+            "matchup": "PIT @ NYY",
+            "market": "pitcher_strikeouts",
+            "book": "BetMGM",
+            "bookOdds": -118,
+            "result": "Loss",
+            "riskUnits": 1.18,
+            "netUnits": -1.18
+          },
+          {
+            "title": "Emmet Sheehan Over 5.5",
+            "matchup": "LAD @ PHI",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": -118,
+            "result": "Win",
+            "riskUnits": 1.18,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Erick Fedde Over 3.5",
+            "matchup": "CWS @ TEX",
+            "market": "pitcher_strikeouts",
+            "book": "Bovada",
+            "bookOdds": 115,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.15
+          },
+          {
+            "title": "Jacob deGrom Over 6.5",
+            "matchup": "CWS @ TEX",
+            "market": "pitcher_strikeouts",
+            "book": "DraftKings",
+            "bookOdds": -127,
+            "result": "Loss",
+            "riskUnits": 1.27,
+            "netUnits": -1.27
+          },
+          {
+            "title": "Jacob Misiorowski Over 9.5",
+            "matchup": "NYM @ MIL",
+            "market": "pitcher_strikeouts",
+            "book": "DraftKings",
+            "bookOdds": 118,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "José Soriano Over 5.5",
+            "matchup": "STL @ LAA",
+            "market": "pitcher_strikeouts",
+            "book": "Fanatics",
+            "bookOdds": 120,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.2
+          },
+          {
+            "title": "Kyle Freeland Over 4.5",
+            "matchup": "WSH @ COL",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 118,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Nick Martinez Over 3.5",
+            "matchup": "TB @ TOR",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 120,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Payton Tolle Over 5.5",
+            "matchup": "BAL @ BOS",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": -156,
+            "result": "Win",
+            "riskUnits": 1.56,
+            "netUnits": 1.0
+          },
+          {
+            "title": "CWS team total Over 3.5",
+            "matchup": "CWS @ TEX",
+            "market": "team_total",
+            "book": "BetRivers",
+            "bookOdds": 112,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.12
+          },
+          {
+            "title": "MIL team total Over 4.5",
+            "matchup": "NYM @ MIL",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 108,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.08
+          },
+          {
+            "title": "NYM team total Over 2.5",
+            "matchup": "NYM @ MIL",
+            "market": "team_total",
+            "book": "DraftKings",
+            "bookOdds": -140,
+            "result": "Win",
+            "riskUnits": 1.4,
+            "netUnits": 1.0
+          },
+          {
+            "title": "WSH team total Under 6.5",
+            "matchup": "WSH @ COL",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": -130,
+            "result": "Loss",
+            "riskUnits": 1.3,
+            "netUnits": -1.3
           }
         ]
       }
     ],
     "2026-07-21": [
       {
-        "id": "2aa3a988596ef7ddddd5",
-        "matchup": "14 games",
+        "id": "289807254358728b042e",
+        "matchup": "15 games",
         "resultDate": "2026-07-21",
-        "savedBetCount": 74,
+        "savedBetCount": 35,
         "betCount": 0,
-        "pendingBetCount": 74,
+        "pendingBetCount": 35,
         "voidBetCount": 0,
         "betWins": 0,
         "betLosses": 0,
@@ -28089,141 +28089,6 @@
         "riskedUnits": 0.0,
         "netUnits": 0.0,
         "bets": [
-          {
-            "title": "MIN",
-            "matchup": "MIN @ CLE",
-            "market": "moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 131,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "MIN F5 ML",
-            "matchup": "MIN @ CLE",
-            "market": "f5_moneyline",
-            "book": "Caesars",
-            "bookOdds": 130,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "MIN team total Over 3.5",
-            "matchup": "MIN @ CLE",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": -108,
-            "result": "Pending",
-            "riskUnits": 1.08
-          },
-          {
-            "title": "Gabriel Arias hits Over 0.5",
-            "matchup": "MIN @ CLE",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -160,
-            "result": "Pending",
-            "riskUnits": 1.6
-          },
-          {
-            "title": "Ryan Jeffers hits Over 0.5",
-            "matchup": "MIN @ CLE",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -180,
-            "result": "Pending",
-            "riskUnits": 1.8
-          },
-          {
-            "title": "Kyle Manzardo hits Over 0.5",
-            "matchup": "MIN @ CLE",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -120,
-            "result": "Pending",
-            "riskUnits": 1.2
-          },
-          {
-            "title": "Byron Buxton hits Over 0.5",
-            "matchup": "MIN @ CLE",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -219,
-            "result": "Pending",
-            "riskUnits": 2.19
-          },
-          {
-            "title": "LAD",
-            "matchup": "LAD @ PHI",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": 115,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "LAD F5 ML",
-            "matchup": "LAD @ PHI",
-            "market": "f5_moneyline",
-            "book": "DraftKings",
-            "bookOdds": 120,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "LAD team total Over 4.5",
-            "matchup": "LAD @ PHI",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 118,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Tommy Edman hits Over 0.5",
-            "matchup": "LAD @ PHI",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -155,
-            "result": "Pending",
-            "riskUnits": 1.55
-          },
-          {
-            "title": "Shohei Ohtani hits Over 0.5",
-            "matchup": "LAD @ PHI",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -204,
-            "result": "Pending",
-            "riskUnits": 2.04
-          },
-          {
-            "title": "PIT",
-            "matchup": "PIT @ NYY",
-            "market": "moneyline",
-            "book": "LowVig.ag",
-            "bookOdds": 136,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Full-game total Over 9.5",
-            "matchup": "PIT @ NYY",
-            "market": "full_total",
-            "book": "MyBookie.ag",
-            "bookOdds": -101,
-            "result": "Pending",
-            "riskUnits": 1.01
-          },
-          {
-            "title": "PIT team total Over 4.5",
-            "matchup": "PIT @ NYY",
-            "market": "team_total",
-            "book": "Bovada",
-            "bookOdds": 110,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
           {
             "title": "Ben Rice hits Over 0.5",
             "matchup": "PIT @ NYY",
@@ -28234,211 +28099,13 @@
             "riskUnits": 2.1
           },
           {
-            "title": "Esmerlyn Valdez hits Over 0.5",
-            "matchup": "PIT @ NYY",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -160,
-            "result": "Pending",
-            "riskUnits": 1.6
-          },
-          {
-            "title": "Ryan McMahon hits Over 0.5",
-            "matchup": "PIT @ NYY",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -115,
-            "result": "Pending",
-            "riskUnits": 1.15
-          },
-          {
-            "title": "Full-game total Over 7.5",
-            "matchup": "TB @ TOR",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": -107,
-            "result": "Pending",
-            "riskUnits": 1.07
-          },
-          {
-            "title": "TOR F5 ML",
-            "matchup": "TB @ TOR",
-            "market": "f5_moneyline",
-            "book": "FanDuel",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "TOR team total Over 3.5",
-            "matchup": "TB @ TOR",
-            "market": "team_total",
-            "book": "BetRivers",
-            "bookOdds": -108,
-            "result": "Pending",
-            "riskUnits": 1.08
-          },
-          {
-            "title": "Junior Caminero hits Over 0.5",
-            "matchup": "TB @ TOR",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -235,
-            "result": "Pending",
-            "riskUnits": 2.35
-          },
-          {
-            "title": "BAL",
-            "matchup": "BAL @ BOS",
-            "market": "moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 121,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Full-game total Over 8.5",
-            "matchup": "BAL @ BOS",
-            "market": "full_total",
-            "book": "MyBookie.ag",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "BAL team total Over 3.5",
-            "matchup": "BAL @ BOS",
-            "market": "team_total",
-            "book": "BetOnline.ag",
-            "bookOdds": -125,
-            "result": "Pending",
-            "riskUnits": 1.25
-          },
-          {
-            "title": "Anthony Seigler homerun Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 750,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Jarren Duran hits Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -175,
-            "result": "Pending",
-            "riskUnits": 1.75
-          },
-          {
-            "title": "Pete Alonso hits Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -190,
-            "result": "Pending",
-            "riskUnits": 1.9
-          },
-          {
-            "title": "ATL",
-            "matchup": "SD @ ATL",
-            "market": "moneyline",
-            "book": "LowVig.ag",
-            "bookOdds": -137,
-            "result": "Pending",
-            "riskUnits": 1.37
-          },
-          {
-            "title": "ATL team total Over 4.5",
-            "matchup": "SD @ ATL",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": -104,
-            "result": "Pending",
-            "riskUnits": 1.04
-          },
-          {
-            "title": "Austin Riley homerun Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hr",
-            "book": "BetRivers",
-            "bookOdds": 575,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Luis Campusano homerun Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 700,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Austin Riley hits Over 0.5",
-            "matchup": "SD @ ATL",
+            "title": "Brice Turang hits Over 0.5",
+            "matchup": "NYM @ MIL",
             "market": "batter_hits",
             "book": "BetOnline.ag",
-            "bookOdds": -192,
+            "bookOdds": -213,
             "result": "Pending",
-            "riskUnits": 1.92
-          },
-          {
-            "title": "Matt Olson hits Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -208,
-            "result": "Pending",
-            "riskUnits": 2.08
-          },
-          {
-            "title": "Manny Machado hits Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Pending",
-            "riskUnits": 2.1
-          },
-          {
-            "title": "Full-game total Under 9.5",
-            "matchup": "SF @ KC",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": -102,
-            "result": "Pending",
-            "riskUnits": 1.02
-          },
-          {
-            "title": "F5 total Under 5",
-            "matchup": "SF @ KC",
-            "market": "f5_total",
-            "book": "BetOnline.ag",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Carter Jensen hits Over 0.5",
-            "matchup": "SF @ KC",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -200,
-            "result": "Pending",
-            "riskUnits": 2.0
-          },
-          {
-            "title": "Jac Caglianone hits Over 0.5",
-            "matchup": "SF @ KC",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -225,
-            "result": "Pending",
-            "riskUnits": 2.25
+            "riskUnits": 2.13
           },
           {
             "title": "Bryce Eldridge hits Over 0.5",
@@ -28450,49 +28117,13 @@
             "riskUnits": 2.2
           },
           {
-            "title": "Full-game total Over 9",
-            "matchup": "NYM @ MIL",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": 103,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "MIL F5 ML",
-            "matchup": "NYM @ MIL",
-            "market": "f5_moneyline",
-            "book": "FanDuel",
-            "bookOdds": -138,
-            "result": "Pending",
-            "riskUnits": 1.38
-          },
-          {
-            "title": "Garrett Mitchell hits Over 0.5",
-            "matchup": "NYM @ MIL",
+            "title": "Bryce Harper hits Over 0.5",
+            "matchup": "LAD @ PHI",
             "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -160,
+            "book": "BetOnline.ag",
+            "bookOdds": -208,
             "result": "Pending",
-            "riskUnits": 1.6
-          },
-          {
-            "title": "Jake Bauers hits Over 0.5",
-            "matchup": "NYM @ MIL",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -135,
-            "result": "Pending",
-            "riskUnits": 1.35
-          },
-          {
-            "title": "Juan Soto hits Over 0.5",
-            "matchup": "NYM @ MIL",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -177,
-            "result": "Pending",
-            "riskUnits": 1.77
+            "riskUnits": 2.08
           },
           {
             "title": "James Outman hits Over 0.5",
@@ -28504,186 +28135,6 @@
             "riskUnits": 1.0
           },
           {
-            "title": "Michael Busch hits Over 0.5",
-            "matchup": "DET @ CHC",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -165,
-            "result": "Pending",
-            "riskUnits": 1.65
-          },
-          {
-            "title": "CWS F5 ML",
-            "matchup": "CWS @ TEX",
-            "market": "f5_moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 110,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "F5 total Under 4.5",
-            "matchup": "CWS @ TEX",
-            "market": "f5_total",
-            "book": "FanDuel",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "CWS team total Over 3.5",
-            "matchup": "CWS @ TEX",
-            "market": "team_total",
-            "book": "BetOnline.ag",
-            "bookOdds": -139,
-            "result": "Pending",
-            "riskUnits": 1.39
-          },
-          {
-            "title": "Justin Foscue hits Over 0.5",
-            "matchup": "CWS @ TEX",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -179,
-            "result": "Pending",
-            "riskUnits": 1.79
-          },
-          {
-            "title": "Colson Montgomery hits Over 0.5",
-            "matchup": "CWS @ TEX",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -157,
-            "result": "Pending",
-            "riskUnits": 1.57
-          },
-          {
-            "title": "Brandon Nimmo hits Over 0.5",
-            "matchup": "CWS @ TEX",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -175,
-            "result": "Pending",
-            "riskUnits": 1.75
-          },
-          {
-            "title": "Josh Jung hits Over 0.5",
-            "matchup": "CWS @ TEX",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -216,
-            "result": "Pending",
-            "riskUnits": 2.16
-          },
-          {
-            "title": "Munetaka Murakami hits Over 0.5",
-            "matchup": "CWS @ TEX",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -152,
-            "result": "Pending",
-            "riskUnits": 1.52
-          },
-          {
-            "title": "HOU team total Over 4.5",
-            "matchup": "MIA @ HOU",
-            "market": "team_total",
-            "book": "Caesars",
-            "bookOdds": 105,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Jeremy Peña hits Over 0.5",
-            "matchup": "MIA @ HOU",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -250,
-            "result": "Pending",
-            "riskUnits": 2.5
-          },
-          {
-            "title": "Yordan Alvarez hits Over 0.5",
-            "matchup": "MIA @ HOU",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -270,
-            "result": "Pending",
-            "riskUnits": 2.7
-          },
-          {
-            "title": "LaMonte Wade Jr. hits Over 0.5",
-            "matchup": "MIA @ HOU",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -132,
-            "result": "Pending",
-            "riskUnits": 1.32
-          },
-          {
-            "title": "Heriberto Hernández hits Over 0.5",
-            "matchup": "MIA @ HOU",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -159,
-            "result": "Pending",
-            "riskUnits": 1.59
-          },
-          {
-            "title": "Griffin Conine hits Over 0.5",
-            "matchup": "MIA @ HOU",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -135,
-            "result": "Pending",
-            "riskUnits": 1.35
-          },
-          {
-            "title": "F5 total Under 7",
-            "matchup": "WSH @ COL",
-            "market": "f5_total",
-            "book": "BetOnline.ag",
-            "bookOdds": -111,
-            "result": "Pending",
-            "riskUnits": 1.11
-          },
-          {
-            "title": "STL F5 ML",
-            "matchup": "STL @ LAA",
-            "market": "f5_moneyline",
-            "book": "BetUS",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Jimmy Crooks hits Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -125,
-            "result": "Pending",
-            "riskUnits": 1.25
-          },
-          {
-            "title": "Logan O'Hoppe hits Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -150,
-            "result": "Pending",
-            "riskUnits": 1.5
-          },
-          {
-            "title": "Jordan Walker hits Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Pending",
-            "riskUnits": 2.1
-          },
-          {
             "title": "Jose Siri hits Over 0.5",
             "matchup": "STL @ LAA",
             "market": "batter_hits",
@@ -28693,308 +28144,13 @@
             "riskUnits": 1.16
           },
           {
-            "title": "Jo Adell hits Over 0.5",
-            "matchup": "STL @ LAA",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -210,
-            "result": "Pending",
-            "riskUnits": 2.1
-          },
-          {
-            "title": "Full-game total Over 7.5",
-            "matchup": "CIN @ SEA",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": -102,
-            "result": "Pending",
-            "riskUnits": 1.02
-          },
-          {
-            "title": "SEA F5 ML",
-            "matchup": "CIN @ SEA",
-            "market": "f5_moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 105,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "CIN team total Over 3.5",
-            "matchup": "CIN @ SEA",
-            "market": "team_total",
-            "book": "BetMGM",
-            "bookOdds": -118,
-            "result": "Pending",
-            "riskUnits": 1.18
-          },
-          {
-            "title": "SEA team total Over 3.5",
-            "matchup": "CIN @ SEA",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": -104,
-            "result": "Pending",
-            "riskUnits": 1.04
-          },
-          {
-            "title": "Jose Trevino homerun Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hr",
-            "book": "Caesars",
-            "bookOdds": 850,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Dane Myers hits Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -141,
-            "result": "Pending",
-            "riskUnits": 1.41
-          }
-        ]
-      },
-      {
-        "id": "289807254358728b042e",
-        "matchup": "15 games",
-        "resultDate": "2026-07-21",
-        "savedBetCount": 63,
-        "betCount": 0,
-        "pendingBetCount": 63,
-        "voidBetCount": 0,
-        "betWins": 0,
-        "betLosses": 0,
-        "betPushes": 0,
-        "riskedUnits": 0.0,
-        "netUnits": 0.0,
-        "bets": [
-          {
-            "title": "MIN run line +1.5",
-            "matchup": "MIN @ CLE",
-            "market": "run_line",
-            "book": "FanDuel",
-            "bookOdds": -162,
-            "result": "Pending",
-            "riskUnits": 1.62
-          },
-          {
-            "title": "MIN F5 run line +0.5",
-            "matchup": "MIN @ CLE",
-            "market": "f5_run_line",
-            "book": "BetOnline.ag",
-            "bookOdds": -113,
-            "result": "Pending",
-            "riskUnits": 1.13
-          },
-          {
-            "title": "LAD run line +1.5",
-            "matchup": "LAD @ PHI",
-            "market": "run_line",
-            "book": "BetMGM",
-            "bookOdds": -190,
-            "result": "Pending",
-            "riskUnits": 1.9
-          },
-          {
-            "title": "Full-game total Over 9",
-            "matchup": "LAD @ PHI",
-            "market": "full_total",
-            "book": "Bovada",
-            "bookOdds": 105,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "LAD F5 run line +0.5",
-            "matchup": "LAD @ PHI",
-            "market": "f5_run_line",
-            "book": "BetOnline.ag",
-            "bookOdds": -120,
-            "result": "Pending",
-            "riskUnits": 1.2
-          },
-          {
-            "title": "PHI team total Over 4.5",
-            "matchup": "LAD @ PHI",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 102,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Edmundo Sosa hits Over 0.5",
-            "matchup": "LAD @ PHI",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -194,
-            "result": "Pending",
-            "riskUnits": 1.94
-          },
-          {
-            "title": "Bryce Harper hits Over 0.5",
-            "matchup": "LAD @ PHI",
+            "title": "Matt Olson hits Over 0.5",
+            "matchup": "SD @ ATL",
             "market": "batter_hits",
             "book": "BetOnline.ag",
             "bookOdds": -208,
             "result": "Pending",
             "riskUnits": 2.08
-          },
-          {
-            "title": "PIT run line +1.5",
-            "matchup": "PIT @ NYY",
-            "market": "run_line",
-            "book": "BetRivers",
-            "bookOdds": -167,
-            "result": "Pending",
-            "riskUnits": 1.67
-          },
-          {
-            "title": "PIT F5 ML",
-            "matchup": "PIT @ NYY",
-            "market": "f5_moneyline",
-            "book": "BetRivers",
-            "bookOdds": 123,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "PIT F5 run line +0.5",
-            "matchup": "PIT @ NYY",
-            "market": "f5_run_line",
-            "book": "MyBookie.ag",
-            "bookOdds": -118,
-            "result": "Pending",
-            "riskUnits": 1.18
-          },
-          {
-            "title": "TOR run line +1.5",
-            "matchup": "TB @ TOR",
-            "market": "run_line",
-            "book": "LowVig.ag",
-            "bookOdds": -175,
-            "result": "Pending",
-            "riskUnits": 1.75
-          },
-          {
-            "title": "F5 total Over 4",
-            "matchup": "TB @ TOR",
-            "market": "f5_total",
-            "book": "BetOnline.ag",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "BAL run line +1.5",
-            "matchup": "BAL @ BOS",
-            "market": "run_line",
-            "book": "Bovada",
-            "bookOdds": -200,
-            "result": "Pending",
-            "riskUnits": 2.0
-          },
-          {
-            "title": "BAL team total Over 4.5",
-            "matchup": "BAL @ BOS",
-            "market": "team_total",
-            "book": "BetRivers",
-            "bookOdds": 118,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Anthony Seigler hits Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -196,
-            "result": "Pending",
-            "riskUnits": 1.96
-          },
-          {
-            "title": "Willson Contreras hits Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -200,
-            "result": "Pending",
-            "riskUnits": 2.0
-          },
-          {
-            "title": "Taylor Ward hits Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -210,
-            "result": "Pending",
-            "riskUnits": 2.1
-          },
-          {
-            "title": "SD run line +1.5",
-            "matchup": "SD @ ATL",
-            "market": "run_line",
-            "book": "BetRivers",
-            "bookOdds": -162,
-            "result": "Pending",
-            "riskUnits": 1.62
-          },
-          {
-            "title": "Luis Campusano hits Over 0.5",
-            "matchup": "SD @ ATL",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -144,
-            "result": "Pending",
-            "riskUnits": 1.44
-          },
-          {
-            "title": "KC",
-            "matchup": "SF @ KC",
-            "market": "moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "KC run line +1.5",
-            "matchup": "SF @ KC",
-            "market": "run_line",
-            "book": "BetOnline.ag",
-            "bookOdds": -165,
-            "result": "Pending",
-            "riskUnits": 1.65
-          },
-          {
-            "title": "KC F5 ML",
-            "matchup": "SF @ KC",
-            "market": "f5_moneyline",
-            "book": "Caesars",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "KC F5 run line +0.5",
-            "matchup": "SF @ KC",
-            "market": "f5_run_line",
-            "book": "BetOnline.ag",
-            "bookOdds": -140,
-            "result": "Pending",
-            "riskUnits": 1.4
-          },
-          {
-            "title": "KC team total Over 4.5",
-            "matchup": "SF @ KC",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 100,
-            "result": "Pending",
-            "riskUnits": 1.0
           },
           {
             "title": "Tyler Tolbert hits Over 0.5",
@@ -29006,20 +28162,11 @@
             "riskUnits": 1.85
           },
           {
-            "title": "MIL",
-            "matchup": "NYM @ MIL",
-            "market": "moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": -128,
-            "result": "Pending",
-            "riskUnits": 1.28
-          },
-          {
-            "title": "MIL team total Over 4.5",
-            "matchup": "NYM @ MIL",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": 102,
+            "title": "Anthony Seigler homerun Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hr",
+            "book": "Caesars",
+            "bookOdds": 750,
             "result": "Pending",
             "riskUnits": 1.0
           },
@@ -29033,218 +28180,11 @@
             "riskUnits": 1.0
           },
           {
-            "title": "Gary Sánchez hits Over 0.5",
-            "matchup": "NYM @ MIL",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -145,
-            "result": "Pending",
-            "riskUnits": 1.45
-          },
-          {
-            "title": "Brice Turang hits Over 0.5",
-            "matchup": "NYM @ MIL",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -213,
-            "result": "Pending",
-            "riskUnits": 2.13
-          },
-          {
-            "title": "CHC",
-            "matchup": "DET @ CHC",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": -114,
-            "result": "Pending",
-            "riskUnits": 1.14
-          },
-          {
-            "title": "CHC run line -1.5",
-            "matchup": "DET @ CHC",
-            "market": "run_line",
-            "book": "Bovada",
-            "bookOdds": 175,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Full-game total Over 8",
-            "matchup": "DET @ CHC",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": -102,
-            "result": "Pending",
-            "riskUnits": 1.02
-          },
-          {
-            "title": "CHC team total Over 3.5",
-            "matchup": "DET @ CHC",
-            "market": "team_total",
-            "book": "FanDuel",
-            "bookOdds": -128,
-            "result": "Pending",
-            "riskUnits": 1.28
-          },
-          {
-            "title": "Pete Crow-Armstrong hits Over 0.5",
-            "matchup": "DET @ CHC",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -192,
-            "result": "Pending",
-            "riskUnits": 1.92
-          },
-          {
-            "title": "Ben Malgeri hits Over 0.5",
-            "matchup": "DET @ CHC",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -123,
-            "result": "Pending",
-            "riskUnits": 1.23
-          },
-          {
-            "title": "CWS",
-            "matchup": "CWS @ TEX",
-            "market": "moneyline",
-            "book": "BetUS",
-            "bookOdds": 115,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "CWS run line +1.5",
-            "matchup": "CWS @ TEX",
-            "market": "run_line",
-            "book": "MyBookie.ag",
-            "bookOdds": -182,
-            "result": "Pending",
-            "riskUnits": 1.82
-          },
-          {
-            "title": "Full-game total Under 8.5",
-            "matchup": "CWS @ TEX",
-            "market": "full_total",
-            "book": "BetRivers",
-            "bookOdds": 104,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "CWS F5 run line +0.5",
-            "matchup": "CWS @ TEX",
-            "market": "f5_run_line",
-            "book": "BetUS",
-            "bookOdds": -125,
-            "result": "Pending",
-            "riskUnits": 1.25
-          },
-          {
-            "title": "Full-game total Under 9",
-            "matchup": "MIA @ HOU",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": 103,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "F5 total Under 5",
-            "matchup": "MIA @ HOU",
-            "market": "f5_total",
-            "book": "MyBookie.ag",
-            "bookOdds": -102,
-            "result": "Pending",
-            "riskUnits": 1.02
-          },
-          {
-            "title": "WSH",
-            "matchup": "WSH @ COL",
-            "market": "moneyline",
-            "book": "MyBookie.ag",
-            "bookOdds": -107,
-            "result": "Pending",
-            "riskUnits": 1.07
-          },
-          {
-            "title": "Full-game total Under 13",
-            "matchup": "WSH @ COL",
-            "market": "full_total",
-            "book": "BetRivers",
-            "bookOdds": -103,
-            "result": "Pending",
-            "riskUnits": 1.03
-          },
-          {
-            "title": "WSH F5 ML",
-            "matchup": "WSH @ COL",
-            "market": "f5_moneyline",
-            "book": "FanDuel",
-            "bookOdds": -110,
-            "result": "Pending",
-            "riskUnits": 1.1
-          },
-          {
-            "title": "F5 total Under 7.5",
-            "matchup": "WSH @ COL",
-            "market": "f5_total",
-            "book": "BetMGM",
-            "bookOdds": -118,
-            "result": "Pending",
-            "riskUnits": 1.18
-          },
-          {
-            "title": "Kyle Karros homerun Over 0.5",
-            "matchup": "WSH @ COL",
+            "title": "Jose Trevino homerun Over 0.5",
+            "matchup": "CIN @ SEA",
             "market": "batter_hr",
-            "book": "BetRivers",
-            "bookOdds": 510,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Edouard Julien hits Over 0.5",
-            "matchup": "WSH @ COL",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -181,
-            "result": "Pending",
-            "riskUnits": 1.81
-          },
-          {
-            "title": "STL",
-            "matchup": "STL @ LAA",
-            "market": "moneyline",
-            "book": "BetOnline.ag",
-            "bookOdds": 103,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Full-game total Under 9",
-            "matchup": "STL @ LAA",
-            "market": "full_total",
-            "book": "LowVig.ag",
-            "bookOdds": 103,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "STL F5 run line +0.5",
-            "matchup": "STL @ LAA",
-            "market": "f5_run_line",
-            "book": "BetOnline.ag",
-            "bookOdds": -135,
-            "result": "Pending",
-            "riskUnits": 1.35
-          },
-          {
-            "title": "AZ team total Under 4.5",
-            "matchup": "ATH @ AZ",
-            "market": "team_total",
-            "book": "Bovada",
-            "bookOdds": 105,
+            "book": "Caesars",
+            "bookOdds": 850,
             "result": "Pending",
             "riskUnits": 1.0
           },
@@ -29267,6 +28207,902 @@
             "riskUnits": 1.0
           },
           {
+            "title": "Max Kepler total bases Over 1.5",
+            "matchup": "ATH @ AZ",
+            "market": "batter_tb",
+            "book": "BetOnline.ag",
+            "bookOdds": 149,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "MIN F5 run line +0.5",
+            "matchup": "MIN @ CLE",
+            "market": "f5_run_line",
+            "book": "BetOnline.ag",
+            "bookOdds": -113,
+            "result": "Pending",
+            "riskUnits": 1.13
+          },
+          {
+            "title": "STL F5 run line +0.5",
+            "matchup": "STL @ LAA",
+            "market": "f5_run_line",
+            "book": "BetOnline.ag",
+            "bookOdds": -135,
+            "result": "Pending",
+            "riskUnits": 1.35
+          },
+          {
+            "title": "F5 total Over 4",
+            "matchup": "TB @ TOR",
+            "market": "f5_total",
+            "book": "BetOnline.ag",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "F5 total Under 5",
+            "matchup": "MIA @ HOU",
+            "market": "f5_total",
+            "book": "MyBookie.ag",
+            "bookOdds": -102,
+            "result": "Pending",
+            "riskUnits": 1.02
+          },
+          {
+            "title": "F5 total Under 7.5",
+            "matchup": "WSH @ COL",
+            "market": "f5_total",
+            "book": "BetMGM",
+            "bookOdds": -118,
+            "result": "Pending",
+            "riskUnits": 1.18
+          },
+          {
+            "title": "Full-game total Over 8",
+            "matchup": "DET @ CHC",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": -102,
+            "result": "Pending",
+            "riskUnits": 1.02
+          },
+          {
+            "title": "Full-game total Under 13",
+            "matchup": "WSH @ COL",
+            "market": "full_total",
+            "book": "BetRivers",
+            "bookOdds": -103,
+            "result": "Pending",
+            "riskUnits": 1.03
+          },
+          {
+            "title": "Full-game total Under 8.5",
+            "matchup": "CWS @ TEX",
+            "market": "full_total",
+            "book": "BetRivers",
+            "bookOdds": 104,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "CHC",
+            "matchup": "DET @ CHC",
+            "market": "moneyline",
+            "book": "BetUS",
+            "bookOdds": -114,
+            "result": "Pending",
+            "riskUnits": 1.14
+          },
+          {
+            "title": "MIL",
+            "matchup": "NYM @ MIL",
+            "market": "moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": -128,
+            "result": "Pending",
+            "riskUnits": 1.28
+          },
+          {
+            "title": "STL",
+            "matchup": "STL @ LAA",
+            "market": "moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 103,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "CHC run line -1.5",
+            "matchup": "DET @ CHC",
+            "market": "run_line",
+            "book": "Bovada",
+            "bookOdds": 175,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "CWS run line +1.5",
+            "matchup": "CWS @ TEX",
+            "market": "run_line",
+            "book": "MyBookie.ag",
+            "bookOdds": -182,
+            "result": "Pending",
+            "riskUnits": 1.82
+          },
+          {
+            "title": "KC run line +1.5",
+            "matchup": "SF @ KC",
+            "market": "run_line",
+            "book": "BetOnline.ag",
+            "bookOdds": -165,
+            "result": "Pending",
+            "riskUnits": 1.65
+          },
+          {
+            "title": "LAD run line +1.5",
+            "matchup": "LAD @ PHI",
+            "market": "run_line",
+            "book": "BetMGM",
+            "bookOdds": -190,
+            "result": "Pending",
+            "riskUnits": 1.9
+          },
+          {
+            "title": "PIT run line +1.5",
+            "matchup": "PIT @ NYY",
+            "market": "run_line",
+            "book": "BetRivers",
+            "bookOdds": -167,
+            "result": "Pending",
+            "riskUnits": 1.67
+          },
+          {
+            "title": "AZ team total Under 4.5",
+            "matchup": "ATH @ AZ",
+            "market": "team_total",
+            "book": "Bovada",
+            "bookOdds": 105,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "CHC team total Over 3.5",
+            "matchup": "DET @ CHC",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": -128,
+            "result": "Pending",
+            "riskUnits": 1.28
+          },
+          {
+            "title": "KC team total Over 4.5",
+            "matchup": "SF @ KC",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "MIL team total Over 4.5",
+            "matchup": "NYM @ MIL",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 102,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "PHI team total Over 4.5",
+            "matchup": "LAD @ PHI",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 102,
+            "result": "Pending",
+            "riskUnits": 1.0
+          }
+        ]
+      },
+      {
+        "id": "2aa3a988596ef7ddddd5",
+        "matchup": "14 games",
+        "resultDate": "2026-07-21",
+        "savedBetCount": 63,
+        "betCount": 0,
+        "pendingBetCount": 63,
+        "voidBetCount": 0,
+        "betWins": 0,
+        "betLosses": 0,
+        "betPushes": 0,
+        "riskedUnits": 0.0,
+        "netUnits": 0.0,
+        "bets": [
+          {
+            "title": "Austin Riley hits Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -192,
+            "result": "Pending",
+            "riskUnits": 1.92
+          },
+          {
+            "title": "Brandon Nimmo hits Over 0.5",
+            "matchup": "CWS @ TEX",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -175,
+            "result": "Pending",
+            "riskUnits": 1.75
+          },
+          {
+            "title": "Byron Buxton hits Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -219,
+            "result": "Pending",
+            "riskUnits": 2.19
+          },
+          {
+            "title": "Carter Jensen hits Over 0.5",
+            "matchup": "SF @ KC",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -200,
+            "result": "Pending",
+            "riskUnits": 2.0
+          },
+          {
+            "title": "Colson Montgomery hits Over 0.5",
+            "matchup": "CWS @ TEX",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -157,
+            "result": "Pending",
+            "riskUnits": 1.57
+          },
+          {
+            "title": "Dane Myers hits Over 0.5",
+            "matchup": "CIN @ SEA",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -141,
+            "result": "Pending",
+            "riskUnits": 1.41
+          },
+          {
+            "title": "Esmerlyn Valdez hits Over 0.5",
+            "matchup": "PIT @ NYY",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -160,
+            "result": "Pending",
+            "riskUnits": 1.6
+          },
+          {
+            "title": "Gabriel Arias hits Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -160,
+            "result": "Pending",
+            "riskUnits": 1.6
+          },
+          {
+            "title": "Garrett Mitchell hits Over 0.5",
+            "matchup": "NYM @ MIL",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -160,
+            "result": "Pending",
+            "riskUnits": 1.6
+          },
+          {
+            "title": "Griffin Conine hits Over 0.5",
+            "matchup": "MIA @ HOU",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -135,
+            "result": "Pending",
+            "riskUnits": 1.35
+          },
+          {
+            "title": "Heriberto Hernández hits Over 0.5",
+            "matchup": "MIA @ HOU",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -159,
+            "result": "Pending",
+            "riskUnits": 1.59
+          },
+          {
+            "title": "Jake Bauers hits Over 0.5",
+            "matchup": "NYM @ MIL",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -135,
+            "result": "Pending",
+            "riskUnits": 1.35
+          },
+          {
+            "title": "Jarren Duran hits Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -175,
+            "result": "Pending",
+            "riskUnits": 1.75
+          },
+          {
+            "title": "Jeremy Peña hits Over 0.5",
+            "matchup": "MIA @ HOU",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -250,
+            "result": "Pending",
+            "riskUnits": 2.5
+          },
+          {
+            "title": "Jimmy Crooks hits Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -125,
+            "result": "Pending",
+            "riskUnits": 1.25
+          },
+          {
+            "title": "Jo Adell hits Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -210,
+            "result": "Pending",
+            "riskUnits": 2.1
+          },
+          {
+            "title": "Jordan Walker hits Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -210,
+            "result": "Pending",
+            "riskUnits": 2.1
+          },
+          {
+            "title": "Josh Jung hits Over 0.5",
+            "matchup": "CWS @ TEX",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -216,
+            "result": "Pending",
+            "riskUnits": 2.16
+          },
+          {
+            "title": "Juan Soto hits Over 0.5",
+            "matchup": "NYM @ MIL",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -177,
+            "result": "Pending",
+            "riskUnits": 1.77
+          },
+          {
+            "title": "Junior Caminero hits Over 0.5",
+            "matchup": "TB @ TOR",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -235,
+            "result": "Pending",
+            "riskUnits": 2.35
+          },
+          {
+            "title": "Justin Foscue hits Over 0.5",
+            "matchup": "CWS @ TEX",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -179,
+            "result": "Pending",
+            "riskUnits": 1.79
+          },
+          {
+            "title": "Kyle Manzardo hits Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -120,
+            "result": "Pending",
+            "riskUnits": 1.2
+          },
+          {
+            "title": "LaMonte Wade Jr. hits Over 0.5",
+            "matchup": "MIA @ HOU",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -132,
+            "result": "Pending",
+            "riskUnits": 1.32
+          },
+          {
+            "title": "Logan O'Hoppe hits Over 0.5",
+            "matchup": "STL @ LAA",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -150,
+            "result": "Pending",
+            "riskUnits": 1.5
+          },
+          {
+            "title": "Manny Machado hits Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -210,
+            "result": "Pending",
+            "riskUnits": 2.1
+          },
+          {
+            "title": "Michael Busch hits Over 0.5",
+            "matchup": "DET @ CHC",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -165,
+            "result": "Pending",
+            "riskUnits": 1.65
+          },
+          {
+            "title": "Munetaka Murakami hits Over 0.5",
+            "matchup": "CWS @ TEX",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -152,
+            "result": "Pending",
+            "riskUnits": 1.52
+          },
+          {
+            "title": "Pete Alonso hits Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -190,
+            "result": "Pending",
+            "riskUnits": 1.9
+          },
+          {
+            "title": "Ryan Jeffers hits Over 0.5",
+            "matchup": "MIN @ CLE",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -180,
+            "result": "Pending",
+            "riskUnits": 1.8
+          },
+          {
+            "title": "Ryan McMahon hits Over 0.5",
+            "matchup": "PIT @ NYY",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -115,
+            "result": "Pending",
+            "riskUnits": 1.15
+          },
+          {
+            "title": "Shohei Ohtani hits Over 0.5",
+            "matchup": "LAD @ PHI",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -204,
+            "result": "Pending",
+            "riskUnits": 2.04
+          },
+          {
+            "title": "Yordan Alvarez hits Over 0.5",
+            "matchup": "MIA @ HOU",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -270,
+            "result": "Pending",
+            "riskUnits": 2.7
+          },
+          {
+            "title": "Austin Riley homerun Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hr",
+            "book": "BetRivers",
+            "bookOdds": 575,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "Luis Campusano homerun Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hr",
+            "book": "Caesars",
+            "bookOdds": 700,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "CWS F5 ML",
+            "matchup": "CWS @ TEX",
+            "market": "f5_moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 110,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "LAD F5 ML",
+            "matchup": "LAD @ PHI",
+            "market": "f5_moneyline",
+            "book": "DraftKings",
+            "bookOdds": 120,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "MIL F5 ML",
+            "matchup": "NYM @ MIL",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": -138,
+            "result": "Pending",
+            "riskUnits": 1.38
+          },
+          {
+            "title": "SEA F5 ML",
+            "matchup": "CIN @ SEA",
+            "market": "f5_moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 105,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "TOR F5 ML",
+            "matchup": "TB @ TOR",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "F5 total Under 4.5",
+            "matchup": "CWS @ TEX",
+            "market": "f5_total",
+            "book": "FanDuel",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "F5 total Under 5",
+            "matchup": "SF @ KC",
+            "market": "f5_total",
+            "book": "BetOnline.ag",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "F5 total Under 7",
+            "matchup": "WSH @ COL",
+            "market": "f5_total",
+            "book": "BetOnline.ag",
+            "bookOdds": -111,
+            "result": "Pending",
+            "riskUnits": 1.11
+          },
+          {
+            "title": "Full-game total Over 7.5",
+            "matchup": "TB @ TOR",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": -107,
+            "result": "Pending",
+            "riskUnits": 1.07
+          },
+          {
+            "title": "Full-game total Over 7.5",
+            "matchup": "CIN @ SEA",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": -102,
+            "result": "Pending",
+            "riskUnits": 1.02
+          },
+          {
+            "title": "Full-game total Over 8.5",
+            "matchup": "BAL @ BOS",
+            "market": "full_total",
+            "book": "MyBookie.ag",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "Full-game total Over 9",
+            "matchup": "NYM @ MIL",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": 103,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "Full-game total Over 9.5",
+            "matchup": "PIT @ NYY",
+            "market": "full_total",
+            "book": "MyBookie.ag",
+            "bookOdds": -101,
+            "result": "Pending",
+            "riskUnits": 1.01
+          },
+          {
+            "title": "Full-game total Under 9.5",
+            "matchup": "SF @ KC",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": -102,
+            "result": "Pending",
+            "riskUnits": 1.02
+          },
+          {
+            "title": "ATL",
+            "matchup": "SD @ ATL",
+            "market": "moneyline",
+            "book": "LowVig.ag",
+            "bookOdds": -137,
+            "result": "Pending",
+            "riskUnits": 1.37
+          },
+          {
+            "title": "BAL",
+            "matchup": "BAL @ BOS",
+            "market": "moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 121,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "LAD",
+            "matchup": "LAD @ PHI",
+            "market": "moneyline",
+            "book": "BetUS",
+            "bookOdds": 115,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "MIN",
+            "matchup": "MIN @ CLE",
+            "market": "moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 131,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "PIT",
+            "matchup": "PIT @ NYY",
+            "market": "moneyline",
+            "book": "LowVig.ag",
+            "bookOdds": 136,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "ATL team total Over 4.5",
+            "matchup": "SD @ ATL",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": -104,
+            "result": "Pending",
+            "riskUnits": 1.04
+          },
+          {
+            "title": "BAL team total Over 3.5",
+            "matchup": "BAL @ BOS",
+            "market": "team_total",
+            "book": "BetOnline.ag",
+            "bookOdds": -125,
+            "result": "Pending",
+            "riskUnits": 1.25
+          },
+          {
+            "title": "CIN team total Over 3.5",
+            "matchup": "CIN @ SEA",
+            "market": "team_total",
+            "book": "BetMGM",
+            "bookOdds": -118,
+            "result": "Pending",
+            "riskUnits": 1.18
+          },
+          {
+            "title": "CWS team total Over 3.5",
+            "matchup": "CWS @ TEX",
+            "market": "team_total",
+            "book": "BetOnline.ag",
+            "bookOdds": -139,
+            "result": "Pending",
+            "riskUnits": 1.39
+          },
+          {
+            "title": "HOU team total Over 4.5",
+            "matchup": "MIA @ HOU",
+            "market": "team_total",
+            "book": "Caesars",
+            "bookOdds": 105,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "LAD team total Over 4.5",
+            "matchup": "LAD @ PHI",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": 118,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "MIN team total Over 3.5",
+            "matchup": "MIN @ CLE",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": -108,
+            "result": "Pending",
+            "riskUnits": 1.08
+          },
+          {
+            "title": "PIT team total Over 4.5",
+            "matchup": "PIT @ NYY",
+            "market": "team_total",
+            "book": "Bovada",
+            "bookOdds": 110,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "SEA team total Over 3.5",
+            "matchup": "CIN @ SEA",
+            "market": "team_total",
+            "book": "FanDuel",
+            "bookOdds": -104,
+            "result": "Pending",
+            "riskUnits": 1.04
+          },
+          {
+            "title": "TOR team total Over 3.5",
+            "matchup": "TB @ TOR",
+            "market": "team_total",
+            "book": "BetRivers",
+            "bookOdds": -108,
+            "result": "Pending",
+            "riskUnits": 1.08
+          }
+        ]
+      },
+      {
+        "id": "cbf6466de36175936b0f",
+        "matchup": "15 games",
+        "resultDate": "2026-07-21",
+        "savedBetCount": 48,
+        "betCount": 0,
+        "pendingBetCount": 48,
+        "voidBetCount": 0,
+        "betWins": 0,
+        "betLosses": 0,
+        "betPushes": 0,
+        "riskedUnits": 0.0,
+        "netUnits": 0.0,
+        "bets": [
+          {
+            "title": "Anthony Seigler hits Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -196,
+            "result": "Pending",
+            "riskUnits": 1.96
+          },
+          {
+            "title": "Ben Malgeri hits Over 0.5",
+            "matchup": "DET @ CHC",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -123,
+            "result": "Pending",
+            "riskUnits": 1.23
+          },
+          {
+            "title": "Coby Mayo hits Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -130,
+            "result": "Pending",
+            "riskUnits": 1.3
+          },
+          {
+            "title": "Dominic Canzone hits Over 0.5",
+            "matchup": "CIN @ SEA",
+            "market": "batter_hits",
+            "book": "BetOnline.ag",
+            "bookOdds": -172,
+            "result": "Pending",
+            "riskUnits": 1.72
+          },
+          {
+            "title": "Edmundo Sosa hits Over 0.5",
+            "matchup": "LAD @ PHI",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -194,
+            "result": "Pending",
+            "riskUnits": 1.94
+          },
+          {
+            "title": "Edouard Julien hits Over 0.5",
+            "matchup": "WSH @ COL",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -181,
+            "result": "Pending",
+            "riskUnits": 1.81
+          },
+          {
+            "title": "Elly De La Cruz hits Over 0.5",
+            "matchup": "CIN @ SEA",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -221,
+            "result": "Pending",
+            "riskUnits": 2.21
+          },
+          {
+            "title": "Gary Sánchez hits Over 0.5",
+            "matchup": "NYM @ MIL",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -145,
+            "result": "Pending",
+            "riskUnits": 1.45
+          },
+          {
+            "title": "Jac Caglianone hits Over 0.5",
+            "matchup": "SF @ KC",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -225,
+            "result": "Pending",
+            "riskUnits": 2.25
+          },
+          {
+            "title": "Luis Campusano hits Over 0.5",
+            "matchup": "SD @ ATL",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -144,
+            "result": "Pending",
+            "riskUnits": 1.44
+          },
+          {
+            "title": "Luke Raley hits Over 0.5",
+            "matchup": "CIN @ SEA",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -110,
+            "result": "Pending",
+            "riskUnits": 1.1
+          },
+          {
             "title": "Max Kepler hits Over 0.5",
             "matchup": "ATH @ AZ",
             "market": "batter_hits",
@@ -29276,11 +29112,173 @@
             "riskUnits": 1.75
           },
           {
-            "title": "Max Kepler total bases Over 1.5",
-            "matchup": "ATH @ AZ",
-            "market": "batter_tb",
+            "title": "Pete Crow-Armstrong hits Over 0.5",
+            "matchup": "DET @ CHC",
+            "market": "batter_hits",
             "book": "BetOnline.ag",
-            "bookOdds": 149,
+            "bookOdds": -192,
+            "result": "Pending",
+            "riskUnits": 1.92
+          },
+          {
+            "title": "Taylor Ward hits Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
+            "book": "BetRivers",
+            "bookOdds": -210,
+            "result": "Pending",
+            "riskUnits": 2.1
+          },
+          {
+            "title": "Tommy Edman hits Over 0.5",
+            "matchup": "LAD @ PHI",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -155,
+            "result": "Pending",
+            "riskUnits": 1.55
+          },
+          {
+            "title": "Tyler Stephenson hits Over 0.5",
+            "matchup": "CIN @ SEA",
+            "market": "batter_hits",
+            "book": "BetMGM",
+            "bookOdds": -165,
+            "result": "Pending",
+            "riskUnits": 1.65
+          },
+          {
+            "title": "Willson Contreras hits Over 0.5",
+            "matchup": "BAL @ BOS",
+            "market": "batter_hits",
+            "book": "DraftKings",
+            "bookOdds": -200,
+            "result": "Pending",
+            "riskUnits": 2.0
+          },
+          {
+            "title": "Kyle Karros homerun Over 0.5",
+            "matchup": "WSH @ COL",
+            "market": "batter_hr",
+            "book": "BetRivers",
+            "bookOdds": 510,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "KC F5 ML",
+            "matchup": "SF @ KC",
+            "market": "f5_moneyline",
+            "book": "Caesars",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "MIN F5 ML",
+            "matchup": "MIN @ CLE",
+            "market": "f5_moneyline",
+            "book": "Caesars",
+            "bookOdds": 130,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "PIT F5 ML",
+            "matchup": "PIT @ NYY",
+            "market": "f5_moneyline",
+            "book": "BetRivers",
+            "bookOdds": 123,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "STL F5 ML",
+            "matchup": "STL @ LAA",
+            "market": "f5_moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 100,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "WSH F5 ML",
+            "matchup": "WSH @ COL",
+            "market": "f5_moneyline",
+            "book": "FanDuel",
+            "bookOdds": -110,
+            "result": "Pending",
+            "riskUnits": 1.1
+          },
+          {
+            "title": "CWS F5 run line +0.5",
+            "matchup": "CWS @ TEX",
+            "market": "f5_run_line",
+            "book": "BetUS",
+            "bookOdds": -125,
+            "result": "Pending",
+            "riskUnits": 1.25
+          },
+          {
+            "title": "KC F5 run line +0.5",
+            "matchup": "SF @ KC",
+            "market": "f5_run_line",
+            "book": "BetOnline.ag",
+            "bookOdds": -140,
+            "result": "Pending",
+            "riskUnits": 1.4
+          },
+          {
+            "title": "LAD F5 run line +0.5",
+            "matchup": "LAD @ PHI",
+            "market": "f5_run_line",
+            "book": "BetOnline.ag",
+            "bookOdds": -120,
+            "result": "Pending",
+            "riskUnits": 1.2
+          },
+          {
+            "title": "PIT F5 run line +0.5",
+            "matchup": "PIT @ NYY",
+            "market": "f5_run_line",
+            "book": "MyBookie.ag",
+            "bookOdds": -118,
+            "result": "Pending",
+            "riskUnits": 1.18
+          },
+          {
+            "title": "SEA F5 run line +0.5",
+            "matchup": "CIN @ SEA",
+            "market": "f5_run_line",
+            "book": "BetOnline.ag",
+            "bookOdds": -135,
+            "result": "Pending",
+            "riskUnits": 1.35
+          },
+          {
+            "title": "Full-game total Over 9",
+            "matchup": "LAD @ PHI",
+            "market": "full_total",
+            "book": "Bovada",
+            "bookOdds": 105,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "Full-game total Under 9",
+            "matchup": "STL @ LAA",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": 103,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "Full-game total Under 9",
+            "matchup": "MIA @ HOU",
+            "market": "full_total",
+            "book": "LowVig.ag",
+            "bookOdds": 103,
             "result": "Pending",
             "riskUnits": 1.0
           },
@@ -29294,83 +29292,31 @@
             "riskUnits": 1.0
           },
           {
-            "title": "SEA run line +1.5",
-            "matchup": "CIN @ SEA",
-            "market": "run_line",
-            "book": "BetMGM",
-            "bookOdds": -200,
-            "result": "Pending",
-            "riskUnits": 2.0
-          },
-          {
-            "title": "SEA F5 run line +0.5",
-            "matchup": "CIN @ SEA",
-            "market": "f5_run_line",
-            "book": "BetOnline.ag",
-            "bookOdds": -135,
-            "result": "Pending",
-            "riskUnits": 1.35
-          },
-          {
-            "title": "Tyler Stephenson hits Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -165,
-            "result": "Pending",
-            "riskUnits": 1.65
-          },
-          {
-            "title": "Dominic Canzone hits Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hits",
-            "book": "BetOnline.ag",
-            "bookOdds": -172,
-            "result": "Pending",
-            "riskUnits": 1.72
-          },
-          {
-            "title": "Elly De La Cruz hits Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hits",
-            "book": "DraftKings",
-            "bookOdds": -221,
-            "result": "Pending",
-            "riskUnits": 2.21
-          }
-        ]
-      },
-      {
-        "id": "cbf6466de36175936b0f",
-        "matchup": "15 games",
-        "resultDate": "2026-07-21",
-        "savedBetCount": 22,
-        "betCount": 0,
-        "pendingBetCount": 22,
-        "voidBetCount": 0,
-        "betWins": 0,
-        "betLosses": 0,
-        "betPushes": 0,
-        "riskedUnits": 0.0,
-        "netUnits": 0.0,
-        "bets": [
-          {
-            "title": "Parker Messick strikeouts Over 5.5",
-            "matchup": "MIN @ CLE",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 120,
+            "title": "CWS",
+            "matchup": "CWS @ TEX",
+            "market": "moneyline",
+            "book": "BetUS",
+            "bookOdds": 115,
             "result": "Pending",
             "riskUnits": 1.0
           },
           {
-            "title": "Zack Wheeler strikeouts Over 6.5",
-            "matchup": "LAD @ PHI",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": -138,
+            "title": "KC",
+            "matchup": "SF @ KC",
+            "market": "moneyline",
+            "book": "BetOnline.ag",
+            "bookOdds": 100,
             "result": "Pending",
-            "riskUnits": 1.38
+            "riskUnits": 1.0
+          },
+          {
+            "title": "WSH",
+            "matchup": "WSH @ COL",
+            "market": "moneyline",
+            "book": "BetRivers",
+            "bookOdds": -107,
+            "result": "Pending",
+            "riskUnits": 1.07
           },
           {
             "title": "Bubba Chandler strikeouts Over 4.5",
@@ -29382,92 +29328,11 @@
             "riskUnits": 1.25
           },
           {
-            "title": "Will Warren strikeouts Over 5.5",
-            "matchup": "PIT @ NYY",
-            "market": "pitcher_strikeouts",
-            "book": "BetOnline.ag",
-            "bookOdds": 106,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Kevin Gausman strikeouts Over 5.5",
-            "matchup": "TB @ TOR",
-            "market": "pitcher_strikeouts",
-            "book": "Bovada",
-            "bookOdds": 110,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Kyle Bradish strikeouts Over 5.5",
-            "matchup": "BAL @ BOS",
+            "title": "Matthew Liberatore strikeouts Over 5.5",
+            "matchup": "STL @ LAA",
             "market": "pitcher_strikeouts",
             "book": "FanDuel",
-            "bookOdds": 110,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Coby Mayo hits Over 0.5",
-            "matchup": "BAL @ BOS",
-            "market": "batter_hits",
-            "book": "BetMGM",
-            "bookOdds": -130,
-            "result": "Pending",
-            "riskUnits": 1.3
-          },
-          {
-            "title": "Reynaldo López strikeouts Over 3.5",
-            "matchup": "SD @ ATL",
-            "market": "pitcher_strikeouts",
-            "book": "BetRivers",
-            "bookOdds": -175,
-            "result": "Pending",
-            "riskUnits": 1.75
-          },
-          {
-            "title": "Tyler Mahle strikeouts Over 4.5",
-            "matchup": "SF @ KC",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 132,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Luinder Avila strikeouts Over 3.5",
-            "matchup": "SF @ KC",
-            "market": "pitcher_strikeouts",
-            "book": "Fanatics",
-            "bookOdds": -120,
-            "result": "Pending",
-            "riskUnits": 1.2
-          },
-          {
-            "title": "Brandon Sproat strikeouts Over 4.5",
-            "matchup": "NYM @ MIL",
-            "market": "pitcher_strikeouts",
-            "book": "BetOnline.ag",
-            "bookOdds": -149,
-            "result": "Pending",
-            "riskUnits": 1.49
-          },
-          {
-            "title": "Framber Valdez strikeouts Over 4.5",
-            "matchup": "DET @ CHC",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": -115,
-            "result": "Pending",
-            "riskUnits": 1.15
-          },
-          {
-            "title": "David Peterson strikeouts Over 4.5",
-            "matchup": "DET @ CHC",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 122,
+            "bookOdds": 124,
             "result": "Pending",
             "riskUnits": 1.0
           },
@@ -29481,13 +29346,40 @@
             "riskUnits": 1.0
           },
           {
-            "title": "Kumar Rocker strikeouts Over 4.5",
-            "matchup": "CWS @ TEX",
+            "title": "Tyler Mahle strikeouts Over 4.5",
+            "matchup": "SF @ KC",
             "market": "pitcher_strikeouts",
-            "book": "BetRivers",
-            "bookOdds": -141,
+            "book": "FanDuel",
+            "bookOdds": 132,
             "result": "Pending",
-            "riskUnits": 1.41
+            "riskUnits": 1.0
+          },
+          {
+            "title": "Will Warren strikeouts Over 5.5",
+            "matchup": "PIT @ NYY",
+            "market": "pitcher_strikeouts",
+            "book": "BetOnline.ag",
+            "bookOdds": 106,
+            "result": "Pending",
+            "riskUnits": 1.0
+          },
+          {
+            "title": "Zack Wheeler strikeouts Over 6.5",
+            "matchup": "LAD @ PHI",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": -138,
+            "result": "Pending",
+            "riskUnits": 1.38
+          },
+          {
+            "title": "BAL run line +1.5",
+            "matchup": "BAL @ BOS",
+            "market": "run_line",
+            "book": "Bovada",
+            "bookOdds": -200,
+            "result": "Pending",
+            "riskUnits": 2.0
           },
           {
             "title": "MIA run line +1.5",
@@ -29499,58 +29391,49 @@
             "riskUnits": 1.84
           },
           {
-            "title": "Tyler Phillips strikeouts Over 3.5",
-            "matchup": "MIA @ HOU",
-            "market": "pitcher_strikeouts",
-            "book": "BetOnline.ag",
-            "bookOdds": 106,
+            "title": "MIN run line +1.5",
+            "matchup": "MIN @ CLE",
+            "market": "run_line",
+            "book": "FanDuel",
+            "bookOdds": -162,
             "result": "Pending",
-            "riskUnits": 1.0
+            "riskUnits": 1.62
           },
           {
-            "title": "Tatsuya Imai strikeouts Over 4.5",
-            "matchup": "MIA @ HOU",
-            "market": "pitcher_strikeouts",
+            "title": "SD run line +1.5",
+            "matchup": "SD @ ATL",
+            "market": "run_line",
             "book": "BetRivers",
             "bookOdds": -162,
             "result": "Pending",
             "riskUnits": 1.62
           },
           {
-            "title": "Matthew Liberatore strikeouts Over 5.5",
-            "matchup": "STL @ LAA",
-            "market": "pitcher_strikeouts",
-            "book": "FanDuel",
-            "bookOdds": 124,
+            "title": "SEA run line +1.5",
+            "matchup": "CIN @ SEA",
+            "market": "run_line",
+            "book": "BetMGM",
+            "bookOdds": -200,
+            "result": "Pending",
+            "riskUnits": 2.0
+          },
+          {
+            "title": "TOR run line +1.5",
+            "matchup": "TB @ TOR",
+            "market": "run_line",
+            "book": "LowVig.ag",
+            "bookOdds": -175,
+            "result": "Pending",
+            "riskUnits": 1.75
+          },
+          {
+            "title": "BAL team total Over 4.5",
+            "matchup": "BAL @ BOS",
+            "market": "team_total",
+            "book": "BetRivers",
+            "bookOdds": 118,
             "result": "Pending",
             "riskUnits": 1.0
-          },
-          {
-            "title": "Walbert Ureña strikeouts Over 4.5",
-            "matchup": "STL @ LAA",
-            "market": "pitcher_strikeouts",
-            "book": "BetOnline.ag",
-            "bookOdds": 128,
-            "result": "Pending",
-            "riskUnits": 1.0
-          },
-          {
-            "title": "Chase Burns strikeouts Over 6.5",
-            "matchup": "CIN @ SEA",
-            "market": "pitcher_strikeouts",
-            "book": "BetRivers",
-            "bookOdds": -150,
-            "result": "Pending",
-            "riskUnits": 1.5
-          },
-          {
-            "title": "Luke Raley hits Over 0.5",
-            "matchup": "CIN @ SEA",
-            "market": "batter_hits",
-            "book": "BetRivers",
-            "bookOdds": -110,
-            "result": "Pending",
-            "riskUnits": 1.1
           }
         ]
       }
