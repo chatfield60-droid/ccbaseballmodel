@@ -1732,10 +1732,10 @@ function BiggestEdgesBoard({ edges, hasOdds, onSelectGame }) {
 
 function confidenceLabel(tone) {
   return ({
-    strong: "Elite",
-    bet: "Strong",
-    lean: "Good",
-    small: "Lean",
+    strong: "Strong",
+    bet: "Bet",
+    lean: "Lean",
+    small: "Small edge",
     watch: "Watch",
     pass: "No edge",
   })[tone] || "Watch";
@@ -1873,9 +1873,9 @@ function TierLegend() {
   return <details className="tier-legend">
     <summary>Tier guide</summary>
     <div>
-      <span><b>Elite:</b> the largest current price gap.</span>
-      <span><b>Strong:</b> a clear current price gap.</span>
-      <span><b>Good / lean:</b> a thinner gap worth monitoring.</span>
+      <span><b>Strong:</b> the largest current price gaps on the board.</span>
+      <span><b>Bet:</b> a clear current price gap.</span>
+      <span><b>Lean:</b> a thinner gap worth monitoring.</span>
       <span><b>No edge:</b> book price has not cleared fair.</span>
     </div>
   </details>;
@@ -1990,9 +1990,9 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChang
         <span>Tier</span>
         <select value={tier} onChange={(event) => onTierChange(event.target.value)} aria-label="Filter edge tier">
           <option value="all">All tiers</option>
-          <option value="strong">Elite</option>
-          <option value="bet">Strong</option>
-          <option value="lean">Good</option>
+          <option value="strong">Strong</option>
+          <option value="bet">Bet</option>
+          <option value="lean">Lean</option>
         </select>
       </label>
       <TierLegend />
@@ -3719,7 +3719,7 @@ function CustomerBoard() {
     [edgeCounts],
   );
   const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.allEdges;
-  const elitePickCount = fullSlatePricedEdges.filter((edge) => edge.tone === "strong").length;
+  const topPickCount = Math.min(3, fullSlatePricedEdges.filter((edge) => isGradedBetTone(edge.tone)).length);
   const featuredPickCount = Math.min(3, fullSlatePricedEdges.filter((edge) => isGradedBetTone(edge.tone)).length);
   const headerMetrics = summarizeResults(resultRows);
   const headerRecord = headerMetrics.find((metric) => metric.label === "Record");
@@ -3791,7 +3791,7 @@ function CustomerBoard() {
           <div className="header-meta">
             <span className="header-chip">{BOARD.date || "—"}</span>
             <span className="header-chip">{displayGames.length} games</span>
-            {hasPublishedDailyCapture && elitePickCount ? <span className="header-chip">{Math.min(3, elitePickCount)} elite picks</span> : null}
+            {hasPublishedDailyCapture && topPickCount ? <span className="header-chip">{topPickCount} top picks</span> : null}
             {headerRecord ? <span className="header-chip">{headerRecord.value}</span> : null}
             {headerNet ? <span className="header-chip">{headerNet.value}</span> : null}
           </div>
