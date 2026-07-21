@@ -463,8 +463,20 @@ const APP_CSS = `
   .top-pick:first-of-type { border-top: 0; padding-top: 0; }
   .top-pick strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .top-pick span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
+  .biggest-edges-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 10px 16px 16px; }
+  .biggest-edge-group { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
+  .biggest-edge-group h3 { margin: 0; color: var(--text-primary); font-size: 13px; font-weight: 750; }
+  .biggest-edge-list { display: grid; gap: 7px; }
+  .biggest-edge-pick { display: grid; gap: 5px; width: 100%; min-width: 0; padding: 9px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: inherit; text-align: left; }
+  .biggest-edge-pick:hover { border-color: color-mix(in srgb, var(--positive) 48%, var(--border)); background: color-mix(in srgb, var(--positive) 7%, var(--surface)); }
+  .biggest-edge-pick strong { color: var(--text-primary); font-size: 12px; font-weight: 750; line-height: 1.3; }
+  .biggest-edge-pick span { color: var(--text-secondary); font-size: 11px; line-height: 1.35; }
+  .biggest-edge-meta { display: flex; flex-wrap: wrap; gap: 4px 7px; font-variant-numeric: tabular-nums; }
+  .biggest-edge-meta b { color: var(--text-primary); font-weight: 700; }
+  .biggest-edge-empty { color: var(--text-tertiary); font-size: 12px; line-height: 1.4; }
   @media (max-width: 1080px) {
     .compact-scores, .market-grid, .edge-grid, .top-grid, .performance-grid, .results-market-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .biggest-edges-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .k-section { grid-template-columns: 1fr; }
     .bet-result-item { grid-template-columns: minmax(0, 1fr) auto; }
     .bet-result-units { grid-column: 1 / -1; }
@@ -475,7 +487,7 @@ const APP_CSS = `
     .mode, .refresh { flex: 1; }
     .shell { padding: 18px; gap: 18px; }
     .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid { grid-template-columns: 1fr; }
+    .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid, .biggest-edges-grid { grid-template-columns: 1fr; }
     .results-market-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .edge-card { grid-template-columns: 1fr; }
     .edge-data { justify-items: start; padding-top: 0; }
@@ -1204,24 +1216,57 @@ function lineInputValue(line) {
   return String(numeric);
 }
 
-function TopBoard({ board }) {
+function isHitterPropEdge(edge) {
+  if (edge?.betKind !== "batter_prop") return false;
+  return ["batter hr", "batter home runs", "batter hits", "batter tb", "batter total bases"].includes(normal(edge.propMarket));
+}
+
+function isStrikeoutEdge(edge) {
+  return edge?.betKind === "pitcher_strikeouts"
+    || (edge?.betKind === "batter_prop" && normal(edge.propMarket) === "batter strikeouts");
+}
+
+function biggestEdgeValue(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : -Infinity;
+}
+
+function rankBiggestEdges(edges, predicate) {
+  return (edges || [])
+    .filter((edge) => isGradedBetTone(edge?.tone) && predicate(edge))
+    .sort((left, right) => (
+      biggestEdgeValue(right.edge) - biggestEdgeValue(left.edge)
+      || tierRank(right.tone) - tierRank(left.tone)
+      || String(left.title || "").localeCompare(String(right.title || ""))
+    ))
+    .slice(0, 3);
+}
+
+function BiggestEdgesBoard({ edges, hasOdds, onSelectGame }) {
+  if (!hasOdds) return null;
   const sections = [
-    ["Best HR bets", board?.best_hr_bets || []],
-    ["Best pitcher K bets", board?.best_pitcher_strikeout_bets || []],
-    ["Best 3-leg parlay", board?.best_three_game_side_total_parlay || []],
-    ["Best total bets", board?.best_total_bets || []],
+    ["Best moneylines", rankBiggestEdges(edges, (edge) => edge.betKind === "moneyline")],
+    ["Best props", rankBiggestEdges(edges, isHitterPropEdge)],
+    ["Best strikeouts", rankBiggestEdges(edges, isStrikeoutEdge)],
+    ["Best totals", rankBiggestEdges(edges, (edge) => ["full_total", "team_total", "f5_total"].includes(edge.betKind))],
   ];
-  return <section className="card">
-    <div className="card-title"><h2>Top board</h2><span className="muted">Pregame angles</span></div>
-    <div className="top-grid">
-      {sections.map(([title, items]) => <article className="top-card" key={title}>
+  return <section className="card" aria-label="Biggest full-slate edges">
+    <div className="card-title"><h2>Biggest edges</h2><span className="muted">Price-gated full slate</span></div>
+    <div className="biggest-edges-grid">
+      {sections.map(([title, items]) => <article className="biggest-edge-group" key={title}>
         <h3>{title}</h3>
-        {items.length ? items.map((item, index) => <div className="top-pick" key={`${title}-${item.title}-${index}`}>
-          <strong>{item.title}</strong>
-          <span>{item.game}</span>
-          <span>{item.subtitle}</span>
-          {(item.fair != null || item.play_to != null) ? <span>Fair {price(item.fair)} · play-to {price(item.play_to)}</span> : null}
-        </div>) : <p className="muted">No angle cleared.</p>}
+        <div className="biggest-edge-list">
+          {items.length ? items.map((edge, index) => <button
+            className="biggest-edge-pick"
+            type="button"
+            key={`${title}-${edge.gameKey || edge.gameLabel || "game"}-${edge.title}-${index}`}
+            onClick={() => onSelectGame(edge.gameIndex)}
+          >
+            <strong>{edge.title}</strong>
+            <span>{edge.gameLabel} · {edge.label}</span>
+            <span className="biggest-edge-meta">Fair <b>{edge.fairDisplay || price(edge.fair)}</b> · Book <b>{edge.bookDisplay || price(edge.book)}</b> · {edge.bookName || "Sportsbook"}</span>
+          </button>) : <span className="biggest-edge-empty">No price-gated edge.</span>}
+        </div>
       </article>)}
     </div>
   </section>;
@@ -2592,12 +2637,16 @@ function CustomerBoard() {
     return counts;
   }, [gameDisplays]);
   const fullSlatePricedEdges = useMemo(() => gameDisplays
-    .flatMap((display) => (display.allEdges || []).map((edge) => ({
+    .flatMap((display, index) => (display.allEdges || []).map((edge) => ({
       ...edge,
+      gameIndex: index,
+      gameKey: gameKey(display.game),
       gameLabel: `${display.game.away} @ ${display.game.home}`,
     })))
     .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0)), [gameDisplays]);
   const displayedPricedEdges = edgeView === "slate" ? fullSlatePricedEdges : selectedDisplay.allEdges;
+  const hasFreshSlateOdds = Number.isFinite(lastOddsUpdatedAt)
+    && Object.values(oddsByGame).some((entry) => hasOddsEntry(entry));
   const oddsStamp = updatedAgoText(lastOddsUpdatedAt, nowTick);
   const awayHand = starterHand(game, "away");
   const homeHand = starterHand(game, "home");
@@ -2656,6 +2705,16 @@ function CustomerBoard() {
       </header>
 
       <div className="shell">
+        <BiggestEdgesBoard
+          edges={fullSlatePricedEdges}
+          hasOdds={hasFreshSlateOdds}
+          onSelectGame={(index) => {
+            if (!Number.isInteger(index) || index < 0 || index >= displayGames.length) return;
+            setGameIndex(index);
+            setKLineOverrides({});
+            setMessage("");
+          }}
+        />
         <Scoreboard games={displayGames} gameIndex={gameIndex} edgeCounts={edgeCounts} onSelect={(index) => { setGameIndex(index); setKLineOverrides({}); setMessage(""); }} />
 
         <section className="selected-summary">
@@ -2716,3 +2775,4 @@ function CustomerBoard() {
 }
 
 export default CustomerBoard;
+BiggestEdgesBoard
