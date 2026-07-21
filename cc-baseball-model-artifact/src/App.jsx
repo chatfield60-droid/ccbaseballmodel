@@ -2040,11 +2040,14 @@ function BatterKTargetsBoard({ targets }) {
 
 function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
   const rows = prioritizeBatterPropAngles((angles || []).filter((angle) => angle?.hasBook), 3);
-  const kRows = (pitcherRows || []).filter((row) => row?.hasBook && validBookPrice(row?.sideBook?.price));
+  // A manually entered K line is a fair-only alternate until a matching book
+  // quote is available. Keep it on screen for pricing, but never promote it
+  // to a customer-facing bet without that exact quote.
+  const kRows = (pitcherRows || []).filter((row) => row?.hasBook || row?.hasManualLine);
   if (!rows.length && !kRows.length) return null;
   return <section className="panel-section props-panel" id="props">
     <div className="panel-heading">
-      <div><h2>Bet angles</h2><p className="muted">Book price compared with fair</p></div>
+      <div><h2>Bet angles</h2><p className="muted">Book-backed plays and manual K fairs</p></div>
       {kRows.length ? <div className="segmented" aria-label="K projection mode">
         <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base K</button>
         <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling K</button>
@@ -2053,13 +2056,14 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
     <div className="angle-list">
       {kRows.map((row) => {
         const lineValue = lineOverrides[row.key] ?? lineInputValue(row.line);
+        const isManualFairOnly = row.hasManualLine && !row.hasBook;
         return <article className="angle" key={row.key}>
           <div className="angle-top">
             <div>
               <h3>{row.player || "Starter"} strikeouts</h3>
-              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} {score(row.projected)} K · {row.side} is the current side</p>
+              <p className="muted">{kMode === "base" ? "Base" : "Ceiling"} {score(row.projected)} K · {isManualFairOnly ? "manual alternate fair" : `${row.side} is the current side`}</p>
             </div>
-            <span className={`pill ${row.designation?.tone || "watch"}`}>{confidenceLabel(row.designation?.tone)}</span>
+            <span className={`pill ${isManualFairOnly ? "watch" : row.designation?.tone || "watch"}`}>{isManualFairOnly ? "Fair only" : confidenceLabel(row.designation?.tone)}</span>
           </div>
           <label className="line-control" style={{ marginTop: 12, maxWidth: 220 }}>
             <span>K line</span>
@@ -2075,9 +2079,9 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
           <div className="prices">
             <span>Over fair <b>{price(row.displayOverFair ?? row.fair)}</b></span>
             <span>Under fair <b>{price(row.displayUnderFair ?? row.underFair)}</b></span>
-            <span>Book <b>{pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</b></span>
+            <span>{isManualFairOnly ? <>Book <b>No matching pregame price</b></> : <>Book <b>{pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</b></>}</span>
           </div>
-          {row.designation?.detail ? <p className="muted">{row.designation.detail}</p> : null}
+          {isManualFairOnly ? <p className="muted">Fair price for this alternate K line. It will remain a reference only until this exact line has a pregame book price.</p> : row.designation?.detail ? <p className="muted">{row.designation.detail}</p> : null}
           {row.explainer ? <details className="angle-details"><summary>Why this angle</summary><p>{row.explainer}</p></details> : null}
         </article>;
       })}
@@ -3304,10 +3308,11 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       overBook,
       underBook,
       hasBook: validBookPrice(overBook?.price) || validBookPrice(underBook?.price),
+      hasManualLine,
       explainer: angle.explainer,
       ...pricing,
     };
-  }).filter((row) => row.hasBook);
+  }).filter((row) => row?.player && Number.isFinite(Number(row.fair)) && (row.hasBook || row.hasManualLine));
   const batterPropRows = (game.batter_prop_angles || []).map((angle, index) => {
     const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)] || angle.book_quote || null;
     const hasBook = validBookPrice(live?.price);
