@@ -106,11 +106,7 @@
           "barrel_rate": 0.294,
           "label": "Strong angle",
           "explainer": "Byron Buxton HR angle vs Parker Messick on 4-Seam Fastball (35% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.371 xBA · 0.912 xSLG · 0.409 xwOBA · 0.315 BA · 0.671 SLG · 29% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": 275,
-            "book": "BetRivers"
-          }
+          "metrics": "0.371 xBA · 0.912 xSLG · 0.409 xwOBA · 0.315 BA · 0.671 SLG · 29% barrel · 67% hard-hit"
         },
         {
           "player": "Alan Roden",
@@ -156,11 +152,7 @@
           "barrel_rate": 0.222,
           "label": "Strong angle",
           "explainer": "Gabriel Arias hits angle vs Kendry Rojas on Slider (26% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.529 xBA · 1.167 xSLG · 0.414 xwOBA · 0.250 BA · 0.688 SLG · 22% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": -160,
-            "book": "BetMGM"
-          }
+          "metrics": "0.529 xBA · 1.167 xSLG · 0.414 xwOBA · 0.250 BA · 0.688 SLG · 22% barrel · 67% hard-hit"
         },
         {
           "player": "Ryan Jeffers",
@@ -183,11 +175,7 @@
           "barrel_rate": 0.158,
           "label": "Strong angle",
           "explainer": "Ryan Jeffers hits angle vs Parker Messick on Sinker (17% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.461 xBA · 0.894 xSLG · 0.521 xwOBA · 0.478 BA · 0.957 SLG · 16% barrel · 42% hard-hit",
-          "book_quote": {
-            "price": -180,
-            "book": "DraftKings"
-          }
+          "metrics": "0.461 xBA · 0.894 xSLG · 0.521 xwOBA · 0.478 BA · 0.957 SLG · 16% barrel · 42% hard-hit"
         },
         {
           "player": "Juan Brito",
@@ -218,26 +206,22 @@
           "market": "Batter hits",
           "side": "Over",
           "line": 0.5,
-          "probability": 0.731,
-          "fair": -272,
-          "play_to": -262,
+          "probability": 0.732,
+          "fair": -273,
+          "play_to": -263,
           "pitcher": "Kendry Rojas",
           "pitch_type": "SI",
           "pitch_name": "Sinker",
           "usage": 14.1,
-          "ba": 0.278,
-          "slg": 0.417,
+          "ba": 0.286,
+          "slg": 0.429,
           "xba": 0.467,
           "xslg": 0.838,
-          "xwoba": 0.455,
+          "xwoba": 0.466,
           "barrel_rate": 0.115,
           "label": "Strong angle",
           "explainer": "Kyle Manzardo hits angle vs Kendry Rojas on Sinker (14% usage): xBA contact fit, xwOBA backs the matchup.",
-          "metrics": "0.467 xBA · 0.838 xSLG · 0.455 xwOBA · 0.278 BA · 0.417 SLG · 12% barrel · 54% hard-hit",
-          "book_quote": {
-            "price": -120,
-            "book": "BetMGM"
-          }
+          "metrics": "0.467 xBA · 0.838 xSLG · 0.466 xwOBA · 0.286 BA · 0.429 SLG · 12% barrel · 54% hard-hit"
         },
         {
           "player": "Matt Wallner",
@@ -256,11 +240,11 @@
           "slg": 0.474,
           "xba": 0.401,
           "xslg": 0.734,
-          "xwoba": 0.452,
+          "xwoba": 0.451,
           "barrel_rate": 0.133,
           "label": "Strong angle",
           "explainer": "Matt Wallner hits angle vs Parker Messick on Sinker (17% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.401 xBA · 0.734 xSLG · 0.452 xwOBA · 0.263 BA · 0.474 SLG · 13% barrel · 60% hard-hit"
+          "metrics": "0.401 xBA · 0.734 xSLG · 0.451 xwOBA · 0.263 BA · 0.474 SLG · 13% barrel · 60% hard-hit"
         },
         {
           "player": "Byron Buxton",
@@ -283,14 +267,131 @@
           "barrel_rate": 0.294,
           "label": "Strong angle",
           "explainer": "Byron Buxton hits angle vs Parker Messick on 4-Seam Fastball (35% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.371 xBA · 0.912 xSLG · 0.409 xwOBA · 0.315 BA · 0.671 SLG · 29% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": -219,
-            "book": "DraftKings"
-          }
+          "metrics": "0.371 xBA · 0.912 xSLG · 0.409 xwOBA · 0.315 BA · 0.671 SLG · 29% barrel · 67% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Royce Lewis",
+          "team": "MIN",
+          "pitcher": "Parker Messick",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 23.4,
+          "whiff_rate": 0.417,
+          "chase_rate": 0.458,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.05,
+          "probability": 0.284,
+          "label": "K target",
+          "explainer": "Royce Lewis has a high whiff profile against Changeup; Parker Messick throws it 23% of the time.",
+          "fair": 252,
+          "play_to": 262,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Byron Buxton",
+          "team": "MIN",
+          "pitcher": "Parker Messick",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 23.4,
+          "whiff_rate": 0.381,
+          "chase_rate": 0.396,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.02,
+          "probability": 0.272,
+          "label": "K target",
+          "explainer": "Byron Buxton has a high whiff profile against Changeup; Parker Messick throws it 23% of the time.",
+          "fair": 268,
+          "play_to": 278,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Ryan Kreidler",
+          "team": "MIN",
+          "pitcher": "Parker Messick",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 23.4,
+          "whiff_rate": 0.333,
+          "chase_rate": 0.147,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.97,
+          "probability": 0.251,
+          "label": "K target",
+          "explainer": "Ryan Kreidler has a high whiff profile against Changeup; Parker Messick throws it 23% of the time.",
+          "fair": 298,
+          "play_to": 308,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Gabriel Arias",
+          "team": "CLE",
+          "pitcher": "Kendry Rojas",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 26.1,
+          "whiff_rate": 0.514,
+          "chase_rate": 0.4,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.25,
+          "probability": 0.355,
+          "label": "Strong K target",
+          "explainer": "Gabriel Arias has a high whiff profile against Slider; Kendry Rojas throws it 26% of the time.",
+          "fair": 182,
+          "play_to": 192,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Kahlil Watson",
+          "team": "CLE",
+          "pitcher": "Kendry Rojas",
+          "pitch_type": "FF",
+          "pitch_name": "4-Seam Fastball",
+          "usage": 42.3,
+          "whiff_rate": 0.351,
+          "chase_rate": 0.304,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.19,
+          "probability": 0.334,
+          "label": "Strong K target",
+          "explainer": "Kahlil Watson has a high whiff profile against 4-Seam Fastball; Kendry Rojas throws it 42% of the time.",
+          "fair": 199,
+          "play_to": 209,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Rhys Hoskins",
+          "team": "CLE",
+          "pitcher": "Kendry Rojas",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 17.5,
+          "whiff_rate": 0.471,
+          "chase_rate": 0.349,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.17,
+          "probability": 0.325,
+          "label": "Strong K target",
+          "explainer": "Rhys Hoskins has a high whiff profile against Changeup; Kendry Rojas throws it 18% of the time.",
+          "fair": 208,
+          "play_to": 218,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Kendry Rojas",
@@ -395,11 +496,7 @@
           "barrel_rate": 0.19,
           "label": "Strong angle",
           "explainer": "Shohei Ohtani HR angle vs Zack Wheeler on Sinker (15% usage): home-run barrel signal, xSLG power fit.",
-          "metrics": "0.486 xBA · 1.019 xSLG · 0.599 xwOBA · 0.523 BA · 1.023 SLG · 19% barrel · 57% hard-hit",
-          "book_quote": {
-            "price": 230,
-            "book": "BetRivers"
-          }
+          "metrics": "0.486 xBA · 1.019 xSLG · 0.599 xwOBA · 0.523 BA · 1.023 SLG · 19% barrel · 57% hard-hit"
         },
         {
           "player": "Kyle Schwarber",
@@ -422,11 +519,7 @@
           "barrel_rate": 0.188,
           "label": "Strong angle",
           "explainer": "Kyle Schwarber HR angle vs Justin Wrobleski on Slider (30% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.491 xBA · 0.941 xSLG · 0.344 xwOBA · 0.233 BA · 0.400 SLG · 19% barrel · 44% hard-hit",
-          "book_quote": {
-            "price": 205,
-            "book": "Caesars"
-          }
+          "metrics": "0.491 xBA · 0.941 xSLG · 0.344 xwOBA · 0.233 BA · 0.400 SLG · 19% barrel · 44% hard-hit"
         },
         {
           "player": "Edmundo Sosa",
@@ -449,11 +542,7 @@
           "barrel_rate": 0.182,
           "label": "Strong angle",
           "explainer": "Edmundo Sosa HR angle vs Justin Wrobleski on 4-Seam Fastball (50% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.433 xBA · 0.812 xSLG · 0.482 xwOBA · 0.429 BA · 0.800 SLG · 18% barrel · 61% hard-hit",
-          "book_quote": {
-            "price": 550,
-            "book": "BetRivers"
-          }
+          "metrics": "0.433 xBA · 0.812 xSLG · 0.482 xwOBA · 0.429 BA · 0.800 SLG · 18% barrel · 61% hard-hit"
         },
         {
           "player": "Tommy Edman",
@@ -476,11 +565,7 @@
           "barrel_rate": 0.2,
           "label": "Strong angle",
           "explainer": "Tommy Edman hits angle vs Zack Wheeler on Sinker (15% usage): xBA contact fit, xwOBA backs the matchup.",
-          "metrics": "0.450 xBA · 0.713 xSLG · 0.526 xwOBA · 0.500 BA · 0.500 SLG · 20% barrel · 80% hard-hit",
-          "book_quote": {
-            "price": -155,
-            "book": "DraftKings"
-          }
+          "metrics": "0.450 xBA · 0.713 xSLG · 0.526 xwOBA · 0.500 BA · 0.500 SLG · 20% barrel · 80% hard-hit"
         },
         {
           "player": "Shohei Ohtani",
@@ -503,11 +588,7 @@
           "barrel_rate": 0.19,
           "label": "Strong angle",
           "explainer": "Shohei Ohtani hits angle vs Zack Wheeler on Sinker (15% usage): xBA contact fit, xwOBA backs the matchup.",
-          "metrics": "0.486 xBA · 1.019 xSLG · 0.599 xwOBA · 0.523 BA · 1.023 SLG · 19% barrel · 57% hard-hit",
-          "book_quote": {
-            "price": -204,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.486 xBA · 1.019 xSLG · 0.599 xwOBA · 0.523 BA · 1.023 SLG · 19% barrel · 57% hard-hit"
         },
         {
           "player": "Felix Reyes",
@@ -599,11 +680,7 @@
           "barrel_rate": 0.182,
           "label": "Strong angle",
           "explainer": "Edmundo Sosa hits angle vs Justin Wrobleski on 4-Seam Fastball (50% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.433 xBA · 0.812 xSLG · 0.482 xwOBA · 0.429 BA · 0.800 SLG · 18% barrel · 61% hard-hit",
-          "book_quote": {
-            "price": -202,
-            "book": "DraftKings"
-          }
+          "metrics": "0.433 xBA · 0.812 xSLG · 0.482 xwOBA · 0.429 BA · 0.800 SLG · 18% barrel · 61% hard-hit"
         },
         {
           "player": "Bryce Harper",
@@ -626,14 +703,131 @@
           "barrel_rate": 0.143,
           "label": "Strong angle",
           "explainer": "Bryce Harper hits angle vs Justin Wrobleski on 4-Seam Fastball (50% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.490 xBA · 0.975 xSLG · 0.470 xwOBA · 0.292 BA · 0.667 SLG · 14% barrel · 55% hard-hit",
-          "book_quote": {
-            "price": -210,
-            "book": "BetMGM"
-          }
+          "metrics": "0.490 xBA · 0.975 xSLG · 0.470 xwOBA · 0.292 BA · 0.667 SLG · 14% barrel · 55% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Alex Freeland",
+          "team": "LAD",
+          "pitcher": "Zack Wheeler",
+          "pitch_type": "FS",
+          "pitch_name": "Split-Finger",
+          "usage": 15.4,
+          "whiff_rate": 0.5,
+          "chase_rate": 0.25,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.14,
+          "probability": 0.315,
+          "label": "Strong K target",
+          "explainer": "Alex Freeland has a high whiff profile against Split-Finger; Zack Wheeler throws it 15% of the time.",
+          "fair": 217,
+          "play_to": 227,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Dalton Rushing",
+          "team": "LAD",
+          "pitcher": "Zack Wheeler",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 14.4,
+          "whiff_rate": 0.4,
+          "chase_rate": 0.405,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.07,
+          "probability": 0.29,
+          "label": "K target",
+          "explainer": "Dalton Rushing has a high whiff profile against Sweeper; Zack Wheeler throws it 14% of the time.",
+          "fair": 245,
+          "play_to": 255,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Shohei Ohtani",
+          "team": "LAD",
+          "pitcher": "Zack Wheeler",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 14.4,
+          "whiff_rate": 0.346,
+          "chase_rate": 0.258,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.01,
+          "probability": 0.27,
+          "label": "K target",
+          "explainer": "Shohei Ohtani has a high whiff profile against Sweeper; Zack Wheeler throws it 14% of the time.",
+          "fair": 270,
+          "play_to": 280,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Bryce Harper",
+          "team": "PHI",
+          "pitcher": "Justin Wrobleski",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 29.9,
+          "whiff_rate": 0.477,
+          "chase_rate": 0.362,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.12,
+          "probability": 0.309,
+          "label": "Strong K target",
+          "explainer": "Bryce Harper has a high whiff profile against Slider; Justin Wrobleski throws it 30% of the time.",
+          "fair": 224,
+          "play_to": 234,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Edmundo Sosa",
+          "team": "PHI",
+          "pitcher": "Justin Wrobleski",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 29.9,
+          "whiff_rate": 0.333,
+          "chase_rate": 0.653,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.05,
+          "probability": 0.281,
+          "label": "K target",
+          "explainer": "Edmundo Sosa has a high whiff profile against Slider; Justin Wrobleski throws it 30% of the time.",
+          "fair": 256,
+          "play_to": 266,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Derek Hill",
+          "team": "PHI",
+          "pitcher": "Justin Wrobleski",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 29.9,
+          "whiff_rate": 0.34,
+          "chase_rate": 0.523,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.04,
+          "probability": 0.279,
+          "label": "K target",
+          "explainer": "Derek Hill has a high whiff profile against Slider; Justin Wrobleski throws it 30% of the time.",
+          "fair": 258,
+          "play_to": 268,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Justin Wrobleski",
@@ -757,7 +951,7 @@
           "pitcher": "Bubba Chandler",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 47.3,
+          "usage": 47.2,
           "ba": 0.373,
           "slg": 1.067,
           "xba": 0.469,
@@ -766,11 +960,7 @@
           "barrel_rate": 0.364,
           "label": "Strong angle",
           "explainer": "Ben Rice HR angle vs Bubba Chandler on 4-Seam Fastball (47% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.469 xBA · 1.274 xSLG · 0.543 xwOBA · 0.373 BA · 1.067 SLG · 36% barrel · 69% hard-hit",
-          "book_quote": {
-            "price": 290,
-            "book": "BetRivers"
-          }
+          "metrics": "0.469 xBA · 1.274 xSLG · 0.543 xwOBA · 0.373 BA · 1.067 SLG · 36% barrel · 69% hard-hit"
         },
         {
           "player": "Aaron Judge",
@@ -779,12 +969,12 @@
           "side": "Over",
           "line": 0.5,
           "probability": 0.154,
-          "fair": 551,
-          "play_to": 561,
+          "fair": 550,
+          "play_to": 560,
           "pitcher": "Bubba Chandler",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 47.3,
+          "usage": 47.2,
           "ba": 0.231,
           "slg": 0.59,
           "xba": 0.498,
@@ -830,7 +1020,7 @@
           "pitcher": "Bubba Chandler",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 47.3,
+          "usage": 47.2,
           "ba": 0.373,
           "slg": 1.067,
           "xba": 0.469,
@@ -839,11 +1029,7 @@
           "barrel_rate": 0.364,
           "label": "Strong angle",
           "explainer": "Ben Rice hits angle vs Bubba Chandler on 4-Seam Fastball (47% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.469 xBA · 1.274 xSLG · 0.543 xwOBA · 0.373 BA · 1.067 SLG · 36% barrel · 69% hard-hit",
-          "book_quote": {
-            "price": -210,
-            "book": "BetMGM"
-          }
+          "metrics": "0.469 xBA · 1.274 xSLG · 0.543 xwOBA · 0.373 BA · 1.067 SLG · 36% barrel · 69% hard-hit"
         },
         {
           "player": "Esmerlyn Valdez",
@@ -857,7 +1043,7 @@
           "pitcher": "Will Warren",
           "pitch_type": "SI",
           "pitch_name": "Sinker",
-          "usage": 27.2,
+          "usage": 27.3,
           "ba": 0.476,
           "slg": 0.905,
           "xba": 0.497,
@@ -866,11 +1052,7 @@
           "barrel_rate": 0.176,
           "label": "Strong angle",
           "explainer": "Esmerlyn Valdez hits angle vs Will Warren on Sinker (27% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.497 xBA · 0.903 xSLG · 0.457 xwOBA · 0.476 BA · 0.905 SLG · 18% barrel · 53% hard-hit",
-          "book_quote": {
-            "price": -160,
-            "book": "BetMGM"
-          }
+          "metrics": "0.497 xBA · 0.903 xSLG · 0.457 xwOBA · 0.476 BA · 0.905 SLG · 18% barrel · 53% hard-hit"
         },
         {
           "player": "Aaron Judge",
@@ -884,7 +1066,7 @@
           "pitcher": "Bubba Chandler",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 47.3,
+          "usage": 47.2,
           "ba": 0.231,
           "slg": 0.59,
           "xba": 0.498,
@@ -907,7 +1089,7 @@
           "pitcher": "Will Warren",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 38.6,
+          "usage": 38.5,
           "ba": 0.297,
           "slg": 0.484,
           "xba": 0.452,
@@ -915,7 +1097,7 @@
           "xwoba": 0.395,
           "barrel_rate": 0.15,
           "label": "Strong angle",
-          "explainer": "Oneil Cruz hits angle vs Will Warren on 4-Seam Fastball (39% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
+          "explainer": "Oneil Cruz hits angle vs Will Warren on 4-Seam Fastball (38% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
           "metrics": "0.452 xBA · 0.850 xSLG · 0.395 xwOBA · 0.297 BA · 0.484 SLG · 15% barrel · 75% hard-hit"
         },
         {
@@ -925,12 +1107,12 @@
           "side": "Over",
           "line": 0.5,
           "probability": 0.727,
-          "fair": -267,
-          "play_to": -257,
+          "fair": -266,
+          "play_to": -256,
           "pitcher": "Bubba Chandler",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 47.3,
+          "usage": 47.2,
           "ba": 0.295,
           "slg": 0.525,
           "xba": 0.439,
@@ -939,11 +1121,7 @@
           "barrel_rate": 0.159,
           "label": "Strong angle",
           "explainer": "Ryan McMahon hits angle vs Bubba Chandler on 4-Seam Fastball (47% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.439 xBA · 0.825 xSLG · 0.411 xwOBA · 0.295 BA · 0.525 SLG · 16% barrel · 48% hard-hit",
-          "book_quote": {
-            "price": -115,
-            "book": "BetMGM"
-          }
+          "metrics": "0.439 xBA · 0.825 xSLG · 0.411 xwOBA · 0.295 BA · 0.525 SLG · 16% barrel · 48% hard-hit"
         },
         {
           "player": "Endy Rodríguez",
@@ -957,7 +1135,7 @@
           "pitcher": "Will Warren",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 38.6,
+          "usage": 38.5,
           "ba": 0.333,
           "slg": 0.733,
           "xba": 0.406,
@@ -965,11 +1143,112 @@
           "xwoba": 0.437,
           "barrel_rate": 0.227,
           "label": "Strong angle",
-          "explainer": "Endy Rodríguez hits angle vs Will Warren on 4-Seam Fastball (39% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
+          "explainer": "Endy Rodríguez hits angle vs Will Warren on 4-Seam Fastball (38% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
           "metrics": "0.406 xBA · 0.784 xSLG · 0.437 xwOBA · 0.333 BA · 0.733 SLG · 23% barrel · 59% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Rafael Flores Jr.",
+          "team": "PIT",
+          "pitcher": "Will Warren",
+          "pitch_type": "FF",
+          "pitch_name": "4-Seam Fastball",
+          "usage": 38.5,
+          "whiff_rate": 0.5,
+          "chase_rate": 0.263,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.29,
+          "probability": 0.371,
+          "label": "Strong K target",
+          "explainer": "Rafael Flores Jr. has a high whiff profile against 4-Seam Fastball; Will Warren throws it 38% of the time.",
+          "fair": 170,
+          "play_to": 180,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Esmerlyn Valdez",
+          "team": "PIT",
+          "pitcher": "Will Warren",
+          "pitch_type": "FF",
+          "pitch_name": "4-Seam Fastball",
+          "usage": 38.5,
+          "whiff_rate": 0.377,
+          "chase_rate": 0.203,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.19,
+          "probability": 0.334,
+          "label": "Strong K target",
+          "explainer": "Esmerlyn Valdez has a high whiff profile against 4-Seam Fastball; Will Warren throws it 38% of the time.",
+          "fair": 199,
+          "play_to": 209,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Bryan Reynolds",
+          "team": "PIT",
+          "pitcher": "Will Warren",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 19.4,
+          "whiff_rate": 0.386,
+          "chase_rate": 0.304,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.11,
+          "probability": 0.306,
+          "label": "Strong K target",
+          "explainer": "Bryan Reynolds has a high whiff profile against Sweeper; Will Warren throws it 19% of the time.",
+          "fair": 227,
+          "play_to": 237,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Amed Rosario",
+          "team": "NYY",
+          "pitcher": "Bubba Chandler",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 18.9,
+          "whiff_rate": 0.341,
+          "chase_rate": 0.514,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.02,
+          "probability": 0.273,
+          "label": "K target",
+          "explainer": "Amed Rosario has a high whiff profile against Slider; Bubba Chandler throws it 19% of the time.",
+          "fair": 266,
+          "play_to": 276,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Ben Rice",
+          "team": "NYY",
+          "pitcher": "Bubba Chandler",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 18.9,
+          "whiff_rate": 0.344,
+          "chase_rate": 0.244,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.0,
+          "probability": 0.265,
+          "label": "K target",
+          "explainer": "Ben Rice has a high whiff profile against Slider; Bubba Chandler throws it 19% of the time.",
+          "fair": 277,
+          "play_to": 287,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Bubba Chandler",
@@ -1105,31 +1384,27 @@
           "metrics": "0.453 xBA · 0.920 xSLG · 0.505 xwOBA · 0.462 BA · 1.000 SLG · 27% barrel · 55% hard-hit"
         },
         {
-          "player": "Junior Caminero",
-          "team": "TB",
+          "player": "Lenyn Sosa",
+          "team": "TOR",
           "market": "Batter HR",
           "side": "Over",
           "line": 0.5,
-          "probability": 0.139,
-          "fair": 622,
-          "play_to": 632,
-          "pitcher": "Kevin Gausman",
-          "pitch_type": "FF",
-          "pitch_name": "4-Seam Fastball",
-          "usage": 51.6,
-          "ba": 0.385,
-          "slg": 0.846,
-          "xba": 0.442,
-          "xslg": 1.028,
-          "xwoba": 0.516,
-          "barrel_rate": 0.24,
+          "probability": 0.134,
+          "fair": 644,
+          "play_to": 654,
+          "pitcher": "Drew Rasmussen",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 31.1,
+          "ba": 0.429,
+          "slg": 0.857,
+          "xba": 0.357,
+          "xslg": 0.866,
+          "xwoba": 0.535,
+          "barrel_rate": 0.25,
           "label": "Strong angle",
-          "explainer": "Junior Caminero HR angle vs Kevin Gausman on 4-Seam Fastball (52% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.442 xBA · 1.028 xSLG · 0.516 xwOBA · 0.385 BA · 0.846 SLG · 24% barrel · 68% hard-hit",
-          "book_quote": {
-            "price": 260,
-            "book": "BetRivers"
-          }
+          "explainer": "Lenyn Sosa HR angle vs Drew Rasmussen on Cutter (31% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
+          "metrics": "0.357 xBA · 0.866 xSLG · 0.535 xwOBA · 0.429 BA · 0.857 SLG · 25% barrel · 50% hard-hit"
         },
         {
           "player": "Davis Schneider",
@@ -1178,33 +1453,6 @@
           "metrics": "0.453 xBA · 0.920 xSLG · 0.505 xwOBA · 0.462 BA · 1.000 SLG · 27% barrel · 55% hard-hit"
         },
         {
-          "player": "Junior Caminero",
-          "team": "TB",
-          "market": "Batter hits",
-          "side": "Over",
-          "line": 0.5,
-          "probability": 0.737,
-          "fair": -280,
-          "play_to": -270,
-          "pitcher": "Kevin Gausman",
-          "pitch_type": "FF",
-          "pitch_name": "4-Seam Fastball",
-          "usage": 51.6,
-          "ba": 0.385,
-          "slg": 0.846,
-          "xba": 0.442,
-          "xslg": 1.028,
-          "xwoba": 0.516,
-          "barrel_rate": 0.24,
-          "label": "Strong angle",
-          "explainer": "Junior Caminero hits angle vs Kevin Gausman on 4-Seam Fastball (52% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.442 xBA · 1.028 xSLG · 0.516 xwOBA · 0.385 BA · 0.846 SLG · 24% barrel · 68% hard-hit",
-          "book_quote": {
-            "price": -235,
-            "book": "BetMGM"
-          }
-        },
-        {
           "player": "Yohendrick Piñango",
           "team": "TOR",
           "market": "Batter hits",
@@ -1228,6 +1476,29 @@
           "metrics": "0.422 xBA · 1.011 xSLG · 0.490 xwOBA · 0.444 BA · 1.000 SLG · 14% barrel · 57% hard-hit"
         },
         {
+          "player": "Junior Caminero",
+          "team": "TB",
+          "market": "Batter hits",
+          "side": "Over",
+          "line": 0.5,
+          "probability": 0.734,
+          "fair": -275,
+          "play_to": -265,
+          "pitcher": "Kevin Gausman",
+          "pitch_type": "FF",
+          "pitch_name": "4-Seam Fastball",
+          "usage": 51.7,
+          "ba": 0.375,
+          "slg": 0.797,
+          "xba": 0.431,
+          "xslg": 0.968,
+          "xwoba": 0.497,
+          "barrel_rate": 0.224,
+          "label": "Strong angle",
+          "explainer": "Junior Caminero hits angle vs Kevin Gausman on 4-Seam Fastball (52% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
+          "metrics": "0.431 xBA · 0.968 xSLG · 0.497 xwOBA · 0.375 BA · 0.797 SLG · 22% barrel · 67% hard-hit"
+        },
+        {
           "player": "Yandy Díaz",
           "team": "TB",
           "market": "Batter hits",
@@ -1239,7 +1510,7 @@
           "pitcher": "Kevin Gausman",
           "pitch_type": "FS",
           "pitch_name": "Split-Finger",
-          "usage": 38.4,
+          "usage": 38.3,
           "ba": 0.375,
           "slg": 0.75,
           "xba": 0.421,
@@ -1248,11 +1519,7 @@
           "barrel_rate": 0.143,
           "label": "Strong angle",
           "explainer": "Yandy Díaz hits angle vs Kevin Gausman on Split-Finger (38% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.421 xBA · 0.824 xSLG · 0.512 xwOBA · 0.375 BA · 0.750 SLG · 14% barrel · 57% hard-hit",
-          "book_quote": {
-            "price": -315,
-            "book": "BetRivers"
-          }
+          "metrics": "0.421 xBA · 0.824 xSLG · 0.512 xwOBA · 0.375 BA · 0.750 SLG · 14% barrel · 57% hard-hit"
         },
         {
           "player": "Jake Fraley",
@@ -1266,7 +1533,7 @@
           "pitcher": "Kevin Gausman",
           "pitch_type": "FS",
           "pitch_name": "Split-Finger",
-          "usage": 38.4,
+          "usage": 38.3,
           "ba": 0.286,
           "slg": 0.429,
           "xba": 0.445,
@@ -1301,7 +1568,88 @@
           "metrics": "0.357 xBA · 0.866 xSLG · 0.535 xwOBA · 0.429 BA · 0.857 SLG · 25% barrel · 50% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Junior Caminero",
+          "team": "TB",
+          "pitcher": "Kevin Gausman",
+          "pitch_type": "FS",
+          "pitch_name": "Split-Finger",
+          "usage": 38.3,
+          "whiff_rate": 0.355,
+          "chase_rate": 0.34,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.94,
+          "probability": 0.244,
+          "label": "K target",
+          "explainer": "Junior Caminero has a high whiff profile against Split-Finger; Kevin Gausman throws it 38% of the time.",
+          "fair": 310,
+          "play_to": 320,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Hunter Feduccia",
+          "team": "TB",
+          "pitcher": "Kevin Gausman",
+          "pitch_type": "FS",
+          "pitch_name": "Split-Finger",
+          "usage": 38.3,
+          "whiff_rate": 0.333,
+          "chase_rate": 0.25,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.92,
+          "probability": 0.236,
+          "label": "K target",
+          "explainer": "Hunter Feduccia has a high whiff profile against Split-Finger; Kevin Gausman throws it 38% of the time.",
+          "fair": 324,
+          "play_to": 334,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Brandon Valenzuela",
+          "team": "TOR",
+          "pitcher": "Drew Rasmussen",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 12.2,
+          "whiff_rate": 0.333,
+          "chase_rate": 0.304,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.86,
+          "probability": 0.214,
+          "label": "K target",
+          "explainer": "Brandon Valenzuela has a high whiff profile against Changeup; Drew Rasmussen throws it 12% of the time.",
+          "fair": 367,
+          "play_to": 377,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Vladimir Guerrero Jr.",
+          "team": "TOR",
+          "pitcher": "Drew Rasmussen",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 12.2,
+          "whiff_rate": 0.316,
+          "chase_rate": 0.431,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.86,
+          "probability": 0.213,
+          "label": "K target",
+          "explainer": "Vladimir Guerrero Jr. has a high whiff profile against Changeup; Drew Rasmussen throws it 12% of the time.",
+          "fair": 369,
+          "play_to": 379,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Drew Rasmussen",
@@ -1434,11 +1782,7 @@
           "barrel_rate": 0.4,
           "label": "Strong angle",
           "explainer": "Anthony Seigler HR angle vs Kyle Bradish on Sinker (35% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.602 xBA · 1.319 xSLG · 0.678 xwOBA · 0.500 BA · 0.667 SLG · 40% barrel · 40% hard-hit",
-          "book_quote": {
-            "price": 750,
-            "book": "Caesars"
-          }
+          "metrics": "0.602 xBA · 1.319 xSLG · 0.678 xwOBA · 0.500 BA · 0.667 SLG · 40% barrel · 40% hard-hit"
         },
         {
           "player": "Colton Cowser",
@@ -1484,11 +1828,7 @@
           "barrel_rate": 0.4,
           "label": "Strong angle",
           "explainer": "Anthony Seigler hits angle vs Kyle Bradish on Sinker (35% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.602 xBA · 1.319 xSLG · 0.678 xwOBA · 0.500 BA · 0.667 SLG · 40% barrel · 40% hard-hit",
-          "book_quote": {
-            "price": -200,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.602 xBA · 1.319 xSLG · 0.678 xwOBA · 0.500 BA · 0.667 SLG · 40% barrel · 40% hard-hit"
         },
         {
           "player": "Jarren Duran",
@@ -1511,11 +1851,7 @@
           "barrel_rate": 0.206,
           "label": "Strong angle",
           "explainer": "Jarren Duran hits angle vs Kyle Bradish on Sinker (35% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.460 xBA · 0.851 xSLG · 0.495 xwOBA · 0.317 BA · 0.512 SLG · 21% barrel · 53% hard-hit",
-          "book_quote": {
-            "price": -175,
-            "book": "BetMGM"
-          }
+          "metrics": "0.460 xBA · 0.851 xSLG · 0.495 xwOBA · 0.317 BA · 0.512 SLG · 21% barrel · 53% hard-hit"
         },
         {
           "player": "Willson Contreras",
@@ -1534,15 +1870,11 @@
           "slg": 0.848,
           "xba": 0.423,
           "xslg": 0.853,
-          "xwoba": 0.523,
+          "xwoba": 0.522,
           "barrel_rate": 0.153,
           "label": "Strong angle",
           "explainer": "Willson Contreras hits angle vs Kyle Bradish on Sinker (35% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.423 xBA · 0.853 xSLG · 0.523 xwOBA · 0.379 BA · 0.848 SLG · 15% barrel · 48% hard-hit",
-          "book_quote": {
-            "price": -201,
-            "book": "DraftKings"
-          }
+          "metrics": "0.423 xBA · 0.853 xSLG · 0.522 xwOBA · 0.379 BA · 0.848 SLG · 15% barrel · 48% hard-hit"
         },
         {
           "player": "Jackson Holliday",
@@ -1634,14 +1966,131 @@
           "barrel_rate": 0.21,
           "label": "Strong angle",
           "explainer": "Pete Alonso hits angle vs Ranger Suarez on 4-Seam Fastball (22% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.402 xBA · 0.883 xSLG · 0.403 xwOBA · 0.258 BA · 0.551 SLG · 21% barrel · 61% hard-hit",
-          "book_quote": {
-            "price": -190,
-            "book": "BetRivers"
-          }
+          "metrics": "0.402 xBA · 0.883 xSLG · 0.403 xwOBA · 0.258 BA · 0.551 SLG · 21% barrel · 61% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Gunnar Henderson",
+          "team": "BAL",
+          "pitcher": "Ranger Suarez",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 20.5,
+          "whiff_rate": 0.341,
+          "chase_rate": 0.268,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.14,
+          "probability": 0.316,
+          "label": "Strong K target",
+          "explainer": "Gunnar Henderson has a high whiff profile against Cutter; Ranger Suarez throws it 20% of the time.",
+          "fair": 216,
+          "play_to": 226,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Pete Alonso",
+          "team": "BAL",
+          "pitcher": "Ranger Suarez",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 16.5,
+          "whiff_rate": 0.365,
+          "chase_rate": 0.279,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.14,
+          "probability": 0.316,
+          "label": "Strong K target",
+          "explainer": "Pete Alonso has a high whiff profile against Curveball; Ranger Suarez throws it 16% of the time.",
+          "fair": 216,
+          "play_to": 226,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Samuel Basallo",
+          "team": "BAL",
+          "pitcher": "Ranger Suarez",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 16.5,
+          "whiff_rate": 0.341,
+          "chase_rate": 0.474,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.14,
+          "probability": 0.316,
+          "label": "Strong K target",
+          "explainer": "Samuel Basallo has a high whiff profile against Curveball; Ranger Suarez throws it 16% of the time.",
+          "fair": 216,
+          "play_to": 226,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Anthony Seigler",
+          "team": "BOS",
+          "pitcher": "Kyle Bradish",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 27.4,
+          "whiff_rate": 0.5,
+          "chase_rate": 0.412,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.07,
+          "probability": 0.292,
+          "label": "Strong K target",
+          "explainer": "Anthony Seigler has a high whiff profile against Slider; Kyle Bradish throws it 27% of the time.",
+          "fair": 242,
+          "play_to": 252,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Willson Contreras",
+          "team": "BOS",
+          "pitcher": "Kyle Bradish",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 27.4,
+          "whiff_rate": 0.432,
+          "chase_rate": 0.45,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.03,
+          "probability": 0.276,
+          "label": "Strong K target",
+          "explainer": "Willson Contreras has a high whiff profile against Slider; Kyle Bradish throws it 27% of the time.",
+          "fair": 262,
+          "play_to": 272,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jarren Duran",
+          "team": "BOS",
+          "pitcher": "Kyle Bradish",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 21.4,
+          "whiff_rate": 0.346,
+          "chase_rate": 0.333,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.94,
+          "probability": 0.241,
+          "label": "K target",
+          "explainer": "Jarren Duran has a high whiff profile against Curveball; Kyle Bradish throws it 21% of the time.",
+          "fair": 315,
+          "play_to": 325,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Kyle Bradish",
@@ -1751,11 +2200,7 @@
           "barrel_rate": 0.333,
           "label": "Strong angle",
           "explainer": "Austin Riley HR angle vs Walker Buehler on Cutter (24% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.469 xBA · 1.115 xSLG · 0.376 xwOBA · 0.227 BA · 0.682 SLG · 33% barrel · 58% hard-hit",
-          "book_quote": {
-            "price": 575,
-            "book": "BetRivers"
-          }
+          "metrics": "0.469 xBA · 1.115 xSLG · 0.376 xwOBA · 0.227 BA · 0.682 SLG · 33% barrel · 58% hard-hit"
         },
         {
           "player": "Jorge Mateo",
@@ -1786,26 +2231,22 @@
           "market": "Batter HR",
           "side": "Over",
           "line": 0.5,
-          "probability": 0.134,
-          "fair": 644,
-          "play_to": 654,
+          "probability": 0.133,
+          "fair": 651,
+          "play_to": 661,
           "pitcher": "Reynaldo López",
           "pitch_type": "SL",
           "pitch_name": "Slider",
           "usage": 29.9,
-          "ba": 0.286,
-          "slg": 0.857,
+          "ba": 0.25,
+          "slg": 0.75,
           "xba": 0.46,
           "xslg": 0.862,
-          "xwoba": 0.433,
+          "xwoba": 0.394,
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Luis Campusano HR angle vs Reynaldo López on Slider (30% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.460 xBA · 0.862 xSLG · 0.433 xwOBA · 0.286 BA · 0.857 SLG · 25% barrel · 75% hard-hit",
-          "book_quote": {
-            "price": 700,
-            "book": "Caesars"
-          }
+          "metrics": "0.460 xBA · 0.862 xSLG · 0.394 xwOBA · 0.250 BA · 0.750 SLG · 25% barrel · 75% hard-hit"
         },
         {
           "player": "Luis Campusano",
@@ -1813,26 +2254,22 @@
           "market": "Batter hits",
           "side": "Over",
           "line": 0.5,
-          "probability": 0.731,
-          "fair": -272,
-          "play_to": -262,
+          "probability": 0.727,
+          "fair": -266,
+          "play_to": -256,
           "pitcher": "Reynaldo López",
           "pitch_type": "SL",
           "pitch_name": "Slider",
           "usage": 29.9,
-          "ba": 0.286,
-          "slg": 0.857,
+          "ba": 0.25,
+          "slg": 0.75,
           "xba": 0.46,
           "xslg": 0.862,
-          "xwoba": 0.433,
+          "xwoba": 0.394,
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Luis Campusano hits angle vs Reynaldo López on Slider (30% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.460 xBA · 0.862 xSLG · 0.433 xwOBA · 0.286 BA · 0.857 SLG · 25% barrel · 75% hard-hit",
-          "book_quote": {
-            "price": -149,
-            "book": "DraftKings"
-          }
+          "metrics": "0.460 xBA · 0.862 xSLG · 0.394 xwOBA · 0.250 BA · 0.750 SLG · 25% barrel · 75% hard-hit"
         },
         {
           "player": "Austin Riley",
@@ -1855,11 +2292,7 @@
           "barrel_rate": 0.333,
           "label": "Strong angle",
           "explainer": "Austin Riley hits angle vs Walker Buehler on Cutter (24% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.469 xBA · 1.115 xSLG · 0.376 xwOBA · 0.227 BA · 0.682 SLG · 33% barrel · 58% hard-hit",
-          "book_quote": {
-            "price": -192,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.469 xBA · 1.115 xSLG · 0.376 xwOBA · 0.227 BA · 0.682 SLG · 33% barrel · 58% hard-hit"
         },
         {
           "player": "Jorge Mateo",
@@ -1896,7 +2329,7 @@
           "pitcher": "Walker Buehler",
           "pitch_type": "SI",
           "pitch_name": "Sinker",
-          "usage": 17.2,
+          "usage": 17.3,
           "ba": 0.378,
           "slg": 0.711,
           "xba": 0.386,
@@ -1924,15 +2357,11 @@
           "slg": 0.584,
           "xba": 0.406,
           "xslg": 0.869,
-          "xwoba": 0.401,
+          "xwoba": 0.4,
           "barrel_rate": 0.179,
           "label": "Strong angle",
           "explainer": "Matt Olson hits angle vs Walker Buehler on 4-Seam Fastball (20% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.406 xBA · 0.869 xSLG · 0.401 xwOBA · 0.257 BA · 0.584 SLG · 18% barrel · 66% hard-hit",
-          "book_quote": {
-            "price": -208,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.406 xBA · 0.869 xSLG · 0.400 xwOBA · 0.257 BA · 0.584 SLG · 18% barrel · 66% hard-hit"
         },
         {
           "player": "Ramón Laureano",
@@ -1978,14 +2407,111 @@
           "barrel_rate": 0.174,
           "label": "Strong angle",
           "explainer": "Manny Machado hits angle vs Reynaldo López on 4-Seam Fastball (55% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.408 xBA · 0.860 xSLG · 0.423 xwOBA · 0.277 BA · 0.628 SLG · 17% barrel · 56% hard-hit",
-          "book_quote": {
-            "price": -210,
-            "book": "BetMGM"
-          }
+          "metrics": "0.408 xBA · 0.860 xSLG · 0.423 xwOBA · 0.277 BA · 0.628 SLG · 17% barrel · 56% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Fernando Tatis Jr.",
+          "team": "SD",
+          "pitcher": "Reynaldo López",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 29.9,
+          "whiff_rate": 0.34,
+          "chase_rate": 0.311,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.99,
+          "probability": 0.261,
+          "label": "K target",
+          "explainer": "Fernando Tatis Jr. has a high whiff profile against Slider; Reynaldo López throws it 30% of the time.",
+          "fair": 283,
+          "play_to": 293,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Luis Campusano",
+          "team": "SD",
+          "pitcher": "Reynaldo López",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 29.9,
+          "whiff_rate": 0.333,
+          "chase_rate": 0.107,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.97,
+          "probability": 0.252,
+          "label": "K target",
+          "explainer": "Luis Campusano has a high whiff profile against Slider; Reynaldo López throws it 30% of the time.",
+          "fair": 297,
+          "play_to": 307,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jorge Mateo",
+          "team": "ATL",
+          "pitcher": "Walker Buehler",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 23.7,
+          "whiff_rate": 0.44,
+          "chase_rate": 0.333,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.99,
+          "probability": 0.26,
+          "label": "K target",
+          "explainer": "Jorge Mateo has a high whiff profile against Cutter; Walker Buehler throws it 24% of the time.",
+          "fair": 285,
+          "play_to": 295,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Drake Baldwin",
+          "team": "ATL",
+          "pitcher": "Walker Buehler",
+          "pitch_type": "KC",
+          "pitch_name": "Knuckle Curve",
+          "usage": 10.7,
+          "whiff_rate": 0.588,
+          "chase_rate": 0.6,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.05,
+          "probability": 0.284,
+          "label": "K target",
+          "explainer": "Drake Baldwin has a high whiff profile against Knuckle Curve; Walker Buehler throws it 11% of the time.",
+          "fair": 252,
+          "play_to": 262,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Austin Riley",
+          "team": "ATL",
+          "pitcher": "Walker Buehler",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 23.7,
+          "whiff_rate": 0.371,
+          "chase_rate": 0.423,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.95,
+          "probability": 0.246,
+          "label": "K target",
+          "explainer": "Austin Riley has a high whiff profile against Cutter; Walker Buehler throws it 24% of the time.",
+          "fair": 307,
+          "play_to": 317,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Walker Buehler",
@@ -2086,7 +2612,7 @@
           "pitcher": "Tyler Mahle",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 14.9,
+          "usage": 14.8,
           "ba": 0.471,
           "slg": 1.059,
           "xba": 0.501,
@@ -2095,11 +2621,7 @@
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Carter Jensen HR angle vs Tyler Mahle on Cutter (15% usage): home-run barrel signal, xSLG power fit.",
-          "metrics": "0.501 xBA · 1.077 xSLG · 0.482 xwOBA · 0.471 BA · 1.059 SLG · 25% barrel · 75% hard-hit",
-          "book_quote": {
-            "price": 425,
-            "book": "Caesars"
-          }
+          "metrics": "0.501 xBA · 1.077 xSLG · 0.482 xwOBA · 0.471 BA · 1.059 SLG · 25% barrel · 75% hard-hit"
         },
         {
           "player": "Jac Caglianone",
@@ -2108,25 +2630,21 @@
           "side": "Over",
           "line": 0.5,
           "probability": 0.135,
-          "fair": 642,
-          "play_to": 652,
+          "fair": 641,
+          "play_to": 651,
           "pitcher": "Tyler Mahle",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
           "usage": 49.6,
-          "ba": 0.253,
-          "slg": 0.532,
+          "ba": 0.256,
+          "slg": 0.538,
           "xba": 0.48,
           "xslg": 1.034,
-          "xwoba": 0.39,
+          "xwoba": 0.395,
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Jac Caglianone HR angle vs Tyler Mahle on 4-Seam Fastball (50% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.480 xBA · 1.034 xSLG · 0.390 xwOBA · 0.253 BA · 0.532 SLG · 25% barrel · 66% hard-hit",
-          "book_quote": {
-            "price": 360,
-            "book": "BetRivers"
-          }
+          "metrics": "0.480 xBA · 1.034 xSLG · 0.395 xwOBA · 0.256 BA · 0.538 SLG · 25% barrel · 66% hard-hit"
         },
         {
           "player": "Bryce Eldridge",
@@ -2149,11 +2667,7 @@
           "barrel_rate": 0.244,
           "label": "Strong angle",
           "explainer": "Bryce Eldridge HR angle vs Luinder Avila on 4-Seam Fastball (27% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.418 xBA · 0.999 xSLG · 0.539 xwOBA · 0.370 BA · 0.778 SLG · 24% barrel · 71% hard-hit",
-          "book_quote": {
-            "price": 450,
-            "book": "BetRivers"
-          }
+          "metrics": "0.418 xBA · 0.999 xSLG · 0.539 xwOBA · 0.370 BA · 0.778 SLG · 24% barrel · 71% hard-hit"
         },
         {
           "player": "Carter Jensen",
@@ -2167,7 +2681,7 @@
           "pitcher": "Tyler Mahle",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 14.9,
+          "usage": 14.8,
           "ba": 0.471,
           "slg": 1.059,
           "xba": 0.501,
@@ -2176,11 +2690,7 @@
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Carter Jensen hits angle vs Tyler Mahle on Cutter (15% usage): xBA contact fit, xwOBA backs the matchup.",
-          "metrics": "0.501 xBA · 1.077 xSLG · 0.482 xwOBA · 0.471 BA · 1.059 SLG · 25% barrel · 75% hard-hit",
-          "book_quote": {
-            "price": -200,
-            "book": "BetMGM"
-          }
+          "metrics": "0.501 xBA · 1.077 xSLG · 0.482 xwOBA · 0.471 BA · 1.059 SLG · 25% barrel · 75% hard-hit"
         },
         {
           "player": "Daniel Susac",
@@ -2226,11 +2736,7 @@
           "barrel_rate": 0.0,
           "label": "Strong angle",
           "explainer": "Tyler Tolbert hits angle vs Tyler Mahle on 4-Seam Fastball (50% usage): xBA contact fit, starter shows this pitch often.",
-          "metrics": "0.562 xBA · 0.684 xSLG · 0.359 xwOBA · 0.300 BA · 0.300 SLG · 0% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": -210,
-            "book": "BetMGM"
-          }
+          "metrics": "0.562 xBA · 0.684 xSLG · 0.359 xwOBA · 0.300 BA · 0.300 SLG · 0% barrel · 50% hard-hit"
         },
         {
           "player": "Harrison Bader",
@@ -2284,26 +2790,22 @@
           "market": "Batter hits",
           "side": "Over",
           "line": 0.5,
-          "probability": 0.73,
+          "probability": 0.731,
           "fair": -271,
           "play_to": -261,
           "pitcher": "Tyler Mahle",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
           "usage": 49.6,
-          "ba": 0.253,
-          "slg": 0.532,
+          "ba": 0.256,
+          "slg": 0.538,
           "xba": 0.48,
           "xslg": 1.034,
-          "xwoba": 0.39,
+          "xwoba": 0.395,
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Jac Caglianone hits angle vs Tyler Mahle on 4-Seam Fastball (50% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.480 xBA · 1.034 xSLG · 0.390 xwOBA · 0.253 BA · 0.532 SLG · 25% barrel · 66% hard-hit",
-          "book_quote": {
-            "price": -225,
-            "book": "BetMGM"
-          }
+          "metrics": "0.480 xBA · 1.034 xSLG · 0.395 xwOBA · 0.256 BA · 0.538 SLG · 25% barrel · 66% hard-hit"
         },
         {
           "player": "Bryce Eldridge",
@@ -2326,14 +2828,111 @@
           "barrel_rate": 0.244,
           "label": "Strong angle",
           "explainer": "Bryce Eldridge hits angle vs Luinder Avila on 4-Seam Fastball (27% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.418 xBA · 0.999 xSLG · 0.539 xwOBA · 0.370 BA · 0.778 SLG · 24% barrel · 71% hard-hit",
-          "book_quote": {
-            "price": -220,
-            "book": "BetMGM"
-          }
+          "metrics": "0.418 xBA · 0.999 xSLG · 0.539 xwOBA · 0.370 BA · 0.778 SLG · 24% barrel · 71% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Willy Adames",
+          "team": "SF",
+          "pitcher": "Luinder Avila",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 21.7,
+          "whiff_rate": 0.415,
+          "chase_rate": 0.367,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.92,
+          "probability": 0.236,
+          "label": "K target",
+          "explainer": "Willy Adames has a high whiff profile against Slider; Luinder Avila throws it 22% of the time.",
+          "fair": 324,
+          "play_to": 334,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Rafael Devers",
+          "team": "SF",
+          "pitcher": "Luinder Avila",
+          "pitch_type": "FF",
+          "pitch_name": "4-Seam Fastball",
+          "usage": 26.7,
+          "whiff_rate": 0.36,
+          "chase_rate": 0.235,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.9,
+          "probability": 0.227,
+          "label": "K target",
+          "explainer": "Rafael Devers has a high whiff profile against 4-Seam Fastball; Luinder Avila throws it 27% of the time.",
+          "fair": 341,
+          "play_to": 351,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Heliot Ramos",
+          "team": "SF",
+          "pitcher": "Luinder Avila",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 21.7,
+          "whiff_rate": 0.31,
+          "chase_rate": 0.413,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.86,
+          "probability": 0.213,
+          "label": "K target",
+          "explainer": "Heliot Ramos has a high whiff profile against Slider; Luinder Avila throws it 22% of the time.",
+          "fair": 369,
+          "play_to": 379,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Isaac Collins",
+          "team": "KC",
+          "pitcher": "Tyler Mahle",
+          "pitch_type": "FS",
+          "pitch_name": "Split-Finger",
+          "usage": 25.9,
+          "whiff_rate": 0.5,
+          "chase_rate": 0.217,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.0,
+          "probability": 0.265,
+          "label": "Strong K target",
+          "explainer": "Isaac Collins has a high whiff profile against Split-Finger; Tyler Mahle throws it 26% of the time.",
+          "fair": 277,
+          "play_to": 287,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Carter Jensen",
+          "team": "KC",
+          "pitcher": "Tyler Mahle",
+          "pitch_type": "FS",
+          "pitch_name": "Split-Finger",
+          "usage": 25.9,
+          "whiff_rate": 0.381,
+          "chase_rate": 0.323,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.93,
+          "probability": 0.24,
+          "label": "K target",
+          "explainer": "Carter Jensen has a high whiff profile against Split-Finger; Tyler Mahle throws it 26% of the time.",
+          "fair": 317,
+          "play_to": 327,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Tyler Mahle",
@@ -2428,13 +3027,13 @@
           "market": "Batter HR",
           "side": "Over",
           "line": 0.5,
-          "probability": 0.169,
-          "fair": 493,
-          "play_to": 503,
+          "probability": 0.17,
+          "fair": 488,
+          "play_to": 498,
           "pitcher": "Zac Thornton",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 42.3,
+          "usage": 42.6,
           "ba": 0.409,
           "slg": 0.909,
           "xba": 0.516,
@@ -2442,12 +3041,8 @@
           "xwoba": 0.499,
           "barrel_rate": 0.357,
           "label": "Strong angle",
-          "explainer": "Garrett Mitchell HR angle vs Zac Thornton on Cutter (42% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.516 xBA · 1.248 xSLG · 0.499 xwOBA · 0.409 BA · 0.909 SLG · 36% barrel · 57% hard-hit",
-          "book_quote": {
-            "price": 500,
-            "book": "Caesars"
-          }
+          "explainer": "Garrett Mitchell HR angle vs Zac Thornton on Cutter (43% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
+          "metrics": "0.516 xBA · 1.248 xSLG · 0.499 xwOBA · 0.409 BA · 0.909 SLG · 36% barrel · 57% hard-hit"
         },
         {
           "player": "Gary Sánchez",
@@ -2461,7 +3056,7 @@
           "pitcher": "Zac Thornton",
           "pitch_type": "ST",
           "pitch_name": "Sweeper",
-          "usage": 14.4,
+          "usage": 14.3,
           "ba": 0.4,
           "slg": 1.0,
           "xba": 0.532,
@@ -2470,11 +3065,7 @@
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Gary Sánchez HR angle vs Zac Thornton on Sweeper (14% usage): home-run barrel signal, xSLG power fit.",
-          "metrics": "0.532 xBA · 1.323 xSLG · 0.632 xwOBA · 0.400 BA · 1.000 SLG · 25% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": 390,
-            "book": "Caesars"
-          }
+          "metrics": "0.532 xBA · 1.323 xSLG · 0.632 xwOBA · 0.400 BA · 1.000 SLG · 25% barrel · 50% hard-hit"
         },
         {
           "player": "MJ Melendez",
@@ -2511,7 +3102,7 @@
           "pitcher": "Zac Thornton",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 42.3,
+          "usage": 42.6,
           "ba": 0.409,
           "slg": 0.909,
           "xba": 0.516,
@@ -2519,12 +3110,8 @@
           "xwoba": 0.499,
           "barrel_rate": 0.357,
           "label": "Strong angle",
-          "explainer": "Garrett Mitchell hits angle vs Zac Thornton on Cutter (42% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.516 xBA · 1.248 xSLG · 0.499 xwOBA · 0.409 BA · 0.909 SLG · 36% barrel · 57% hard-hit",
-          "book_quote": {
-            "price": -160,
-            "book": "BetMGM"
-          }
+          "explainer": "Garrett Mitchell hits angle vs Zac Thornton on Cutter (43% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
+          "metrics": "0.516 xBA · 1.248 xSLG · 0.499 xwOBA · 0.409 BA · 0.909 SLG · 36% barrel · 57% hard-hit"
         },
         {
           "player": "Gary Sánchez",
@@ -2538,7 +3125,7 @@
           "pitcher": "Zac Thornton",
           "pitch_type": "ST",
           "pitch_name": "Sweeper",
-          "usage": 14.4,
+          "usage": 14.3,
           "ba": 0.4,
           "slg": 1.0,
           "xba": 0.532,
@@ -2547,11 +3134,7 @@
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Gary Sánchez hits angle vs Zac Thornton on Sweeper (14% usage): xBA contact fit, xwOBA backs the matchup.",
-          "metrics": "0.532 xBA · 1.323 xSLG · 0.632 xwOBA · 0.400 BA · 1.000 SLG · 25% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": -147,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.532 xBA · 1.323 xSLG · 0.632 xwOBA · 0.400 BA · 1.000 SLG · 25% barrel · 50% hard-hit"
         },
         {
           "player": "Jake Bauers",
@@ -2565,7 +3148,7 @@
           "pitcher": "Zac Thornton",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 42.3,
+          "usage": 42.6,
           "ba": 0.308,
           "slg": 0.769,
           "xba": 0.507,
@@ -2573,12 +3156,8 @@
           "xwoba": 0.456,
           "barrel_rate": 0.222,
           "label": "Strong angle",
-          "explainer": "Jake Bauers hits angle vs Zac Thornton on Cutter (42% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.507 xBA · 0.847 xSLG · 0.456 xwOBA · 0.308 BA · 0.769 SLG · 22% barrel · 56% hard-hit",
-          "book_quote": {
-            "price": -135,
-            "book": "BetMGM"
-          }
+          "explainer": "Jake Bauers hits angle vs Zac Thornton on Cutter (43% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
+          "metrics": "0.507 xBA · 0.847 xSLG · 0.456 xwOBA · 0.308 BA · 0.769 SLG · 22% barrel · 56% hard-hit"
         },
         {
           "player": "Brice Turang",
@@ -2592,20 +3171,16 @@
           "pitcher": "Zac Thornton",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 42.3,
-          "ba": 0.4,
-          "slg": 0.85,
-          "xba": 0.466,
-          "xslg": 0.907,
-          "xwoba": 0.528,
-          "barrel_rate": 0.176,
+          "usage": 42.6,
+          "ba": 0.368,
+          "slg": 0.789,
+          "xba": 0.464,
+          "xslg": 0.905,
+          "xwoba": 0.524,
+          "barrel_rate": 0.188,
           "label": "Strong angle",
-          "explainer": "Brice Turang hits angle vs Zac Thornton on Cutter (42% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.466 xBA · 0.907 xSLG · 0.528 xwOBA · 0.400 BA · 0.850 SLG · 18% barrel · 47% hard-hit",
-          "book_quote": {
-            "price": -220,
-            "book": "BetRivers"
-          }
+          "explainer": "Brice Turang hits angle vs Zac Thornton on Cutter (43% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
+          "metrics": "0.464 xBA · 0.905 xSLG · 0.524 xwOBA · 0.368 BA · 0.789 SLG · 19% barrel · 44% hard-hit"
         },
         {
           "player": "MJ Melendez",
@@ -2642,7 +3217,7 @@
           "pitcher": "Brandon Sproat",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 22.3,
+          "usage": 22.2,
           "ba": 0.333,
           "slg": 0.667,
           "xba": 0.431,
@@ -2665,7 +3240,7 @@
           "pitcher": "Brandon Sproat",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 22.3,
+          "usage": 22.2,
           "ba": 0.319,
           "slg": 0.694,
           "xba": 0.381,
@@ -2674,14 +3249,91 @@
           "barrel_rate": 0.22,
           "label": "Strong angle",
           "explainer": "Juan Soto hits angle vs Brandon Sproat on 4-Seam Fastball (22% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.381 xBA · 0.928 xSLG · 0.481 xwOBA · 0.319 BA · 0.694 SLG · 22% barrel · 54% hard-hit",
-          "book_quote": {
-            "price": -177,
-            "book": "BetRivers"
-          }
+          "metrics": "0.381 xBA · 0.928 xSLG · 0.481 xwOBA · 0.319 BA · 0.694 SLG · 22% barrel · 54% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Brett Baty",
+          "team": "NYM",
+          "pitcher": "Brandon Sproat",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 10.4,
+          "whiff_rate": 0.333,
+          "chase_rate": 0.318,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.93,
+          "probability": 0.24,
+          "label": "K target",
+          "explainer": "Brett Baty has a high whiff profile against Curveball; Brandon Sproat throws it 10% of the time.",
+          "fair": 317,
+          "play_to": 327,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Garrett Mitchell",
+          "team": "MIL",
+          "pitcher": "Zac Thornton",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 42.6,
+          "whiff_rate": 0.436,
+          "chase_rate": 0.327,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.11,
+          "probability": 0.304,
+          "label": "Strong K target",
+          "explainer": "Garrett Mitchell has a high whiff profile against Cutter; Zac Thornton throws it 43% of the time.",
+          "fair": 229,
+          "play_to": 239,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jake Bauers",
+          "team": "MIL",
+          "pitcher": "Zac Thornton",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 42.6,
+          "whiff_rate": 0.333,
+          "chase_rate": 0.163,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.02,
+          "probability": 0.272,
+          "label": "K target",
+          "explainer": "Jake Bauers has a high whiff profile against Cutter; Zac Thornton throws it 43% of the time.",
+          "fair": 268,
+          "play_to": 278,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Christian Yelich",
+          "team": "MIL",
+          "pitcher": "Zac Thornton",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 14.3,
+          "whiff_rate": 0.419,
+          "chase_rate": 0.304,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.97,
+          "probability": 0.254,
+          "label": "K target",
+          "explainer": "Christian Yelich has a high whiff profile against Sweeper; Zac Thornton throws it 14% of the time.",
+          "fair": 294,
+          "play_to": 304,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Zac Thornton",
@@ -2786,11 +3438,7 @@
           "barrel_rate": 0.273,
           "label": "Strong angle",
           "explainer": "Jake Rogers HR angle vs David Peterson on Sinker (29% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.389 xBA · 0.913 xSLG · 0.458 xwOBA · 0.091 BA · 0.091 SLG · 27% barrel · 46% hard-hit",
-          "book_quote": {
-            "price": 400,
-            "book": "Caesars"
-          }
+          "metrics": "0.389 xBA · 0.913 xSLG · 0.458 xwOBA · 0.091 BA · 0.091 SLG · 27% barrel · 46% hard-hit"
         },
         {
           "player": "Javier Báez",
@@ -2836,11 +3484,7 @@
           "barrel_rate": 0.183,
           "label": "Strong angle",
           "explainer": "Dillon Dingler HR angle vs David Peterson on 4-Seam Fastball (23% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.408 xBA · 0.818 xSLG · 0.439 xwOBA · 0.295 BA · 0.580 SLG · 18% barrel · 51% hard-hit",
-          "book_quote": {
-            "price": 500,
-            "book": "Caesars"
-          }
+          "metrics": "0.408 xBA · 0.818 xSLG · 0.439 xwOBA · 0.295 BA · 0.580 SLG · 18% barrel · 51% hard-hit"
         },
         {
           "player": "Javier Báez",
@@ -2886,11 +3530,7 @@
           "barrel_rate": 0.125,
           "label": "Strong angle",
           "explainer": "James Outman hits angle vs David Peterson on Sinker (29% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.536 xBA · 1.000 xSLG · 0.538 xwOBA · 0.400 BA · 0.800 SLG · 12% barrel · 38% hard-hit",
-          "book_quote": {
-            "price": 105,
-            "book": "BetMGM"
-          }
+          "metrics": "0.536 xBA · 1.000 xSLG · 0.538 xwOBA · 0.400 BA · 0.800 SLG · 12% barrel · 38% hard-hit"
         },
         {
           "player": "Pete Crow-Armstrong",
@@ -2913,11 +3553,7 @@
           "barrel_rate": 0.075,
           "label": "Strong angle",
           "explainer": "Pete Crow-Armstrong hits angle vs Framber Valdez on Sinker (46% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.431 xBA · 0.651 xSLG · 0.459 xwOBA · 0.457 BA · 0.652 SLG · 8% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": -195,
-            "book": "BetRivers"
-          }
+          "metrics": "0.431 xBA · 0.651 xSLG · 0.459 xwOBA · 0.457 BA · 0.652 SLG · 8% barrel · 50% hard-hit"
         },
         {
           "player": "Michael Conforto",
@@ -2963,11 +3599,7 @@
           "barrel_rate": 0.0,
           "label": "Strong angle",
           "explainer": "Ben Malgeri hits angle vs David Peterson on 4-Seam Fastball (23% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.716 xBA · 0.860 xSLG · 0.461 xwOBA · 0.429 BA · 0.429 SLG · 0% barrel · 25% hard-hit",
-          "book_quote": {
-            "price": -138,
-            "book": "DraftKings"
-          }
+          "metrics": "0.716 xBA · 0.860 xSLG · 0.461 xwOBA · 0.429 BA · 0.429 SLG · 0% barrel · 25% hard-hit"
         },
         {
           "player": "Michael Busch",
@@ -2990,11 +3622,7 @@
           "barrel_rate": 0.186,
           "label": "Strong angle",
           "explainer": "Michael Busch hits angle vs Framber Valdez on Sinker (46% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.383 xBA · 0.704 xSLG · 0.481 xwOBA · 0.300 BA · 0.500 SLG · 19% barrel · 51% hard-hit",
-          "book_quote": {
-            "price": -165,
-            "book": "BetMGM"
-          }
+          "metrics": "0.383 xBA · 0.704 xSLG · 0.481 xwOBA · 0.300 BA · 0.500 SLG · 19% barrel · 51% hard-hit"
         },
         {
           "player": "James Outman",
@@ -3020,7 +3648,128 @@
           "metrics": "0.536 xBA · 1.000 xSLG · 0.538 xwOBA · 0.400 BA · 0.800 SLG · 12% barrel · 38% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Spencer Torkelson",
+          "team": "DET",
+          "pitcher": "David Peterson",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 24.4,
+          "whiff_rate": 0.351,
+          "chase_rate": 0.255,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.96,
+          "probability": 0.25,
+          "label": "K target",
+          "explainer": "Spencer Torkelson has a high whiff profile against Slider; David Peterson throws it 24% of the time.",
+          "fair": 300,
+          "play_to": 310,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Gleyber Torres",
+          "team": "DET",
+          "pitcher": "David Peterson",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 24.4,
+          "whiff_rate": 0.345,
+          "chase_rate": 0.229,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.95,
+          "probability": 0.247,
+          "label": "K target",
+          "explainer": "Gleyber Torres has a high whiff profile against Slider; David Peterson throws it 24% of the time.",
+          "fair": 305,
+          "play_to": 315,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Riley Greene",
+          "team": "DET",
+          "pitcher": "David Peterson",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 24.4,
+          "whiff_rate": 0.325,
+          "chase_rate": 0.205,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.94,
+          "probability": 0.241,
+          "label": "K target",
+          "explainer": "Riley Greene has a high whiff profile against Slider; David Peterson throws it 24% of the time.",
+          "fair": 315,
+          "play_to": 325,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Ian Happ",
+          "team": "CHC",
+          "pitcher": "Framber Valdez",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 27.9,
+          "whiff_rate": 0.462,
+          "chase_rate": 0.298,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.98,
+          "probability": 0.256,
+          "label": "Strong K target",
+          "explainer": "Ian Happ has a high whiff profile against Curveball; Framber Valdez throws it 28% of the time.",
+          "fair": 291,
+          "play_to": 301,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Miguel Amaya",
+          "team": "CHC",
+          "pitcher": "Framber Valdez",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 20.0,
+          "whiff_rate": 0.459,
+          "chase_rate": 0.452,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.96,
+          "probability": 0.248,
+          "label": "K target",
+          "explainer": "Miguel Amaya has a high whiff profile against Changeup; Framber Valdez throws it 20% of the time.",
+          "fair": 303,
+          "play_to": 313,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Pete Crow-Armstrong",
+          "team": "CHC",
+          "pitcher": "Framber Valdez",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 27.9,
+          "whiff_rate": 0.346,
+          "chase_rate": 0.457,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.92,
+          "probability": 0.233,
+          "label": "K target",
+          "explainer": "Pete Crow-Armstrong has a high whiff profile against Curveball; Framber Valdez throws it 28% of the time.",
+          "fair": 329,
+          "play_to": 339,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Framber Valdez",
@@ -3121,7 +3870,7 @@
           "pitcher": "Kumar Rocker",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 15.7,
+          "usage": 15.6,
           "ba": 0.333,
           "slg": 1.0,
           "xba": 0.65,
@@ -3153,11 +3902,7 @@
           "barrel_rate": 0.3,
           "label": "Strong angle",
           "explainer": "Brandon Nimmo HR angle vs Noah Schultz on Sweeper (21% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.421 xBA · 1.104 xSLG · 0.439 xwOBA · 0.267 BA · 0.600 SLG · 30% barrel · 70% hard-hit",
-          "book_quote": {
-            "price": 425,
-            "book": "Caesars"
-          }
+          "metrics": "0.421 xBA · 1.104 xSLG · 0.439 xwOBA · 0.267 BA · 0.600 SLG · 30% barrel · 70% hard-hit"
         },
         {
           "player": "Justin Foscue",
@@ -3180,11 +3925,7 @@
           "barrel_rate": 0.333,
           "label": "Strong angle",
           "explainer": "Justin Foscue HR angle vs Noah Schultz on Cutter (20% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.443 xBA · 1.197 xSLG · 0.476 xwOBA · 0.333 BA · 1.000 SLG · 33% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": 440,
-            "book": "BetRivers"
-          }
+          "metrics": "0.443 xBA · 1.197 xSLG · 0.476 xwOBA · 0.333 BA · 1.000 SLG · 33% barrel · 67% hard-hit"
         },
         {
           "player": "Kyle Teel",
@@ -3198,7 +3939,7 @@
           "pitcher": "Kumar Rocker",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 15.7,
+          "usage": 15.6,
           "ba": 0.333,
           "slg": 1.0,
           "xba": 0.65,
@@ -3253,11 +3994,7 @@
           "barrel_rate": 0.333,
           "label": "Strong angle",
           "explainer": "Justin Foscue hits angle vs Noah Schultz on Cutter (20% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.443 xBA · 1.197 xSLG · 0.476 xwOBA · 0.333 BA · 1.000 SLG · 33% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": -179,
-            "book": "DraftKings"
-          }
+          "metrics": "0.443 xBA · 1.197 xSLG · 0.476 xwOBA · 0.333 BA · 1.000 SLG · 33% barrel · 67% hard-hit"
         },
         {
           "player": "Colson Montgomery",
@@ -3271,7 +4008,7 @@
           "pitcher": "Kumar Rocker",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 15.7,
+          "usage": 15.6,
           "ba": 0.321,
           "slg": 0.786,
           "xba": 0.414,
@@ -3280,11 +4017,7 @@
           "barrel_rate": 0.238,
           "label": "Strong angle",
           "explainer": "Colson Montgomery hits angle vs Kumar Rocker on Cutter (16% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.414 xBA · 1.023 xSLG · 0.449 xwOBA · 0.321 BA · 0.786 SLG · 24% barrel · 48% hard-hit",
-          "book_quote": {
-            "price": -157,
-            "book": "BetRivers"
-          }
+          "metrics": "0.414 xBA · 1.023 xSLG · 0.449 xwOBA · 0.321 BA · 0.786 SLG · 24% barrel · 48% hard-hit"
         },
         {
           "player": "Brandon Nimmo",
@@ -3307,11 +4040,7 @@
           "barrel_rate": 0.3,
           "label": "Strong angle",
           "explainer": "Brandon Nimmo hits angle vs Noah Schultz on Sweeper (21% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.421 xBA · 1.104 xSLG · 0.439 xwOBA · 0.267 BA · 0.600 SLG · 30% barrel · 70% hard-hit",
-          "book_quote": {
-            "price": -175,
-            "book": "BetMGM"
-          }
+          "metrics": "0.421 xBA · 1.104 xSLG · 0.439 xwOBA · 0.267 BA · 0.600 SLG · 30% barrel · 70% hard-hit"
         },
         {
           "player": "Josh Jung",
@@ -3334,11 +4063,7 @@
           "barrel_rate": 0.15,
           "label": "Strong angle",
           "explainer": "Josh Jung hits angle vs Noah Schultz on Cutter (20% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.377 xBA · 0.772 xSLG · 0.508 xwOBA · 0.381 BA · 0.952 SLG · 15% barrel · 65% hard-hit",
-          "book_quote": {
-            "price": -216,
-            "book": "DraftKings"
-          }
+          "metrics": "0.377 xBA · 0.772 xSLG · 0.508 xwOBA · 0.381 BA · 0.952 SLG · 15% barrel · 65% hard-hit"
         },
         {
           "player": "Munetaka Murakami",
@@ -3361,14 +4086,131 @@
           "barrel_rate": 0.333,
           "label": "Strong angle",
           "explainer": "Munetaka Murakami hits angle vs Kumar Rocker on Sinker (30% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.394 xBA · 1.160 xSLG · 0.446 xwOBA · 0.235 BA · 0.588 SLG · 33% barrel · 56% hard-hit",
-          "book_quote": {
-            "price": -152,
-            "book": "BetRivers"
-          }
+          "metrics": "0.394 xBA · 1.160 xSLG · 0.446 xwOBA · 0.235 BA · 0.588 SLG · 33% barrel · 56% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Colson Montgomery",
+          "team": "CWS",
+          "pitcher": "Kumar Rocker",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 37.8,
+          "whiff_rate": 0.384,
+          "chase_rate": 0.358,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.12,
+          "probability": 0.307,
+          "label": "Strong K target",
+          "explainer": "Colson Montgomery has a high whiff profile against Slider; Kumar Rocker throws it 38% of the time.",
+          "fair": 226,
+          "play_to": 236,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Braden Montgomery",
+          "team": "CWS",
+          "pitcher": "Kumar Rocker",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 37.8,
+          "whiff_rate": 0.316,
+          "chase_rate": 0.4,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.07,
+          "probability": 0.29,
+          "label": "K target",
+          "explainer": "Braden Montgomery has a high whiff profile against Slider; Kumar Rocker throws it 38% of the time.",
+          "fair": 245,
+          "play_to": 255,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Munetaka Murakami",
+          "team": "CWS",
+          "pitcher": "Kumar Rocker",
+          "pitch_type": "SI",
+          "pitch_name": "Sinker",
+          "usage": 29.8,
+          "whiff_rate": 0.378,
+          "chase_rate": 0.103,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.05,
+          "probability": 0.283,
+          "label": "K target",
+          "explainer": "Munetaka Murakami has a high whiff profile against Sinker; Kumar Rocker throws it 30% of the time.",
+          "fair": 253,
+          "play_to": 263,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Justin Foscue",
+          "team": "TEX",
+          "pitcher": "Noah Schultz",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 20.5,
+          "whiff_rate": 0.412,
+          "chase_rate": 0.333,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.97,
+          "probability": 0.254,
+          "label": "K target",
+          "explainer": "Justin Foscue has a high whiff profile against Cutter; Noah Schultz throws it 20% of the time.",
+          "fair": 294,
+          "play_to": 304,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jake Burger",
+          "team": "TEX",
+          "pitcher": "Noah Schultz",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 21.4,
+          "whiff_rate": 0.329,
+          "chase_rate": 0.36,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.92,
+          "probability": 0.236,
+          "label": "K target",
+          "explainer": "Jake Burger has a high whiff profile against Sweeper; Noah Schultz throws it 21% of the time.",
+          "fair": 324,
+          "play_to": 334,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Kyle Higashioka",
+          "team": "TEX",
+          "pitcher": "Noah Schultz",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 10.9,
+          "whiff_rate": 0.387,
+          "chase_rate": 0.357,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.92,
+          "probability": 0.234,
+          "label": "K target",
+          "explainer": "Kyle Higashioka has a high whiff profile against Changeup; Noah Schultz throws it 11% of the time.",
+          "fair": 327,
+          "play_to": 337,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Noah Schultz",
@@ -3492,7 +4334,7 @@
           "pitcher": "Tyler Phillips",
           "pitch_type": "FS",
           "pitch_name": "Split-Finger",
-          "usage": 23.3,
+          "usage": 23.2,
           "ba": 0.429,
           "slg": 0.857,
           "xba": 0.565,
@@ -3501,11 +4343,7 @@
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Jeremy Peña HR angle vs Tyler Phillips on Split-Finger (23% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.565 xBA · 1.306 xSLG · 0.480 xwOBA · 0.429 BA · 0.857 SLG · 25% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": 575,
-            "book": "Caesars"
-          }
+          "metrics": "0.565 xBA · 1.306 xSLG · 0.480 xwOBA · 0.429 BA · 0.857 SLG · 25% barrel · 50% hard-hit"
         },
         {
           "player": "Griffin Conine",
@@ -3528,11 +4366,7 @@
           "barrel_rate": 0.214,
           "label": "Strong angle",
           "explainer": "Griffin Conine HR angle vs Tatsuya Imai on 4-Seam Fastball (44% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.413 xBA · 0.918 xSLG · 0.443 xwOBA · 0.350 BA · 0.800 SLG · 21% barrel · 71% hard-hit",
-          "book_quote": {
-            "price": 440,
-            "book": "BetRivers"
-          }
+          "metrics": "0.413 xBA · 0.918 xSLG · 0.443 xwOBA · 0.350 BA · 0.800 SLG · 21% barrel · 71% hard-hit"
         },
         {
           "player": "Jeremy Peña",
@@ -3546,7 +4380,7 @@
           "pitcher": "Tyler Phillips",
           "pitch_type": "FS",
           "pitch_name": "Split-Finger",
-          "usage": 23.3,
+          "usage": 23.2,
           "ba": 0.429,
           "slg": 0.857,
           "xba": 0.565,
@@ -3555,11 +4389,7 @@
           "barrel_rate": 0.25,
           "label": "Strong angle",
           "explainer": "Jeremy Peña hits angle vs Tyler Phillips on Split-Finger (23% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.565 xBA · 1.306 xSLG · 0.480 xwOBA · 0.429 BA · 0.857 SLG · 25% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": -250,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.565 xBA · 1.306 xSLG · 0.480 xwOBA · 0.429 BA · 0.857 SLG · 25% barrel · 50% hard-hit"
         },
         {
           "player": "Yordan Alvarez",
@@ -3573,7 +4403,7 @@
           "pitcher": "Tyler Phillips",
           "pitch_type": "CU",
           "pitch_name": "Curveball",
-          "usage": 16.8,
+          "usage": 16.9,
           "ba": 0.355,
           "slg": 0.71,
           "xba": 0.499,
@@ -3582,11 +4412,7 @@
           "barrel_rate": 0.208,
           "label": "Strong angle",
           "explainer": "Yordan Alvarez hits angle vs Tyler Phillips on Curveball (17% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.499 xBA · 1.052 xSLG · 0.534 xwOBA · 0.355 BA · 0.710 SLG · 21% barrel · 62% hard-hit",
-          "book_quote": {
-            "price": -270,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.499 xBA · 1.052 xSLG · 0.534 xwOBA · 0.355 BA · 0.710 SLG · 21% barrel · 62% hard-hit"
         },
         {
           "player": "Carlos Correa",
@@ -3600,7 +4426,7 @@
           "pitcher": "Tyler Phillips",
           "pitch_type": "CU",
           "pitch_name": "Curveball",
-          "usage": 16.8,
+          "usage": 16.9,
           "ba": 0.5,
           "slg": 0.5,
           "xba": 0.502,
@@ -3623,7 +4449,7 @@
           "pitcher": "Tyler Phillips",
           "pitch_type": "SI",
           "pitch_name": "Sinker",
-          "usage": 25.5,
+          "usage": 25.6,
           "ba": 0.25,
           "slg": 0.5,
           "xba": 0.503,
@@ -3632,11 +4458,7 @@
           "barrel_rate": 0.0,
           "label": "Strong angle",
           "explainer": "LaMonte Wade Jr. hits angle vs Tyler Phillips on Sinker (26% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.503 xBA · 0.692 xSLG · 0.448 xwOBA · 0.250 BA · 0.500 SLG · 0% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": -132,
-            "book": "BetRivers"
-          }
+          "metrics": "0.503 xBA · 0.692 xSLG · 0.448 xwOBA · 0.250 BA · 0.500 SLG · 0% barrel · 67% hard-hit"
         },
         {
           "player": "Heriberto Hernández",
@@ -3659,11 +4481,7 @@
           "barrel_rate": 0.158,
           "label": "Strong angle",
           "explainer": "Heriberto Hernández hits angle vs Tatsuya Imai on Slider (44% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.433 xBA · 0.943 xSLG · 0.459 xwOBA · 0.370 BA · 0.741 SLG · 16% barrel · 47% hard-hit",
-          "book_quote": {
-            "price": -159,
-            "book": "DraftKings"
-          }
+          "metrics": "0.433 xBA · 0.943 xSLG · 0.459 xwOBA · 0.370 BA · 0.741 SLG · 16% barrel · 47% hard-hit"
         },
         {
           "player": "Owen Caissie",
@@ -3709,14 +4527,131 @@
           "barrel_rate": 0.214,
           "label": "Strong angle",
           "explainer": "Griffin Conine hits angle vs Tatsuya Imai on 4-Seam Fastball (44% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.413 xBA · 0.918 xSLG · 0.443 xwOBA · 0.350 BA · 0.800 SLG · 21% barrel · 71% hard-hit",
-          "book_quote": {
-            "price": -135,
-            "book": "BetMGM"
-          }
+          "metrics": "0.413 xBA · 0.918 xSLG · 0.443 xwOBA · 0.350 BA · 0.800 SLG · 21% barrel · 71% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Heriberto Hernández",
+          "team": "MIA",
+          "pitcher": "Tatsuya Imai",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 44.5,
+          "whiff_rate": 0.421,
+          "chase_rate": 0.25,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.21,
+          "probability": 0.341,
+          "label": "Strong K target",
+          "explainer": "Heriberto Hernández has a high whiff profile against Slider; Tatsuya Imai throws it 44% of the time.",
+          "fair": 193,
+          "play_to": 203,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Kyle Stowers",
+          "team": "MIA",
+          "pitcher": "Tatsuya Imai",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 44.5,
+          "whiff_rate": 0.41,
+          "chase_rate": 0.405,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.22,
+          "probability": 0.343,
+          "label": "Strong K target",
+          "explainer": "Kyle Stowers has a high whiff profile against Slider; Tatsuya Imai throws it 44% of the time.",
+          "fair": 192,
+          "play_to": 202,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Griffin Conine",
+          "team": "MIA",
+          "pitcher": "Tatsuya Imai",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 44.5,
+          "whiff_rate": 0.385,
+          "chase_rate": 0.5,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.21,
+          "probability": 0.339,
+          "label": "Strong K target",
+          "explainer": "Griffin Conine has a high whiff profile against Slider; Tatsuya Imai throws it 44% of the time.",
+          "fair": 195,
+          "play_to": 205,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Cam Smith",
+          "team": "HOU",
+          "pitcher": "Tyler Phillips",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 24.6,
+          "whiff_rate": 0.493,
+          "chase_rate": 0.371,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.0,
+          "probability": 0.263,
+          "label": "Strong K target",
+          "explainer": "Cam Smith has a high whiff profile against Sweeper; Tyler Phillips throws it 25% of the time.",
+          "fair": 280,
+          "play_to": 290,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jeremy Peña",
+          "team": "HOU",
+          "pitcher": "Tyler Phillips",
+          "pitch_type": "FS",
+          "pitch_name": "Split-Finger",
+          "usage": 23.2,
+          "whiff_rate": 0.5,
+          "chase_rate": 0.294,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.99,
+          "probability": 0.26,
+          "label": "K target",
+          "explainer": "Jeremy Peña has a high whiff profile against Split-Finger; Tyler Phillips throws it 23% of the time.",
+          "fair": 285,
+          "play_to": 295,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Christian Walker",
+          "team": "HOU",
+          "pitcher": "Tyler Phillips",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 24.6,
+          "whiff_rate": 0.393,
+          "chase_rate": 0.338,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.93,
+          "probability": 0.238,
+          "label": "K target",
+          "explainer": "Christian Walker has a high whiff profile against Sweeper; Tyler Phillips throws it 25% of the time.",
+          "fair": 320,
+          "play_to": 330,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Tyler Phillips",
@@ -3826,11 +4761,7 @@
           "barrel_rate": 0.667,
           "label": "Strong angle",
           "explainer": "Mickey Moniak HR angle vs Miles Mikolas on Curveball (15% usage): home-run barrel signal, xSLG power fit, starter allows expected damage on it.",
-          "metrics": "0.828 xBA · 2.848 xSLG · 0.584 xwOBA · 0.250 BA · 1.000 SLG · 67% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": 280,
-            "book": "BetRivers"
-          }
+          "metrics": "0.828 xBA · 2.848 xSLG · 0.584 xwOBA · 0.250 BA · 1.000 SLG · 67% barrel · 67% hard-hit"
         },
         {
           "player": "Joey Wiemer",
@@ -3844,7 +4775,7 @@
           "pitcher": "Michael Lorenzen",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 14.4,
+          "usage": 14.5,
           "ba": 0.5,
           "slg": 1.25,
           "xba": 0.681,
@@ -3867,7 +4798,7 @@
           "pitcher": "Michael Lorenzen",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 19.6,
+          "usage": 19.5,
           "ba": 0.667,
           "slg": 2.0,
           "xba": 0.315,
@@ -3913,7 +4844,7 @@
           "pitcher": "Michael Lorenzen",
           "pitch_type": "FC",
           "pitch_name": "Cutter",
-          "usage": 14.4,
+          "usage": 14.5,
           "ba": 0.5,
           "slg": 1.25,
           "xba": 0.681,
@@ -3936,7 +4867,7 @@
           "pitcher": "Michael Lorenzen",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 19.6,
+          "usage": 19.5,
           "ba": 0.667,
           "slg": 2.0,
           "xba": 0.315,
@@ -3959,7 +4890,7 @@
           "pitcher": "Michael Lorenzen",
           "pitch_type": "FF",
           "pitch_name": "4-Seam Fastball",
-          "usage": 19.6,
+          "usage": 19.5,
           "ba": 0.368,
           "slg": 0.816,
           "xba": 0.51,
@@ -3982,7 +4913,7 @@
           "pitcher": "Miles Mikolas",
           "pitch_type": "SI",
           "pitch_name": "Sinker",
-          "usage": 24.2,
+          "usage": 24.3,
           "ba": 0.75,
           "slg": 1.0,
           "xba": 0.401,
@@ -4005,7 +4936,7 @@
           "pitcher": "Miles Mikolas",
           "pitch_type": "SI",
           "pitch_name": "Sinker",
-          "usage": 24.2,
+          "usage": 24.3,
           "ba": 0.405,
           "slg": 0.786,
           "xba": 0.457,
@@ -4028,7 +4959,7 @@
           "pitcher": "Miles Mikolas",
           "pitch_type": "SL",
           "pitch_name": "Slider",
-          "usage": 21.8,
+          "usage": 22.2,
           "ba": 0.6,
           "slg": 1.2,
           "xba": 0.454,
@@ -4040,7 +4971,108 @@
           "metrics": "0.454 xBA · 0.734 xSLG · 0.459 xwOBA · 0.600 BA · 1.200 SLG · 12% barrel · 50% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "José Tena",
+          "team": "WSH",
+          "pitcher": "Michael Lorenzen",
+          "pitch_type": "FC",
+          "pitch_name": "Cutter",
+          "usage": 14.5,
+          "whiff_rate": 0.444,
+          "chase_rate": 0.154,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.86,
+          "probability": 0.214,
+          "label": "K target",
+          "explainer": "José Tena has a high whiff profile against Cutter; Michael Lorenzen throws it 14% of the time.",
+          "fair": 367,
+          "play_to": 377,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "James Wood",
+          "team": "WSH",
+          "pitcher": "Michael Lorenzen",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 11.8,
+          "whiff_rate": 0.48,
+          "chase_rate": 0.208,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.88,
+          "probability": 0.22,
+          "label": "K target",
+          "explainer": "James Wood has a high whiff profile against Curveball; Michael Lorenzen throws it 12% of the time.",
+          "fair": 355,
+          "play_to": 365,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Edouard Julien",
+          "team": "COL",
+          "pitcher": "Miles Mikolas",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 22.2,
+          "whiff_rate": 0.489,
+          "chase_rate": 0.255,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.92,
+          "probability": 0.233,
+          "label": "K target",
+          "explainer": "Edouard Julien has a high whiff profile against Slider; Miles Mikolas throws it 22% of the time.",
+          "fair": 329,
+          "play_to": 339,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Braxton Fulford",
+          "team": "COL",
+          "pitcher": "Miles Mikolas",
+          "pitch_type": "FF",
+          "pitch_name": "4-Seam Fastball",
+          "usage": 25.7,
+          "whiff_rate": 0.351,
+          "chase_rate": 0.259,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.85,
+          "probability": 0.208,
+          "label": "K target",
+          "explainer": "Braxton Fulford has a high whiff profile against 4-Seam Fastball; Miles Mikolas throws it 26% of the time.",
+          "fair": 381,
+          "play_to": 391,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Hunter Goodman",
+          "team": "COL",
+          "pitcher": "Miles Mikolas",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 22.2,
+          "whiff_rate": 0.352,
+          "chase_rate": 0.418,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.85,
+          "probability": 0.208,
+          "label": "K target",
+          "explainer": "Hunter Goodman has a high whiff profile against Slider; Miles Mikolas throws it 22% of the time.",
+          "fair": 381,
+          "play_to": 391,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Miles Mikolas",
@@ -4136,12 +5168,12 @@
           "side": "Over",
           "line": 0.5,
           "probability": 0.17,
-          "fair": 488,
-          "play_to": 498,
+          "fair": 487,
+          "play_to": 497,
           "pitcher": "Matthew Liberatore",
           "pitch_type": "SL",
           "pitch_name": "Slider",
-          "usage": 22.9,
+          "usage": 22.7,
           "ba": 0.091,
           "slg": 0.212,
           "xba": 0.426,
@@ -4150,11 +5182,7 @@
           "barrel_rate": 0.385,
           "label": "Strong angle",
           "explainer": "Mike Trout HR angle vs Matthew Liberatore on Slider (23% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.426 xBA · 1.188 xSLG · 0.319 xwOBA · 0.091 BA · 0.212 SLG · 38% barrel · 54% hard-hit",
-          "book_quote": {
-            "price": 360,
-            "book": "BetRivers"
-          }
+          "metrics": "0.426 xBA · 1.188 xSLG · 0.319 xwOBA · 0.091 BA · 0.212 SLG · 38% barrel · 54% hard-hit"
         },
         {
           "player": "Jose Siri",
@@ -4177,11 +5205,7 @@
           "barrel_rate": 0.333,
           "label": "Strong angle",
           "explainer": "Jose Siri HR angle vs Matthew Liberatore on Changeup (15% usage): home-run barrel signal, xSLG power fit.",
-          "metrics": "0.486 xBA · 1.499 xSLG · 0.440 xwOBA · 0.273 BA · 0.818 SLG · 33% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": 425,
-            "book": "Caesars"
-          }
+          "metrics": "0.486 xBA · 1.499 xSLG · 0.440 xwOBA · 0.273 BA · 0.818 SLG · 33% barrel · 50% hard-hit"
         },
         {
           "player": "Jimmy Crooks",
@@ -4227,11 +5251,7 @@
           "barrel_rate": 0.2,
           "label": "Strong angle",
           "explainer": "Jimmy Crooks hits angle vs Walbert Ureña on Sweeper (16% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.482 xBA · 1.013 xSLG · 0.661 xwOBA · 0.800 BA · 2.000 SLG · 20% barrel · 80% hard-hit",
-          "book_quote": {
-            "price": -125,
-            "book": "BetMGM"
-          }
+          "metrics": "0.482 xBA · 1.013 xSLG · 0.661 xwOBA · 0.800 BA · 2.000 SLG · 20% barrel · 80% hard-hit"
         },
         {
           "player": "Logan O'Hoppe",
@@ -4254,11 +5274,7 @@
           "barrel_rate": 0.125,
           "label": "Strong angle",
           "explainer": "Logan O'Hoppe hits angle vs Matthew Liberatore on Curveball (17% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.486 xBA · 0.742 xSLG · 0.451 xwOBA · 0.455 BA · 0.727 SLG · 12% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": -150,
-            "book": "DraftKings"
-          }
+          "metrics": "0.486 xBA · 0.742 xSLG · 0.451 xwOBA · 0.455 BA · 0.727 SLG · 12% barrel · 50% hard-hit"
         },
         {
           "player": "Jordan Walker",
@@ -4281,11 +5297,7 @@
           "barrel_rate": 0.12,
           "label": "Strong angle",
           "explainer": "Jordan Walker hits angle vs Walbert Ureña on Changeup (33% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.486 xBA · 0.856 xSLG · 0.397 xwOBA · 0.342 BA · 0.605 SLG · 12% barrel · 64% hard-hit",
-          "book_quote": {
-            "price": -210,
-            "book": "BetMGM"
-          }
+          "metrics": "0.486 xBA · 0.856 xSLG · 0.397 xwOBA · 0.342 BA · 0.605 SLG · 12% barrel · 64% hard-hit"
         },
         {
           "player": "Nelson Velázquez",
@@ -4294,12 +5306,12 @@
           "side": "Over",
           "line": 0.5,
           "probability": 0.739,
-          "fair": -282,
-          "play_to": -272,
+          "fair": -283,
+          "play_to": -273,
           "pitcher": "Walbert Ureña",
           "pitch_type": "SI",
           "pitch_name": "Sinker",
-          "usage": 30.7,
+          "usage": 30.8,
           "ba": 0.375,
           "slg": 0.75,
           "xba": 0.45,
@@ -4331,11 +5343,7 @@
           "barrel_rate": 0.333,
           "label": "Strong angle",
           "explainer": "Jose Siri hits angle vs Matthew Liberatore on Changeup (15% usage): xBA contact fit, xwOBA backs the matchup.",
-          "metrics": "0.486 xBA · 1.499 xSLG · 0.440 xwOBA · 0.273 BA · 0.818 SLG · 33% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": -116,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.486 xBA · 1.499 xSLG · 0.440 xwOBA · 0.273 BA · 0.818 SLG · 33% barrel · 50% hard-hit"
         },
         {
           "player": "Jo Adell",
@@ -4358,11 +5366,7 @@
           "barrel_rate": 0.164,
           "label": "Strong angle",
           "explainer": "Jo Adell hits angle vs Matthew Liberatore on 4-Seam Fastball (32% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.405 xBA · 0.779 xSLG · 0.392 xwOBA · 0.274 BA · 0.558 SLG · 16% barrel · 48% hard-hit",
-          "book_quote": {
-            "price": -210,
-            "book": "BetMGM"
-          }
+          "metrics": "0.405 xBA · 0.779 xSLG · 0.392 xwOBA · 0.274 BA · 0.558 SLG · 16% barrel · 48% hard-hit"
         },
         {
           "player": "Jimmy Crooks",
@@ -4388,7 +5392,128 @@
           "metrics": "0.482 xBA · 1.013 xSLG · 0.661 xwOBA · 0.800 BA · 2.000 SLG · 20% barrel · 80% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Jimmy Crooks",
+          "team": "STL",
+          "pitcher": "Walbert Ureña",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 32.9,
+          "whiff_rate": 0.562,
+          "chase_rate": 0.407,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.08,
+          "probability": 0.294,
+          "label": "Strong K target",
+          "explainer": "Jimmy Crooks has a high whiff profile against Changeup; Walbert Ureña throws it 33% of the time.",
+          "fair": 240,
+          "play_to": 250,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jordan Walker",
+          "team": "STL",
+          "pitcher": "Walbert Ureña",
+          "pitch_type": "CH",
+          "pitch_name": "Changeup",
+          "usage": 32.9,
+          "whiff_rate": 0.35,
+          "chase_rate": 0.436,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.95,
+          "probability": 0.244,
+          "label": "K target",
+          "explainer": "Jordan Walker has a high whiff profile against Changeup; Walbert Ureña throws it 33% of the time.",
+          "fair": 310,
+          "play_to": 320,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Nelson Velázquez",
+          "team": "STL",
+          "pitcher": "Walbert Ureña",
+          "pitch_type": "ST",
+          "pitch_name": "Sweeper",
+          "usage": 15.9,
+          "whiff_rate": 0.364,
+          "chase_rate": 0.273,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 0.87,
+          "probability": 0.218,
+          "label": "K target",
+          "explainer": "Nelson Velázquez has a high whiff profile against Sweeper; Walbert Ureña throws it 16% of the time.",
+          "fair": 359,
+          "play_to": 369,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jose Siri",
+          "team": "LAA",
+          "pitcher": "Matthew Liberatore",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 22.7,
+          "whiff_rate": 0.5,
+          "chase_rate": 0.543,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.23,
+          "probability": 0.349,
+          "label": "Strong K target",
+          "explainer": "Jose Siri has a high whiff profile against Slider; Matthew Liberatore throws it 23% of the time.",
+          "fair": 187,
+          "play_to": 197,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Zach Neto",
+          "team": "LAA",
+          "pitcher": "Matthew Liberatore",
+          "pitch_type": "CU",
+          "pitch_name": "Curveball",
+          "usage": 16.8,
+          "whiff_rate": 0.526,
+          "chase_rate": 0.452,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.21,
+          "probability": 0.342,
+          "label": "Strong K target",
+          "explainer": "Zach Neto has a high whiff profile against Curveball; Matthew Liberatore throws it 17% of the time.",
+          "fair": 192,
+          "play_to": 202,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Mike Trout",
+          "team": "LAA",
+          "pitcher": "Matthew Liberatore",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 22.7,
+          "whiff_rate": 0.429,
+          "chase_rate": 0.33,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.15,
+          "probability": 0.321,
+          "label": "Strong K target",
+          "explainer": "Mike Trout has a high whiff profile against Slider; Matthew Liberatore throws it 23% of the time.",
+          "fair": 212,
+          "play_to": 222,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Matthew Liberatore",
@@ -4498,11 +5623,7 @@
           "barrel_rate": 0.23,
           "label": "Strong angle",
           "explainer": "Elly De La Cruz HR angle vs Luis Castillo on 4-Seam Fastball (44% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.399 xBA · 0.838 xSLG · 0.421 xwOBA · 0.269 BA · 0.587 SLG · 23% barrel · 62% hard-hit",
-          "book_quote": {
-            "price": 375,
-            "book": "BetRivers"
-          }
+          "metrics": "0.399 xBA · 0.838 xSLG · 0.421 xwOBA · 0.269 BA · 0.587 SLG · 23% barrel · 62% hard-hit"
         },
         {
           "player": "Jose Trevino",
@@ -4525,11 +5646,7 @@
           "barrel_rate": 0.222,
           "label": "Strong angle",
           "explainer": "Jose Trevino HR angle vs Luis Castillo on Slider (28% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.393 xBA · 0.824 xSLG · 0.462 xwOBA · 0.364 BA · 0.818 SLG · 22% barrel · 67% hard-hit",
-          "book_quote": {
-            "price": 850,
-            "book": "Caesars"
-          }
+          "metrics": "0.393 xBA · 0.824 xSLG · 0.462 xwOBA · 0.364 BA · 0.818 SLG · 22% barrel · 67% hard-hit"
         },
         {
           "player": "Dominic Canzone",
@@ -4552,11 +5669,7 @@
           "barrel_rate": 0.216,
           "label": "Strong angle",
           "explainer": "Dominic Canzone HR angle vs Chase Burns on 4-Seam Fastball (57% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
-          "metrics": "0.443 xBA · 0.881 xSLG · 0.490 xwOBA · 0.333 BA · 0.683 SLG · 22% barrel · 63% hard-hit",
-          "book_quote": {
-            "price": 400,
-            "book": "BetRivers"
-          }
+          "metrics": "0.443 xBA · 0.881 xSLG · 0.490 xwOBA · 0.333 BA · 0.683 SLG · 22% barrel · 63% hard-hit"
         },
         {
           "player": "Dane Myers",
@@ -4575,15 +5688,11 @@
           "slg": 0.737,
           "xba": 0.544,
           "xslg": 0.891,
-          "xwoba": 0.532,
+          "xwoba": 0.531,
           "barrel_rate": 0.143,
           "label": "Strong angle",
           "explainer": "Dane Myers hits angle vs Luis Castillo on Sinker (16% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.544 xBA · 0.891 xSLG · 0.532 xwOBA · 0.526 BA · 0.737 SLG · 14% barrel · 50% hard-hit",
-          "book_quote": {
-            "price": -141,
-            "book": "BetOnline.ag"
-          }
+          "metrics": "0.544 xBA · 0.891 xSLG · 0.531 xwOBA · 0.526 BA · 0.737 SLG · 14% barrel · 50% hard-hit"
         },
         {
           "player": "Will Benson",
@@ -4629,11 +5738,7 @@
           "barrel_rate": 0.172,
           "label": "Strong angle",
           "explainer": "Tyler Stephenson hits angle vs Luis Castillo on Sinker (16% usage): xBA contact fit, xwOBA backs the matchup, starter allows expected damage on it.",
-          "metrics": "0.433 xBA · 0.778 xSLG · 0.472 xwOBA · 0.342 BA · 0.605 SLG · 17% barrel · 52% hard-hit",
-          "book_quote": {
-            "price": -175,
-            "book": "BetMGM"
-          }
+          "metrics": "0.433 xBA · 0.778 xSLG · 0.472 xwOBA · 0.342 BA · 0.605 SLG · 17% barrel · 52% hard-hit"
         },
         {
           "player": "Dominic Canzone",
@@ -4656,11 +5761,7 @@
           "barrel_rate": 0.216,
           "label": "Strong angle",
           "explainer": "Dominic Canzone hits angle vs Chase Burns on 4-Seam Fastball (57% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.443 xBA · 0.881 xSLG · 0.490 xwOBA · 0.333 BA · 0.683 SLG · 22% barrel · 63% hard-hit",
-          "book_quote": {
-            "price": -175,
-            "book": "BetRivers"
-          }
+          "metrics": "0.443 xBA · 0.881 xSLG · 0.490 xwOBA · 0.333 BA · 0.683 SLG · 22% barrel · 63% hard-hit"
         },
         {
           "player": "Weston Wilson",
@@ -4706,11 +5807,7 @@
           "barrel_rate": 0.23,
           "label": "Strong angle",
           "explainer": "Elly De La Cruz hits angle vs Luis Castillo on 4-Seam Fastball (44% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.399 xBA · 0.838 xSLG · 0.421 xwOBA · 0.269 BA · 0.587 SLG · 23% barrel · 62% hard-hit",
-          "book_quote": {
-            "price": -222,
-            "book": "DraftKings"
-          }
+          "metrics": "0.399 xBA · 0.838 xSLG · 0.421 xwOBA · 0.269 BA · 0.587 SLG · 23% barrel · 62% hard-hit"
         },
         {
           "player": "Luke Raley",
@@ -4733,14 +5830,131 @@
           "barrel_rate": 0.192,
           "label": "Strong angle",
           "explainer": "Luke Raley hits angle vs Chase Burns on 4-Seam Fastball (57% usage): xBA contact fit, xwOBA backs the matchup, starter shows this pitch often.",
-          "metrics": "0.388 xBA · 0.808 xSLG · 0.416 xwOBA · 0.261 BA · 0.551 SLG · 19% barrel · 56% hard-hit",
-          "book_quote": {
-            "price": -112,
-            "book": "BetRivers"
-          }
+          "metrics": "0.388 xBA · 0.808 xSLG · 0.416 xwOBA · 0.261 BA · 0.551 SLG · 19% barrel · 56% hard-hit"
         }
       ],
-      "k_targets": [],
+      "k_targets": [
+        {
+          "batter": "Noelvi Marte",
+          "team": "CIN",
+          "pitcher": "Luis Castillo",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 27.7,
+          "whiff_rate": 0.362,
+          "chase_rate": 0.558,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.16,
+          "probability": 0.324,
+          "label": "Strong K target",
+          "explainer": "Noelvi Marte has a high whiff profile against Slider; Luis Castillo throws it 28% of the time.",
+          "fair": 209,
+          "play_to": 219,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Jose Trevino",
+          "team": "CIN",
+          "pitcher": "Luis Castillo",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 27.7,
+          "whiff_rate": 0.35,
+          "chase_rate": 0.35,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.13,
+          "probability": 0.313,
+          "label": "Strong K target",
+          "explainer": "Jose Trevino has a high whiff profile against Slider; Luis Castillo throws it 28% of the time.",
+          "fair": 219,
+          "play_to": 229,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Dane Myers",
+          "team": "CIN",
+          "pitcher": "Luis Castillo",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 27.7,
+          "whiff_rate": 0.353,
+          "chase_rate": 0.239,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.12,
+          "probability": 0.31,
+          "label": "Strong K target",
+          "explainer": "Dane Myers has a high whiff profile against Slider; Luis Castillo throws it 28% of the time.",
+          "fair": 223,
+          "play_to": 233,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Dominic Canzone",
+          "team": "SEA",
+          "pitcher": "Chase Burns",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 37.1,
+          "whiff_rate": 0.48,
+          "chase_rate": 0.469,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.34,
+          "probability": 0.388,
+          "label": "Strong K target",
+          "explainer": "Dominic Canzone has a high whiff profile against Slider; Chase Burns throws it 37% of the time.",
+          "fair": 158,
+          "play_to": 168,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Cal Raleigh",
+          "team": "SEA",
+          "pitcher": "Chase Burns",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 37.1,
+          "whiff_rate": 0.329,
+          "chase_rate": 0.366,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.21,
+          "probability": 0.34,
+          "label": "Strong K target",
+          "explainer": "Cal Raleigh has a high whiff profile against Slider; Chase Burns throws it 37% of the time.",
+          "fair": 194,
+          "play_to": 204,
+          "eligibility_source": "active_roster"
+        },
+        {
+          "batter": "Julio Rodríguez",
+          "team": "SEA",
+          "pitcher": "Chase Burns",
+          "pitch_type": "SL",
+          "pitch_name": "Slider",
+          "usage": 37.1,
+          "whiff_rate": 0.302,
+          "chase_rate": 0.516,
+          "market": "Batter strikeouts",
+          "side": "Over",
+          "line": 1.5,
+          "projected_strikeouts": 1.2,
+          "probability": 0.337,
+          "label": "Strong K target",
+          "explainer": "Julio Rodríguez has a high whiff profile against Slider; Chase Burns throws it 37% of the time.",
+          "fair": 197,
+          "play_to": 207,
+          "eligibility_source": "active_roster"
+        }
+      ],
       "prop_angles": [
         {
           "player": "Chase Burns",
@@ -4795,48 +6009,7 @@
   ],
   "special_events": [],
   "top_board": {
-    "best_hr_bets": [
-      {
-        "title": "Mickey Moniak HR",
-        "subtitle": "COL vs Miles Mikolas · Curveball 14.8%",
-        "game": "WSH @ COL",
-        "fair": 457,
-        "play_to": 467,
-        "score": 0.18
-      },
-      {
-        "title": "Anthony Seigler HR",
-        "subtitle": "BOS vs Kyle Bradish · Sinker 34.9%",
-        "game": "BAL @ BOS",
-        "fair": 465,
-        "play_to": 475,
-        "score": 0.177
-      },
-      {
-        "title": "Ben Rice HR",
-        "subtitle": "NYY vs Bubba Chandler · 4-Seam Fastball 47.3%",
-        "game": "PIT @ NYY",
-        "fair": 475,
-        "play_to": 485,
-        "score": 0.174
-      },
-      {
-        "title": "Brandon Nimmo HR",
-        "subtitle": "TEX vs Noah Schultz · Sweeper 21.4%",
-        "game": "CWS @ TEX",
-        "fair": 485,
-        "play_to": 495,
-        "score": 0.171
-      },
-      {
-        "title": "Mike Trout HR",
-        "subtitle": "LAA vs Matthew Liberatore · Slider 22.9%",
-        "game": "STL @ LAA",
-        "fair": 488,
-        "play_to": 498,
-        "score": 0.17
-      }
-    ],
+    "best_hr_bets": [],
     "best_pitcher_strikeout_bets": [
       {
         "title": "Zack Wheeler over Ks",
@@ -4879,7 +6052,48 @@
         "score": 1.5999999999999996
       }
     ],
-    "best_batter_strikeout_targets": [],
+    "best_batter_strikeout_targets": [
+      {
+        "title": "Dominic Canzone over 1.5 K",
+        "subtitle": "SEA vs Chase Burns · Slider 37.1%",
+        "game": "CIN @ SEA",
+        "fair": 158,
+        "play_to": 168,
+        "score": 0.388
+      },
+      {
+        "title": "Rafael Flores Jr. over 1.5 K",
+        "subtitle": "PIT vs Will Warren · 4-Seam Fastball 38.5%",
+        "game": "PIT @ NYY",
+        "fair": 170,
+        "play_to": 180,
+        "score": 0.371
+      },
+      {
+        "title": "Gabriel Arias over 1.5 K",
+        "subtitle": "CLE vs Kendry Rojas · Slider 26.1%",
+        "game": "MIN @ CLE",
+        "fair": 182,
+        "play_to": 192,
+        "score": 0.355
+      },
+      {
+        "title": "Jose Siri over 1.5 K",
+        "subtitle": "LAA vs Matthew Liberatore · Slider 22.7%",
+        "game": "STL @ LAA",
+        "fair": 187,
+        "play_to": 197,
+        "score": 0.349
+      },
+      {
+        "title": "Kyle Stowers over 1.5 K",
+        "subtitle": "MIA vs Tatsuya Imai · Slider 44.5%",
+        "game": "MIA @ HOU",
+        "fair": 192,
+        "play_to": 202,
+        "score": 0.343
+      }
+    ],
     "best_three_game_side_total_parlay": [
       {
         "title": "Over lean",
@@ -16417,6 +17631,390 @@
     }
   },
   "slate_history": [
+    {
+      "date": "2026-07-21",
+      "generated": "2026-07-20T10:55:19+00:00",
+      "type": "regular",
+      "label": "Regular slate",
+      "game_count": 14,
+      "games": [
+        {
+          "id": 824409,
+          "matchup": "MIN @ CLE",
+          "away": "MIN",
+          "home": "CLE",
+          "away_name": "Minnesota Twins",
+          "home_name": "Cleveland Guardians",
+          "time": "6:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.3,
+          "home_score": 3.9,
+          "total": 8.2,
+          "favorite": {
+            "team": "MIN",
+            "probability": 0.579
+          }
+        },
+        {
+          "id": 823437,
+          "matchup": "LAD @ PHI",
+          "away": "LAD",
+          "home": "PHI",
+          "away_name": "Los Angeles Dodgers",
+          "home_name": "Philadelphia Phillies",
+          "time": "6:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.1,
+          "home_score": 4.5,
+          "total": 9.6,
+          "favorite": {
+            "team": "LAD",
+            "probability": 0.618
+          }
+        },
+        {
+          "id": 823519,
+          "matchup": "PIT @ NYY",
+          "away": "PIT",
+          "home": "NYY",
+          "away_name": "Pittsburgh Pirates",
+          "home_name": "New York Yankees",
+          "time": "7:05 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.9,
+          "home_score": 5.0,
+          "total": 9.9,
+          "favorite": {
+            "team": "NYY",
+            "probability": 0.52
+          }
+        },
+        {
+          "id": 822787,
+          "matchup": "TB @ TOR",
+          "away": "TB",
+          "home": "TOR",
+          "away_name": "Tampa Bay Rays",
+          "home_name": "Toronto Blue Jays",
+          "time": "7:07 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.0,
+          "home_score": 3.9,
+          "total": 7.9,
+          "favorite": {
+            "team": "TB",
+            "probability": 0.52
+          }
+        },
+        {
+          "id": 824735,
+          "matchup": "BAL @ BOS",
+          "away": "BAL",
+          "home": "BOS",
+          "away_name": "Baltimore Orioles",
+          "home_name": "Boston Red Sox",
+          "time": "7:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.4,
+          "home_score": 4.4,
+          "total": 8.8,
+          "favorite": {
+            "team": "BOS",
+            "probability": 0.5
+          }
+        },
+        {
+          "id": 824895,
+          "matchup": "SD @ ATL",
+          "away": "SD",
+          "home": "ATL",
+          "away_name": "San Diego Padres",
+          "home_name": "Atlanta Braves",
+          "time": "7:15 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.2,
+          "home_score": 4.8,
+          "total": 9.0,
+          "favorite": {
+            "team": "ATL",
+            "probability": 0.618
+          }
+        },
+        {
+          "id": 824085,
+          "matchup": "SF @ KC",
+          "away": "SF",
+          "home": "KC",
+          "away_name": "San Francisco Giants",
+          "home_name": "Kansas City Royals",
+          "time": "7:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.5,
+          "home_score": 4.6,
+          "total": 9.1,
+          "favorite": {
+            "team": "KC",
+            "probability": 0.52
+          }
+        },
+        {
+          "id": 823760,
+          "matchup": "NYM @ MIL",
+          "away": "NYM",
+          "home": "MIL",
+          "away_name": "New York Mets",
+          "home_name": "Milwaukee Brewers",
+          "time": "7:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.1,
+          "home_score": 4.9,
+          "total": 9.0,
+          "favorite": {
+            "team": "MIL",
+            "probability": 0.655
+          }
+        },
+        {
+          "id": 824652,
+          "matchup": "DET @ CHC",
+          "away": "DET",
+          "home": "CHC",
+          "away_name": "Detroit Tigers",
+          "home_name": "Chicago Cubs",
+          "time": "8:05 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.1,
+          "home_score": 4.7,
+          "total": 8.8,
+          "favorite": {
+            "team": "CHC",
+            "probability": 0.618
+          }
+        },
+        {
+          "id": 822871,
+          "matchup": "CWS @ TEX",
+          "away": "CWS",
+          "home": "TEX",
+          "away_name": "Chicago White Sox",
+          "home_name": "Texas Rangers",
+          "time": "8:05 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.4,
+          "home_score": 4.1,
+          "total": 8.5,
+          "favorite": {
+            "team": "CWS",
+            "probability": 0.56
+          }
+        },
+        {
+          "id": 824165,
+          "matchup": "MIA @ HOU",
+          "away": "MIA",
+          "home": "HOU",
+          "away_name": "Miami Marlins",
+          "home_name": "Houston Astros",
+          "time": "8:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.3,
+          "home_score": 4.5,
+          "total": 8.8,
+          "favorite": {
+            "team": "HOU",
+            "probability": 0.54
+          }
+        },
+        {
+          "id": 824329,
+          "matchup": "WSH @ COL",
+          "away": "WSH",
+          "home": "COL",
+          "away_name": "Washington Nationals",
+          "home_name": "Colorado Rockies",
+          "time": "8:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 6.4,
+          "home_score": 5.9,
+          "total": 12.3,
+          "favorite": {
+            "team": "WSH",
+            "probability": 0.599
+          }
+        },
+        {
+          "id": 824005,
+          "matchup": "STL @ LAA",
+          "away": "STL",
+          "home": "LAA",
+          "away_name": "St. Louis Cardinals",
+          "home_name": "Los Angeles Angels",
+          "time": "9:38 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.7,
+          "home_score": 4.3,
+          "total": 9.0,
+          "favorite": {
+            "team": "STL",
+            "probability": 0.579
+          }
+        },
+        {
+          "id": 823114,
+          "matchup": "CIN @ SEA",
+          "away": "CIN",
+          "home": "SEA",
+          "away_name": "Cincinnati Reds",
+          "home_name": "Seattle Mariners",
+          "time": "9:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.1,
+          "home_score": 3.9,
+          "total": 8.0,
+          "favorite": {
+            "team": "CIN",
+            "probability": 0.54
+          }
+        }
+      ],
+      "special_events": [],
+      "top_picks": [
+        {
+          "category": "Best pitcher K bets",
+          "title": "Zack Wheeler over Ks",
+          "game": "LAD @ PHI",
+          "subtitle": "Base 8.0 · ceiling 9.7 · fallback line 7.5",
+          "fair": -298,
+          "play_to": -288
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Chase Burns over Ks",
+          "game": "CIN @ SEA",
+          "subtitle": "Base 6.9 · ceiling 8.6 · fallback line 6.5",
+          "fair": -307,
+          "play_to": -297
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Parker Messick over Ks",
+          "game": "MIN @ CLE",
+          "subtitle": "Base 5.9 · ceiling 7.2 · fallback line 5.5",
+          "fair": -256,
+          "play_to": -246
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Kevin Gausman over Ks",
+          "game": "TB @ TOR",
+          "subtitle": "Base 5.9 · ceiling 7.2 · fallback line 5.5",
+          "fair": -259,
+          "play_to": -249
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Ranger Suarez over Ks",
+          "game": "BAL @ BOS",
+          "subtitle": "Base 5.8 · ceiling 7.1 · fallback line 5.5",
+          "fair": -240,
+          "play_to": -230
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Dominic Canzone over 1.5 K",
+          "game": "CIN @ SEA",
+          "subtitle": "SEA vs Chase Burns · Slider 37.1%",
+          "fair": 158,
+          "play_to": 168
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Rafael Flores Jr. over 1.5 K",
+          "game": "PIT @ NYY",
+          "subtitle": "PIT vs Will Warren · 4-Seam Fastball 38.5%",
+          "fair": 170,
+          "play_to": 180
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Gabriel Arias over 1.5 K",
+          "game": "MIN @ CLE",
+          "subtitle": "CLE vs Kendry Rojas · Slider 26.1%",
+          "fair": 182,
+          "play_to": 192
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Jose Siri over 1.5 K",
+          "game": "STL @ LAA",
+          "subtitle": "LAA vs Matthew Liberatore · Slider 22.7%",
+          "fair": 187,
+          "play_to": 197
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Kyle Stowers over 1.5 K",
+          "game": "MIA @ HOU",
+          "subtitle": "MIA vs Tatsuya Imai · Slider 44.5%",
+          "fair": 192,
+          "play_to": 202
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "WSH @ COL",
+          "subtitle": "Fair total 12.3"
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "PIT @ NYY",
+          "subtitle": "Fair total 9.9"
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "LAD @ PHI",
+          "subtitle": "Fair total 9.6"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "WSH @ COL",
+          "subtitle": "Fair total 12.3"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "PIT @ NYY",
+          "subtitle": "Fair total 9.9"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "LAD @ PHI",
+          "subtitle": "Fair total 9.6"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Under lean",
+          "game": "TB @ TOR",
+          "subtitle": "Fair total 7.9"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Under lean",
+          "game": "CIN @ SEA",
+          "subtitle": "Fair total 8.0"
+        }
+      ],
+      "priced_wager_count": 0,
+      "no_priced_wagers": true,
+      "not_applicable": false,
+      "capture_status": "unavailable",
+      "summary": "14 games",
+      "revision_id": "6408666badbaaf9996fa"
+    },
     {
       "date": "2026-07-21",
       "generated": "2026-07-20T10:55:19+00:00",
