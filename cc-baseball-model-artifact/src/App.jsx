@@ -926,7 +926,9 @@ function percentSigned(value) {
 function unitText(value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return "—";
-  return `${numeric > 0 ? "+" : ""}${numeric.toFixed(1)}u`;
+  const rounded = Math.round(numeric * 100) / 100;
+  const hasHundredths = Math.abs(rounded * 10 - Math.round(rounded * 10)) > 1e-8;
+  return `${rounded > 0 ? "+" : ""}${rounded.toFixed(hasHundredths ? 2 : 1)}u`;
 }
 
 function trackedMarketText(value) {
