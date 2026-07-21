@@ -655,7 +655,7 @@ function resultMarketGroups(rows) {
       if (!bet || typeof bet !== "object") continue;
       const info = resultMarketInfo(bet.market);
       const group = groups.get(info.key) || { info, bets: [] };
-      group.bets.push({ ...bet, resultDate, resultMatchup: row.matchup || bet.matchup || "MLB slate", resultId: row.id || resultDate });
+      group.bets.push({ ...bet, resultDate, resultMatchup: bet.matchup || row.matchup || "MLB slate", resultId: row.id || resultDate });
       groups.set(info.key, group);
     }
   }
