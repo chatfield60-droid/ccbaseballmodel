@@ -381,24 +381,97 @@ const APP_CSS = `
   }
   .performance-card span { color: var(--text-secondary); font-size: 12px; font-weight: 650; }
   .performance-card strong { color: var(--text-primary); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .results-market-summary { display: grid; gap: 8px; padding: 0 16px 12px; }
-  .results-section-label { color: var(--text-tertiary); font-size: 12px; font-weight: 750; letter-spacing: .01em; }
-  .results-market-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-  .market-performance-card {
-    display: grid;
-    gap: 7px;
-    min-width: 0;
-    padding: 10px;
+  .results-market-summary { display: grid; gap: 14px; padding: 4px 16px 18px; }
+  .results-market-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+  .results-market-heading-copy { display: grid; gap: 4px; min-width: 0; }
+  .results-market-heading h3 { font-size: 22px; font-weight: 750; line-height: 1.15; }
+  .results-section-label { color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
+  .results-market-controls { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+  .results-market-sort, .results-market-scope { display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 12px; font-weight: 650; white-space: nowrap; }
+  .results-market-sort select {
+    min-height: 32px;
+    padding: 0 28px 0 9px;
     border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--surface-muted);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 650;
   }
-  .market-performance-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-  .market-performance-head strong { color: var(--text-primary); font-size: 12px; font-weight: 750; line-height: 1.3; }
-  .market-performance-head span, .market-performance-main span, .market-performance-footer span { color: var(--text-secondary); font-size: 11px; font-variant-numeric: tabular-nums; }
-  .market-performance-main { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-  .market-performance-main strong { color: var(--text-primary); font-size: 17px; font-weight: 750; font-variant-numeric: tabular-nums; }
-  .market-performance-footer { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+  .results-market-scope .segmented { padding: 2px; }
+  .results-market-scope .segmented button { min-height: 28px; padding: 0 8px; }
+  .results-market-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .market-performance-card {
+    --performance-accent: #7D8796;
+    --performance-soft: #F7F9FC;
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 16px;
+    min-width: 0;
+    min-height: 248px;
+    padding: 20px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--border) 82%, var(--surface));
+    border-top: 3px solid var(--performance-accent);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgba(23, 32, 51, .04), 0 8px 18px rgba(23, 32, 51, .035);
+    transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  }
+  .market-performance-card.positive { --performance-accent: #238561; --performance-soft: #EAF8F2; }
+  .market-performance-card.strong-positive { --performance-accent: #0F7A51; --performance-soft: #DFF5EA; }
+  .market-performance-card.negative { --performance-accent: #C54740; --performance-soft: #FEF1F0; }
+  .market-performance-card.pending { --performance-accent: #7A8AA0; --performance-soft: #F3F6FA; }
+  @media (prefers-reduced-motion: no-preference) {
+    .market-performance-card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--performance-accent) 44%, var(--border)); box-shadow: 0 12px 24px rgba(23, 32, 51, .08); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .market-performance-card { transition: none; }
+  }
+  .market-performance-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .market-performance-card-head h4 { margin: 0; min-width: 0; color: var(--text-primary); font-size: 16px; font-weight: 750; line-height: 1.25; overflow-wrap: anywhere; }
+  .market-performance-count, .market-performance-sample, .market-performance-roi {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1.2;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .market-performance-count { flex: 0 0 auto; padding: 4px 7px; background: var(--surface-muted); color: var(--text-secondary); }
+  .market-performance-primary { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .78fr); gap: 14px; }
+  .market-performance-value { display: grid; gap: 4px; min-width: 0; }
+  .market-performance-value span, .market-performance-label, .market-performance-support span { color: var(--text-tertiary); font-size: 11px; font-weight: 750; line-height: 1.2; letter-spacing: .04em; text-transform: uppercase; }
+  .market-performance-value strong { color: var(--text-primary); font-size: 30px; font-weight: 760; line-height: 1; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+  .market-performance-value.accuracy strong { font-size: 20px; line-height: 1.1; }
+  .market-performance-financial { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; padding-top: 2px; }
+  .market-performance-financial strong { color: var(--performance-accent); font-size: 26px; font-weight: 760; line-height: 1; font-variant-numeric: tabular-nums; }
+  .market-performance-roi { gap: 4px; padding: 5px 7px; color: var(--performance-accent); border-color: color-mix(in srgb, var(--performance-accent) 26%, var(--border)); background: var(--performance-soft); }
+  .market-performance-roi span { color: inherit; font-size: 10px; font-weight: 750; letter-spacing: .03em; text-transform: uppercase; }
+  .market-performance-sample { margin-top: -8px; padding: 4px 7px; color: #8A5A00; border-color: #F1D29A; background: #FFF7E8; }
+  .market-performance-support { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 14px; }
+  .market-performance-support div { display: grid; gap: 3px; min-width: 0; }
+  .market-performance-support b { color: var(--text-primary); font-size: 14px; font-weight: 700; line-height: 1.25; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .market-performance-support .open b { color: #5C718B; }
+  .market-performance-support .void b { color: var(--text-secondary); }
+  .market-performance-progress { display: grid; align-self: end; gap: 6px; }
+  .market-performance-progress-label { color: var(--text-tertiary); font-size: 11px; font-weight: 650; line-height: 1.2; }
+  .market-performance-track { height: 4px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--performance-soft) 58%, var(--border)); }
+  .market-performance-fill { display: block; height: 100%; border-radius: inherit; background: var(--performance-accent); }
+  .market-performance-empty { color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
+  .night .market-performance-card { box-shadow: 0 1px 2px rgba(0, 0, 0, .22), 0 10px 24px rgba(0, 0, 0, .16); }
+  .night .market-performance-card.positive { --performance-accent: #79DDB1; --performance-soft: #123326; }
+  .night .market-performance-card.strong-positive { --performance-accent: #8FE4B9; --performance-soft: #153D2C; }
+  .night .market-performance-card.negative { --performance-accent: #FFB4AA; --performance-soft: #3A1715; }
+  .night .market-performance-card.pending { --performance-accent: #A7B4C6; --performance-soft: #1A273A; }
+  .night .market-performance-sample { color: #F4CE7B; border-color: #644A1A; background: #332711; }
+  .night .market-performance-support .open b { color: #AFC3DC; }
   .results-details { margin: 0 16px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
   .results-details summary { padding: 11px 12px; color: var(--text-primary); font-size: 13px; font-weight: 650; cursor: pointer; }
   .results-details[open] summary { border-bottom: 1px solid var(--border); }
@@ -481,6 +554,11 @@ const APP_CSS = `
     .bet-result-item { grid-template-columns: minmax(0, 1fr) auto; }
     .bet-result-units { grid-column: 1 / -1; }
   }
+  @media (max-width: 768px) {
+    .results-market-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .results-market-heading { align-items: flex-start; flex-direction: column; }
+    .results-market-controls { justify-content: flex-start; }
+  }
   @media (max-width: 760px) {
     .topbar { align-items: flex-start; flex-direction: column; padding: 18px; }
     .top-actions { width: 100%; flex-wrap: wrap; }
@@ -489,6 +567,8 @@ const APP_CSS = `
     .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid, .biggest-edges-grid { grid-template-columns: 1fr; }
     .results-market-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .results-market-heading { align-items: flex-start; flex-direction: column; }
+    .results-market-controls { justify-content: flex-start; }
     .edge-card { grid-template-columns: 1fr; }
     .edge-data { justify-items: start; padding-top: 0; }
     .selected-main { flex-direction: column; }
@@ -501,6 +581,9 @@ const APP_CSS = `
     .card-title { align-items: flex-start; flex-direction: column; gap: 4px; }
     .compact-scores { grid-template-columns: 1fr; }
     .results-market-grid { grid-template-columns: 1fr; }
+    .market-performance-card { min-height: 0; padding: 18px; }
+    .results-market-controls { align-items: flex-start; flex-direction: column; }
+    .results-market-scope { align-items: flex-start; flex-direction: column; }
     .tile-line, .market-main { font-size: 22px; }
   }
 `;
@@ -670,6 +753,55 @@ function resultMarketGroups(rows) {
     }))
     .map((group) => ({ ...group, summary: summarizeResultMarket(group.bets) }))
     .sort((a, b) => a.info.rank - b.info.rank || a.info.label.localeCompare(b.info.label));
+}
+
+function marketPerformanceTone(summary) {
+  const netUnits = Number(summary?.netUnits);
+  const roi = Number(summary?.roi);
+  if (!summary?.settled) return "pending";
+  if (Number.isFinite(netUnits) && netUnits < 0) return "negative";
+  if (Number.isFinite(netUnits) && netUnits > 0 && (netUnits >= 5 || (Number.isFinite(roi) && roi >= 0.25))) return "strong-positive";
+  if (Number.isFinite(netUnits) && netUnits > 0) return "positive";
+  return "neutral";
+}
+
+function marketPerformanceProgress(summary) {
+  if (!summary?.decided) return null;
+  return clamp((Number(summary.wins) / Number(summary.decided)) * 100, 0, 100);
+}
+
+function sortMarketPerformanceGroups(groups, sort) {
+  const marketGroups = [...(groups || [])];
+  return marketGroups.sort((left, right) => {
+    const leftSummary = left.summary || {};
+    const rightSummary = right.summary || {};
+    const leftSettled = Number(leftSummary.settled) || 0;
+    const rightSettled = Number(rightSummary.settled) || 0;
+    const leftNet = Number(leftSummary.netUnits) || 0;
+    const rightNet = Number(rightSummary.netUnits) || 0;
+    const leftRoi = Number.isFinite(Number(leftSummary.roi)) ? Number(leftSummary.roi) : null;
+    const rightRoi = Number.isFinite(Number(rightSummary.roi)) ? Number(rightSummary.roi) : null;
+
+    if (sort === "roi") {
+      if (leftRoi == null && rightRoi != null) return 1;
+      if (rightRoi == null && leftRoi != null) return -1;
+      if (leftRoi != null && rightRoi != null && rightRoi !== leftRoi) return rightRoi - leftRoi;
+      if (rightSettled !== leftSettled) return rightSettled - leftSettled;
+      if (rightNet !== leftNet) return rightNet - leftNet;
+    } else if (sort === "net") {
+      if (!leftSettled && rightSettled) return 1;
+      if (!rightSettled && leftSettled) return -1;
+      if (rightNet !== leftNet) return rightNet - leftNet;
+      if (rightSettled !== leftSettled) return rightSettled - leftSettled;
+    } else {
+      if (!leftSettled && rightSettled) return 1;
+      if (!rightSettled && leftSettled) return -1;
+      if (rightSettled !== leftSettled) return rightSettled - leftSettled;
+      if (rightNet !== leftNet) return rightNet - leftNet;
+    }
+
+    return String(left.info?.label || "").localeCompare(String(right.info?.label || ""));
+  });
 }
 
 function resultDateGroups(bets, fallbackDate) {
@@ -1485,10 +1617,16 @@ function resultTone(value, correct, push) {
 }
 
 function ResultsPerformance({ rows, date }) {
+  const [marketSort, setMarketSort] = useState("volume");
+  const [marketScope, setMarketScope] = useState("all");
   const bets = (rows || []).flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
   if (!bets.length) return null;
   const metrics = summarizeResults(rows);
   const marketGroups = resultMarketGroups(rows);
+  const visibleMarketGroups = sortMarketPerformanceGroups(
+    marketScope === "graded" ? marketGroups.filter((group) => Number(group.summary?.settled) > 0) : marketGroups,
+    marketSort,
+  );
   const titleBits = [
     resultDateRange(rows),
     "captured pregame prices",
@@ -1502,25 +1640,80 @@ function ResultsPerformance({ rows, date }) {
       </article>)}
     </div>
     <section className="results-market-summary" aria-label="Cumulative performance by market">
-      <div className="results-section-label">Cumulative by market · all posted sides and props</div>
-      <div className="results-market-grid">
-        {marketGroups.map((group) => {
-          const summary = group.summary;
-          const mainValue = summary.decided ? recordText(summary.wins, summary.losses, summary.pushes) : summary.pending ? `${summary.pending} open` : summary.voids ? `${summary.voids} void` : "—";
-          const secondaryValue = summary.decided ? `Accuracy ${percentText(summary.wins, summary.decided)}` : summary.settled ? `${summary.settled} settled` : "Awaiting result";
-          return <article className="market-performance-card" key={group.info.key}>
-            <div className="market-performance-head"><strong>{group.info.label}</strong><span>{summary.posted} posted</span></div>
-            <div className="market-performance-main"><strong>{mainValue}</strong><span>{secondaryValue}</span></div>
-            <div className="market-performance-footer">
-              {summary.decided ? <span>Won {unitText(summary.wonUnits)}</span> : null}
-              {summary.decided ? <span>Lost {unitText(-summary.lostUnits)}</span> : null}
-              {summary.settled ? <span>Net {unitText(summary.netUnits)}</span> : null}
-              {summary.roi != null ? <span>ROI {percentSigned(summary.roi)}</span> : null}
-              {summary.pending ? <span>{summary.pending} open</span> : null}
-              {summary.voids ? <span>{summary.voids} void</span> : null}
+      <div className="results-market-heading">
+        <div className="results-market-heading-copy">
+          <h3>Performance by Market</h3>
+          <p className="results-section-label">Cumulative results for all posted sides and props</p>
+        </div>
+        <div className="results-market-controls">
+          <label className="results-market-sort">
+            <span>Sort</span>
+            <select value={marketSort} onChange={(event) => setMarketSort(event.target.value)} aria-label="Sort market performance">
+              <option value="volume">Volume</option>
+              <option value="net">Net units</option>
+              <option value="roi">ROI</option>
+            </select>
+          </label>
+          <div className="results-market-scope">
+            <span>Show</span>
+            <div className="segmented" aria-label="Market performance scope">
+              <button type="button" className={marketScope === "all" ? "active" : ""} aria-pressed={marketScope === "all"} onClick={() => setMarketScope("all")}>All</button>
+              <button type="button" className={marketScope === "graded" ? "active" : ""} aria-pressed={marketScope === "graded"} onClick={() => setMarketScope("graded")}>Graded</button>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="results-market-grid">
+        {visibleMarketGroups.map((group) => {
+          const summary = group.summary;
+          const settled = Number(summary.settled) || 0;
+          const smallSample = settled > 0 && settled < 10;
+          const record = settled ? recordText(summary.wins, summary.losses, summary.pushes) : "—";
+          const accuracy = summary.decided ? percentText(summary.wins, summary.decided) : "—";
+          const net = settled ? unitText(summary.netUnits) : "—";
+          const roi = summary.roi != null ? percentSigned(summary.roi) : "—";
+          const progress = marketPerformanceProgress(summary);
+          const tone = marketPerformanceTone(summary);
+          return <article className={`market-performance-card ${tone}`} key={group.info.key} aria-label={`${group.info.label}: record ${record}, net ${net}, ROI ${roi}`}>
+            <div className="market-performance-card-head">
+              <h4>{group.info.label}</h4>
+              <span className="market-performance-count">{summary.posted} posted</span>
+            </div>
+            <div className="market-performance-primary">
+              <div className="market-performance-value">
+                <span>Record</span>
+                <strong>{record}</strong>
+              </div>
+              <div className="market-performance-value accuracy">
+                <span>Accuracy</span>
+                <strong>{accuracy}</strong>
+              </div>
+            </div>
+            <div className="market-performance-financial">
+              <div className="market-performance-value">
+                <span>Net</span>
+                <strong>{net}</strong>
+              </div>
+              <span className="market-performance-roi"><span>ROI</span>{roi}</span>
+            </div>
+            {smallSample ? <span className="market-performance-sample">Small sample · {settled} graded</span> : null}
+            <div className="market-performance-support">
+              {summary.decided ? <div><span>Won</span><b>{unitText(summary.wonUnits)}</b></div> : null}
+              {summary.decided ? <div><span>Lost</span><b>{unitText(-summary.lostUnits)}</b></div> : null}
+              {summary.pushes ? <div><span>Pushes</span><b>{summary.pushes}</b></div> : null}
+              {summary.pending ? <div className="open"><span>Open</span><b>{summary.pending}</b></div> : null}
+              {summary.voids ? <div className="void"><span>Void</span><b>{summary.voids}</b></div> : null}
+              {!summary.decided && !summary.pushes && !summary.pending && !summary.voids ? <span className="market-performance-empty">No settled wagers</span> : null}
+            </div>
+            {progress != null ? <div className="market-performance-progress">
+              <span className="market-performance-progress-label">Accuracy {accuracy}</span>
+              <span className="market-performance-track" role="progressbar" aria-label={`${group.info.label} accuracy`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)}>
+                <span className="market-performance-fill" style={{ width: `${progress}%` }} />
+              </span>
+            </div> : null}
           </article>;
         })}
+        {!visibleMarketGroups.length ? <p className="market-performance-empty">No graded markets yet.</p> : null}
       </div>
     </section>
     <details className="results-details">
