@@ -26845,15 +26845,15 @@
         "id": "2da37ac5d05230de6d02",
         "matchup": "15 games",
         "resultDate": "2026-07-20",
-        "savedBetCount": 82,
-        "betCount": 71,
+        "savedBetCount": 99,
+        "betCount": 88,
         "pendingBetCount": 0,
         "voidBetCount": 11,
-        "betWins": 40,
-        "betLosses": 31,
+        "betWins": 49,
+        "betLosses": 39,
         "betPushes": 0,
-        "riskedUnits": 105.37,
-        "netUnits": 4.05,
+        "riskedUnits": 123.79,
+        "netUnits": 5.44,
         "bets": [
           {
             "title": "CLE F5 ML",
@@ -26864,6 +26864,26 @@
             "result": "Win",
             "riskUnits": 1.0,
             "netUnits": 1.18
+          },
+          {
+            "title": "Joe Ryan Over 6.5",
+            "matchup": "MIN @ CLE",
+            "market": "pitcher_strikeouts",
+            "book": "BetMGM",
+            "bookOdds": -110,
+            "result": "Loss",
+            "riskUnits": 1.1,
+            "netUnits": -1.1
+          },
+          {
+            "title": "Tanner Bibee Over 4.5",
+            "matchup": "MIN @ CLE",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": -113,
+            "result": "Win",
+            "riskUnits": 1.13,
+            "netUnits": 1.0
           },
           {
             "title": "Alan Roden Over 0.5",
@@ -26921,6 +26941,26 @@
             "market": "moneyline",
             "book": "BetUS",
             "bookOdds": 105,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Braxton Ashcraft Over 6.5",
+            "matchup": "PIT @ NYY",
+            "market": "pitcher_strikeouts",
+            "book": "BetMGM",
+            "bookOdds": -118,
+            "result": "Loss",
+            "riskUnits": 1.18,
+            "netUnits": -1.18
+          },
+          {
+            "title": "Ryan Weathers Over 6.5",
+            "matchup": "PIT @ NYY",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 120,
             "result": "Loss",
             "riskUnits": 1.0,
             "netUnits": -1.0
@@ -26996,6 +27036,16 @@
             "netUnits": 1.04
           },
           {
+            "title": "Nick Martinez Over 3.5",
+            "matchup": "TB @ TOR",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 120,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
             "title": "Victor Mesa Jr. Over 0.5",
             "matchup": "TB @ TOR",
             "market": "batter_hr",
@@ -27033,6 +27083,26 @@
             "bookOdds": -125,
             "result": "Win",
             "riskUnits": 1.25,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Shane Baz Over 5.5",
+            "matchup": "BAL @ BOS",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 110,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.1
+          },
+          {
+            "title": "Payton Tolle Over 5.5",
+            "matchup": "BAL @ BOS",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": -156,
+            "result": "Win",
+            "riskUnits": 1.56,
             "netUnits": 1.0
           },
           {
@@ -27143,6 +27213,16 @@
             "bookOdds": -125,
             "result": "Win",
             "riskUnits": 1.25,
+            "netUnits": 1.0
+          },
+          {
+            "title": "Emmet Sheehan Over 5.5",
+            "matchup": "LAD @ PHI",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": -118,
+            "result": "Win",
+            "riskUnits": 1.18,
             "netUnits": 1.0
           },
           {
@@ -27276,6 +27356,16 @@
             "netUnits": -1.0
           },
           {
+            "title": "Michael Wacha Over 4.5",
+            "matchup": "SF @ KC",
+            "market": "pitcher_strikeouts",
+            "book": "BetOnline.ag",
+            "bookOdds": 109,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.09
+          },
+          {
             "title": "Lane Thomas Over 0.5",
             "matchup": "SF @ KC",
             "market": "batter_hits",
@@ -27321,6 +27411,26 @@
             "market": "f5_moneyline",
             "book": "FanDuel",
             "bookOdds": 186,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Freddy Peralta Over 5.5",
+            "matchup": "NYM @ MIL",
+            "market": "pitcher_strikeouts",
+            "book": "DraftKings",
+            "bookOdds": 108,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.08
+          },
+          {
+            "title": "Jacob Misiorowski Over 9.5",
+            "matchup": "NYM @ MIL",
+            "market": "pitcher_strikeouts",
+            "book": "DraftKings",
+            "bookOdds": 118,
             "result": "Loss",
             "riskUnits": 1.0,
             "netUnits": -1.0
@@ -27396,6 +27506,26 @@
             "netUnits": -1.0
           },
           {
+            "title": "Jack Flaherty Over 5.5",
+            "matchup": "DET @ CHC",
+            "market": "pitcher_strikeouts",
+            "book": "Fanatics",
+            "bookOdds": 105,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
+          },
+          {
+            "title": "Jameson Taillon Over 4.5",
+            "matchup": "DET @ CHC",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 132,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.32
+          },
+          {
             "title": "Riley Greene Over 0.5",
             "matchup": "DET @ CHC",
             "market": "batter_hits",
@@ -27466,6 +27596,26 @@
             "netUnits": 1.12
           },
           {
+            "title": "Erick Fedde Over 3.5",
+            "matchup": "CWS @ TEX",
+            "market": "pitcher_strikeouts",
+            "book": "Bovada",
+            "bookOdds": 115,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.15
+          },
+          {
+            "title": "Jacob deGrom Over 6.5",
+            "matchup": "CWS @ TEX",
+            "market": "pitcher_strikeouts",
+            "book": "DraftKings",
+            "bookOdds": -127,
+            "result": "Loss",
+            "riskUnits": 1.27,
+            "netUnits": -1.27
+          },
+          {
             "title": "Joc Pederson Over 0.5",
             "matchup": "CWS @ TEX",
             "market": "batter_hits",
@@ -27534,6 +27684,16 @@
             "result": "Win",
             "riskUnits": 1.0,
             "netUnits": 1.03
+          },
+          {
+            "title": "Kyle Freeland Over 4.5",
+            "matchup": "WSH @ COL",
+            "market": "pitcher_strikeouts",
+            "book": "FanDuel",
+            "bookOdds": 118,
+            "result": "Loss",
+            "riskUnits": 1.0,
+            "netUnits": -1.0
           },
           {
             "title": "Braxton Fulford Over 0.5",
@@ -27624,6 +27784,16 @@
             "result": "Loss",
             "riskUnits": 1.0,
             "netUnits": -1.0
+          },
+          {
+            "title": "José Soriano Over 5.5",
+            "matchup": "STL @ LAA",
+            "market": "pitcher_strikeouts",
+            "book": "Fanatics",
+            "bookOdds": 120,
+            "result": "Win",
+            "riskUnits": 1.0,
+            "netUnits": 1.2
           },
           {
             "title": "Jordan Walker Over 0.5",
