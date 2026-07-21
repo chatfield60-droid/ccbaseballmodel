@@ -27,6 +27,31 @@ const MARKET_MARGIN_BLEND_WEIGHT = 0.45;
 const MARKET_MARGIN_MAX_RUN_SHIFT = 1.00;
 const FULL_GAME_MARGIN_SCALE = 1.25;
 const F5_MARGIN_SCALE = 0.95;
+const RESULT_MARKET_TYPES = [
+  { key: "moneyline", label: "Moneyline", rank: 10 },
+  { key: "run_line", label: "Run line", rank: 20 },
+  { key: "full_total", label: "Full-game total", rank: 30 },
+  { key: "team_total", label: "Team total", rank: 40 },
+  { key: "f5_moneyline", label: "F5 moneyline", rank: 50 },
+  { key: "f5_run_line", label: "F5 run line", rank: 60 },
+  { key: "f5_total", label: "F5 total", rank: 70 },
+  { key: "pitcher_strikeouts", label: "Pitcher strikeouts", rank: 80 },
+  { key: "batter_hits", label: "Batter hits", rank: 90 },
+  { key: "batter_total_bases", label: "Batter total bases", rank: 100 },
+  { key: "batter_hr", label: "Batter homerun", rank: 110 },
+  { key: "batter_strikeouts", label: "Batter strikeouts", rank: 120 },
+];
+const RESULT_MARKET_ALIASES = {
+  full_game_total: "full_total",
+  game_total: "full_total",
+  total: "full_total",
+  team_totals: "team_total",
+  f5_ml: "f5_moneyline",
+  f5_money_line: "f5_moneyline",
+  f5_totals: "f5_total",
+  batter_tb: "batter_total_bases",
+  batter_home_runs: "batter_hr",
+};
 
 const APP_CSS = `
   :root {
@@ -354,26 +379,41 @@ const APP_CSS = `
   }
   .performance-card span { color: var(--text-secondary); font-size: 12px; font-weight: 650; }
   .performance-card strong { color: var(--text-primary); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .results-market-summary { display: grid; gap: 8px; padding: 0 16px 12px; }
+  .results-section-label { color: var(--text-tertiary); font-size: 12px; font-weight: 750; letter-spacing: .01em; }
+  .results-market-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .market-performance-card {
+    display: grid;
+    gap: 7px;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-muted);
+  }
+  .market-performance-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .market-performance-head strong { color: var(--text-primary); font-size: 12px; font-weight: 750; line-height: 1.3; }
+  .market-performance-head span, .market-performance-main span, .market-performance-footer span { color: var(--text-secondary); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .market-performance-main { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .market-performance-main strong { color: var(--text-primary); font-size: 17px; font-weight: 750; font-variant-numeric: tabular-nums; }
+  .market-performance-footer { display: flex; flex-wrap: wrap; gap: 6px 8px; }
   .results-details { margin: 0 16px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-muted); }
   .results-details summary { padding: 11px 12px; color: var(--text-primary); font-size: 13px; font-weight: 650; cursor: pointer; }
   .results-details[open] summary { border-bottom: 1px solid var(--border); }
   .results-details:not([open]) .results-list { display: none; }
   .results-list { display: grid; gap: 8px; padding: 0 16px 16px; }
-  .result-date-group { display: grid; gap: 8px; }
-  .result-date-heading { color: var(--text-primary); font-size: 12px; font-weight: 750; letter-spacing: .01em; }
-  .result-slate {
+  .market-result-group {
     display: grid;
-    gap: 10px;
+    gap: 8px;
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface);
   }
-  .result-slate-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  .result-slate strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
-  .result-net { color: var(--positive) !important; font-size: 14px !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .result-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-  .result-badges span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
+  .market-result-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .market-result-head h3 { margin: 0; color: var(--text-primary); font-size: 13px; font-weight: 750; }
+  .market-result-head span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+  .market-result-record { color: var(--text-primary) !important; font-weight: 750; white-space: nowrap; }
   .bet-result-list { display: grid; gap: 7px; }
   .bet-result-item {
     display: grid;
@@ -418,7 +458,7 @@ const APP_CSS = `
   .top-pick strong { color: var(--text-primary); font-size: 13px; font-weight: 650; }
   .top-pick span { color: var(--text-secondary); font-size: 12px; line-height: 1.35; }
   @media (max-width: 1080px) {
-    .compact-scores, .market-grid, .edge-grid, .top-grid, .performance-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .compact-scores, .market-grid, .edge-grid, .top-grid, .performance-grid, .results-market-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .k-section { grid-template-columns: 1fr; }
     .bet-result-item { grid-template-columns: minmax(0, 1fr) auto; }
     .bet-result-units { grid-column: 1 / -1; }
@@ -430,6 +470,7 @@ const APP_CSS = `
     .shell { padding: 18px; gap: 18px; }
     .compact-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .market-grid, .edge-grid, .top-grid, .k-grid, .performance-grid { grid-template-columns: 1fr; }
+    .results-market-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .edge-card { grid-template-columns: 1fr; }
     .edge-data { justify-items: start; padding-top: 0; }
     .selected-main { flex-direction: column; }
@@ -441,6 +482,7 @@ const APP_CSS = `
     .shell { padding: 14px; }
     .card-title { align-items: flex-start; flex-direction: column; gap: 4px; }
     .compact-scores { grid-template-columns: 1fr; }
+    .results-market-grid { grid-template-columns: 1fr; }
     .tile-line, .market-main { font-size: 22px; }
   }
 `;
@@ -524,9 +566,11 @@ function unitText(value) {
 function trackedMarketText(value) {
   const labels = {
     moneyline: "Moneyline",
+    run_line: "Run line",
     full_total: "Full-game total",
     team_total: "Team total",
     f5_moneyline: "F5 moneyline",
+    f5_run_line: "F5 run line",
     f5_total: "F5 total",
     pitcher_strikeouts: "Pitcher strikeouts",
     batter_hr: "Homerun",
@@ -537,6 +581,69 @@ function trackedMarketText(value) {
     batter_strikeouts: "Batter strikeouts",
   };
   return labels[value] || String(value || "Bet").replace(/_/g, " ");
+}
+
+function resultMarketKey(value) {
+  const key = String(value || "").trim().toLowerCase();
+  return RESULT_MARKET_ALIASES[key] || key || "other";
+}
+
+function resultMarketInfo(value) {
+  const key = resultMarketKey(value);
+  return RESULT_MARKET_TYPES.find((item) => item.key === key) || {
+    key,
+    label: trackedMarketText(value),
+    rank: 999,
+  };
+}
+
+function summarizeResultMarket(bets) {
+  const settled = bets.filter((bet) => ["Win", "Loss", "Push"].includes(bet?.result));
+  const decided = settled.filter((bet) => ["Win", "Loss"].includes(bet?.result));
+  const wins = decided.filter((bet) => bet.result === "Win").length;
+  const losses = decided.length - wins;
+  const pushes = settled.filter((bet) => bet.result === "Push").length;
+  const pending = bets.filter((bet) => bet?.result === "Pending").length;
+  const voids = bets.filter((bet) => bet?.result === "Void").length;
+  const riskedUnits = decided.reduce((sum, bet) => sum + (Number(bet.riskUnits) || 0), 0);
+  const netUnits = settled.reduce((sum, bet) => sum + (Number(bet.netUnits) || 0), 0);
+  return {
+    posted: bets.length,
+    settled: settled.length,
+    decided: decided.length,
+    wins,
+    losses,
+    pushes,
+    pending,
+    voids,
+    netUnits,
+    roi: riskedUnits > 0 ? netUnits / riskedUnits : null,
+  };
+}
+
+function resultMarketGroups(rows) {
+  const groups = new Map();
+  for (const row of rows || []) {
+    const resultDate = row?.resultDate || "Undated";
+    for (const bet of row?.bets || []) {
+      if (!bet || typeof bet !== "object") continue;
+      const info = resultMarketInfo(bet.market);
+      const group = groups.get(info.key) || { info, bets: [] };
+      group.bets.push({ ...bet, resultDate, resultMatchup: row.matchup || bet.matchup || "MLB slate", resultId: row.id || resultDate });
+      groups.set(info.key, group);
+    }
+  }
+  return [...groups.values()]
+    .map((group) => ({
+      ...group,
+      bets: [...group.bets].sort((a, b) => (
+        String(b.resultDate || "").localeCompare(String(a.resultDate || ""))
+        || String(a.resultMatchup || "").localeCompare(String(b.resultMatchup || ""))
+        || displayBetTitle(a).localeCompare(displayBetTitle(b))
+      )),
+    }))
+    .map((group) => ({ ...group, summary: summarizeResultMarket(group.bets) }))
+    .sort((a, b) => a.info.rank - b.info.rank || a.info.label.localeCompare(b.info.label));
 }
 
 function displayBetTitle(bet) {
@@ -1304,55 +1411,61 @@ function ResultsPerformance({ rows, date }) {
   const bets = (rows || []).flatMap((row) => Array.isArray(row.bets) ? row.bets : []);
   if (!bets.length) return null;
   const metrics = summarizeResults(rows);
-  const groupedRows = Object.entries(
-    (rows || []).reduce((groups, row) => {
-      const key = row.resultDate || date || "Undated";
-      groups[key] ||= [];
-      groups[key].push(row);
-      return groups;
-    }, {})
-  ).sort(([a], [b]) => String(b).localeCompare(String(a)));
+  const marketGroups = resultMarketGroups(rows);
   const titleBits = [
     resultDateRange(rows),
     "captured pregame prices",
   ].filter(Boolean);
   return <section className="card">
-    <div className="card-title"><h2>Bet results</h2><span className="muted">{titleBits.join(" · ")}</span></div>
+    <div className="card-title"><h2>Results dashboard</h2><span className="muted">{titleBits.join(" · ")}</span></div>
     <div className="performance-grid">
       {metrics.map((metric) => <article className="performance-card" key={metric.label}>
         <span>{metric.label}</span>
         <strong>{metric.value}</strong>
       </article>)}
     </div>
+    <section className="results-market-summary" aria-label="Results by bet type">
+      <div className="results-section-label">By bet type</div>
+      <div className="results-market-grid">
+        {marketGroups.map((group) => {
+          const summary = group.summary;
+          const mainValue = summary.decided ? recordText(summary.wins, summary.losses, summary.pushes) : summary.pending ? `${summary.pending} open` : summary.voids ? `${summary.voids} void` : "—";
+          const secondaryValue = summary.decided ? `Accuracy ${percentText(summary.wins, summary.decided)}` : summary.settled ? `${summary.settled} settled` : "Awaiting result";
+          return <article className="market-performance-card" key={group.info.key}>
+            <div className="market-performance-head"><strong>{group.info.label}</strong><span>{summary.posted} posted</span></div>
+            <div className="market-performance-main"><strong>{mainValue}</strong><span>{secondaryValue}</span></div>
+            <div className="market-performance-footer">
+              {summary.settled ? <span>{unitText(summary.netUnits)}</span> : null}
+              {summary.roi != null ? <span>ROI {percentSigned(summary.roi)}</span> : null}
+              {summary.pending ? <span>{summary.pending} open</span> : null}
+              {summary.voids ? <span>{summary.voids} void</span> : null}
+            </div>
+          </article>;
+        })}
+      </div>
+    </section>
     <details className="results-details">
-      <summary>Posted picks by slate ({bets.length})</summary>
+      <summary>Posted picks by bet type ({bets.length})</summary>
       <div className="results-list">
-        {groupedRows.map(([groupDate, groupRows]) => <div className="result-date-group" key={groupDate}>
-          <h3 className="result-date-heading">{groupDate}</h3>
-          {groupRows.map((row) => <article className="result-slate" key={`${groupDate}-${resultIdentity(row)}`}>
-            <div className="result-slate-head">
-              <div>
-                <strong>{row.matchup || "MLB slate"}</strong>
-                <div className="result-badges">
-                  {Number(row.betCount) ? <span>{recordText(row.betWins || 0, row.betLosses || 0, row.betPushes || 0)}</span> : null}
-                  {Number(row.voidBetCount) ? <span>{row.voidBetCount} void</span> : null}
-                  {Number(row.pendingBetCount) ? <span>{row.pendingBetCount} open</span> : null}
-                </div>
+        {marketGroups.map((group) => <article className="market-result-group" key={group.info.key}>
+          <div className="market-result-head">
+            <div>
+              <h3>{group.info.label}</h3>
+              <span>{group.summary.posted} posted · {group.summary.pending ? `${group.summary.pending} open` : `${group.summary.settled} settled`}</span>
+            </div>
+            {group.summary.decided ? <span className="market-result-record">{recordText(group.summary.wins, group.summary.losses, group.summary.pushes)} · {unitText(group.summary.netUnits)}</span> : null}
+          </div>
+          <div className="bet-result-list">
+            {group.bets.map((bet, index) => <div className="bet-result-item" key={`${bet.resultId}-${bet.resultDate}-${bet.market}-${bet.title}-${index}`}>
+              <div className="bet-result-copy">
+                <strong>{displayBetTitle(bet)}</strong>
+                <span>{bet.resultDate || date || "—"} · {bet.resultMatchup || bet.matchup || trackedMarketText(bet.market)} · {bet.book || "—"} {price(bet.bookOdds)}</span>
               </div>
-              {Number(row.betCount) ? <strong className="result-net">{unitText(row.netUnits)}</strong> : null}
-            </div>
-            <div className="bet-result-list">
-              {(row.bets || []).map((bet, index) => <div className="bet-result-item" key={`${row.id || groupDate}-${bet.title}-${index}`}>
-                <div className="bet-result-copy">
-                  <strong>{displayBetTitle(bet)}</strong>
-                  <span>{bet.matchup || trackedMarketText(bet.market)} · {bet.book || "—"} {price(bet.bookOdds)}</span>
-                </div>
-                <span className={`result-pill ${resultTone(bet.result)}`}>{bet.result || "Pending"}</span>
-                <span className="bet-result-units">{bet.result === "Pending" ? `Risk ${unitText(bet.riskUnits)}` : bet.result === "Void" ? "No action" : unitText(bet.netUnits)}</span>
-              </div>)}
-            </div>
-          </article>)}
-        </div>)}
+              <span className={`result-pill ${resultTone(bet.result)}`}>{bet.result || "Pending"}</span>
+              <span className="bet-result-units">{bet.result === "Pending" ? `Risk ${unitText(bet.riskUnits)}` : bet.result === "Void" ? "No action" : unitText(bet.netUnits)}</span>
+            </div>)}
+          </div>
+        </article>)}
       </div>
     </details>
   </section>;
