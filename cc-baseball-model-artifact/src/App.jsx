@@ -444,6 +444,16 @@ const APP_CSS = `
     white-space: nowrap;
   }
   .edge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 10px 16px 14px; }
+  .slate-edge-groups { display: grid; gap: 14px; padding: 4px 16px 16px; }
+  .slate-edge-group { display: grid; gap: 0; }
+  .slate-edge-group-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 2px 0; }
+  .slate-edge-group-heading h3 { margin: 0; color: var(--text-primary); font-size: 13px; font-weight: 750; }
+  .slate-edge-group-heading span { color: var(--text-tertiary); font-size: 11px; font-weight: 650; }
+  .slate-edge-group .edge-grid { padding: 8px 0 0; }
+  .edge-overflow { margin: 0 16px 16px; border-top: 1px solid var(--border); }
+  .edge-overflow summary { padding: 12px 0 0; color: var(--text-secondary); cursor: pointer; font-size: 12px; font-weight: 700; list-style: none; }
+  .edge-overflow summary::-webkit-details-marker { display: none; }
+  .edge-overflow .edge-grid { padding: 12px 0 0; }
   .edge-card {
     position: relative;
     display: grid;
@@ -1869,10 +1879,101 @@ function TierLegend() {
   </details>;
 }
 
+const SLATE_EDGE_GROUPS = [
+  { key: "sides", label: "Sides" },
+  { key: "totals", label: "Totals" },
+  { key: "pitcher-strikeouts", label: "Pitcher strikeouts" },
+  { key: "player-props", label: "Player props" },
+];
+
+function edgeIdentity(edge) {
+  return [
+    edge?.gameKey || edge?.gameLabel || "",
+    edge?.betKind || "",
+    edge?.propMarket || "",
+    edge?.player || "",
+    edge?.team || "",
+    edge?.teamSide || "",
+    edge?.betSide || "",
+    edge?.line ?? "",
+    edge?.title || "",
+  ].join("|");
+}
+
+function uniqueEdges(edges) {
+  const seen = new Set();
+  return (edges || []).filter((edge) => {
+    const identity = edgeIdentity(edge);
+    if (seen.has(identity)) return false;
+    seen.add(identity);
+    return true;
+  });
+}
+
+function slateEdgeGroupKey(edge) {
+  if (["moneyline", "run_line", "f5_moneyline", "f5_run_line"].includes(edge?.betKind)) return "sides";
+  if (["full_total", "team_total", "f5_total"].includes(edge?.betKind)) return "totals";
+  if (edge?.betKind === "pitcher_strikeouts") return "pitcher-strikeouts";
+  return "player-props";
+}
+
+function variedPlayerPropEdges(edges, limit) {
+  const selected = [];
+  const selectedIds = new Set();
+  const coveredMarkets = new Set();
+  for (const edge of edges) {
+    const market = edge?.propMarket || edge?.betKind || "player-prop";
+    if (coveredMarkets.has(market)) continue;
+    selected.push(edge);
+    selectedIds.add(edgeIdentity(edge));
+    coveredMarkets.add(market);
+    if (selected.length === limit) return selected;
+  }
+  for (const edge of edges) {
+    if (selectedIds.has(edgeIdentity(edge))) continue;
+    selected.push(edge);
+    if (selected.length === limit) break;
+  }
+  return selected;
+}
+
+function slateEdgeGroups(edges, limit = 3) {
+  const unique = uniqueEdges(edges);
+  return SLATE_EDGE_GROUPS.map((group) => {
+    const matches = unique.filter((edge) => slateEdgeGroupKey(edge) === group.key);
+    const featured = group.key === "player-props"
+      ? variedPlayerPropEdges(matches, limit)
+      : matches.slice(0, limit);
+    return { ...group, edges: featured };
+  }).filter((group) => group.edges.length);
+}
+
+function PricedEdgeCard({ edge, index }) {
+  return <article className={`edge-card ${edge.tone || "lean"}`} key={`${edgeIdentity(edge)}-${index}`}>
+    <div className="edge-main">
+      <span className="edge-category">{edge.category || "Edge"}</span>
+      <strong>{edge.title}</strong>
+      <span>{edge.gameLabel ? `${edge.gameLabel} · ${edge.subtitle}` : edge.subtitle}</span>
+    </div>
+    <div className="edge-data">
+      <span>Fair <b>{edge.fairDisplay || price(edge.fair)}</b></span>
+      <span>Book <b>{edge.bookDisplay || price(edge.book)}</b></span>
+      <span>{edge.bookName || "Sportsbook"}</span>
+    </div>
+    <span className={`pill ${edge.tone || "lean"}`}>{confidenceLabel(edge.tone)}</span>
+  </article>;
+}
+
 function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChange }) {
-  const visibleEdges = tier === "all" ? edges : edges.filter((edge) => edge.tone === tier);
+  const visibleEdges = uniqueEdges(tier === "all" ? edges : edges.filter((edge) => edge.tone === tier));
+  const groups = view === "slate" ? slateEdgeGroups(visibleEdges) : [];
+  const featuredEdgeIds = new Set(groups.flatMap((group) => group.edges.map(edgeIdentity)));
+  const remainingEdges = view === "slate" ? visibleEdges.filter((edge) => !featuredEdgeIds.has(edgeIdentity(edge))) : [];
+  const featuredCount = groups.reduce((count, group) => count + group.edges.length, 0);
   const tierLabel = tier === "all" ? "all tiers" : confidenceLabel(tier).toLowerCase();
-  const status = visibleEdges.length ? `${visibleEdges.length} ${tierLabel}` : hasOdds ? `No ${tierLabel} on this board` : "Waiting for odds";
+  const status = visibleEdges.length
+    ? view === "slate" ? `${featuredCount} highlighted · ${visibleEdges.length} ${tierLabel}` : `${visibleEdges.length} ${tierLabel}`
+    : hasOdds ? `No ${tierLabel} on this board` : "Waiting for odds";
   return <details className="card advanced-disclosure" id="advanced-markets">
     <summary>
       <span><h2>Advanced markets</h2></span>
@@ -1894,21 +1995,18 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChang
       </label>
       <TierLegend />
     </div>
-    {visibleEdges.length ? <div className="edge-grid">
-      {visibleEdges.slice(0, view === "slate" ? 12 : 8).map((edge, index) => <article className={`edge-card ${edge.tone || "lean"}`} key={`${edge.title}-${edge.gameLabel || ""}-${index}`}>
-        <div className="edge-main">
-          <span className="edge-category">{edge.category || "Edge"}</span>
-          <strong>{edge.title}</strong>
-          <span>{edge.gameLabel ? `${edge.gameLabel} · ${edge.subtitle}` : edge.subtitle}</span>
-        </div>
-        <div className="edge-data">
-          <span>Fair <b>{edge.fairDisplay || price(edge.fair)}</b></span>
-          <span>Book <b>{edge.bookDisplay || price(edge.book)}</b></span>
-          <span>{edge.bookName || "Sportsbook"}</span>
-        </div>
-        <span className={`pill ${edge.tone || "lean"}`}>{confidenceLabel(edge.tone)}</span>
-      </article>)}
-    </div> : <div className="empty-state">{hasOdds ? `No ${tierLabel} cleared the current book numbers.` : "Refresh pregame odds to populate prop and market edges. No book price, no edge label."}</div>}
+    {visibleEdges.length ? view === "slate" ? <>
+      <div className="slate-edge-groups">
+        {groups.map((group) => <section className="slate-edge-group" key={group.key}>
+          <div className="slate-edge-group-heading"><h3>{group.label}</h3><span>Top {group.edges.length}</span></div>
+          <div className="edge-grid">{group.edges.map((edge, index) => <PricedEdgeCard edge={edge} index={index} key={edgeIdentity(edge)} />)}</div>
+        </section>)}
+      </div>
+      {remainingEdges.length ? <details className="edge-overflow">
+        <summary>Show all {remainingEdges.length} additional matching edges</summary>
+        <div className="edge-grid">{remainingEdges.map((edge, index) => <PricedEdgeCard edge={edge} index={index} key={edgeIdentity(edge)} />)}</div>
+      </details> : null}
+    </> : <div className="edge-grid">{visibleEdges.slice(0, 8).map((edge, index) => <PricedEdgeCard edge={edge} index={index} key={edgeIdentity(edge)} />)}</div> : <div className="empty-state">{hasOdds ? `No ${tierLabel} cleared the current book numbers.` : "Refresh pregame odds to populate prop and market edges. No book price, no edge label."}</div>}
   </details>;
 }
 
