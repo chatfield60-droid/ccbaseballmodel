@@ -982,6 +982,7 @@ function liveEdgeCountsByMarket(edges) {
 function resultBetIdentity(bet) {
   return [
     String(bet?.resultDate || ""),
+    String(bet?.gameId || bet?.gameTime || ""),
     normal(bet?.resultMatchup || bet?.matchup),
     resultMarketKey(bet?.market),
     normal(bet?.title),
