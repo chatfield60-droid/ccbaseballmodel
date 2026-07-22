@@ -34,6 +34,7 @@ const MARKET_MARGIN_BLEND_WEIGHT = 0.45;
 const MARKET_MARGIN_MAX_RUN_SHIFT = 1.00;
 const FULL_GAME_MARGIN_SCALE = 1.25;
 const F5_MARGIN_SCALE = 0.95;
+const ODDS_EVENT_MATCH_TOLERANCE_MS = 15 * 60 * 1000;
 
 function easternDateForTimestamp(value) {
   const numeric = Number(value);
@@ -163,6 +164,7 @@ const APP_CSS = `
   }
   .top-actions { display: flex; align-items: center; gap: 10px; }
   .odds-stamp { color: var(--text-secondary); font-size: 12px; white-space: nowrap; }
+  .odds-stamp.warning { color: var(--negative); font-weight: 700; }
   .mode, .refresh {
     min-height: 40px;
     padding: 0 14px;
@@ -806,7 +808,7 @@ const APP_CSS = `
     .results-market-heading { align-items: flex-start; flex-direction: column; }
     .results-market-controls { justify-content: flex-start; }
   }
-  @media (max-width: 760px) {
+  @media (max-width: 767px) {
     .topbar { align-items: flex-start; flex-direction: column; padding: 18px; }
     .top-actions { width: 100%; flex-wrap: wrap; }
     .mode, .refresh { flex: 1; }
@@ -830,7 +832,7 @@ const APP_CSS = `
     .table { min-width: 680px; }
     .card:has(.table) { overflow-x: auto; }
   }
-  @media (max-width: 460px) {
+  @media (max-width: 479px) {
     .shell { padding: 14px; }
     .card-title { align-items: flex-start; flex-direction: column; gap: 4px; }
     .compact-scores { grid-template-columns: 1fr; }
@@ -974,7 +976,7 @@ function liveEdgeMarketKey(edge) {
 }
 
 function liveEdgeCountsByMarket(edges) {
-  return (edges || []).reduce((counts, edge) => {
+  return uniqueEdges(edges).reduce((counts, edge) => {
     if (!isActionTone(edge?.tone)) return counts;
     const key = liveEdgeMarketKey(edge);
     counts[key] = (counts[key] || 0) + 1;
@@ -1768,7 +1770,7 @@ function propAngleTags(angle) {
 }
 
 function TodayBestBets({ edges, hasOdds, onSelectGame }) {
-  const actionable = (edges || []).filter((edge) => isGradedBetTone(edge?.tone));
+  const actionable = uniqueEdges(edges).filter((edge) => isGradedBetTone(edge?.tone));
   const priority = actionable.filter((edge) => ["strong", "bet"].includes(edge.tone));
   const picks = (priority.length ? priority : actionable).slice(0, 3);
   return <section className="decision-hero" id="best-bets" aria-label="Today's best bets">
@@ -2415,13 +2417,13 @@ function probabilityEdgeMetric(edge) {
 function tieredDesignation(edge, ev, detailWhenLive, noEdgeDetail = "Book price has not cleared fair.") {
   const edgeNumber = Number(edge);
   const evNumber = Number(ev);
-  if (!Number.isFinite(edgeNumber)) {
+  if (!Number.isFinite(edgeNumber) || !Number.isFinite(evNumber)) {
     return { label: "Watch price", tone: "watch", detail: "No pregame book price yet." };
   }
   const detail = detailWhenLive || `${probabilityEdgeMetric(edgeNumber)} vs book.`;
-  if (edgeNumber >= STRONG_PROB_EDGE || evNumber >= 0.07) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
-  if (edgeNumber >= BET_PROB_EDGE || evNumber >= 0.04) return { label: "Bet", tone: "bet", detail, edgeScore: edgeNumber, ev: evNumber };
-  if (edgeNumber >= LEAN_PROB_EDGE || evNumber > 0.015) return { label: "Lean", tone: "lean", detail: `${detail} Thin margin.`, edgeScore: edgeNumber, ev: evNumber };
+  if (evNumber > 0 && (edgeNumber >= STRONG_PROB_EDGE || evNumber >= 0.07)) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
+  if (evNumber > 0 && (edgeNumber >= BET_PROB_EDGE || evNumber >= 0.04)) return { label: "Bet", tone: "bet", detail, edgeScore: edgeNumber, ev: evNumber };
+  if (evNumber > 0 && (edgeNumber >= LEAN_PROB_EDGE || evNumber > 0.015)) return { label: "Lean", tone: "lean", detail: `${detail} Thin margin.`, edgeScore: edgeNumber, ev: evNumber };
   return { label: "No edge", tone: "pass", detail: noEdgeDetail, edgeScore: edgeNumber, ev: evNumber };
 }
 
@@ -2471,8 +2473,52 @@ function setBestTeamPrice(store, side, candidate) {
   if (quoteIsBetter(candidate, store[side])) store[side] = candidate;
 }
 
+function easternOffsetMinutes(dateValue) {
+  const date = new Date(`${String(dateValue || "")}T12:00:00.000Z`);
+  if (Number.isNaN(date.getTime())) return null;
+  const zone = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    timeZoneName: "longOffset",
+  }).formatToParts(date).find((part) => part.type === "timeZoneName")?.value;
+  const match = String(zone || "").match(/^GMT([+-])(\d{1,2})(?::(\d{2}))?$/);
+  if (!match) return null;
+  const minutes = Number(match[2]) * 60 + Number(match[3] || 0);
+  return match[1] === "+" ? minutes : -minutes;
+}
+
+function scheduledGameStartMs(game) {
+  const direct = timestampMs(game?.start_time_utc || game?.startTimeUtc);
+  if (direct != null) return direct;
+  const date = String(game?.date || BOARD.date || "");
+  const time = String(game?.time || "").match(/^(\d{1,2}):(\d{2})\s*(AM|PM)\s*ET$/i);
+  const dateMatch = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!time || !dateMatch) return null;
+  let hour = Number(time[1]);
+  const minute = Number(time[2]);
+  const meridiem = time[3].toUpperCase();
+  if (meridiem === "PM" && hour !== 12) hour += 12;
+  if (meridiem === "AM" && hour === 12) hour = 0;
+  const offset = easternOffsetMinutes(date);
+  if (offset == null) return null;
+  return Date.UTC(Number(dateMatch[1]), Number(dateMatch[2]) - 1, Number(dateMatch[3]), hour, minute) - offset * 60 * 1000;
+}
+
+function sameOddsTeams(event, game) {
+  return normal(event?.away_team) === normal(game?.away_name) && normal(event?.home_team) === normal(game?.home_name);
+}
+
 function findOddsForGame(items, game) {
-  return Array.isArray(items) ? items.find((item) => normal(item.away_team) === normal(game.away_name) && normal(item.home_team) === normal(game.home_name)) : null;
+  if (!Array.isArray(items)) return null;
+  const teamMatches = items.filter((item) => sameOddsTeams(item, game));
+  if (teamMatches.length === 1) return teamMatches[0];
+  const gameStart = scheduledGameStartMs(game);
+  if (gameStart == null) return null;
+  const timedMatches = teamMatches
+    .map((event) => ({ event, gap: Math.abs((timestampMs(event?.commence_time) ?? Number.NaN) - gameStart) }))
+    .filter((match) => Number.isFinite(match.gap) && match.gap <= ODDS_EVENT_MATCH_TOLERANCE_MS)
+    .sort((left, right) => left.gap - right.gap);
+  if (timedMatches.length !== 1) return null;
+  return timedMatches[0].event;
 }
 
 function isPregameOddsEvent(event) {
@@ -2858,6 +2904,8 @@ function hasOddsEntry(odds) {
 function normalizeOddsEntry(entry) {
   if (!entry || typeof entry !== "object") return blankOdds();
   return {
+    event_id: entry.event_id || entry.eventId || null,
+    commence_time: entry.commence_time || entry.commenceTime || null,
     k: { ...(entry.k || {}) },
     pitcherK: { ...(entry.pitcherK || entry.k || {}) },
     batter: { ...(entry.batter || {}) },
@@ -2927,15 +2975,35 @@ function readStoredOddsSnapshot(date) {
   }
 }
 
-function readPublishedOddsSnapshot(date) {
+function readPublishedOddsSnapshot(date, slateGames = []) {
   if (!date || !BOARD.pregame_quotes || typeof BOARD.pregame_quotes !== "object") {
     return { games: {}, fetched_at: null };
   }
-  return normalizeOddsHistory({ [date]: BOARD.pregame_quotes })[date] || { games: {}, fetched_at: null };
+  const snapshot = normalizeOddsHistory({ [date]: BOARD.pregame_quotes })[date] || { games: {}, fetched_at: null };
+  const matchupCounts = new Map();
+  for (const game of slateGames || []) {
+    const matchup = `${normal(game?.away_name)}|${normal(game?.home_name)}`;
+    matchupCounts.set(matchup, (matchupCounts.get(matchup) || 0) + 1);
+  }
+  const games = Object.fromEntries(Object.entries(snapshot.games || {}).filter(([key, entry]) => {
+    const game = (slateGames || []).find((item) => gameKey(item) === String(key));
+    if (!game) return false;
+    const matchup = `${normal(game?.away_name)}|${normal(game?.home_name)}`;
+    if ((matchupCounts.get(matchup) || 0) < 2) return true;
+    const scheduledStart = scheduledGameStartMs(game);
+    const capturedStart = timestampMs(entry?.commence_time);
+    return Boolean(
+      entry?.event_id
+      && scheduledStart != null
+      && capturedStart != null
+      && Math.abs(capturedStart - scheduledStart) <= ODDS_EVENT_MATCH_TOLERANCE_MS,
+    );
+  }));
+  return { ...snapshot, games };
 }
 
-function initialOddsSnapshot(date) {
-  const published = readPublishedOddsSnapshot(date);
+function initialOddsSnapshot(date, slateGames = []) {
+  const published = readPublishedOddsSnapshot(date, slateGames);
   const publishedHasDailyCapture = hasDailyPregameCapture(
     date,
     published.fetched_at,
@@ -3413,8 +3481,9 @@ function CustomerBoard() {
   const [resultHistory] = useState(() => normalizeResultsHistory(BOARD.results_history));
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [publishedOdds] = useState(() => readPublishedOddsSnapshot(BOARD.date));
-  const [initialOdds] = useState(() => initialOddsSnapshot(BOARD.date));
+  const [oddsRefreshFailed, setOddsRefreshFailed] = useState(false);
+  const [publishedOdds] = useState(() => readPublishedOddsSnapshot(BOARD.date, games));
+  const [initialOdds] = useState(() => initialOddsSnapshot(BOARD.date, games));
   const [oddsByGame, setOddsByGame] = useState(() => initialOdds.games || {});
   const [lastOddsUpdatedAt, setLastOddsUpdatedAt] = useState(() => timestampMs(initialOdds.fetched_at));
   const [nowTick, setNowTick] = useState(() => Date.now());
@@ -3457,6 +3526,7 @@ function CustomerBoard() {
       return;
     }
     setLoading(true);
+    setOddsRefreshFailed(false);
     setMessage("Fetching pregame sportsbook lines for the slate…");
     try {
       // Local testing may use VITE_ODDS_API_KEY. Every hosted request goes to
@@ -3507,7 +3577,7 @@ function CustomerBoard() {
           if (!fallbackResponse.ok) return null;
           const fallbackOdds = await fallbackResponse.json();
           if (!Array.isArray(fallbackOdds)) return null;
-          return fallbackOdds.find((item) => normal(item.away_team) === normal(targetGame.away_name) && normal(item.home_team) === normal(targetGame.home_name)) || null;
+          return findOddsForGame(fallbackOdds, targetGame);
         };
 
         const parseStandardOdds = (eventOdds) => {
@@ -3620,6 +3690,8 @@ function CustomerBoard() {
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
 
         const entry = {
+          event_id: event.id,
+          commence_time: event.commence_time || null,
           k: nextK,
           pitcherK: nextK,
           batter: nextBatter,
@@ -3641,6 +3713,7 @@ function CustomerBoard() {
       }
       const successfulGames = Object.keys(nextOddsByGame).length;
       if (!successfulGames) {
+        setOddsRefreshFailed(true);
         setMessage(warnings.has("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so pregame book prices are not available yet." : "No pregame sportsbook prices matched this slate.");
         return;
       }
@@ -3649,11 +3722,13 @@ function CustomerBoard() {
       setOddsByGame(nextOddsByGame);
       setLastOddsUpdatedAt(Date.parse(fetchedAt));
       setNowTick(Date.now());
+      setOddsRefreshFailed(false);
       const warningList = [...warnings];
       const captureNote = hasPublishedDailyCapture ? "" : " The shared daily capture is still required before customer plays unlock.";
       setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}.${captureNote}${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Pregame odds are unavailable right now.");
+      setOddsRefreshFailed(true);
+      setMessage(`Pregame odds refresh is unavailable right now.${hasPublishedDailyCapture ? " Showing the last captured prices." : " No new prices were saved."}`);
     } finally {
       setLoading(false);
     }
@@ -3663,17 +3738,17 @@ function CustomerBoard() {
   const edgeCounts = useMemo(() => {
     const counts = {};
     for (const display of gameDisplays) {
-      counts[gameKey(display.game)] = (display.allEdges || []).filter((edge) => isActionTone(edge.tone)).length;
+      counts[gameKey(display.game)] = uniqueEdges(display.allEdges || []).filter((edge) => isActionTone(edge.tone)).length;
     }
     return counts;
   }, [gameDisplays]);
-  const fullSlatePricedEdges = useMemo(() => gameDisplays
+  const fullSlatePricedEdges = useMemo(() => uniqueEdges(gameDisplays
     .flatMap((display, index) => (display.allEdges || []).map((edge) => ({
       ...edge,
       gameIndex: index,
       gameKey: gameKey(display.game),
       gameLabel: `${display.game.away} @ ${display.game.home}`,
-    })))
+    }))))
     .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0)), [gameDisplays]);
   const fullSlateActionEdges = useMemo(
     () => fullSlatePricedEdges.filter((edge) => isActionTone(edge.tone)),
@@ -3698,6 +3773,9 @@ function CustomerBoard() {
   const headerRecord = headerMetrics.find((metric) => metric.label === "Record");
   const headerNet = headerMetrics.find((metric) => metric.label === "Net units");
   const oddsStamp = hasPublishedDailyCapture ? updatedAgoText(lastOddsUpdatedAt, nowTick) : null;
+  const oddsStatus = oddsRefreshFailed
+    ? `${oddsStamp ? `${oddsStamp} · ` : ""}Refresh unavailable`
+    : oddsStamp;
   const awayHand = starterHand(game, "away");
   const homeHand = starterHand(game, "home");
 
@@ -3771,7 +3849,7 @@ function CustomerBoard() {
         </div>
         <div className="top-actions">
           <button type="button" className="mode" onClick={() => setNight((value) => !value)}>{night ? "Day mode" : "Night mode"}</button>
-          {oddsStamp ? <span className="odds-stamp">{oddsStamp}</span> : null}
+          {oddsStatus ? <span className={`odds-stamp ${oddsRefreshFailed ? "warning" : ""}`}>{oddsStatus}</span> : null}
           {canRefreshOdds ? <button type="button" className="refresh" onClick={refreshOdds} disabled={loading}>{loading ? "Refreshing…" : "Refresh pregame odds"}</button> : null}
         </div>
       </header>
