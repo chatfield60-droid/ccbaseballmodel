@@ -16,9 +16,9 @@ const HIT_PROP_PRICE_BLEND_WEIGHT = 0.45;
 // Sides and run lines use a stronger reconciliation than props. Extreme
 // model-vs-market gaps retain a model residual, but cannot surface as a
 // customer-facing price that ignores the paired pregame book.
-const SIDE_PRICE_BLEND_WEIGHT = 0.60;
+const SIDE_PRICE_BLEND_WEIGHT = 0.55;
 const SIDE_PRICE_EXTREME_GAP = 0.12;
-const SIDE_PRICE_EXTREME_BLEND_WEIGHT = 0.80;
+const SIDE_PRICE_EXTREME_BLEND_WEIGHT = 0.75;
 const K_FAIR_SCALE = 1.55;
 const STRONG_PROB_EDGE = 0.045;
 const BET_PROB_EDGE = 0.025;
@@ -26,12 +26,12 @@ const LEAN_PROB_EDGE = 0.01;
 const TOTAL_RUN_TO_PROB = 0.11;
 const ODDS_HISTORY_KEY = "cc-baseball-odds-history-v1";
 const EMPTY_ODDS_BY_GAME = Object.freeze({});
-const MARKET_TOTAL_BLEND_WEIGHT = 0.55;
+const MARKET_TOTAL_BLEND_WEIGHT = 0.50;
 const MARKET_TOTAL_MAX_RUN_SHIFT = 1.50;
 const MARKET_TOTAL_EXTREME_GAP = 2.00;
-const MARKET_TOTAL_EXTREME_BLEND_WEIGHT = 0.72;
+const MARKET_TOTAL_EXTREME_BLEND_WEIGHT = 0.68;
 const MARKET_TOTAL_EXTREME_MAX_RUN_SHIFT = 3.50;
-const MARKET_MARGIN_BLEND_WEIGHT = 0.45;
+const MARKET_MARGIN_BLEND_WEIGHT = 0.40;
 const MARKET_MARGIN_MAX_RUN_SHIFT = 1.00;
 const FULL_GAME_MARGIN_SCALE = 1.25;
 const F5_MARGIN_SCALE = 0.95;
