@@ -92,6 +92,9 @@ const RESULT_MARKET_ALIASES = {
   batter_tb: "batter_total_bases",
   batter_home_runs: "batter_hr",
 };
+// Batter hits remain in the historical ledgers, but stay out of the public
+// performance surface until the refreshed hit-prop strategy has a track record.
+const HIDDEN_PERFORMANCE_MARKETS = new Set(["batter_hits"]);
 
 const APP_CSS = `
   :root {
@@ -969,6 +972,21 @@ function resultMarketInfo(value) {
     label: trackedMarketText(value),
     rank: 999,
   };
+}
+
+function performanceRows(rows) {
+  return (rows || [])
+    .map((row) => ({
+      ...row,
+      bets: (row?.bets || []).filter((bet) => !HIDDEN_PERFORMANCE_MARKETS.has(resultMarketKey(bet?.market))),
+    }))
+    .filter((row) => row.bets.length > 0);
+}
+
+function performanceEdgeCounts(counts) {
+  return Object.fromEntries(
+    Object.entries(counts || {}).filter(([market]) => !HIDDEN_PERFORMANCE_MARKETS.has(resultMarketKey(market))),
+  );
 }
 
 function liveEdgeMarketKey(edge) {
@@ -2155,16 +2173,19 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
   const [marketSort, setMarketSort] = useState("net");
   const [marketScope, setMarketScope] = useState("all");
   const [performanceTab, setPerformanceTab] = useState("overview");
-  const bets = uniqueResultBets(rows);
+  const visibleRows = performanceRows(rows);
+  const visibleEdgeCounts = performanceEdgeCounts(currentEdgeCounts);
+  const visibleEdgeTotal = Object.values(visibleEdgeCounts).reduce((sum, count) => sum + (Number(count) || 0), 0);
+  const bets = uniqueResultBets(visibleRows);
   if (!bets.length) return null;
-  const metrics = summarizeResults(rows);
-  const marketGroups = resultMarketGroups(rows);
+  const metrics = summarizeResults(visibleRows);
+  const marketGroups = resultMarketGroups(visibleRows);
   const visibleMarketGroups = sortMarketPerformanceGroups(
     marketScope === "graded" ? marketGroups.filter((group) => Number(group.summary?.settled) > 0) : marketGroups,
     marketSort,
   );
   const titleBits = [
-    resultDateRange(rows),
+    resultDateRange(visibleRows),
     "captured pregame prices",
   ].filter(Boolean);
   const tabs = [
@@ -2202,7 +2223,7 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
       <div className="results-market-heading">
         <div className="results-market-heading-copy">
           <h3>{performanceTitle}</h3>
-          <p className="results-section-label">Cumulative results for captured Bet / Strong picks. Today: {currentEdgeTotal} posted edge{currentEdgeTotal === 1 ? "" : "s"}, mapped to the projected-game badges.</p>
+          <p className="results-section-label">Cumulative results for captured Bet / Strong picks. Today: {visibleEdgeTotal} posted edge{visibleEdgeTotal === 1 ? "" : "s"}, mapped to the projected-game badges.</p>
         </div>
         <div className="results-market-controls">
           <label className="results-market-sort">
@@ -2225,7 +2246,7 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
       <div className="results-market-grid">
         {tabMarketGroups.map((group) => {
           const summary = group.summary;
-          const liveEdgeCount = Number(currentEdgeCounts?.[group.info.key]) || 0;
+          const liveEdgeCount = Number(visibleEdgeCounts?.[group.info.key]) || 0;
           const settled = Number(summary.settled) || 0;
           const smallSample = settled > 0 && settled < 10;
           const record = settled ? recordText(summary.wins, summary.losses, summary.pushes) : "—";
