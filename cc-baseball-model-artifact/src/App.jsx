@@ -12,6 +12,7 @@ const ODDS_PROXY_ORIGIN = "https://cc-baseball-board-20260710.chatfield60.chatgp
 // Props receive a deliberately lighter price check than sides/totals. When a
 // paired price exists, use its no-vig probability and move the fair only 15%.
 const PROP_PRICE_BLEND_WEIGHT = 0.15;
+const HIT_PROP_PRICE_BLEND_WEIGHT = 0.45;
 // Sides and run lines use a stronger reconciliation than props. Extreme
 // model-vs-market gaps retain a model residual, but cannot surface as a
 // customer-facing price that ignores the paired pregame book.
@@ -1271,11 +1272,14 @@ function runGapMetric(fairLine, liveLine) {
   return `Fair ${fair.toFixed(1)} vs line ${live.toFixed(1)} · ${signedRun(fair - live)}`;
 }
 
-function blendPropFairWithBook(fair, book, oppositeBook = null) {
+function blendPropFairWithBook(fair, book, oppositeBook = null, market = null) {
   const fairProbability = impliedProbability(fair);
   const bookProbability = noVigBookProbability(book, oppositeBook);
   if (!Number.isFinite(fairProbability) || !Number.isFinite(bookProbability)) return fair;
-  return americanFromProbability(fairProbability + (bookProbability - fairProbability) * PROP_PRICE_BLEND_WEIGHT);
+  const weight = normal(market) === "batter hits" || normal(market) === "batter hit"
+    ? HIT_PROP_PRICE_BLEND_WEIGHT
+    : PROP_PRICE_BLEND_WEIGHT;
+  return americanFromProbability(fairProbability + (bookProbability - fairProbability) * weight);
 }
 
 function blankOdds() {
@@ -3346,7 +3350,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     const hasBook = validBookPrice(live?.price);
     const oppositeSide = propSideKey(angle.side || "Over") === "over" ? "Under" : "Over";
     const oppositeLive = odds.batter?.[propQuoteKey(angle.market, angle.player, oppositeSide, angle.line)];
-    const fair = hasBook ? blendPropFairWithBook(angle.fair, live.price, oppositeLive?.price) : angle.fair;
+    const fair = hasBook ? blendPropFairWithBook(angle.fair, live.price, oppositeLive?.price, angle.market) : angle.fair;
     const designation = hasBook
       ? designationForOdds(fair, live.price, oppositeLive?.price)
       : { label: "Fair only", tone: "watch", detail: "Refresh pregame odds to price this angle." };
