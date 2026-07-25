@@ -3794,9 +3794,6 @@ function CustomerBoard() {
   const displayedMarketEdges = edgeView === "slate" ? fullSlateMarketEdges : selectedDisplay.marketEdges;
   const topPickCount = Math.min(3, fullSlatePricedEdges.filter((edge) => isGradedBetTone(edge.tone)).length);
   const featuredPickCount = Math.min(3, fullSlatePricedEdges.filter((edge) => isGradedBetTone(edge.tone)).length);
-  const headerMetrics = summarizeResults(resultRows);
-  const headerRecord = headerMetrics.find((metric) => metric.label === "Record");
-  const headerNet = headerMetrics.find((metric) => metric.label === "Net units");
   const oddsStamp = hasPublishedDailyCapture ? updatedAgoText(lastOddsUpdatedAt, nowTick) : null;
   const oddsStatus = oddsRefreshFailed
     ? `${oddsStamp ? `${oddsStamp} · ` : ""}Refresh unavailable`
@@ -3868,8 +3865,6 @@ function CustomerBoard() {
             <span className="header-chip">{BOARD.date || "—"}</span>
             <span className="header-chip">{displayGames.length} games</span>
             {hasPublishedDailyCapture && topPickCount ? <span className="header-chip">{topPickCount} top picks</span> : null}
-            {headerRecord ? <span className="header-chip">{headerRecord.value}</span> : null}
-            {headerNet ? <span className="header-chip">{headerNet.value}</span> : null}
           </div>
         </div>
         <div className="top-actions">
