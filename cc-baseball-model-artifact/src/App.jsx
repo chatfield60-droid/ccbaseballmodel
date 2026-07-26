@@ -13,6 +13,7 @@ const ODDS_PROXY_ORIGIN = "https://cc-baseball-board-20260710.chatfield60.chatgp
 // paired price exists, use its no-vig probability and move the fair only 15%.
 const PROP_PRICE_BLEND_WEIGHT = 0.15;
 const HIT_PROP_PRICE_BLEND_WEIGHT = 0.45;
+const TOTAL_BASES_PROP_PRICE_BLEND_WEIGHT = 0.60;
 // Sides and run lines use a stronger reconciliation than props. Extreme
 // model-vs-market gaps retain a model residual, but cannot surface as a
 // customer-facing price that ignores the paired pregame book.
@@ -96,10 +97,6 @@ const RESULT_MARKET_ALIASES = {
 // of the public performance surface until their rebuilt prop strategies have
 // enough out-of-sample results to earn a customer-facing track record.
 const HIDDEN_PERFORMANCE_MARKETS = new Set(["batter_hits", "batter_total_bases"]);
-// Total-bases recommendations are paused until their probability model clears
-// a new out-of-sample calibration review. Historical settled bets remain in
-// the private ledger, but no paused market can reach a customer-facing card.
-const PAUSED_CUSTOMER_PROP_MARKETS = new Set(["Batter TB"]);
 
 const APP_CSS = `
   :root {
@@ -1299,9 +1296,12 @@ function blendPropFairWithBook(fair, book, oppositeBook = null, market = null) {
   const fairProbability = impliedProbability(fair);
   const bookProbability = noVigBookProbability(book, oppositeBook);
   if (!Number.isFinite(fairProbability) || !Number.isFinite(bookProbability)) return fair;
-  const weight = normal(market) === "batter hits" || normal(market) === "batter hit"
+  const normalizedMarket = normal(market);
+  const weight = normalizedMarket === "batter hits" || normalizedMarket === "batter hit"
     ? HIT_PROP_PRICE_BLEND_WEIGHT
-    : PROP_PRICE_BLEND_WEIGHT;
+    : normalizedMarket === "batter tb" || normalizedMarket === "batter total bases"
+      ? TOTAL_BASES_PROP_PRICE_BLEND_WEIGHT
+      : PROP_PRICE_BLEND_WEIGHT;
   return americanFromProbability(fairProbability + (bookProbability - fairProbability) * weight);
 }
 
@@ -1686,6 +1686,18 @@ function poissonOverProbability(meanValue, line) {
     cumulative += term;
   }
   return clamp(1 - cumulative, 0.01, 0.99);
+}
+
+function totalBasesFairFromAngle(angle) {
+  const expected = finiteNumber(angle?.xslg);
+  const actual = finiteNumber(angle?.slg);
+  const slugging = expected != null && actual != null ? expected * 0.68 + actual * 0.32 : (expected ?? actual);
+  if (slugging == null) return null;
+  const expectedTotalBases = clamp(slugging * 3.57, 0.25, 2.60);
+  const raw = poissonOverProbability(expectedTotalBases, 1.5);
+  if (raw == null) return null;
+  const probability = clamp(0.32 + (raw - 0.32) * 0.36, 0.20, 0.50);
+  return americanFromProbability(probability);
 }
 
 function fairFromProjection(projected, line) {
@@ -2228,7 +2240,7 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
       <div className="results-market-heading">
         <div className="results-market-heading-copy">
           <h3>{performanceTitle}</h3>
-          <p className="results-section-label">Cumulative results for captured Bet / Strong picks. Today: {visibleEdgeTotal} posted edge{visibleEdgeTotal === 1 ? "" : "s"}, mapped to the projected-game badges.</p>
+          <p className="results-section-label">Cumulative results for captured Bet / Strong picks. Today’s posted counts use the same deduplicated action set as the projected-game badges.</p>
         </div>
         <div className="results-market-controls">
           <label className="results-market-sort">
@@ -2287,9 +2299,9 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
               {summary.decided ? <div><span>Won</span><b>{unitText(summary.wonUnits)}</b></div> : null}
               {summary.decided ? <div><span>Lost</span><b>{unitText(-summary.lostUnits)}</b></div> : null}
               {summary.pushes ? <div><span>Pushes</span><b>{summary.pushes}</b></div> : null}
-              {summary.pending ? <div className="open"><span>Open</span><b>{summary.pending}</b></div> : null}
+              {liveEdgeCount ? <div className="open"><span>Open today</span><b>{liveEdgeCount}</b></div> : null}
               {summary.voids ? <div className="void"><span>Void</span><b>{summary.voids}</b></div> : null}
-              {!summary.decided && !summary.pushes && !summary.pending && !summary.voids ? <span className="market-performance-empty">No settled wagers</span> : null}
+              {!summary.decided && !summary.pushes && !liveEdgeCount && !summary.voids ? <span className="market-performance-empty">No settled wagers</span> : null}
             </div>
             {progress != null ? <div className="market-performance-progress">
               <span className="market-performance-progress-label">Accuracy {accuracy}</span>
@@ -2444,20 +2456,27 @@ function probabilityEdgeMetric(edge) {
   return `${numeric > 0 ? "+" : ""}${(numeric * 100).toFixed(1)}% implied edge`;
 }
 
-function tieredDesignation(edge, ev, detailWhenLive, noEdgeDetail = "Book price has not cleared fair.") {
+function tieredDesignation(edge, ev, detailWhenLive, noEdgeDetail = "Book price has not cleared fair.", market = null) {
   const edgeNumber = Number(edge);
   const evNumber = Number(ev);
   if (!Number.isFinite(edgeNumber) || !Number.isFinite(evNumber)) {
     return { label: "Watch price", tone: "watch", detail: "No pregame book price yet." };
   }
   const detail = detailWhenLive || `${probabilityEdgeMetric(edgeNumber)} vs book.`;
+  const normalizedMarket = normal(market);
+  if (normalizedMarket === "batter tb" || normalizedMarket === "batter total bases") {
+    if (evNumber > 0 && edgeNumber >= 0.055 && evNumber >= 0.10) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
+    if (evNumber > 0 && edgeNumber >= 0.04 && evNumber >= 0.06) return { label: "Bet", tone: "bet", detail, edgeScore: edgeNumber, ev: evNumber };
+    if (evNumber > 0 && edgeNumber >= 0.025 && evNumber >= 0.025) return { label: "Lean", tone: "lean", detail: `${detail} Thin margin.`, edgeScore: edgeNumber, ev: evNumber };
+    return { label: "No edge", tone: "pass", detail: noEdgeDetail, edgeScore: edgeNumber, ev: evNumber };
+  }
   if (evNumber > 0 && (edgeNumber >= STRONG_PROB_EDGE || evNumber >= 0.07)) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
   if (evNumber > 0 && (edgeNumber >= BET_PROB_EDGE || evNumber >= 0.04)) return { label: "Bet", tone: "bet", detail, edgeScore: edgeNumber, ev: evNumber };
   if (evNumber > 0 && (edgeNumber >= LEAN_PROB_EDGE || evNumber > 0.015)) return { label: "Lean", tone: "lean", detail: `${detail} Thin margin.`, edgeScore: edgeNumber, ev: evNumber };
   return { label: "No edge", tone: "pass", detail: noEdgeDetail, edgeScore: edgeNumber, ev: evNumber };
 }
 
-function designationForOdds(fair, book, oppositeBook = null) {
+function designationForOdds(fair, book, oppositeBook = null, market = null) {
   const fairProbability = impliedProbability(fair);
   const bookProbability = noVigBookProbability(book, oppositeBook);
   if (!Number.isFinite(fairProbability) || !Number.isFinite(bookProbability) || !validBookPrice(book)) {
@@ -2466,7 +2485,7 @@ function designationForOdds(fair, book, oppositeBook = null) {
   const edge = fairProbability - bookProbability;
   const ev = expectedValuePerUnit(fairProbability, book);
   const detail = `${probabilityEdgeMetric(edge)} · fair ${price(fair)} vs book ${price(book)}.`;
-  return tieredDesignation(edge, ev, detail);
+  return tieredDesignation(edge, ev, detail, "Book price has not cleared fair.", market);
 }
 
 function pitcherKPriceAngle({ fair, underFair, overBook, underBook }) {
@@ -3372,15 +3391,17 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     };
   }).filter((row) => row?.player && Number.isFinite(Number(row.fair)) && (row.hasBook || row.hasManualLine));
   const batterPropRows = (game.batter_prop_angles || [])
-    .filter((angle) => !PAUSED_CUSTOMER_PROP_MARKETS.has(angle?.market))
     .map((angle, index) => {
     const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)] || angle.book_quote || null;
     const hasBook = validBookPrice(live?.price);
     const oppositeSide = propSideKey(angle.side || "Over") === "over" ? "Under" : "Over";
     const oppositeLive = odds.batter?.[propQuoteKey(angle.market, angle.player, oppositeSide, angle.line)];
-    const fair = hasBook ? blendPropFairWithBook(angle.fair, live.price, oppositeLive?.price, angle.market) : angle.fair;
+    const requiresPairedMarket = normal(angle.market) === "batter tb" || normal(angle.market) === "batter total bases";
+    const hasPairedMarket = validBookPrice(oppositeLive?.price);
+    const modelFair = requiresPairedMarket ? (totalBasesFairFromAngle(angle) ?? angle.fair) : angle.fair;
+    const fair = hasBook ? blendPropFairWithBook(modelFair, live.price, oppositeLive?.price, angle.market) : modelFair;
     const designation = hasBook
-      ? designationForOdds(fair, live.price, oppositeLive?.price)
+      ? designationForOdds(fair, live.price, oppositeLive?.price, angle.market)
       : { label: "Fair only", tone: "watch", detail: "Refresh pregame odds to price this angle." };
     return {
       ...angle,
@@ -3388,7 +3409,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       fair,
       play_to: playToFromFair(fair) ?? angle.play_to,
       book: hasBook ? live : null,
-      hasBook,
+      hasBook: hasBook && (!requiresPairedMarket || hasPairedMarket),
       designation,
     };
     }).filter((angle) => angle?.player && angle?.market && Number.isFinite(Number(angle.fair)) && angle.hasBook);
@@ -3690,7 +3711,7 @@ function CustomerBoard() {
           for (const bookmaker of propOdds.bookmakers || []) {
             for (const market of bookmaker.markets || []) {
               const label = propMarketLabel(market.key);
-              if (!["Batter HR", "Batter hits", "Batter strikeouts"].includes(label)) continue;
+              if (!["Batter HR", "Batter hits", "Batter TB", "Batter strikeouts"].includes(label)) continue;
               for (const outcome of market.outcomes || []) {
                 const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
                 const key = propQuoteKey(label, outcome.description, outcome.name, line);
@@ -3717,7 +3738,7 @@ function CustomerBoard() {
         if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("pitcher K prices unavailable");
 
-        const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_strikeouts");
+        const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases,batter_strikeouts");
         if (propOdds) parseBatterOdds(propOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
 
