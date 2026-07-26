@@ -1936,6 +1936,74 @@ function uniqueEdges(edges) {
   });
 }
 
+function canonicalEdgeKey(edge) {
+  const betKind = edge?.betKind === "batter_prop"
+    ? `batter_prop:${resultMarketKey(edge?.propMarket)}`
+    : resultMarketKey(edge?.betKind || edge?.market);
+  return [
+    String(edge?.gameKey || edge?.game_id || ""),
+    betKind,
+    normal(edge?.player),
+    normal(edge?.teamSide || edge?.team_side),
+    normal(edge?.betSide || edge?.side),
+    Number.isFinite(Number(edge?.line)) ? Number(edge.line) : "",
+  ].join("|");
+}
+
+function publishedPostedEdge(raw, game, gameIndex) {
+  if (!raw || typeof raw !== "object" || !game) return null;
+  const market = resultMarketKey(raw.market);
+  const propMarkets = new Set(["batter_hr", "batter_hits", "batter_tb", "batter_strikeouts"]);
+  const propMarket = {
+    batter_hr: "Batter HR",
+    batter_hits: "Batter hits",
+    batter_tb: "Batter TB",
+    batter_strikeouts: "Batter strikeouts",
+  }[market] || null;
+  const tone = raw.tier;
+  const book = finiteNumber(raw.book_odds);
+  const fair = finiteNumber(raw.fair);
+  const edge = finiteNumber(raw.edge_probability);
+  if (!isActionTone(tone) || !validBookPrice(book) || !Number.isFinite(fair) || !Number.isFinite(edge)) return null;
+  const betKind = propMarkets.has(market) ? "batter_prop" : market;
+  return {
+    category: raw.category || (propMarkets.has(market) || market === "pitcher_strikeouts" ? "Prop" : "Market"),
+    betKind,
+    propMarket,
+    player: raw.player || null,
+    teamSide: raw.team_side || null,
+    betSide: raw.side || null,
+    line: Number.isFinite(Number(raw.line)) ? Number(raw.line) : null,
+    title: raw.selection || trackedMarketText(market),
+    subtitle: "Captured pregame selection",
+    fair,
+    book,
+    fairDisplay: price(fair),
+    bookDisplay: price(book),
+    bookName: raw.book || "Sportsbook",
+    label: confidenceLabel(tone),
+    tone,
+    edge,
+    gameKey: gameKey(game),
+    gameLabel: `${game.away} @ ${game.home}`,
+    gameIndex,
+  };
+}
+
+function mergeWithPublishedPostedEdges(localEdges, publishedEdges) {
+  const canonical = (publishedEdges || []).filter(Boolean);
+  if (!canonical.length) return uniqueEdges(localEdges || []);
+  const canonicalKeys = new Set(canonical.map(canonicalEdgeKey));
+  const retained = (localEdges || []).filter((edge) => {
+    const key = canonicalEdgeKey(edge);
+    // Canonical captured selections replace browser recomputation. A local
+    // Bet/Strong that was not captured is not a posted edge and cannot show.
+    if (isActionTone(edge?.tone)) return false;
+    return !canonicalKeys.has(key);
+  });
+  return uniqueEdges([...retained, ...canonical]);
+}
+
 function slateEdgeGroupKey(edge) {
   if (["moneyline", "run_line", "f5_moneyline", "f5_run_line"].includes(edge?.betKind)) return "sides";
   return "totals";
@@ -3551,10 +3619,31 @@ function CustomerBoard() {
   const displayGames = useMemo(() => games.map((item) => marketAdjustedGame(item, activeOddsByGame[gameKey(item)] || blankOdds())), [games, activeOddsByGame]);
   const game = displayGames[gameIndex] || displayGames[0] || null;
   const resultRows = useMemo(() => flattenResultsHistory(resultHistory), [resultHistory]);
-  const gameDisplays = useMemo(() => displayGames.map((item, index) => ({
-    game: item,
-    ...buildGameDisplay(item, activeOddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {}),
-  })), [displayGames, activeOddsByGame, kMode, gameIndex, kLineOverrides]);
+  const publishedEdgesByGame = useMemo(() => {
+    const byGame = {};
+    for (const raw of Array.isArray(BOARD.posted_edges) ? BOARD.posted_edges : []) {
+      const gameId = String(raw?.game_id ?? "");
+      if (!gameId) continue;
+      byGame[gameId] ||= [];
+      byGame[gameId].push(raw);
+    }
+    return byGame;
+  }, []);
+  const gameDisplays = useMemo(() => displayGames.map((item, index) => {
+    const baseDisplay = buildGameDisplay(item, activeOddsByGame[gameKey(item)] || blankOdds(), kMode, index === gameIndex ? kLineOverrides : {});
+    const canonical = (publishedEdgesByGame[gameKey(item)] || [])
+      .map((raw) => publishedPostedEdge(raw, item, index))
+      .filter(Boolean);
+    const allEdges = mergeWithPublishedPostedEdges(baseDisplay.allEdges, canonical)
+      .sort((a, b) => tierRank(b.tone) - tierRank(a.tone) || (b.edge || 0) - (a.edge || 0));
+    return {
+      game: item,
+      ...baseDisplay,
+      marketEdges: allEdges.filter((edge) => edge.category === "Market"),
+      pricedEdges: allEdges.filter((edge) => edge.category === "Prop"),
+      allEdges,
+    };
+  }), [displayGames, activeOddsByGame, kMode, gameIndex, kLineOverrides, publishedEdgesByGame]);
   const selectedDisplay = gameDisplays[gameIndex] || buildGameDisplay(game, activeOddsByGame[gameKey(game)] || blankOdds(), kMode, kLineOverrides);
 
   useEffect(() => {
