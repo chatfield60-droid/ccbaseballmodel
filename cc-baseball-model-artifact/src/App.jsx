@@ -92,9 +92,14 @@ const RESULT_MARKET_ALIASES = {
   batter_tb: "batter_total_bases",
   batter_home_runs: "batter_hr",
 };
-// Batter hits remain in the historical ledgers, but stay out of the public
-// performance surface until the refreshed hit-prop strategy has a track record.
-const HIDDEN_PERFORMANCE_MARKETS = new Set(["batter_hits"]);
+// Batter hits and total bases remain in the historical ledgers, but stay out
+// of the public performance surface until their rebuilt prop strategies have
+// enough out-of-sample results to earn a customer-facing track record.
+const HIDDEN_PERFORMANCE_MARKETS = new Set(["batter_hits", "batter_total_bases"]);
+// Total-bases recommendations are paused until their probability model clears
+// a new out-of-sample calibration review. Historical settled bets remain in
+// the private ledger, but no paused market can reach a customer-facing card.
+const PAUSED_CUSTOMER_PROP_MARKETS = new Set(["Batter TB"]);
 
 const APP_CSS = `
   :root {
@@ -3366,7 +3371,9 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       ...pricing,
     };
   }).filter((row) => row?.player && Number.isFinite(Number(row.fair)) && (row.hasBook || row.hasManualLine));
-  const batterPropRows = (game.batter_prop_angles || []).map((angle, index) => {
+  const batterPropRows = (game.batter_prop_angles || [])
+    .filter((angle) => !PAUSED_CUSTOMER_PROP_MARKETS.has(angle?.market))
+    .map((angle, index) => {
     const live = odds.batter?.[propQuoteKey(angle.market, angle.player, angle.side || "Over", angle.line)] || angle.book_quote || null;
     const hasBook = validBookPrice(live?.price);
     const oppositeSide = propSideKey(angle.side || "Over") === "over" ? "Under" : "Over";
@@ -3384,7 +3391,7 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       hasBook,
       designation,
     };
-  }).filter((angle) => angle?.player && angle?.market && Number.isFinite(Number(angle.fair)) && angle.hasBook);
+    }).filter((angle) => angle?.player && angle?.market && Number.isFinite(Number(angle.fair)) && angle.hasBook);
   // This is the exact customer-facing batter-prop shortlist: it excludes
   // no-edge and lean rows, then caps each offense at three priced plays.
   // The same action threshold/cap is used by the durable wager extractor.
@@ -3683,7 +3690,7 @@ function CustomerBoard() {
           for (const bookmaker of propOdds.bookmakers || []) {
             for (const market of bookmaker.markets || []) {
               const label = propMarketLabel(market.key);
-              if (!["Batter HR", "Batter hits", "Batter TB", "Batter strikeouts"].includes(label)) continue;
+              if (!["Batter HR", "Batter hits", "Batter strikeouts"].includes(label)) continue;
               for (const outcome of market.outcomes || []) {
                 const line = outcome.point ?? (market.key === "batter_home_runs" ? 0.5 : null);
                 const key = propQuoteKey(label, outcome.description, outcome.name, line);
@@ -3710,7 +3717,7 @@ function CustomerBoard() {
         if (pitcherKOdds) parseStandardOdds(pitcherKOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("pitcher K prices unavailable");
 
-        const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_total_bases,batter_strikeouts");
+        const propOdds = await fetchOddsPayload("batter_home_runs,batter_hits,batter_strikeouts");
         if (propOdds) parseBatterOdds(propOdds);
         else if (!warnings.has("sportsbook odds key rejected")) warnings.add("batter prop prices unavailable");
 
