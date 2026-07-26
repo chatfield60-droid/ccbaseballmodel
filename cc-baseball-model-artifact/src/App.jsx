@@ -3058,17 +3058,11 @@ function initialOddsSnapshot(date, slateGames = []) {
     published.fetched_at,
     Object.values(published.games || {}).some((entry) => hasOddsEntry(entry)),
   );
-  // Browser storage can refine an already published daily capture, but it can
-  // never become the shared source that unlocks customer plays on its own.
+  // The published capture is the sole customer selection source. A browser
+  // refresh may verify price availability, but it must never create a private
+  // local edge set that diverges from the durable posted-bet ledger.
   if (!publishedHasDailyCapture) return { games: {}, fetched_at: null };
-  const stored = readStoredOddsSnapshot(date);
-  const merged = mergeOddsHistories({ [date]: published }, { [date]: stored })[date] || { games: {}, fetched_at: null };
-  const publishedAt = timestampMs(published.fetched_at) || 0;
-  const storedAt = timestampMs(stored.fetched_at) || 0;
-  return {
-    ...merged,
-    fetched_at: storedAt > publishedAt ? stored.fetched_at : published.fetched_at || stored.fetched_at || null,
-  };
+  return published;
 }
 
 function writeStoredOddsHistory(date, oddsByGame, fetchedAt = new Date().toISOString()) {
@@ -3771,14 +3765,11 @@ function CustomerBoard() {
         return;
       }
       const fetchedAt = new Date().toISOString();
-      writeStoredOddsHistory(BOARD.date, nextOddsByGame, fetchedAt);
-      setOddsByGame(nextOddsByGame);
-      setLastOddsUpdatedAt(Date.parse(fetchedAt));
       setNowTick(Date.now());
       setOddsRefreshFailed(false);
       const warningList = [...warnings];
       const captureNote = hasPublishedDailyCapture ? "" : " The shared daily capture is still required before customer plays unlock.";
-      setMessage(`Pregame odds updated for ${successfulGames} game${successfulGames === 1 ? "" : "s"}.${captureNote}${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
+      setMessage(`Pregame odds verified for ${successfulGames} game${successfulGames === 1 ? "" : "s"}.${captureNote}${warningList.length ? ` ${warningList.includes("sportsbook odds key rejected") ? "The sportsbook odds endpoint is rejecting the configured API key, so some pregame book prices are not available yet." : `Some markets are not returned by the sportsbook feed: ${warningList.join(", ")}.`}` : ""}`);
     } catch (error) {
       setOddsRefreshFailed(true);
       setMessage(`Pregame odds refresh is unavailable right now.${hasPublishedDailyCapture ? " Showing the last captured prices." : " No new prices were saved."}`);
