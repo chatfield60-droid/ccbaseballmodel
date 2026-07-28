@@ -12,8 +12,8 @@ const ODDS_PROXY_ORIGIN = "https://cc-baseball-board-20260710.chatfield60.chatgp
 // Props receive a deliberately lighter price check than sides/totals. When a
 // paired price exists, use its no-vig probability and move the fair only 15%.
 const PROP_PRICE_BLEND_WEIGHT = 0.15;
-const HIT_PROP_PRICE_BLEND_WEIGHT = 0.45;
-const TOTAL_BASES_PROP_PRICE_BLEND_WEIGHT = 0.60;
+const HIT_PROP_PRICE_BLEND_WEIGHT = 0.60;
+const TOTAL_BASES_PROP_PRICE_BLEND_WEIGHT = 0.70;
 // Sides and run lines use a stronger reconciliation than props. Extreme
 // model-vs-market gaps retain a model residual, but cannot surface as a
 // customer-facing price that ignores the paired pregame book.
@@ -2527,7 +2527,7 @@ function probabilityEdgeMetric(edge) {
   return `${numeric > 0 ? "+" : ""}${(numeric * 100).toFixed(1)}% implied edge`;
 }
 
-function tieredDesignation(edge, ev, detailWhenLive, noEdgeDetail = "Book price has not cleared fair.", market = null) {
+function tieredDesignation(edge, ev, detailWhenLive, noEdgeDetail = "Book price has not cleared fair.", market = null, book = null) {
   const edgeNumber = Number(edge);
   const evNumber = Number(ev);
   if (!Number.isFinite(edgeNumber) || !Number.isFinite(evNumber)) {
@@ -2536,9 +2536,22 @@ function tieredDesignation(edge, ev, detailWhenLive, noEdgeDetail = "Book price 
   const detail = detailWhenLive || `${probabilityEdgeMetric(edgeNumber)} vs book.`;
   const normalizedMarket = normal(market);
   if (normalizedMarket === "batter tb" || normalizedMarket === "batter total bases") {
-    if (evNumber > 0 && edgeNumber >= 0.055 && evNumber >= 0.10) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
-    if (evNumber > 0 && edgeNumber >= 0.04 && evNumber >= 0.06) return { label: "Bet", tone: "bet", detail, edgeScore: edgeNumber, ev: evNumber };
-    if (evNumber > 0 && edgeNumber >= 0.025 && evNumber >= 0.025) return { label: "Lean", tone: "lean", detail: `${detail} Thin margin.`, edgeScore: edgeNumber, ev: evNumber };
+    if (evNumber > 0 && edgeNumber >= 0.09 && evNumber >= 0.18) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
+    if (evNumber > 0 && edgeNumber >= 0.065 && evNumber >= 0.12) return { label: "Bet", tone: "bet", detail, edgeScore: edgeNumber, ev: evNumber };
+    if (evNumber > 0 && edgeNumber >= 0.045 && evNumber >= 0.06) return { label: "Lean", tone: "lean", detail: `${detail} Thin margin.`, edgeScore: edgeNumber, ev: evNumber };
+    return { label: "No edge", tone: "pass", detail: noEdgeDetail, edgeScore: edgeNumber, ev: evNumber };
+  }
+  if (normalizedMarket === "batter hits" || normalizedMarket === "batter hit") {
+    const middleJuice = Number.isFinite(Number(book)) && Number(book) >= -159 && Number(book) <= -130;
+    const strongEdge = middleJuice ? 0.11 : 0.075;
+    const strongEv = middleJuice ? 0.14 : 0.09;
+    const betEdge = middleJuice ? 0.08 : 0.055;
+    const betEv = middleJuice ? 0.10 : 0.065;
+    const leanEdge = middleJuice ? 0.055 : 0.035;
+    const leanEv = middleJuice ? 0.06 : 0.035;
+    if (evNumber > 0 && edgeNumber >= strongEdge && evNumber >= strongEv) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
+    if (evNumber > 0 && edgeNumber >= betEdge && evNumber >= betEv) return { label: "Bet", tone: "bet", detail, edgeScore: edgeNumber, ev: evNumber };
+    if (evNumber > 0 && edgeNumber >= leanEdge && evNumber >= leanEv) return { label: "Lean", tone: "lean", detail: `${detail} Thin margin.`, edgeScore: edgeNumber, ev: evNumber };
     return { label: "No edge", tone: "pass", detail: noEdgeDetail, edgeScore: edgeNumber, ev: evNumber };
   }
   if (evNumber > 0 && (edgeNumber >= STRONG_PROB_EDGE || evNumber >= 0.07)) return { label: "Strong bet", tone: "strong", detail, edgeScore: edgeNumber, ev: evNumber };
@@ -2556,7 +2569,7 @@ function designationForOdds(fair, book, oppositeBook = null, market = null) {
   const edge = fairProbability - bookProbability;
   const ev = expectedValuePerUnit(fairProbability, book);
   const detail = `${probabilityEdgeMetric(edge)} · fair ${price(fair)} vs book ${price(book)}.`;
-  return tieredDesignation(edge, ev, detail, "Book price has not cleared fair.", market);
+  return tieredDesignation(edge, ev, detail, "Book price has not cleared fair.", market, book);
 }
 
 function pitcherKPriceAngle({ fair, underFair, overBook, underBook }) {
