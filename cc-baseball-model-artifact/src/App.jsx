@@ -980,7 +980,10 @@ function performanceRows(rows) {
   return (rows || [])
     .map((row) => ({
       ...row,
-      bets: (row?.bets || []).filter((bet) => !HIDDEN_PERFORMANCE_MARKETS.has(resultMarketKey(bet?.market))),
+      bets: (row?.bets || []).filter((bet) => (
+        bet?.edgeTier === "strong"
+        && !HIDDEN_PERFORMANCE_MARKETS.has(resultMarketKey(bet?.market))
+      )),
     }))
     .filter((row) => row.bets.length > 0);
 }
@@ -998,7 +1001,7 @@ function liveEdgeMarketKey(edge) {
 
 function liveEdgeCountsByMarket(edges) {
   return uniqueEdges(edges).reduce((counts, edge) => {
-    if (!isActionTone(edge?.tone)) return counts;
+    if (edge?.tone !== "strong") return counts;
     const key = liveEdgeMarketKey(edge);
     counts[key] = (counts[key] || 0) + 1;
     return counts;
@@ -2308,7 +2311,7 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
       <div className="results-market-heading">
         <div className="results-market-heading-copy">
           <h3>{performanceTitle}</h3>
-          <p className="results-section-label">Cumulative results for captured Bet / Strong picks. Today’s posted counts use the same deduplicated action set as the projected-game badges.</p>
+          <p className="results-section-label">Cumulative results for captured Strong picks. Today’s posted counts use the same deduplicated Strong selection set as the projected-game badges.</p>
         </div>
         <div className="results-market-controls">
           <label className="results-market-sort">
