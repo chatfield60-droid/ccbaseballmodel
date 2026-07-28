@@ -2264,10 +2264,25 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
   const visibleRows = performanceRows(rows);
   const visibleEdgeCounts = performanceEdgeCounts(currentEdgeCounts);
   const visibleEdgeTotal = Object.values(visibleEdgeCounts).reduce((sum, count) => sum + (Number(count) || 0), 0);
-  const bets = uniqueResultBets(visibleRows);
+  const sideMarkets = new Set(["moneyline", "run_line", "f5_moneyline", "f5_run_line"]);
+  const totalMarkets = new Set(["full_total", "team_total", "f5_total"]);
+  const tabRows = performanceTab === "overview"
+    ? visibleRows
+    : visibleRows
+      .map((row) => ({
+        ...row,
+        bets: (row.bets || []).filter((bet) => {
+          const key = resultMarketKey(bet?.market);
+          if (performanceTab === "sides") return sideMarkets.has(key);
+          if (performanceTab === "totals") return totalMarkets.has(key);
+          return !sideMarkets.has(key) && !totalMarkets.has(key);
+        }),
+      }))
+      .filter((row) => row.bets.length > 0);
+  const bets = uniqueResultBets(tabRows);
   if (!bets.length) return null;
-  const metrics = summarizeResults(visibleRows);
-  const marketGroups = resultMarketGroups(visibleRows);
+  const metrics = summarizeResults(tabRows);
+  const marketGroups = resultMarketGroups(tabRows);
   const visibleMarketGroups = sortMarketPerformanceGroups(
     marketScope === "graded" ? marketGroups.filter((group) => Number(group.summary?.settled) > 0) : marketGroups,
     marketSort,
@@ -2282,16 +2297,7 @@ function ResultsPerformance({ rows, date, currentEdgeCounts, currentEdgeTotal })
     ["totals", "Totals"],
     ["props", "Props"],
   ];
-  const sideMarkets = new Set(["moneyline", "run_line", "f5_moneyline", "f5_run_line"]);
-  const totalMarkets = new Set(["full_total", "team_total", "f5_total"]);
-  const tabMarketGroups = performanceTab === "overview"
-    ? visibleMarketGroups
-    : visibleMarketGroups.filter((group) => {
-      const key = group.info?.key;
-      if (performanceTab === "sides") return sideMarkets.has(key);
-      if (performanceTab === "totals") return totalMarkets.has(key);
-      return !sideMarkets.has(key) && !totalMarkets.has(key);
-    });
+  const tabMarketGroups = visibleMarketGroups;
   const highlights = ["Record", "Accuracy", "Net units", "ROI"]
     .map((label) => metrics.find((metric) => metric.label === label))
     .filter(Boolean);
