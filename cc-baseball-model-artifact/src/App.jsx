@@ -2116,10 +2116,18 @@ function BatterKTargetsBoard({ targets }) {
   </section>;
 }
 
-function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
-  // `angles` is already the capped, price-gated Bet/Strong list used by the
-  // public wager ledger. Do not independently reshuffle it here.
-  const rows = (angles || []).filter((angle) => angle?.hasBook && isActionTone(angle?.designation?.tone));
+function PlayerPropAnglesBoard({ batterRows, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
+  // Player props need a dedicated customer surface. The full list remains
+  // book-price-gated; the separate posted-edge subset still drives the ledger
+  // and featured-bet displays.
+  const rows = (batterRows || [])
+    .filter((angle) => angle?.hasBook)
+    .sort((left, right) => (
+      tierRank(right.designation?.tone) - tierRank(left.designation?.tone)
+      || (right.designation?.edgeScore ?? -999) - (left.designation?.edgeScore ?? -999)
+      || String(left.market || "").localeCompare(String(right.market || ""))
+      || String(left.player || "").localeCompare(String(right.player || ""))
+    ));
   // A manually entered K line is a fair-only alternate until a matching book
   // quote is available. Keep it on screen for pricing, but never promote it
   // to a customer-facing bet without that exact quote.
@@ -2127,7 +2135,7 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
   if (!rows.length && !kRows.length) return null;
   return <section className="panel-section props-panel" id="props">
     <div className="panel-heading">
-      <div><h2>Props</h2><p className="muted">Book-backed Bet / Strong props and manual K fairs</p></div>
+      <div><h2>Pitcher strikeouts</h2><p className="muted">Book-backed K angles and manual alternate fairs</p></div>
       {kRows.length ? <div className="segmented" aria-label="K projection mode">
         <button type="button" className={kMode === "base" ? "active" : ""} onClick={() => onKModeChange("base")}>Base K</button>
         <button type="button" className={kMode === "ceiling" ? "active" : ""} onClick={() => onKModeChange("ceiling")}>Ceiling K</button>
@@ -2165,7 +2173,12 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
           {row.explainer ? <details className="angle-details"><summary>Why this angle</summary><p>{row.explainer}</p></details> : null}
         </article>;
       })}
-      {rows.map((angle, index) => <article className="angle" key={`${angle.player}-${angle.market}-${index}`}>
+    </div>
+    <section className="player-prop-section">
+      <div className="panel-heading">
+        <div><h2>Player props</h2><p className="muted">Book-priced homerun, hits, and total bases markets</p></div>
+      </div>
+      {rows.length ? <div className="angle-list">{rows.map((angle, index) => <article className="angle" key={`${angle.player}-${angle.market}-${index}`}>
         <div className="angle-top">
           <div>
             <h3>{angle.player} {propMarketText(angle.market)} {angle.side || "Over"} {angle.line ?? "—"}</h3>
@@ -2180,8 +2193,8 @@ function PlayerPropAnglesBoard({ angles, pitcherRows, kMode, onKModeChange, line
           <span>Prob <b>{probabilityText(angle.probability)}</b></span>
         </div>
         {angle.explainer ? <details className="angle-details"><summary>Why this angle</summary><p>{angle.explainer}</p></details> : null}
-      </article>)}
-    </div>
+      </article>)}</div> : <p className="overview-empty">No matching pregame player-prop prices are available for this matchup yet.</p>}
+    </section>
   </section>;
 }
 
@@ -2245,7 +2258,7 @@ function SelectedGameWorkspace({ game, display, awayHand, homeHand, activeTab, o
     </div> : null}
     {activeTab === "props" ? <div className="game-tab-panel">
       <BatterKTargetsBoard targets={display.kTargetRows} />
-      <PlayerPropAnglesBoard angles={display.postedBatterPropRows} pitcherRows={display.pitcherKFairRows} kMode={kMode} onKModeChange={onKModeChange} lineOverrides={lineOverrides} onLineChange={onLineChange} />
+      <PlayerPropAnglesBoard batterRows={display.batterPropRows} pitcherRows={display.pitcherKFairRows} kMode={kMode} onKModeChange={onKModeChange} lineOverrides={lineOverrides} onLineChange={onLineChange} />
     </div> : null}
     {activeTab === "model" ? <div className="game-tab-panel">
       <article className="selected-model-copy">
