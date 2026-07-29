@@ -1812,6 +1812,7 @@ function propAngleTags(angle) {
 }
 
 function TodayBestBets({ edges, hasOdds, onSelectGame }) {
+  if (!hasOdds) return null;
   const actionable = uniqueEdges(edges).filter((edge) => isGradedBetTone(edge?.tone));
   const priority = actionable.filter((edge) => ["strong", "bet"].includes(edge.tone));
   const picks = (priority.length ? priority : actionable).slice(0, 3);
@@ -1821,9 +1822,9 @@ function TodayBestBets({ edges, hasOdds, onSelectGame }) {
         <p className="eyebrow">Today&apos;s best bets</p>
         <h1>Actionable pregame edges</h1>
       </div>
-      <span className="decision-hero-status">{hasOdds ? `${picks.length} featured` : "Waiting for odds"}</span>
+      <span className="decision-hero-status">{`${picks.length} featured`}</span>
     </div>
-    {hasOdds && picks.length ? <div className="decision-picks">
+    {picks.length ? <div className="decision-picks">
       {picks.map((edge, index) => <button
         className={`decision-pick ${edge.tone || "lean"}`}
         type="button"
@@ -1843,13 +1844,13 @@ function TodayBestBets({ edges, hasOdds, onSelectGame }) {
         </div>
         <p>{firstSentence(edge.subtitle)}</p>
       </button>)}
-    </div> : <div className="decision-hero-empty">Pregame book prices are needed before a play appears here.</div>}
+    </div> : null}
   </section>;
 }
 
-function DashboardNav({ onNavigate }) {
+function DashboardNav({ onNavigate, showBestBets }) {
   const items = [
-    ["best-bets", "Best bets"],
+    ...(showBestBets ? [["best-bets", "Best bets"]] : []),
     ["games", "Games"],
     ["props", "Props"],
     ["performance", "Performance"],
@@ -2037,6 +2038,7 @@ function PricedEdgeCard({ edge, index }) {
 }
 
 function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChange }) {
+  if (!hasOdds) return null;
   const visibleEdges = uniqueEdges(tier === "all" ? edges : edges.filter((edge) => edge.tone === tier));
   const groups = view === "slate" ? slateEdgeGroups(visibleEdges) : [];
   const featuredEdgeIds = new Set(groups.flatMap((group) => group.edges.map(edgeIdentity)));
@@ -2045,7 +2047,7 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChang
   const tierLabel = tier === "all" ? "all tiers" : confidenceLabel(tier).toLowerCase();
   const status = visibleEdges.length
     ? view === "slate" ? `${featuredCount} highlighted · ${visibleEdges.length} ${tierLabel}` : `${visibleEdges.length} ${tierLabel}`
-    : hasOdds ? `No ${tierLabel} on this board` : "Waiting for odds";
+    : `No ${tierLabel} on this board`;
   return <details className="card advanced-disclosure" id="market-edges">
     <summary>
       <span><h2>Market edges</h2></span>
@@ -4004,7 +4006,7 @@ function CustomerBoard() {
         </div>
       </header>
 
-      <DashboardNav onNavigate={navigateDashboard} />
+      <DashboardNav onNavigate={navigateDashboard} showBestBets={hasPublishedDailyCapture} />
 
       <div className="shell">
         <TodayBestBets
