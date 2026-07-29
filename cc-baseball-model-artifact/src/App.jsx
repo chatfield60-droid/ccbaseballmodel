@@ -2086,7 +2086,13 @@ function PricedEdgeBoard({ edges, hasOdds, view, onViewChange, tier, onTierChang
 
 function BatterKTargetsBoard({ targets }) {
   if (!targets.length) return null;
-  const lineupPending = targets.some((target) => target?.eligibility_source === "active_roster");
+  const allConfirmed = targets.every((target) => target?.eligibility_source === "confirmed_lineup");
+  const hasActiveRoster = targets.some((target) => target?.eligibility_source === "active_roster");
+  const eligibilityLabel = allConfirmed
+    ? "confirmed lineup"
+    : hasActiveRoster
+      ? "active roster"
+      : "projected matchup";
   const featuredTargets = targets.slice(0, 8);
   const remainingTargets = targets.slice(featuredTargets.length);
   const targetCard = (target, index) => <article className="k-card" key={`${target.batter}-${target.pitcher}-${index}`}>
@@ -2102,7 +2108,7 @@ function BatterKTargetsBoard({ targets }) {
     <span className="fair-note">Play-to {price(target.play_to)}</span>
   </article>;
   return <section className="panel-section props-panel">
-    <div className="panel-heading"><h2>Batter strikeout angles</h2><span className="muted">Over 1.5 K · {lineupPending ? "active roster" : "confirmed lineup"} · fair prices</span></div>
+    <div className="panel-heading"><h2>Batter strikeout angles</h2><span className="muted">Over 1.5 K · {eligibilityLabel} · fair prices</span></div>
     <div className="k-grid">
       {featuredTargets.map(targetCard)}
     </div>
@@ -2578,6 +2584,16 @@ function designationForOdds(fair, book, oppositeBook = null, market = null) {
   const ev = expectedValuePerUnit(fairProbability, book);
   const detail = `${probabilityEdgeMetric(edge)} · fair ${price(fair)} vs book ${price(book)}.`;
   return tieredDesignation(edge, ev, detail, "Book price has not cleared fair.", market, book);
+}
+
+function capUnprovenPropDesignation(designation, calibrationLimited) {
+  if (!calibrationLimited || designation?.tone !== "strong") return designation;
+  return {
+    ...designation,
+    label: "Bet",
+    tone: "bet",
+    detail: `${designation.detail} Capped at Bet while this market rebuilds its out-of-sample record.`,
+  };
 }
 
 function pitcherKPriceAngle({ fair, underFair, overBook, underBook }) {
@@ -3490,9 +3506,10 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
     const hasPairedMarket = validBookPrice(oppositeLive?.price);
     const modelFair = requiresPairedMarket ? (totalBasesFairFromAngle(angle) ?? angle.fair) : angle.fair;
     const fair = hasBook ? blendPropFairWithBook(modelFair, live.price, oppositeLive?.price, angle.market) : modelFair;
-    const designation = hasBook
+    const rawDesignation = hasBook
       ? designationForOdds(fair, live.price, oppositeLive?.price, angle.market)
       : { label: "Fair only", tone: "watch", detail: "Refresh pregame odds to price this angle." };
+    const designation = capUnprovenPropDesignation(rawDesignation, Boolean(angle.calibration_limited));
     return {
       ...angle,
       key: `${angle.player}-${angle.market}-${index}`,
