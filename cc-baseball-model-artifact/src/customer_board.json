@@ -16,29 +16,29 @@
       "time": "12:10 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.5,
-      "home_score": 4.4,
-      "total": 8.9,
-      "home_win_probability": 0.49,
+      "away_score": 4.3,
+      "home_score": 3.5,
+      "total": 7.8,
+      "home_win_probability": 0.394,
       "moneyline_fairs": {
-        "away_probability": 0.51,
-        "home_probability": 0.49,
-        "away_fair": -104,
-        "home_fair": 104
+        "away_probability": 0.606,
+        "home_probability": 0.394,
+        "away_fair": -154,
+        "home_fair": 154
       },
       "team_total_fairs": {
-        "away": 4.5,
-        "home": 4.4
+        "away": 4.3,
+        "home": 3.5
       },
       "f5": {
-        "away_score": 2.1,
-        "home_score": 2.3,
-        "total": 4.4,
-        "home_win_probability": 0.552,
-        "away_fair": 123,
-        "home_fair": -123
+        "away_score": 2.0,
+        "home_score": 1.8,
+        "total": 3.8,
+        "home_win_probability": 0.448,
+        "away_fair": -123,
+        "home_fair": 123
       },
-      "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
+      "synthesis": "The board sees a lower-scoring game script. PHI has the clearer projected scoring path.",
       "batter_prop_angles": [],
       "k_targets": [],
       "prop_angles": [
@@ -96,27 +96,27 @@
       "time": "12:35 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.4,
-      "home_score": 5.3,
-      "total": 9.7,
-      "home_win_probability": 0.612,
+      "away_score": 4.0,
+      "home_score": 5.6,
+      "total": 9.6,
+      "home_win_probability": 0.69,
       "moneyline_fairs": {
-        "away_probability": 0.388,
-        "home_probability": 0.612,
-        "away_fair": 158,
-        "home_fair": -158
+        "away_probability": 0.31,
+        "home_probability": 0.69,
+        "away_fair": 223,
+        "home_fair": -223
       },
       "team_total_fairs": {
-        "away": 4.4,
-        "home": 5.3
+        "away": 4.0,
+        "home": 5.6
       },
       "f5": {
-        "away_score": 2.2,
-        "home_score": 2.8,
-        "total": 5.0,
-        "home_win_probability": 0.653,
-        "away_fair": 188,
-        "home_fair": -188
+        "away_score": 2.0,
+        "home_score": 2.9,
+        "total": 4.9,
+        "home_win_probability": 0.721,
+        "away_fair": 258,
+        "home_fair": -258
       },
       "synthesis": "The board sees a higher-scoring game script. PIT has the clearer projected scoring path.",
       "batter_prop_angles": [],
@@ -176,27 +176,27 @@
       "time": "1:05 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 3.6,
-      "home_score": 5.8,
-      "total": 9.4,
-      "home_win_probability": 0.763,
+      "away_score": 4.4,
+      "home_score": 5.4,
+      "total": 9.8,
+      "home_win_probability": 0.621,
       "moneyline_fairs": {
-        "away_probability": 0.237,
-        "home_probability": 0.763,
-        "away_fair": 322,
-        "home_fair": -322
+        "away_probability": 0.379,
+        "home_probability": 0.621,
+        "away_fair": 164,
+        "home_fair": -164
       },
       "team_total_fairs": {
-        "away": 3.6,
-        "home": 5.8
+        "away": 4.4,
+        "home": 5.4
       },
       "f5": {
-        "away_score": 1.8,
-        "home_score": 2.9,
-        "total": 4.7,
-        "home_win_probability": 0.761,
-        "away_fair": 318,
-        "home_fair": -318
+        "away_score": 2.2,
+        "home_score": 2.7,
+        "total": 4.9,
+        "home_win_probability": 0.629,
+        "away_fair": 170,
+        "home_fair": -170
       },
       "synthesis": "The board sees a higher-scoring game script. WSH has the clearer projected scoring path.",
       "batter_prop_angles": [],
@@ -256,29 +256,29 @@
       "time": "1:10 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.8,
-      "home_score": 4.7,
-      "total": 9.5,
-      "home_win_probability": 0.492,
+      "away_score": 3.9,
+      "home_score": 4.6,
+      "total": 8.5,
+      "home_win_probability": 0.597,
       "moneyline_fairs": {
-        "away_probability": 0.508,
-        "home_probability": 0.492,
-        "away_fair": -103,
-        "home_fair": 103
+        "away_probability": 0.403,
+        "home_probability": 0.597,
+        "away_fair": 148,
+        "home_fair": -148
       },
       "team_total_fairs": {
-        "away": 4.8,
-        "home": 4.7
+        "away": 3.9,
+        "home": 4.6
       },
       "f5": {
-        "away_score": 2.5,
+        "away_score": 2.0,
         "home_score": 2.4,
-        "total": 4.9,
-        "home_win_probability": 0.474,
-        "away_fair": -111,
-        "home_fair": 111
+        "total": 4.4,
+        "home_win_probability": 0.604,
+        "away_fair": 153,
+        "home_fair": -153
       },
-      "synthesis": "The board sees a higher-scoring game script. Neither side has a meaningful projected scoring edge.",
+      "synthesis": "The board sees a balanced run environment. DET has the clearer projected scoring path.",
       "batter_prop_angles": [],
       "k_targets": [],
       "prop_angles": [
@@ -336,29 +336,29 @@
       "time": "3:45 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 5.4,
-      "home_score": 4.2,
-      "total": 9.6,
-      "home_win_probability": 0.347,
+      "away_score": 5.2,
+      "home_score": 3.6,
+      "total": 8.8,
+      "home_win_probability": 0.301,
       "moneyline_fairs": {
-        "away_probability": 0.653,
-        "home_probability": 0.347,
-        "away_fair": -188,
-        "home_fair": 188
-      },
-      "team_total_fairs": {
-        "away": 5.4,
-        "home": 4.2
-      },
-      "f5": {
-        "away_score": 2.9,
-        "home_score": 2.1,
-        "total": 5.0,
-        "home_win_probability": 0.301,
+        "away_probability": 0.699,
+        "home_probability": 0.301,
         "away_fair": -232,
         "home_fair": 232
       },
-      "synthesis": "The board sees a higher-scoring game script. MIL has the clearer projected scoring path.",
+      "team_total_fairs": {
+        "away": 5.2,
+        "home": 3.6
+      },
+      "f5": {
+        "away_score": 2.8,
+        "home_score": 1.8,
+        "total": 4.6,
+        "home_win_probability": 0.259,
+        "away_fair": -286,
+        "home_fair": 286
+      },
+      "synthesis": "The board sees a balanced run environment. MIL has the clearer projected scoring path.",
       "batter_prop_angles": [],
       "k_targets": [],
       "prop_angles": [
@@ -416,27 +416,27 @@
       "time": "6:40 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.4,
-      "home_score": 4.4,
-      "total": 8.8,
-      "home_win_probability": 0.503,
+      "away_score": 4.5,
+      "home_score": 4.2,
+      "total": 8.7,
+      "home_win_probability": 0.457,
       "moneyline_fairs": {
-        "away_probability": 0.497,
-        "home_probability": 0.503,
-        "away_fair": 101,
-        "home_fair": -101
+        "away_probability": 0.543,
+        "home_probability": 0.457,
+        "away_fair": -119,
+        "home_fair": 119
       },
       "team_total_fairs": {
-        "away": 4.4,
-        "home": 4.4
+        "away": 4.5,
+        "home": 4.2
       },
       "f5": {
         "away_score": 2.1,
-        "home_score": 2.2,
-        "total": 4.3,
-        "home_win_probability": 0.526,
-        "away_fair": 111,
-        "home_fair": -111
+        "home_score": 2.1,
+        "total": 4.2,
+        "home_win_probability": 0.5,
+        "away_fair": -100,
+        "home_fair": -100
       },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [],
@@ -496,29 +496,29 @@
       "time": "7:10 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.6,
-      "home_score": 4.3,
-      "total": 8.9,
-      "home_win_probability": 0.458,
+      "away_score": 4.5,
+      "home_score": 3.6,
+      "total": 8.1,
+      "home_win_probability": 0.377,
       "moneyline_fairs": {
-        "away_probability": 0.542,
-        "home_probability": 0.458,
-        "away_fair": -118,
-        "home_fair": 118
+        "away_probability": 0.623,
+        "home_probability": 0.377,
+        "away_fair": -165,
+        "home_fair": 165
       },
       "team_total_fairs": {
-        "away": 4.6,
-        "home": 4.3
+        "away": 4.5,
+        "home": 3.6
       },
       "f5": {
         "away_score": 2.2,
-        "home_score": 2.2,
-        "total": 4.4,
-        "home_win_probability": 0.5,
-        "away_fair": -100,
-        "home_fair": -100
+        "home_score": 1.9,
+        "total": 4.1,
+        "home_win_probability": 0.422,
+        "away_fair": -137,
+        "home_fair": 137
       },
-      "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
+      "synthesis": "The board sees a balanced run environment. ATL has the clearer projected scoring path.",
       "batter_prop_angles": [],
       "k_targets": [],
       "prop_angles": [
@@ -576,29 +576,29 @@
       "time": "7:10 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 3.6,
-      "home_score": 4.0,
-      "total": 7.6,
-      "home_win_probability": 0.557,
+      "away_score": 3.9,
+      "home_score": 3.9,
+      "total": 7.8,
+      "home_win_probability": 0.502,
       "moneyline_fairs": {
-        "away_probability": 0.443,
-        "home_probability": 0.557,
-        "away_fair": 126,
-        "home_fair": -126
+        "away_probability": 0.498,
+        "home_probability": 0.502,
+        "away_fair": 101,
+        "home_fair": -101
       },
       "team_total_fairs": {
-        "away": 3.6,
-        "home": 4.0
+        "away": 3.9,
+        "home": 3.9
       },
       "f5": {
-        "away_score": 1.8,
-        "home_score": 2.0,
-        "total": 3.8,
-        "home_win_probability": 0.552,
-        "away_fair": 123,
-        "home_fair": -123
+        "away_score": 2.0,
+        "home_score": 1.9,
+        "total": 3.9,
+        "home_win_probability": 0.474,
+        "away_fair": -111,
+        "home_fair": 111
       },
-      "synthesis": "The board sees a lower-scoring game script. CIN has the clearer projected scoring path.",
+      "synthesis": "The board sees a lower-scoring game script. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [],
       "k_targets": [],
       "prop_angles": [
@@ -656,27 +656,27 @@
       "time": "7:40 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.2,
-      "home_score": 4.9,
-      "total": 9.1,
-      "home_win_probability": 0.593,
+      "away_score": 3.9,
+      "home_score": 5.0,
+      "total": 8.9,
+      "home_win_probability": 0.638,
       "moneyline_fairs": {
-        "away_probability": 0.407,
-        "home_probability": 0.593,
-        "away_fair": 146,
-        "home_fair": -146
+        "away_probability": 0.362,
+        "home_probability": 0.638,
+        "away_fair": 176,
+        "home_fair": -176
       },
       "team_total_fairs": {
-        "away": 4.2,
-        "home": 4.9
+        "away": 3.9,
+        "home": 5.0
       },
       "f5": {
-        "away_score": 2.1,
-        "home_score": 2.4,
+        "away_score": 2.0,
+        "home_score": 2.5,
         "total": 4.5,
-        "home_win_probability": 0.578,
-        "away_fair": 137,
-        "home_fair": -137
+        "home_win_probability": 0.629,
+        "away_fair": 170,
+        "home_fair": -170
       },
       "synthesis": "The board sees a balanced run environment. MIN has the clearer projected scoring path.",
       "batter_prop_angles": [],
@@ -737,28 +737,28 @@
       "start_time_utc": null,
       "day_night": null,
       "away_score": 4.9,
-      "home_score": 4.9,
-      "total": 9.8,
-      "home_win_probability": 0.499,
+      "home_score": 4.3,
+      "total": 9.2,
+      "home_win_probability": 0.421,
       "moneyline_fairs": {
-        "away_probability": 0.501,
-        "home_probability": 0.499,
-        "away_fair": -100,
-        "home_fair": 100
+        "away_probability": 0.579,
+        "home_probability": 0.421,
+        "away_fair": -138,
+        "home_fair": 138
       },
       "team_total_fairs": {
         "away": 4.9,
-        "home": 4.9
+        "home": 4.3
       },
       "f5": {
         "away_score": 2.5,
-        "home_score": 2.6,
-        "total": 5.1,
-        "home_win_probability": 0.526,
-        "away_fair": 111,
-        "home_fair": -111
+        "home_score": 2.2,
+        "total": 4.7,
+        "home_win_probability": 0.422,
+        "away_fair": -137,
+        "home_fair": 137
       },
-      "synthesis": "The board sees a higher-scoring game script. Neither side has a meaningful projected scoring edge.",
+      "synthesis": "The board sees a balanced run environment. NYY has the clearer projected scoring path.",
       "batter_prop_angles": [],
       "k_targets": [],
       "prop_angles": [
@@ -816,27 +816,27 @@
       "time": "7:45 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 5.4,
-      "home_score": 4.4,
+      "away_score": 5.2,
+      "home_score": 4.6,
       "total": 9.8,
-      "home_win_probability": 0.367,
+      "home_win_probability": 0.431,
       "moneyline_fairs": {
-        "away_probability": 0.633,
-        "home_probability": 0.367,
-        "away_fair": -172,
-        "home_fair": 172
+        "away_probability": 0.569,
+        "home_probability": 0.431,
+        "away_fair": -132,
+        "home_fair": 132
       },
       "team_total_fairs": {
-        "away": 5.4,
-        "home": 4.4
+        "away": 5.2,
+        "home": 4.6
       },
       "f5": {
-        "away_score": 2.7,
-        "home_score": 2.2,
+        "away_score": 2.6,
+        "home_score": 2.3,
         "total": 4.9,
-        "home_win_probability": 0.371,
-        "away_fair": -170,
-        "home_fair": 170
+        "home_win_probability": 0.422,
+        "away_fair": -137,
+        "home_fair": 137
       },
       "synthesis": "The board sees a higher-scoring game script. CHC has the clearer projected scoring path.",
       "batter_prop_angles": [],
@@ -896,24 +896,24 @@
       "time": "9:40 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.6,
-      "home_score": 4.5,
-      "total": 9.1,
-      "home_win_probability": 0.489,
+      "away_score": 4.2,
+      "home_score": 4.0,
+      "total": 8.2,
+      "home_win_probability": 0.472,
       "moneyline_fairs": {
-        "away_probability": 0.511,
-        "home_probability": 0.489,
-        "away_fair": -104,
-        "home_fair": 104
+        "away_probability": 0.528,
+        "home_probability": 0.472,
+        "away_fair": -112,
+        "home_fair": 112
       },
       "team_total_fairs": {
-        "away": 4.6,
-        "home": 4.5
+        "away": 4.2,
+        "home": 4.0
       },
       "f5": {
-        "away_score": 2.2,
-        "home_score": 2.2,
-        "total": 4.4,
+        "away_score": 2.0,
+        "home_score": 2.0,
+        "total": 4.0,
         "home_win_probability": 0.5,
         "away_fair": -100,
         "home_fair": -100
@@ -976,24 +976,24 @@
       "time": "10:10 PM ET",
       "start_time_utc": null,
       "day_night": null,
-      "away_score": 4.1,
-      "home_score": 5.5,
-      "total": 9.6,
-      "home_win_probability": 0.672,
+      "away_score": 4.4,
+      "home_score": 5.6,
+      "total": 10.0,
+      "home_win_probability": 0.646,
       "moneyline_fairs": {
-        "away_probability": 0.328,
-        "home_probability": 0.672,
-        "away_fair": 205,
-        "home_fair": -205
+        "away_probability": 0.354,
+        "home_probability": 0.646,
+        "away_fair": 182,
+        "home_fair": -182
       },
       "team_total_fairs": {
-        "away": 4.1,
-        "home": 5.5
+        "away": 4.4,
+        "home": 5.6
       },
       "f5": {
-        "away_score": 2.1,
-        "home_score": 2.8,
-        "total": 4.9,
+        "away_score": 2.2,
+        "home_score": 2.9,
+        "total": 5.1,
         "home_win_probability": 0.676,
         "away_fair": 209,
         "home_fair": -209
@@ -1073,6 +1073,244 @@
   ],
   "posted_edges": [],
   "slate_history": [
+    {
+      "date": "2026-07-29",
+      "generated": "2026-07-29T12:39:06+00:00",
+      "type": "regular",
+      "label": "Regular slate",
+      "game_count": 13,
+      "games": [
+        {
+          "id": 823837,
+          "matchup": "PHI @ MIA",
+          "away": "PHI",
+          "home": "MIA",
+          "away_name": "Philadelphia Phillies",
+          "home_name": "Miami Marlins",
+          "time": "12:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.3,
+          "home_score": 3.5,
+          "total": 7.8,
+          "favorite": {
+            "team": "PHI",
+            "probability": 0.606
+          }
+        },
+        {
+          "id": 823351,
+          "matchup": "AZ @ PIT",
+          "away": "AZ",
+          "home": "PIT",
+          "away_name": "Arizona Diamondbacks",
+          "home_name": "Pittsburgh Pirates",
+          "time": "12:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.0,
+          "home_score": 5.6,
+          "total": 9.6,
+          "favorite": {
+            "team": "PIT",
+            "probability": 0.69
+          }
+        },
+        {
+          "id": 822702,
+          "matchup": "TOR @ WSH",
+          "away": "TOR",
+          "home": "WSH",
+          "away_name": "Toronto Blue Jays",
+          "home_name": "Washington Nationals",
+          "time": "1:05 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.4,
+          "home_score": 5.4,
+          "total": 9.8,
+          "favorite": {
+            "team": "WSH",
+            "probability": 0.621
+          }
+        },
+        {
+          "id": 824242,
+          "matchup": "BAL @ DET",
+          "away": "BAL",
+          "home": "DET",
+          "away_name": "Baltimore Orioles",
+          "home_name": "Detroit Tigers",
+          "time": "1:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.9,
+          "home_score": 4.6,
+          "total": 8.5,
+          "favorite": {
+            "team": "DET",
+            "probability": 0.597
+          }
+        },
+        {
+          "id": 823192,
+          "matchup": "MIL @ SF",
+          "away": "MIL",
+          "home": "SF",
+          "away_name": "Milwaukee Brewers",
+          "home_name": "San Francisco Giants",
+          "time": "3:45 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.2,
+          "home_score": 3.6,
+          "total": 8.8,
+          "favorite": {
+            "team": "MIL",
+            "probability": 0.699
+          }
+        },
+        {
+          "id": 822947,
+          "matchup": "TEX @ TB",
+          "away": "TEX",
+          "home": "TB",
+          "away_name": "Texas Rangers",
+          "home_name": "Tampa Bay Rays",
+          "time": "6:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.5,
+          "home_score": 4.2,
+          "total": 8.7,
+          "favorite": {
+            "team": "TEX",
+            "probability": 0.543
+          }
+        },
+        {
+          "id": 823598,
+          "matchup": "ATL @ NYM",
+          "away": "ATL",
+          "home": "NYM",
+          "away_name": "Atlanta Braves",
+          "home_name": "New York Mets",
+          "time": "7:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.5,
+          "home_score": 3.6,
+          "total": 8.1,
+          "favorite": {
+            "team": "ATL",
+            "probability": 0.623
+          }
+        },
+        {
+          "id": 824487,
+          "matchup": "CLE @ CIN",
+          "away": "CLE",
+          "home": "CIN",
+          "away_name": "Cleveland Guardians",
+          "home_name": "Cincinnati Reds",
+          "time": "7:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.9,
+          "home_score": 3.9,
+          "total": 7.8,
+          "favorite": {
+            "team": "CIN",
+            "probability": 0.502
+          }
+        },
+        {
+          "id": 823677,
+          "matchup": "KC @ MIN",
+          "away": "KC",
+          "home": "MIN",
+          "away_name": "Kansas City Royals",
+          "home_name": "Minnesota Twins",
+          "time": "7:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.9,
+          "home_score": 5.0,
+          "total": 8.9,
+          "favorite": {
+            "team": "MIN",
+            "probability": 0.638
+          }
+        },
+        {
+          "id": 824567,
+          "matchup": "NYY @ CWS",
+          "away": "NYY",
+          "home": "CWS",
+          "away_name": "New York Yankees",
+          "home_name": "Chicago White Sox",
+          "time": "7:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.9,
+          "home_score": 4.3,
+          "total": 9.2,
+          "favorite": {
+            "team": "NYY",
+            "probability": 0.579
+          }
+        },
+        {
+          "id": 823022,
+          "matchup": "CHC @ STL",
+          "away": "CHC",
+          "home": "STL",
+          "away_name": "Chicago Cubs",
+          "home_name": "St. Louis Cardinals",
+          "time": "7:45 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.2,
+          "home_score": 4.6,
+          "total": 9.8,
+          "favorite": {
+            "team": "CHC",
+            "probability": 0.569
+          }
+        },
+        {
+          "id": 824973,
+          "matchup": "BOS @ ATH",
+          "away": "BOS",
+          "home": "ATH",
+          "away_name": "Boston Red Sox",
+          "home_name": "Athletics",
+          "time": "9:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.2,
+          "home_score": 4.0,
+          "total": 8.2,
+          "favorite": {
+            "team": "BOS",
+            "probability": 0.528
+          }
+        },
+        {
+          "id": 823924,
+          "matchup": "SEA @ LAD",
+          "away": "SEA",
+          "home": "LAD",
+          "away_name": "Seattle Mariners",
+          "home_name": "Los Angeles Dodgers",
+          "time": "10:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.4,
+          "home_score": 5.6,
+          "total": 10.0,
+          "favorite": {
+            "team": "LAD",
+            "probability": 0.646
+          }
+        }
+      ],
+      "special_events": [],
+      "top_picks": [],
+      "priced_wager_count": 0,
+      "no_priced_wagers": true,
+      "not_applicable": false,
+      "capture_status": "unavailable",
+      "summary": "13 games",
+      "revision_id": "aab34d9fe6ec9806f1fa"
+    },
     {
       "date": "2026-07-29",
       "generated": "2026-07-29T12:39:06+00:00",
