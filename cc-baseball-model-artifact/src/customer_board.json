@@ -1,6 +1,6 @@
 {
   "date": "2026-08-09",
-  "generated": "2026-08-09T12:54:47+00:00",
+  "generated": "2026-08-09T13:18:00+00:00",
   "games": [
     {
       "id": 822700,
@@ -34,7 +34,7 @@
         "away_score": 2.3,
         "home_score": 2.6,
         "total": 4.9,
-        "home_win_probability": 0.511,
+        "home_win_probability": 0.51,
         "away_fair": 104,
         "home_fair": -104
       },
@@ -453,24 +453,10 @@
           "base_under_play_to": -118,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 4.3,
-            "avg_start_innings": 5.2,
-            "avg_start_batters_faced": 22.9,
-            "avg_start_pitches": 90.0,
-            "strikeout_rate": 0.1934,
-            "swinging_strike_rate": 0.1105,
-            "csw_rate": 0.2859,
-            "putaway_rate": 0.1888,
-            "chase_rate": 0.2805,
-            "hard_hit_allowed_rate": 0.4294,
-            "xwoba_allowed": 0.342,
-            "starts": 22
-          },
           "book_quote": {
             "line": 4.5,
-            "price": 115,
-            "book": "BetMGM"
+            "price": 105,
+            "book": "Bovada"
           }
         },
         {
@@ -490,21 +476,7 @@
           "base_play_to": 136,
           "base_under_play_to": -116,
           "designation": "Watch price",
-          "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 2.4,
-            "avg_start_innings": 2.3,
-            "avg_start_batters_faced": 11.0,
-            "avg_start_pitches": 53.0,
-            "strikeout_rate": 0.2052,
-            "swinging_strike_rate": 0.0883,
-            "csw_rate": 0.2628,
-            "putaway_rate": 0.1437,
-            "chase_rate": 0.3169,
-            "hard_hit_allowed_rate": 0.4231,
-            "xwoba_allowed": 0.325,
-            "starts": 1
-          }
+          "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling."
         }
       ]
     },
@@ -540,9 +512,9 @@
         "away_score": 2.0,
         "home_score": 2.5,
         "total": 4.5,
-        "home_win_probability": 0.577,
-        "away_fair": 136,
-        "home_fair": -136
+        "home_win_probability": 0.581,
+        "away_fair": 139,
+        "home_fair": -139
       },
       "synthesis": "The board sees a balanced run environment. PIT has the clearer projected scoring path.",
       "batter_prop_angles": [
@@ -967,20 +939,6 @@
           "base_under_play_to": -101,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 5.5,
-            "avg_start_innings": 5.5,
-            "avg_start_batters_faced": 23.7,
-            "avg_start_pitches": 93.0,
-            "strikeout_rate": 0.2203,
-            "swinging_strike_rate": 0.0993,
-            "csw_rate": 0.2615,
-            "putaway_rate": 0.1787,
-            "chase_rate": 0.3145,
-            "hard_hit_allowed_rate": 0.3978,
-            "xwoba_allowed": 0.33,
-            "starts": 10
-          },
           "book_quote": {
             "line": 5.5,
             "price": 130,
@@ -1005,20 +963,6 @@
           "base_under_play_to": -150,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 5.0,
-            "avg_start_innings": 4.7,
-            "avg_start_batters_faced": 19.1,
-            "avg_start_pitches": 74.0,
-            "strikeout_rate": 0.2601,
-            "swinging_strike_rate": 0.1299,
-            "csw_rate": 0.2877,
-            "putaway_rate": 0.2302,
-            "chase_rate": 0.2886,
-            "hard_hit_allowed_rate": 0.4054,
-            "xwoba_allowed": 0.292,
-            "starts": 12
-          },
           "book_quote": {
             "line": 5.5,
             "price": 122,
@@ -1044,12 +988,12 @@
       "away_score": 3.4,
       "home_score": 4.9,
       "total": 8.3,
-      "home_win_probability": 0.657,
+      "home_win_probability": 0.655,
       "moneyline_fairs": {
-        "away_probability": 0.343,
-        "home_probability": 0.657,
-        "away_fair": 192,
-        "home_fair": -192
+        "away_probability": 0.345,
+        "home_probability": 0.655,
+        "away_fair": 190,
+        "home_fair": -190
       },
       "team_total_fairs": {
         "away": 3.4,
@@ -1458,20 +1402,6 @@
           "base_under_play_to": -99,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 3.6,
-            "avg_start_innings": 4.6,
-            "avg_start_batters_faced": 21.1,
-            "avg_start_pitches": 81.0,
-            "strikeout_rate": 0.1657,
-            "swinging_strike_rate": 0.0895,
-            "csw_rate": 0.2531,
-            "putaway_rate": 0.1806,
-            "chase_rate": 0.3023,
-            "hard_hit_allowed_rate": 0.4545,
-            "xwoba_allowed": 0.404,
-            "starts": 8
-          },
           "book_quote": {
             "line": 3.5,
             "price": -135,
@@ -1496,20 +1426,6 @@
           "base_under_play_to": 122,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 6.8,
-            "avg_start_innings": 5.9,
-            "avg_start_batters_faced": 24.6,
-            "avg_start_pitches": 97.0,
-            "strikeout_rate": 0.2974,
-            "swinging_strike_rate": 0.1378,
-            "csw_rate": 0.3162,
-            "putaway_rate": 0.2465,
-            "chase_rate": 0.3354,
-            "hard_hit_allowed_rate": 0.3127,
-            "xwoba_allowed": 0.264,
-            "starts": 23
-          },
           "book_quote": {
             "line": 6.5,
             "price": 102,
@@ -1580,8 +1496,8 @@
           "explainer": "Ben Rice HR angle vs Grant Holmes on 4-Seam Fastball (29% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
           "metrics": "0.446 xBA · 1.177 xSLG · 0.496 xwOBA · 0.337 BA · 0.942 SLG · 33% barrel · 70% hard-hit",
           "book_quote": {
-            "price": 265,
-            "book": "Caesars"
+            "price": 270,
+            "book": "BetRivers"
           }
         },
         {
@@ -1636,7 +1552,7 @@
           "explainer": "Spencer Jones HR angle vs Grant Holmes on Sinker (12% usage): home-run barrel signal, xSLG power fit.",
           "metrics": "0.504 xBA · 0.983 xSLG · 0.441 xwOBA · 0.333 BA · 0.667 SLG · 25% barrel · 62% hard-hit",
           "book_quote": {
-            "price": 440,
+            "price": 450,
             "book": "BetRivers"
           }
         },
@@ -1941,20 +1857,6 @@
           "base_under_play_to": -102,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 4.5,
-            "avg_start_innings": 5.0,
-            "avg_start_batters_faced": 21.6,
-            "avg_start_pitches": 80.0,
-            "strikeout_rate": 0.1982,
-            "swinging_strike_rate": 0.124,
-            "csw_rate": 0.2704,
-            "putaway_rate": 0.1969,
-            "chase_rate": 0.3186,
-            "hard_hit_allowed_rate": 0.4241,
-            "xwoba_allowed": 0.328,
-            "starts": 21
-          },
           "book_quote": {
             "line": 4.5,
             "price": -150,
@@ -1979,20 +1881,6 @@
           "base_under_play_to": 126,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 6.9,
-            "avg_start_innings": 5.8,
-            "avg_start_batters_faced": 23.1,
-            "avg_start_pitches": 91.0,
-            "strikeout_rate": 0.3035,
-            "swinging_strike_rate": 0.1299,
-            "csw_rate": 0.2753,
-            "putaway_rate": 0.2302,
-            "chase_rate": 0.3464,
-            "hard_hit_allowed_rate": 0.3952,
-            "xwoba_allowed": 0.273,
-            "starts": 24
-          },
           "book_quote": {
             "line": 6.5,
             "price": -118,
@@ -2018,10 +1906,10 @@
       "away_score": 4.1,
       "home_score": 4.8,
       "total": 8.9,
-      "home_win_probability": 0.58,
+      "home_win_probability": 0.579,
       "moneyline_fairs": {
-        "away_probability": 0.42,
-        "home_probability": 0.58,
+        "away_probability": 0.421,
+        "home_probability": 0.579,
         "away_fair": 138,
         "home_fair": -138
       },
@@ -2197,7 +2085,7 @@
           "explainer": "Griffin Conine TB angle vs Grayson Rodriguez on 4-Seam Fastball (53% usage): xSLG power fit, barrel-backed contact, starter shows this pitch often.",
           "metrics": "0.385 xBA · 0.768 xSLG · 0.397 xwOBA · 0.310 BA · 0.621 SLG · 15% barrel · 65% hard-hit",
           "book_quote": {
-            "price": 152,
+            "price": 155,
             "book": "BetOnline.ag"
           },
           "calibration_limited": true
@@ -2448,20 +2336,6 @@
           "base_under_play_to": 115,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 3.7,
-            "avg_start_innings": 4.6,
-            "avg_start_batters_faced": 21.3,
-            "avg_start_pitches": 85.0,
-            "strikeout_rate": 0.1767,
-            "swinging_strike_rate": 0.0941,
-            "csw_rate": 0.2443,
-            "putaway_rate": 0.138,
-            "chase_rate": 0.2655,
-            "hard_hit_allowed_rate": 0.4969,
-            "xwoba_allowed": 0.396,
-            "starts": 11
-          },
           "book_quote": {
             "line": 4.5,
             "price": -190,
@@ -2486,20 +2360,6 @@
           "base_under_play_to": 119,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 3.8,
-            "avg_start_innings": 4.0,
-            "avg_start_batters_faced": 17.9,
-            "avg_start_pitches": 66.0,
-            "strikeout_rate": 0.1958,
-            "swinging_strike_rate": 0.0921,
-            "csw_rate": 0.25,
-            "putaway_rate": 0.1888,
-            "chase_rate": 0.3153,
-            "hard_hit_allowed_rate": 0.438,
-            "xwoba_allowed": 0.321,
-            "starts": 9
-          },
           "book_quote": {
             "line": 4.5,
             "price": -125,
@@ -2959,24 +2819,10 @@
           "base_under_play_to": -100,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 4.5,
-            "avg_start_innings": 5.6,
-            "avg_start_batters_faced": 23.2,
-            "avg_start_pitches": 87.0,
-            "strikeout_rate": 0.2021,
-            "swinging_strike_rate": 0.1052,
-            "csw_rate": 0.2663,
-            "putaway_rate": 0.1691,
-            "chase_rate": 0.3219,
-            "hard_hit_allowed_rate": 0.3873,
-            "xwoba_allowed": 0.332,
-            "starts": 13
-          },
           "book_quote": {
             "line": 4.5,
-            "price": -141,
-            "book": "BetOnline.ag"
+            "price": -140,
+            "book": "DraftKings"
           }
         },
         {
@@ -2997,20 +2843,6 @@
           "base_under_play_to": -100,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 2.6,
-            "avg_start_innings": 5.3,
-            "avg_start_batters_faced": 21.5,
-            "avg_start_pitches": 91.0,
-            "strikeout_rate": 0.121,
-            "swinging_strike_rate": 0.0754,
-            "csw_rate": 0.25,
-            "putaway_rate": 0.1042,
-            "chase_rate": 0.309,
-            "hard_hit_allowed_rate": 0.4468,
-            "xwoba_allowed": 0.342,
-            "starts": 4
-          },
           "book_quote": {
             "line": 2.5,
             "price": -130,
@@ -3133,7 +2965,7 @@
           "explainer": "Randal Grichuk HR angle vs Joey Cantillo on Curveball (29% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
           "metrics": "0.391 xBA · 1.502 xSLG · 0.386 xwOBA · 0.167 BA · 0.667 SLG · 33% barrel · 67% hard-hit",
           "book_quote": {
-            "price": 425,
+            "price": 475,
             "book": "Caesars"
           }
         },
@@ -3244,7 +3076,7 @@
           "explainer": "Munetaka Murakami TB angle vs Joey Cantillo on Curveball (29% usage): xSLG power fit, barrel-backed contact, starter shows this pitch often.",
           "metrics": "0.510 xBA · 0.964 xSLG · 0.443 xwOBA · 0.308 BA · 0.538 SLG · 12% barrel · 100% hard-hit",
           "book_quote": {
-            "price": 152,
+            "price": 155,
             "book": "BetOnline.ag"
           },
           "calibration_limited": true
@@ -3273,7 +3105,7 @@
           "explainer": "Randal Grichuk TB angle vs Joey Cantillo on Curveball (29% usage): xSLG power fit, barrel-backed contact, starter shows this pitch often.",
           "metrics": "0.391 xBA · 1.502 xSLG · 0.386 xwOBA · 0.167 BA · 0.667 SLG · 33% barrel · 67% hard-hit",
           "book_quote": {
-            "price": 161,
+            "price": 164,
             "book": "BetOnline.ag"
           },
           "calibration_limited": true
@@ -3331,7 +3163,7 @@
           "explainer": "Angel Genao hits angle vs Davis Martin on 4-Seam Fastball (26% usage): season Savant contact baseline, starter pitch mix fit, starter shows this pitch often.",
           "metrics": "0.409 xBA · 0.633 xSLG · 0.450 xwOBA · 0.667 BA · 0.667 SLG · 17% barrel · 67% hard-hit",
           "book_quote": {
-            "price": -145,
+            "price": -152,
             "book": "DraftKings"
           },
           "calibration_limited": true
@@ -3438,23 +3270,9 @@
           "base_under_play_to": -95,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 5.6,
-            "avg_start_innings": 4.9,
-            "avg_start_batters_faced": 21.5,
-            "avg_start_pitches": 86.0,
-            "strikeout_rate": 0.248,
-            "swinging_strike_rate": 0.1346,
-            "csw_rate": 0.3119,
-            "putaway_rate": 0.2269,
-            "chase_rate": 0.2934,
-            "hard_hit_allowed_rate": 0.3931,
-            "xwoba_allowed": 0.31,
-            "starts": 24
-          },
           "book_quote": {
             "line": 5.5,
-            "price": -123,
+            "price": -119,
             "book": "DraftKings"
           }
         },
@@ -3476,20 +3294,6 @@
           "base_under_play_to": 123,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 4.8,
-            "avg_start_innings": 5.5,
-            "avg_start_batters_faced": 23.3,
-            "avg_start_pitches": 90.0,
-            "strikeout_rate": 0.2071,
-            "swinging_strike_rate": 0.1064,
-            "csw_rate": 0.26,
-            "putaway_rate": 0.1813,
-            "chase_rate": 0.3273,
-            "hard_hit_allowed_rate": 0.4463,
-            "xwoba_allowed": 0.331,
-            "starts": 22
-          },
           "book_quote": {
             "line": 3.5,
             "price": -120,
@@ -3901,23 +3705,9 @@
           "base_under_play_to": -125,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 5.2,
-            "avg_start_innings": 5.2,
-            "avg_start_batters_faced": 22.4,
-            "avg_start_pitches": 88.0,
-            "strikeout_rate": 0.238,
-            "swinging_strike_rate": 0.0925,
-            "csw_rate": 0.2535,
-            "putaway_rate": 0.1872,
-            "chase_rate": 0.3006,
-            "hard_hit_allowed_rate": 0.4028,
-            "xwoba_allowed": 0.308,
-            "starts": 15
-          },
           "book_quote": {
             "line": 5.5,
-            "price": 120,
+            "price": 115,
             "book": "DraftKings"
           }
         },
@@ -3939,20 +3729,6 @@
           "base_under_play_to": -131,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 9.0,
-            "avg_start_innings": 6.0,
-            "avg_start_batters_faced": 22.9,
-            "avg_start_pitches": 90.0,
-            "strikeout_rate": 0.404,
-            "swinging_strike_rate": 0.1799,
-            "csw_rate": 0.3513,
-            "putaway_rate": 0.3262,
-            "chase_rate": 0.3482,
-            "hard_hit_allowed_rate": 0.355,
-            "xwoba_allowed": 0.218,
-            "starts": 21
-          },
           "book_quote": {
             "line": 8.5,
             "price": -122,
@@ -3993,9 +3769,9 @@
         "away_score": 2.6,
         "home_score": 2.6,
         "total": 5.2,
-        "home_win_probability": 0.575,
-        "away_fair": 135,
-        "home_fair": -135
+        "home_win_probability": 0.581,
+        "away_fair": 139,
+        "home_fair": -139
       },
       "synthesis": "The board sees a higher-scoring game script. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
@@ -4157,7 +3933,7 @@
           "explainer": "Willi Castro TB angle vs Michael McGreevy on 4-Seam Fastball (25% usage): xSLG power fit, barrel-backed contact, starter shows this pitch often.",
           "metrics": "0.408 xBA · 0.774 xSLG · 0.380 xwOBA · 0.284 BA · 0.552 SLG · 15% barrel · 47% hard-hit",
           "book_quote": {
-            "price": 155,
+            "price": 152,
             "book": "BetOnline.ag"
           },
           "calibration_limited": true
@@ -4416,20 +4192,6 @@
           "base_under_play_to": -143,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 3.2,
-            "avg_start_innings": 4.6,
-            "avg_start_batters_faced": 22.4,
-            "avg_start_pitches": 87.0,
-            "strikeout_rate": 0.1505,
-            "swinging_strike_rate": 0.0767,
-            "csw_rate": 0.247,
-            "putaway_rate": 0.1429,
-            "chase_rate": 0.2467,
-            "hard_hit_allowed_rate": 0.4619,
-            "xwoba_allowed": 0.366,
-            "starts": 23
-          },
           "book_quote": {
             "line": 3.5,
             "price": 135,
@@ -4454,20 +4216,6 @@
           "base_under_play_to": 124,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 3.8,
-            "avg_start_innings": 5.5,
-            "avg_start_batters_faced": 22.1,
-            "avg_start_pitches": 88.0,
-            "strikeout_rate": 0.1709,
-            "swinging_strike_rate": 0.0742,
-            "csw_rate": 0.2455,
-            "putaway_rate": 0.147,
-            "chase_rate": 0.2882,
-            "hard_hit_allowed_rate": 0.4392,
-            "xwoba_allowed": 0.358,
-            "starts": 22
-          },
           "book_quote": {
             "line": 3.5,
             "price": -135,
@@ -4490,27 +4238,27 @@
       "time": "2:35 PM ET",
       "start_time_utc": "2026-08-09T18:35:00Z",
       "day_night": "day",
-      "away_score": 4.3,
-      "home_score": 4.3,
-      "total": 8.6,
-      "home_win_probability": 0.544,
+      "away_score": 4.2,
+      "home_score": 4.1,
+      "total": 8.3,
+      "home_win_probability": 0.542,
       "moneyline_fairs": {
-        "away_probability": 0.456,
-        "home_probability": 0.544,
-        "away_fair": 119,
-        "home_fair": -119
-      },
-      "team_total_fairs": {
-        "away": 4.3,
-        "home": 4.3
-      },
-      "f5": {
-        "away_score": 2.2,
-        "home_score": 2.2,
-        "total": 4.4,
-        "home_win_probability": 0.541,
+        "away_probability": 0.458,
+        "home_probability": 0.542,
         "away_fair": 118,
         "home_fair": -118
+      },
+      "team_total_fairs": {
+        "away": 4.2,
+        "home": 4.1
+      },
+      "f5": {
+        "away_score": 2.1,
+        "home_score": 2.2,
+        "total": 4.3,
+        "home_win_probability": 0.546,
+        "away_fair": 120,
+        "home_fair": -120
       },
       "synthesis": "The board sees a balanced run environment. Neither side has a meaningful projected scoring edge.",
       "batter_prop_angles": [
@@ -4538,7 +4286,7 @@
           "explainer": "Corey Seager HR angle vs Cade Povich on Curveball (21% usage): home-run barrel signal, xSLG power fit, starter shows this pitch often.",
           "metrics": "0.367 xBA · 0.863 xSLG · 0.406 xwOBA · 0.286 BA · 0.571 SLG · 40% barrel · 60% hard-hit",
           "book_quote": {
-            "price": 370,
+            "price": 350,
             "book": "Caesars"
           }
         },
@@ -4705,7 +4453,7 @@
           "explainer": "Christian Encarnacion-Strand TB angle vs Kumar Rocker on 4-Seam Fastball (12% usage): xSLG power fit, barrel-backed contact, starter allows expected damage on it.",
           "metrics": "0.380 xBA · 0.928 xSLG · 0.371 xwOBA · 0.316 BA · 0.579 SLG · 38% barrel · 54% hard-hit",
           "book_quote": {
-            "price": 164,
+            "price": 158,
             "book": "BetOnline.ag"
           },
           "calibration_limited": true
@@ -4759,8 +4507,8 @@
           "explainer": "Corey Seager TB angle vs Cade Povich on Curveball (21% usage): xSLG power fit, barrel-backed contact, starter shows this pitch often.",
           "metrics": "0.367 xBA · 0.863 xSLG · 0.406 xwOBA · 0.286 BA · 0.571 SLG · 40% barrel · 60% hard-hit",
           "book_quote": {
-            "price": 122,
-            "book": "BetOnline.ag"
+            "price": 120,
+            "book": "DraftKings"
           },
           "calibration_limited": true
         },
@@ -4931,20 +4679,6 @@
           "base_under_play_to": 114,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 3.7,
-            "avg_start_innings": 4.9,
-            "avg_start_batters_faced": 20.2,
-            "avg_start_pitches": 76.0,
-            "strikeout_rate": 0.181,
-            "swinging_strike_rate": 0.1097,
-            "csw_rate": 0.2755,
-            "putaway_rate": 0.1667,
-            "chase_rate": 0.3171,
-            "hard_hit_allowed_rate": 0.4474,
-            "xwoba_allowed": 0.332,
-            "starts": 4
-          },
           "book_quote": {
             "line": 4.5,
             "price": -113,
@@ -4969,24 +4703,10 @@
           "base_under_play_to": 128,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 4.9,
-            "avg_start_innings": 5.0,
-            "avg_start_batters_faced": 21.9,
-            "avg_start_pitches": 84.0,
-            "strikeout_rate": 0.2103,
-            "swinging_strike_rate": 0.1215,
-            "csw_rate": 0.2591,
-            "putaway_rate": 0.2093,
-            "chase_rate": 0.3268,
-            "hard_hit_allowed_rate": 0.4186,
-            "xwoba_allowed": 0.324,
-            "starts": 19
-          },
           "book_quote": {
             "line": 5.5,
-            "price": 115,
-            "book": "Bovada"
+            "price": 116,
+            "book": "FanDuel"
           }
         }
       ]
@@ -5023,7 +4743,7 @@
         "away_score": 2.1,
         "home_score": 2.0,
         "total": 4.1,
-        "home_win_probability": 0.469,
+        "home_win_probability": 0.47,
         "away_fair": -113,
         "home_fair": 113
       },
@@ -5442,20 +5162,6 @@
           "base_under_play_to": -115,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 5.3,
-            "avg_start_innings": 6.2,
-            "avg_start_batters_faced": 23.8,
-            "avg_start_pitches": 89.0,
-            "strikeout_rate": 0.2325,
-            "swinging_strike_rate": 0.1173,
-            "csw_rate": 0.2698,
-            "putaway_rate": 0.2121,
-            "chase_rate": 0.3321,
-            "hard_hit_allowed_rate": 0.3315,
-            "xwoba_allowed": 0.268,
-            "starts": 12
-          },
           "book_quote": {
             "line": 5.5,
             "price": 130,
@@ -5480,20 +5186,6 @@
           "base_under_play_to": -135,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 5.1,
-            "avg_start_innings": 6.2,
-            "avg_start_batters_faced": 25.5,
-            "avg_start_pitches": 94.0,
-            "strikeout_rate": 0.1996,
-            "swinging_strike_rate": 0.0923,
-            "csw_rate": 0.2651,
-            "putaway_rate": 0.1789,
-            "chase_rate": 0.3373,
-            "hard_hit_allowed_rate": 0.3961,
-            "xwoba_allowed": 0.304,
-            "starts": 20
-          },
           "book_quote": {
             "line": 5.5,
             "price": 115,
@@ -5534,9 +5226,9 @@
         "away_score": 2.5,
         "home_score": 2.2,
         "total": 4.7,
-        "home_win_probability": 0.449,
-        "away_fair": -123,
-        "home_fair": 123
+        "home_win_probability": 0.447,
+        "away_fair": -124,
+        "home_fair": 124
       },
       "synthesis": "The board sees a higher-scoring game script. LAD has the clearer projected scoring path.",
       "batter_prop_angles": [
@@ -5669,7 +5361,7 @@
           "explainer": "Corbin Carroll TB angle vs Justin Wrobleski on Slider (29% usage): xSLG power fit, barrel-backed contact, starter shows this pitch often.",
           "metrics": "0.399 xBA · 0.774 xSLG · 0.410 xwOBA · 0.316 BA · 0.632 SLG · 21% barrel · 60% hard-hit",
           "book_quote": {
-            "price": 130,
+            "price": 132,
             "book": "BetOnline.ag"
           },
           "calibration_limited": true
@@ -5699,7 +5391,7 @@
           "metrics": "0.411 xBA · 0.796 xSLG · 0.489 xwOBA · 0.483 BA · 0.862 SLG · 14% barrel · 43% hard-hit",
           "book_quote": {
             "price": 110,
-            "book": "BetOnline.ag"
+            "book": "BetMGM"
           },
           "calibration_limited": true
         },
@@ -5913,20 +5605,6 @@
           "base_under_play_to": -103,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 4.5,
-            "avg_start_innings": 6.3,
-            "avg_start_batters_faced": 25.3,
-            "avg_start_pitches": 92.0,
-            "strikeout_rate": 0.1924,
-            "swinging_strike_rate": 0.0907,
-            "csw_rate": 0.2635,
-            "putaway_rate": 0.174,
-            "chase_rate": 0.3241,
-            "hard_hit_allowed_rate": 0.4334,
-            "xwoba_allowed": 0.327,
-            "starts": 18
-          },
           "book_quote": {
             "line": 4.5,
             "price": 143,
@@ -5951,20 +5629,6 @@
           "base_under_play_to": 130,
           "designation": "Watch price",
           "explainer": "Base K workload is adjusted for the opponent's current strikeout/contact profile. Ceiling game view adds Savant chase, whiff, CSW, putaway, and pitch-mix upside while traffic risk suppresses the ceiling.",
-          "analysis": {
-            "base_projection": 3.9,
-            "avg_start_innings": 5.9,
-            "avg_start_batters_faced": 24.4,
-            "avg_start_pitches": 94.0,
-            "strikeout_rate": 0.166,
-            "swinging_strike_rate": 0.0878,
-            "csw_rate": 0.2425,
-            "putaway_rate": 0.1548,
-            "chase_rate": 0.3109,
-            "hard_hit_allowed_rate": 0.3561,
-            "xwoba_allowed": 0.334,
-            "starts": 23
-          },
           "book_quote": {
             "line": 3.5,
             "price": -143,
@@ -6195,7 +5859,7 @@
     }
   ],
   "pregame_quotes": {
-    "fetched_at": "2026-08-09T12:55:00+00:00",
+    "fetched_at": "2026-08-09T13:18:14+00:00",
     "source": "Captured pregame sportsbook quotes",
     "games": {
       "822700": {
@@ -6278,7 +5942,7 @@
             "team": "Cincinnati Reds",
             "side": "Over",
             "line": 4.5,
-            "price": -120,
+            "price": -118,
             "book": "BetRivers"
           },
           {
@@ -6287,7 +5951,7 @@
             "team": "Cincinnati Reds",
             "side": "Under",
             "line": 4.5,
-            "price": -107,
+            "price": -108,
             "book": "BetRivers"
           },
           {
@@ -6296,7 +5960,7 @@
             "team": "Washington Nationals",
             "side": "Over",
             "line": 4.5,
-            "price": 102,
+            "price": 100,
             "book": "BetRivers"
           },
           {
@@ -6305,7 +5969,7 @@
             "team": "Washington Nationals",
             "side": "Under",
             "line": 4.5,
-            "price": -129,
+            "price": -127,
             "book": "BetRivers"
           },
           {
@@ -6575,7 +6239,7 @@
             "team": "Cincinnati Reds",
             "side": "Under",
             "line": 4.5,
-            "price": -105,
+            "price": -102,
             "book": "BetMGM"
           },
           {
@@ -6593,7 +6257,7 @@
             "team": "Washington Nationals",
             "side": "Under",
             "line": 4.5,
-            "price": -118,
+            "price": -115,
             "book": "BetMGM"
           },
           {
@@ -6670,32 +6334,32 @@
           },
           {
             "side": "away",
-            "line": 1.5,
-            "price": -220,
+            "line": -1.5,
+            "price": 145,
             "book": "Bovada"
           },
           {
             "side": "home",
-            "line": -1.5,
-            "price": 180,
+            "line": 1.5,
+            "price": -170,
             "book": "Bovada"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": 150,
+            "price": 145,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": 1.5,
-            "price": -180,
+            "price": -171,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": 140,
+            "price": 143,
             "book": "BetRivers"
           },
           {
@@ -6817,13 +6481,13 @@
           {
             "side": "Over",
             "line": 9.5,
-            "price": 100,
+            "price": -102,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 9.5,
-            "price": -123,
+            "price": -120,
             "book": "MyBookie.ag"
           },
           {
@@ -6913,11 +6577,11 @@
         ],
         "f5H2h": {
           "away": {
-            "price": -109,
-            "book": "MyBookie.ag"
+            "price": -105,
+            "book": "Caesars"
           },
           "home": {
-            "price": -107,
+            "price": -106,
             "book": "BetRivers"
           }
         },
@@ -6948,15 +6612,39 @@
           },
           {
             "side": "away",
-            "line": 0.5,
-            "price": -143,
+            "line": -0.5,
+            "price": 115,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
-            "line": -0.5,
-            "price": 117,
+            "line": 0.5,
+            "price": -141,
             "book": "MyBookie.ag"
+          },
+          {
+            "side": "away",
+            "line": 0.5,
+            "price": -140,
+            "book": "BetOnline.ag"
+          },
+          {
+            "side": "home",
+            "line": -0.5,
+            "price": 120,
+            "book": "BetOnline.ag"
+          },
+          {
+            "side": "away",
+            "line": 0.5,
+            "price": -140,
+            "book": "Caesars"
+          },
+          {
+            "side": "home",
+            "line": -0.5,
+            "price": 110,
+            "book": "Caesars"
           },
           {
             "side": "away",
@@ -6973,13 +6661,13 @@
           {
             "side": "away",
             "line": 0.5,
-            "price": -135,
+            "price": -133,
             "book": "BetUS"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": 115,
+            "price": 113,
             "book": "BetUS"
           }
         ],
@@ -7011,49 +6699,61 @@
           {
             "side": "Over",
             "line": 5.0,
-            "price": -116,
+            "price": -115,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 5.0,
-            "price": -105,
+            "price": -106,
             "book": "MyBookie.ag"
           },
           {
             "side": "Over",
             "line": 5.0,
-            "price": -122,
+            "price": -115,
             "book": "BetOnline.ag"
           },
           {
             "side": "Under",
             "line": 5.0,
-            "price": 102,
+            "price": -105,
             "book": "BetOnline.ag"
           },
           {
             "side": "Over",
             "line": 5.0,
             "price": -125,
-            "book": "BetMGM"
+            "book": "Caesars"
           },
           {
             "side": "Under",
             "line": 5.0,
-            "price": -102,
-            "book": "BetMGM"
+            "price": -105,
+            "book": "Caesars"
           },
           {
             "side": "Over",
             "line": 5.0,
-            "price": -120,
-            "book": "BetUS"
+            "price": -118,
+            "book": "BetMGM"
           },
           {
             "side": "Under",
             "line": 5.0,
             "price": -110,
+            "book": "BetMGM"
+          },
+          {
+            "side": "Over",
+            "line": 5.0,
+            "price": -115,
+            "book": "BetUS"
+          },
+          {
+            "side": "Under",
+            "line": 5.0,
+            "price": -115,
             "book": "BetUS"
           }
         ],
@@ -7080,7 +6780,7 @@
           },
           "batter tb|elly de la cruz|under|1.5": {
             "price": -120,
-            "book": "Bovada"
+            "book": "Fanatics"
           },
           "batter tb|dylan crews|over|1.5": {
             "price": 136,
@@ -7099,7 +6799,7 @@
             "book": "Bovada"
           },
           "batter tb|jose tena|over|1.5": {
-            "price": 195,
+            "price": 190,
             "book": "BetRivers"
           }
         },
@@ -7108,8 +6808,8 @@
             {
               "line": 4.5,
               "over": {
-                "price": 115,
-                "book": "BetMGM"
+                "price": 105,
+                "book": "Bovada"
               },
               "under": {
                 "price": -114,
@@ -7123,8 +6823,8 @@
             {
               "line": 4.5,
               "over": {
-                "price": 115,
-                "book": "BetMGM"
+                "price": 105,
+                "book": "Bovada"
               },
               "under": {
                 "price": -114,
@@ -7556,7 +7256,7 @@
             "team": "Pittsburgh Pirates",
             "side": "Over",
             "line": 4.5,
-            "price": 110,
+            "price": 115,
             "book": "BetMGM"
           },
           {
@@ -7565,7 +7265,7 @@
             "team": "Pittsburgh Pirates",
             "side": "Under",
             "line": 4.5,
-            "price": -145,
+            "price": -150,
             "book": "BetMGM"
           },
           {
@@ -7885,13 +7585,13 @@
           {
             "side": "Over",
             "line": 8.0,
-            "price": -115,
+            "price": -110,
             "book": "Bovada"
           },
           {
             "side": "Under",
             "line": 8.0,
-            "price": -105,
+            "price": -110,
             "book": "Bovada"
           },
           {
@@ -8055,13 +7755,13 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -105,
+            "price": 100,
             "book": "BetOnline.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -115,
+            "price": -120,
             "book": "BetOnline.ag"
           },
           {
@@ -8103,37 +7803,37 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -105,
+            "price": 100,
             "book": "Caesars"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -125,
+            "price": -130,
             "book": "Caesars"
-          },
-          {
-            "side": "Over",
-            "line": 4.5,
-            "price": -115,
-            "book": "BetUS"
-          },
-          {
-            "side": "Under",
-            "line": 4.5,
-            "price": -115,
-            "book": "BetUS"
           },
           {
             "side": "Over",
             "line": 4.5,
             "price": -110,
+            "book": "BetUS"
+          },
+          {
+            "side": "Under",
+            "line": 4.5,
+            "price": -120,
+            "book": "BetUS"
+          },
+          {
+            "side": "Over",
+            "line": 4.5,
+            "price": 100,
             "book": "BetMGM"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -118,
+            "price": -130,
             "book": "BetMGM"
           }
         ],
@@ -8204,8 +7904,8 @@
                 "book": "FanDuel"
               },
               "under": {
-                "price": -139,
-                "book": "DraftKings"
+                "price": -140,
+                "book": "BetMGM"
               }
             }
           ],
@@ -8232,8 +7932,8 @@
                 "book": "FanDuel"
               },
               "under": {
-                "price": -139,
-                "book": "DraftKings"
+                "price": -140,
+                "book": "BetMGM"
               }
             }
           ],
@@ -8350,7 +8050,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 3.5,
-            "price": -105,
+            "price": -106,
             "book": "BetRivers"
           },
           {
@@ -8458,7 +8158,7 @@
             "team": "Philadelphia Phillies",
             "side": "Over",
             "line": 8.5,
-            "price": 450,
+            "price": 480,
             "book": "Caesars"
           },
           {
@@ -8467,7 +8167,7 @@
             "team": "Philadelphia Phillies",
             "side": "Under",
             "line": 2.5,
-            "price": 300,
+            "price": 290,
             "book": "Caesars"
           },
           {
@@ -8476,7 +8176,7 @@
             "team": "Philadelphia Phillies",
             "side": "Under",
             "line": 3.5,
-            "price": 170,
+            "price": 162,
             "book": "Caesars"
           },
           {
@@ -8512,7 +8212,7 @@
             "team": "Philadelphia Phillies",
             "side": "Under",
             "line": 7.5,
-            "price": -450,
+            "price": -500,
             "book": "Caesars"
           },
           {
@@ -8521,7 +8221,7 @@
             "team": "Philadelphia Phillies",
             "side": "Under",
             "line": 8.5,
-            "price": -800,
+            "price": -900,
             "book": "Caesars"
           },
           {
@@ -8530,7 +8230,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 2.5,
-            "price": -187,
+            "price": -182,
             "book": "Caesars"
           },
           {
@@ -8539,7 +8239,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 3.5,
-            "price": 100,
+            "price": 105,
             "book": "Caesars"
           },
           {
@@ -8548,7 +8248,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 4.5,
-            "price": 160,
+            "price": 170,
             "book": "Caesars"
           },
           {
@@ -8557,7 +8257,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 5.5,
-            "price": 260,
+            "price": 270,
             "book": "Caesars"
           },
           {
@@ -8566,7 +8266,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 6.5,
-            "price": 400,
+            "price": 450,
             "book": "Caesars"
           },
           {
@@ -8584,7 +8284,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 8.5,
-            "price": 800,
+            "price": 850,
             "book": "Caesars"
           },
           {
@@ -8593,7 +8293,7 @@
             "team": "Toronto Blue Jays",
             "side": "Under",
             "line": 2.5,
-            "price": 140,
+            "price": 137,
             "book": "Caesars"
           },
           {
@@ -8602,7 +8302,7 @@
             "team": "Toronto Blue Jays",
             "side": "Under",
             "line": 3.5,
-            "price": -125,
+            "price": -133,
             "book": "Caesars"
           },
           {
@@ -8620,7 +8320,7 @@
             "team": "Toronto Blue Jays",
             "side": "Under",
             "line": 5.5,
-            "price": -350,
+            "price": -400,
             "book": "Caesars"
           },
           {
@@ -8629,7 +8329,7 @@
             "team": "Toronto Blue Jays",
             "side": "Under",
             "line": 6.5,
-            "price": -650,
+            "price": -667,
             "book": "Caesars"
           },
           {
@@ -8710,7 +8410,7 @@
             "team": "Toronto Blue Jays",
             "side": "Over",
             "line": 3.5,
-            "price": -102,
+            "price": 100,
             "book": "BetMGM"
           },
           {
@@ -8719,7 +8419,7 @@
             "team": "Toronto Blue Jays",
             "side": "Under",
             "line": 3.5,
-            "price": -125,
+            "price": -130,
             "book": "BetMGM"
           }
         ],
@@ -8729,8 +8429,8 @@
             "book": "FanDuel"
           },
           "away": {
-            "price": 180,
-            "book": "BetOnline.ag"
+            "price": 189,
+            "book": "DraftKings"
           }
         },
         "spreads": [
@@ -8773,19 +8473,19 @@
           {
             "side": "home",
             "line": -1.5,
-            "price": 100,
+            "price": 103,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": 1.5,
-            "price": -118,
+            "price": -121,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 104,
+            "price": 105,
             "book": "BetRivers"
           },
           {
@@ -8821,13 +8521,13 @@
           {
             "side": "home",
             "line": -1.5,
-            "price": 100,
+            "price": -105,
             "book": "Caesars"
           },
           {
             "side": "away",
             "line": 1.5,
-            "price": -120,
+            "price": -115,
             "book": "Caesars"
           },
           {
@@ -8907,25 +8607,25 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -108,
+            "price": -107,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -113,
+            "price": -115,
             "book": "MyBookie.ag"
           },
           {
             "side": "Over",
             "line": 8.5,
-            "price": -113,
+            "price": -114,
             "book": "BetRivers"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -106,
+            "price": -105,
             "book": "BetRivers"
           },
           {
@@ -8955,13 +8655,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -110,
+            "price": -105,
             "book": "Caesars"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -110,
+            "price": -115,
             "book": "Caesars"
           },
           {
@@ -8979,13 +8679,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -110,
+            "price": -105,
             "book": "BetMGM"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -110,
+            "price": -115,
             "book": "BetMGM"
           },
           {
@@ -9003,8 +8703,8 @@
         ],
         "f5H2h": {
           "home": {
-            "price": -210,
-            "book": "BetRivers"
+            "price": -206,
+            "book": "MyBookie.ag"
           },
           "away": {
             "price": 190,
@@ -9039,13 +8739,13 @@
           {
             "side": "home",
             "line": -0.5,
-            "price": -142,
+            "price": -138,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": 0.5,
-            "price": 116,
+            "price": 113,
             "book": "MyBookie.ag"
           },
           {
@@ -9125,25 +8825,25 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -102,
+            "price": 100,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -120,
+            "price": -122,
             "book": "MyBookie.ag"
           },
           {
             "side": "Over",
             "line": 4.5,
-            "price": -108,
+            "price": -105,
             "book": "BetOnline.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -112,
+            "price": -115,
             "book": "BetOnline.ag"
           },
           {
@@ -9217,7 +8917,7 @@
             "book": "Caesars"
           },
           "batter tb|davis schneider|over|1.5": {
-            "price": 255,
+            "price": 250,
             "book": "BetRivers"
           },
           "batter hits|bryce harper|over|0.5": {
@@ -9238,7 +8938,7 @@
                 "book": "DraftKings"
               },
               "under": {
-                "price": 120,
+                "price": 118,
                 "book": "BetRivers"
               }
             },
@@ -9277,7 +8977,7 @@
                 "book": "DraftKings"
               },
               "under": {
-                "price": 120,
+                "price": 118,
                 "book": "BetRivers"
               }
             },
@@ -9748,7 +9448,7 @@
             "team": "Atlanta Braves",
             "side": "Over",
             "line": 3.5,
-            "price": -121,
+            "price": -122,
             "book": "BetRivers"
           },
           {
@@ -9757,7 +9457,7 @@
             "team": "Atlanta Braves",
             "side": "Under",
             "line": 3.5,
-            "price": -105,
+            "price": -104,
             "book": "BetRivers"
           },
           {
@@ -9766,7 +9466,7 @@
             "team": "New York Yankees",
             "side": "Over",
             "line": 4.5,
-            "price": 106,
+            "price": 104,
             "book": "BetRivers"
           },
           {
@@ -9775,7 +9475,7 @@
             "team": "New York Yankees",
             "side": "Under",
             "line": 4.5,
-            "price": -134,
+            "price": -132,
             "book": "BetRivers"
           }
         ],
@@ -9785,8 +9485,8 @@
             "book": "FanDuel"
           },
           "home": {
-            "price": -133,
-            "book": "Caesars"
+            "price": -136,
+            "book": "DraftKings"
           }
         },
         "spreads": [
@@ -9829,7 +9529,7 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -171,
+            "price": -172,
             "book": "MyBookie.ag"
           },
           {
@@ -9951,13 +9651,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -109,
+            "price": -106,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -112,
+            "price": -115,
             "book": "MyBookie.ag"
           },
           {
@@ -10035,13 +9735,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": 100,
+            "price": -103,
             "book": "BetRivers"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -118,
+            "price": -115,
             "book": "BetRivers"
           }
         ],
@@ -10051,7 +9751,7 @@
             "book": "BetOnline.ag"
           },
           "home": {
-            "price": -154,
+            "price": -159,
             "book": "MyBookie.ag"
           }
         },
@@ -10071,13 +9771,13 @@
           {
             "side": "away",
             "line": 0.5,
-            "price": -111,
+            "price": -109,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": -110,
+            "price": -112,
             "book": "MyBookie.ag"
           },
           {
@@ -10137,7 +9837,7 @@
           {
             "side": "home",
             "line": -0.5,
-            "price": -118,
+            "price": -115,
             "book": "BetMGM"
           }
         ],
@@ -10157,13 +9857,13 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -110,
+            "price": -109,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -111,
+            "price": -112,
             "book": "MyBookie.ag"
           },
           {
@@ -10181,63 +9881,63 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -115,
-            "book": "Bovada"
-          },
-          {
-            "side": "Under",
-            "line": 4.5,
-            "price": -115,
-            "book": "Bovada"
-          },
-          {
-            "side": "Over",
-            "line": 4.5,
-            "price": -115,
-            "book": "Caesars"
-          },
-          {
-            "side": "Under",
-            "line": 4.5,
-            "price": -115,
-            "book": "Caesars"
-          },
-          {
-            "side": "Over",
-            "line": 4.5,
-            "price": -115,
-            "book": "BetUS"
-          },
-          {
-            "side": "Under",
-            "line": 4.5,
-            "price": -115,
-            "book": "BetUS"
-          },
-          {
-            "side": "Over",
-            "line": 4.5,
             "price": -110,
+            "book": "Bovada"
+          },
+          {
+            "side": "Under",
+            "line": 4.5,
+            "price": -120,
+            "book": "Bovada"
+          },
+          {
+            "side": "Over",
+            "line": 4.5,
+            "price": -115,
+            "book": "Caesars"
+          },
+          {
+            "side": "Under",
+            "line": 4.5,
+            "price": -115,
+            "book": "Caesars"
+          },
+          {
+            "side": "Over",
+            "line": 4.5,
+            "price": -115,
+            "book": "BetUS"
+          },
+          {
+            "side": "Under",
+            "line": 4.5,
+            "price": -115,
+            "book": "BetUS"
+          },
+          {
+            "side": "Over",
+            "line": 4.5,
+            "price": -118,
             "book": "BetMGM"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -115,
+            "price": -110,
             "book": "BetMGM"
           }
         ],
         "batter": {
           "batter hr|ben rice|over|0.5": {
-            "price": 265,
-            "book": "Caesars"
+            "price": 270,
+            "book": "BetRivers"
           },
           "batter hr|austin riley|over|0.5": {
             "price": 440,
             "book": "BetRivers"
           },
           "batter hr|spencer jones|over|0.5": {
-            "price": 440,
+            "price": 450,
             "book": "BetRivers"
           },
           "batter tb|ben rice|over|1.5": {
@@ -10265,7 +9965,7 @@
             "book": "Caesars"
           },
           "batter tb|ryan mcmahon|over|1.5": {
-            "price": 205,
+            "price": 210,
             "book": "BetRivers"
           },
           "batter tb|drake baldwin|over|1.5": {
@@ -10309,12 +10009,12 @@
             {
               "line": 5.5,
               "over": {
-                "price": 126,
-                "book": "BetOnline.ag"
+                "price": 125,
+                "book": "BetMGM"
               },
               "under": {
-                "price": -164,
-                "book": "BetOnline.ag"
+                "price": -165,
+                "book": "BetMGM"
               }
             }
           ],
@@ -10348,12 +10048,12 @@
             {
               "line": 5.5,
               "over": {
-                "price": 126,
-                "book": "BetOnline.ag"
+                "price": 125,
+                "book": "BetMGM"
               },
               "under": {
-                "price": -164,
-                "book": "BetOnline.ag"
+                "price": -165,
+                "book": "BetMGM"
               }
             }
           ],
@@ -10398,7 +10098,7 @@
             "team": "Miami Marlins",
             "side": "Over",
             "line": 4.5,
-            "price": -110,
+            "price": -105,
             "book": "DraftKings"
           },
           {
@@ -10407,7 +10107,7 @@
             "team": "Miami Marlins",
             "side": "Under",
             "line": 4.5,
-            "price": -120,
+            "price": -125,
             "book": "DraftKings"
           },
           {
@@ -10803,7 +10503,7 @@
             "team": "Miami Marlins",
             "side": "Under",
             "line": 4.5,
-            "price": -130,
+            "price": -125,
             "book": "BetMGM"
           },
           {
@@ -10845,8 +10545,8 @@
         ],
         "h2h": {
           "away": {
-            "price": 137,
-            "book": "DraftKings"
+            "price": 135,
+            "book": "Caesars"
           },
           "home": {
             "price": -138,
@@ -10857,13 +10557,13 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -163,
+            "price": -170,
             "book": "DraftKings"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 135,
+            "price": 140,
             "book": "DraftKings"
           },
           {
@@ -10893,13 +10593,13 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -161,
+            "price": -160,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 137,
+            "price": 135,
             "book": "MyBookie.ag"
           },
           {
@@ -10917,25 +10617,25 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -165,
+            "price": -170,
             "book": "Bovada"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 140,
+            "price": 145,
             "book": "Bovada"
           },
           {
             "side": "away",
             "line": 1.5,
-            "price": -160,
+            "price": -165,
             "book": "Caesars"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 135,
+            "price": 140,
             "book": "Caesars"
           },
           {
@@ -10991,13 +10691,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -108,
+            "price": -109,
             "book": "DraftKings"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -112,
+            "price": -111,
             "book": "DraftKings"
           },
           {
@@ -11027,13 +10727,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -110,
+            "price": -108,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -111,
+            "price": -113,
             "book": "MyBookie.ag"
           },
           {
@@ -11051,13 +10751,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -110,
+            "price": -105,
             "book": "Bovada"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -110,
+            "price": -115,
             "book": "Bovada"
           },
           {
@@ -11207,7 +10907,7 @@
           {
             "side": "away",
             "line": 0.5,
-            "price": -118,
+            "price": -115,
             "book": "BetMGM"
           },
           {
@@ -11221,25 +10921,25 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -130,
+            "price": -120,
             "book": "BetOnline.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": 110,
+            "price": 100,
             "book": "BetOnline.ag"
           },
           {
             "side": "Over",
             "line": 4.5,
-            "price": -123,
+            "price": -120,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": 101,
+            "price": -101,
             "book": "MyBookie.ag"
           },
           {
@@ -11257,49 +10957,49 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -125,
+            "price": -120,
             "book": "Bovada"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -105,
+            "price": -110,
             "book": "Bovada"
-          },
-          {
-            "side": "Over",
-            "line": 4.5,
-            "price": -135,
-            "book": "Caesars"
-          },
-          {
-            "side": "Under",
-            "line": 4.5,
-            "price": 105,
-            "book": "Caesars"
           },
           {
             "side": "Over",
             "line": 4.5,
             "price": -130,
-            "book": "BetUS"
+            "book": "Caesars"
           },
           {
             "side": "Under",
             "line": 4.5,
             "price": 100,
+            "book": "Caesars"
+          },
+          {
+            "side": "Over",
+            "line": 4.5,
+            "price": -120,
+            "book": "BetUS"
+          },
+          {
+            "side": "Under",
+            "line": 4.5,
+            "price": -110,
             "book": "BetUS"
           },
           {
             "side": "Over",
-            "line": 5.0,
-            "price": -102,
+            "line": 4.5,
+            "price": -120,
             "book": "BetMGM"
           },
           {
             "side": "Under",
-            "line": 5.0,
-            "price": -125,
+            "line": 4.5,
+            "price": -110,
             "book": "BetMGM"
           }
         ],
@@ -11325,11 +11025,11 @@
             "book": "BetOnline.ag"
           },
           "batter tb|griffin conine|over|1.5": {
-            "price": 152,
+            "price": 155,
             "book": "BetOnline.ag"
           },
           "batter tb|griffin conine|under|1.5": {
-            "price": -200,
+            "price": -204,
             "book": "BetOnline.ag"
           },
           "batter tb|kyle stowers|over|1.5": {
@@ -11860,7 +11560,7 @@
             "team": "Chicago Cubs",
             "side": "Over",
             "line": 5.5,
-            "price": -115,
+            "price": -110,
             "book": "BetMGM"
           },
           {
@@ -11878,7 +11578,7 @@
             "team": "Kansas City Royals",
             "side": "Over",
             "line": 4.5,
-            "price": 100,
+            "price": -102,
             "book": "BetMGM"
           },
           {
@@ -11887,7 +11587,7 @@
             "team": "Kansas City Royals",
             "side": "Under",
             "line": 4.5,
-            "price": -130,
+            "price": -125,
             "book": "BetMGM"
           }
         ],
@@ -11941,25 +11641,25 @@
           {
             "side": "away",
             "line": -1.5,
-            "price": 100,
+            "price": -102,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": 1.5,
-            "price": -117,
+            "price": -115,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": -108,
+            "price": -110,
             "book": "FanDuel"
           },
           {
             "side": "home",
             "line": 1.5,
-            "price": -111,
+            "price": -110,
             "book": "FanDuel"
           },
           {
@@ -12039,13 +11739,13 @@
           {
             "side": "Over",
             "line": 10.0,
-            "price": -112,
+            "price": -115,
             "book": "DraftKings"
           },
           {
             "side": "Under",
             "line": 10.0,
-            "price": -108,
+            "price": -105,
             "book": "DraftKings"
           },
           {
@@ -12075,13 +11775,13 @@
           {
             "side": "Over",
             "line": 10.0,
-            "price": -108,
+            "price": -115,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 10.0,
-            "price": -113,
+            "price": -106,
             "book": "MyBookie.ag"
           },
           {
@@ -12175,8 +11875,8 @@
             "book": "BetRivers"
           },
           "home": {
-            "price": 131,
-            "book": "MyBookie.ag"
+            "price": 135,
+            "book": "BetOnline.ag"
           }
         },
         "f5Spreads": [
@@ -12195,13 +11895,13 @@
           {
             "side": "away",
             "line": -0.5,
-            "price": -117,
+            "price": -120,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": 0.5,
-            "price": -104,
+            "price": -101,
             "book": "MyBookie.ag"
           },
           {
@@ -12280,14 +11980,14 @@
           },
           {
             "side": "Over",
-            "line": 5.0,
-            "price": -124,
+            "line": 5.5,
+            "price": -103,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
-            "line": 5.0,
-            "price": 102,
+            "line": 5.5,
+            "price": -119,
             "book": "MyBookie.ag"
           },
           {
@@ -12394,12 +12094,12 @@
             {
               "line": 4.5,
               "over": {
-                "price": -141,
-                "book": "BetOnline.ag"
+                "price": -140,
+                "book": "DraftKings"
               },
               "under": {
-                "price": 115,
-                "book": "Bovada"
+                "price": 116,
+                "book": "FanDuel"
               }
             }
           ],
@@ -12422,12 +12122,12 @@
             {
               "line": 4.5,
               "over": {
-                "price": -141,
-                "book": "BetOnline.ag"
+                "price": -140,
+                "book": "DraftKings"
               },
               "under": {
-                "price": 115,
-                "book": "Bovada"
+                "price": 116,
+                "book": "FanDuel"
               }
             }
           ],
@@ -12526,7 +12226,7 @@
             "team": "Chicago White Sox",
             "side": "Over",
             "line": 3.5,
-            "price": -122,
+            "price": -120,
             "book": "FanDuel"
           },
           {
@@ -12535,7 +12235,7 @@
             "team": "Chicago White Sox",
             "side": "Under",
             "line": 3.5,
-            "price": -104,
+            "price": -106,
             "book": "FanDuel"
           },
           {
@@ -12544,7 +12244,7 @@
             "team": "Cleveland Guardians",
             "side": "Over",
             "line": 4.5,
-            "price": 108,
+            "price": 110,
             "book": "FanDuel"
           },
           {
@@ -12553,7 +12253,7 @@
             "team": "Cleveland Guardians",
             "side": "Under",
             "line": 4.5,
-            "price": -138,
+            "price": -140,
             "book": "FanDuel"
           },
           {
@@ -12923,21 +12623,21 @@
             "book": "FanDuel"
           },
           "away": {
-            "price": -111,
-            "book": "Caesars"
+            "price": -108,
+            "book": "DraftKings"
           }
         },
         "spreads": [
           {
             "side": "home",
             "line": 1.5,
-            "price": -181,
+            "price": -175,
             "book": "DraftKings"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": 149,
+            "price": 144,
             "book": "DraftKings"
           },
           {
@@ -12967,13 +12667,13 @@
           {
             "side": "home",
             "line": 1.5,
-            "price": -166,
+            "price": -164,
             "book": "FanDuel"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": 138,
+            "price": 136,
             "book": "FanDuel"
           },
           {
@@ -13027,7 +12727,7 @@
           {
             "side": "home",
             "line": 1.5,
-            "price": -175,
+            "price": -180,
             "book": "BetMGM"
           },
           {
@@ -13125,13 +12825,13 @@
           {
             "side": "Over",
             "line": 8.5,
-            "price": -105,
+            "price": 100,
             "book": "Caesars"
           },
           {
             "side": "Under",
             "line": 8.5,
-            "price": -115,
+            "price": -120,
             "book": "Caesars"
           },
           {
@@ -13196,14 +12896,14 @@
         "f5Spreads": [
           {
             "side": "home",
-            "line": -0.5,
-            "price": 130,
+            "line": 0.5,
+            "price": -148,
             "book": "BetOnline.ag"
           },
           {
             "side": "away",
-            "line": 0.5,
-            "price": -150,
+            "line": -0.5,
+            "price": 128,
             "book": "BetOnline.ag"
           },
           {
@@ -13244,38 +12944,38 @@
           },
           {
             "side": "home",
-            "line": -0.5,
-            "price": 120,
+            "line": 0.5,
+            "price": -160,
             "book": "Caesars"
           },
           {
             "side": "away",
-            "line": 0.5,
-            "price": -150,
+            "line": -0.5,
+            "price": 130,
             "book": "Caesars"
           },
           {
             "side": "home",
+            "line": 0.5,
+            "price": -150,
+            "book": "BetUS"
+          },
+          {
+            "side": "away",
             "line": -0.5,
             "price": 130,
             "book": "BetUS"
           },
           {
-            "side": "away",
-            "line": 0.5,
-            "price": -150,
-            "book": "BetUS"
-          },
-          {
             "side": "home",
             "line": -0.5,
-            "price": 118,
+            "price": 115,
             "book": "BetMGM"
           },
           {
             "side": "away",
             "line": 0.5,
-            "price": -155,
+            "price": -150,
             "book": "BetMGM"
           }
         ],
@@ -13283,37 +12983,37 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -116,
+            "price": -110,
             "book": "BetOnline.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -104,
+            "price": -110,
             "book": "BetOnline.ag"
           },
           {
             "side": "Over",
             "line": 4.5,
-            "price": -105,
+            "price": -108,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -116,
+            "price": -113,
             "book": "MyBookie.ag"
           },
           {
             "side": "Over",
             "line": 4.5,
-            "price": -104,
+            "price": -102,
             "book": "FanDuel"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -125,
+            "price": -128,
             "book": "FanDuel"
           },
           {
@@ -13355,13 +13055,13 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -118,
+            "price": -115,
             "book": "BetMGM"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -110,
+            "price": -115,
             "book": "BetMGM"
           }
         ],
@@ -13371,7 +13071,7 @@
             "book": "BetRivers"
           },
           "batter hr|randal grichuk|over|0.5": {
-            "price": 425,
+            "price": 475,
             "book": "Caesars"
           },
           "batter tb|nathaniel lowe|over|1.5": {
@@ -13391,19 +13091,19 @@
             "book": "BetMGM"
           },
           "batter tb|munetaka murakami|over|1.5": {
-            "price": 152,
+            "price": 155,
             "book": "BetOnline.ag"
           },
           "batter tb|munetaka murakami|under|1.5": {
-            "price": -200,
+            "price": -204,
             "book": "BetOnline.ag"
           },
           "batter tb|randal grichuk|over|1.5": {
-            "price": 161,
+            "price": 164,
             "book": "BetOnline.ag"
           },
           "batter tb|randal grichuk|under|1.5": {
-            "price": -213,
+            "price": -217,
             "book": "BetOnline.ag"
           },
           "batter hits|nathaniel lowe|over|0.5": {
@@ -13415,11 +13115,11 @@
             "book": "BetOnline.ag"
           },
           "batter hits|angel genao|over|0.5": {
-            "price": -145,
+            "price": -152,
             "book": "DraftKings"
           },
           "batter hits|angel genao|under|0.5": {
-            "price": 122,
+            "price": 125,
             "book": "BetOnline.ag"
           }
         },
@@ -13428,12 +13128,12 @@
             {
               "line": 5.5,
               "over": {
-                "price": -123,
+                "price": -119,
                 "book": "DraftKings"
               },
               "under": {
                 "price": 100,
-                "book": "Fanatics"
+                "book": "BetMGM"
               }
             }
           ],
@@ -13445,7 +13145,7 @@
                 "book": "BetRivers"
               },
               "under": {
-                "price": 104,
+                "price": 108,
                 "book": "DraftKings"
               }
             }
@@ -13456,12 +13156,12 @@
             {
               "line": 5.5,
               "over": {
-                "price": -123,
+                "price": -119,
                 "book": "DraftKings"
               },
               "under": {
                 "price": 100,
-                "book": "Fanatics"
+                "book": "BetMGM"
               }
             }
           ],
@@ -13473,7 +13173,7 @@
                 "book": "BetRivers"
               },
               "under": {
-                "price": 104,
+                "price": 108,
                 "book": "DraftKings"
               }
             }
@@ -13632,7 +13332,7 @@
             "team": "Milwaukee Brewers",
             "side": "Over",
             "line": 4.5,
-            "price": -103,
+            "price": -104,
             "book": "BetRivers"
           },
           {
@@ -13641,7 +13341,7 @@
             "team": "Milwaukee Brewers",
             "side": "Under",
             "line": 4.5,
-            "price": -124,
+            "price": -122,
             "book": "BetRivers"
           },
           {
@@ -13659,7 +13359,7 @@
             "team": "Minnesota Twins",
             "side": "Under",
             "line": 2.5,
-            "price": 100,
+            "price": -103,
             "book": "BetRivers"
           },
           {
@@ -13686,7 +13386,7 @@
             "team": "Minnesota Twins",
             "side": "Over",
             "line": 2.5,
-            "price": -115,
+            "price": -118,
             "book": "BetMGM"
           },
           {
@@ -13695,7 +13395,7 @@
             "team": "Minnesota Twins",
             "side": "Under",
             "line": 2.5,
-            "price": -115,
+            "price": -110,
             "book": "BetMGM"
           }
         ],
@@ -13705,8 +13405,8 @@
             "book": "FanDuel"
           },
           "away": {
-            "price": 240,
-            "book": "Caesars"
+            "price": 232,
+            "book": "DraftKings"
           }
         },
         "spreads": [
@@ -13749,13 +13449,13 @@
           {
             "side": "home",
             "line": -1.5,
-            "price": -115,
+            "price": -114,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": 1.5,
-            "price": -102,
+            "price": -103,
             "book": "MyBookie.ag"
           },
           {
@@ -13871,13 +13571,13 @@
           {
             "side": "Over",
             "line": 7.0,
-            "price": -121,
+            "price": -120,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 7.0,
-            "price": -101,
+            "price": -102,
             "book": "MyBookie.ag"
           },
           {
@@ -13943,36 +13643,36 @@
           {
             "side": "Over",
             "line": 7.5,
-            "price": -103,
+            "price": -104,
             "book": "BetRivers"
           },
           {
             "side": "Under",
             "line": 7.5,
-            "price": -117,
+            "price": -115,
             "book": "BetRivers"
           },
           {
             "side": "Over",
-            "line": 7.0,
-            "price": -130,
+            "line": 7.5,
+            "price": 105,
             "book": "BetMGM"
           },
           {
             "side": "Under",
-            "line": 7.0,
-            "price": 100,
+            "line": 7.5,
+            "price": -125,
             "book": "BetMGM"
           }
         ],
         "f5H2h": {
           "home": {
-            "price": -265,
+            "price": -260,
             "book": "MyBookie.ag"
           },
           "away": {
-            "price": 235,
-            "book": "FanDuel"
+            "price": 250,
+            "book": "BetMGM"
           }
         },
         "f5Spreads": [
@@ -13991,13 +13691,13 @@
           {
             "side": "home",
             "line": -1.5,
-            "price": 114,
+            "price": 115,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": 1.5,
-            "price": -140,
+            "price": -141,
             "book": "MyBookie.ag"
           },
           {
@@ -14053,25 +13753,25 @@
           {
             "side": "Over",
             "line": 3.5,
-            "price": -120,
+            "price": -125,
             "book": "BetOnline.ag"
           },
           {
             "side": "Under",
             "line": 3.5,
-            "price": 100,
+            "price": 105,
             "book": "BetOnline.ag"
           },
           {
             "side": "Over",
-            "line": 4.0,
-            "price": 102,
+            "line": 3.5,
+            "price": -126,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
-            "line": 4.0,
-            "price": -125,
+            "line": 3.5,
+            "price": 103,
             "book": "MyBookie.ag"
           },
           {
@@ -14113,25 +13813,25 @@
           {
             "side": "Over",
             "line": 3.5,
-            "price": -120,
-            "book": "BetUS"
-          },
-          {
-            "side": "Under",
-            "line": 3.5,
-            "price": -110,
-            "book": "BetUS"
-          },
-          {
-            "side": "Over",
-            "line": 3.5,
             "price": -125,
-            "book": "BetMGM"
+            "book": "BetUS"
           },
           {
             "side": "Under",
             "line": 3.5,
             "price": -105,
+            "book": "BetUS"
+          },
+          {
+            "side": "Over",
+            "line": 3.5,
+            "price": -130,
+            "book": "BetMGM"
+          },
+          {
+            "side": "Under",
+            "line": 3.5,
+            "price": 100,
             "book": "BetMGM"
           }
         ],
@@ -14170,7 +13870,7 @@
             {
               "line": 5.5,
               "over": {
-                "price": 120,
+                "price": 115,
                 "book": "DraftKings"
               },
               "under": {
@@ -14198,7 +13898,7 @@
             {
               "line": 5.5,
               "over": {
-                "price": 120,
+                "price": 115,
                 "book": "DraftKings"
               },
               "under": {
@@ -14743,25 +14443,25 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -147,
+            "price": -141,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 124,
+            "price": 121,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": 1.5,
-            "price": -156,
+            "price": -160,
             "book": "FanDuel"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 130,
+            "price": 132,
             "book": "FanDuel"
           },
           {
@@ -14791,13 +14491,13 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -145,
+            "price": -140,
             "book": "Fanatics"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 120,
+            "price": 115,
             "book": "Fanatics"
           },
           {
@@ -14924,14 +14624,14 @@
           },
           {
             "side": "Over",
-            "line": 9.0,
-            "price": -120,
+            "line": 9.5,
+            "price": 100,
             "book": "Fanatics"
           },
           {
             "side": "Under",
-            "line": 9.0,
-            "price": 100,
+            "line": 9.5,
+            "price": -120,
             "book": "Fanatics"
           },
           {
@@ -14973,25 +14673,25 @@
         ],
         "f5H2h": {
           "away": {
-            "price": 141,
+            "price": 142,
             "book": "MyBookie.ag"
           },
           "home": {
-            "price": -155,
-            "book": "BetOnline.ag"
+            "price": -157,
+            "book": "BetRivers"
           }
         },
         "f5Spreads": [
           {
             "side": "away",
             "line": 0.5,
-            "price": -105,
+            "price": 100,
             "book": "BetOnline.ag"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": -115,
+            "price": -120,
             "book": "BetOnline.ag"
           },
           {
@@ -15045,25 +14745,25 @@
           {
             "side": "away",
             "line": 0.5,
-            "price": -105,
+            "price": 100,
             "book": "BetUS"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": -115,
+            "price": -120,
             "book": "BetUS"
           },
           {
             "side": "away",
             "line": 0.5,
-            "price": -110,
+            "price": -105,
             "book": "BetMGM"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": -118,
+            "price": -125,
             "book": "BetMGM"
           }
         ],
@@ -15083,13 +14783,13 @@
           {
             "side": "Over",
             "line": 5.0,
-            "price": -115,
+            "price": -118,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 5.0,
-            "price": -106,
+            "price": -104,
             "book": "MyBookie.ag"
           },
           {
@@ -15143,7 +14843,7 @@
           {
             "side": "Over",
             "line": 5.0,
-            "price": -130,
+            "price": -125,
             "book": "BetMGM"
           },
           {
@@ -15175,7 +14875,7 @@
             "book": "Caesars"
           },
           "batter tb|willi castro|over|1.5": {
-            "price": 155,
+            "price": 152,
             "book": "BetOnline.ag"
           },
           "batter tb|willi castro|under|1.5": {
@@ -15187,8 +14887,8 @@
             "book": "DraftKings"
           },
           "batter tb|jordan walker|under|1.5": {
-            "price": -114,
-            "book": "Caesars"
+            "price": -110,
+            "book": "Fanatics"
           },
           "batter tb|hunter goodman|over|1.5": {
             "price": 120,
@@ -15272,7 +14972,7 @@
             "team": "Baltimore Orioles",
             "side": "Over",
             "line": 3.5,
-            "price": -130,
+            "price": -125,
             "book": "DraftKings"
           },
           {
@@ -15281,7 +14981,7 @@
             "team": "Baltimore Orioles",
             "side": "Under",
             "line": 3.5,
-            "price": 100,
+            "price": -105,
             "book": "DraftKings"
           },
           {
@@ -15344,7 +15044,7 @@
             "team": "Baltimore Orioles",
             "side": "Over",
             "line": 3.5,
-            "price": -128,
+            "price": -130,
             "book": "FanDuel"
           },
           {
@@ -15353,7 +15053,7 @@
             "team": "Baltimore Orioles",
             "side": "Under",
             "line": 3.5,
-            "price": 100,
+            "price": 102,
             "book": "FanDuel"
           },
           {
@@ -15362,7 +15062,7 @@
             "team": "Texas Rangers",
             "side": "Over",
             "line": 4.5,
-            "price": 116,
+            "price": 114,
             "book": "FanDuel"
           },
           {
@@ -15371,7 +15071,7 @@
             "team": "Texas Rangers",
             "side": "Under",
             "line": 4.5,
-            "price": -148,
+            "price": -146,
             "book": "FanDuel"
           },
           {
@@ -15452,7 +15152,7 @@
             "team": "Baltimore Orioles",
             "side": "Over",
             "line": 6.5,
-            "price": 320,
+            "price": 333,
             "book": "Caesars"
           },
           {
@@ -15470,7 +15170,7 @@
             "team": "Baltimore Orioles",
             "side": "Over",
             "line": 8.5,
-            "price": 650,
+            "price": 700,
             "book": "Caesars"
           },
           {
@@ -15479,7 +15179,7 @@
             "team": "Baltimore Orioles",
             "side": "Under",
             "line": 2.5,
-            "price": 175,
+            "price": 170,
             "book": "Caesars"
           },
           {
@@ -15506,7 +15206,7 @@
             "team": "Baltimore Orioles",
             "side": "Under",
             "line": 5.5,
-            "price": -286,
+            "price": -300,
             "book": "Caesars"
           },
           {
@@ -15524,7 +15224,7 @@
             "team": "Baltimore Orioles",
             "side": "Under",
             "line": 7.5,
-            "price": -800,
+            "price": -900,
             "book": "Caesars"
           },
           {
@@ -15551,7 +15251,7 @@
             "team": "Texas Rangers",
             "side": "Over",
             "line": 3.5,
-            "price": -154,
+            "price": -162,
             "book": "Caesars"
           },
           {
@@ -15569,7 +15269,7 @@
             "team": "Texas Rangers",
             "side": "Over",
             "line": 5.5,
-            "price": 187,
+            "price": 180,
             "book": "Caesars"
           },
           {
@@ -15641,7 +15341,7 @@
             "team": "Texas Rangers",
             "side": "Under",
             "line": 6.5,
-            "price": -450,
+            "price": -400,
             "book": "Caesars"
           },
           {
@@ -15668,8 +15368,44 @@
             "team": "Baltimore Orioles",
             "side": "Over",
             "line": 3.5,
-            "price": -122,
+            "price": -127,
             "book": "BetRivers"
+          },
+          {
+            "away": "BAL",
+            "home": "TEX",
+            "team": "Baltimore Orioles",
+            "side": "Under",
+            "line": 3.5,
+            "price": 100,
+            "book": "BetRivers"
+          },
+          {
+            "away": "BAL",
+            "home": "TEX",
+            "team": "Texas Rangers",
+            "side": "Over",
+            "line": 4.5,
+            "price": 115,
+            "book": "BetRivers"
+          },
+          {
+            "away": "BAL",
+            "home": "TEX",
+            "team": "Texas Rangers",
+            "side": "Under",
+            "line": 4.5,
+            "price": -148,
+            "book": "BetRivers"
+          },
+          {
+            "away": "BAL",
+            "home": "TEX",
+            "team": "Baltimore Orioles",
+            "side": "Over",
+            "line": 3.5,
+            "price": -125,
+            "book": "BetMGM"
           },
           {
             "away": "BAL",
@@ -15678,60 +15414,24 @@
             "side": "Under",
             "line": 3.5,
             "price": -105,
-            "book": "BetRivers"
+            "book": "BetMGM"
           },
           {
             "away": "BAL",
             "home": "TEX",
             "team": "Texas Rangers",
             "side": "Over",
-            "line": 4.5,
+            "line": 3.5,
+            "price": -155,
+            "book": "BetMGM"
+          },
+          {
+            "away": "BAL",
+            "home": "TEX",
+            "team": "Texas Rangers",
+            "side": "Under",
+            "line": 3.5,
             "price": 118,
-            "book": "BetRivers"
-          },
-          {
-            "away": "BAL",
-            "home": "TEX",
-            "team": "Texas Rangers",
-            "side": "Under",
-            "line": 4.5,
-            "price": -150,
-            "book": "BetRivers"
-          },
-          {
-            "away": "BAL",
-            "home": "TEX",
-            "team": "Baltimore Orioles",
-            "side": "Over",
-            "line": 3.5,
-            "price": -130,
-            "book": "BetMGM"
-          },
-          {
-            "away": "BAL",
-            "home": "TEX",
-            "team": "Baltimore Orioles",
-            "side": "Under",
-            "line": 3.5,
-            "price": -102,
-            "book": "BetMGM"
-          },
-          {
-            "away": "BAL",
-            "home": "TEX",
-            "team": "Texas Rangers",
-            "side": "Over",
-            "line": 4.5,
-            "price": 110,
-            "book": "BetMGM"
-          },
-          {
-            "away": "BAL",
-            "home": "TEX",
-            "team": "Texas Rangers",
-            "side": "Under",
-            "line": 4.5,
-            "price": -145,
             "book": "BetMGM"
           }
         ],
@@ -15749,13 +15449,13 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -181,
+            "price": -185,
             "book": "DraftKings"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 149,
+            "price": 152,
             "book": "DraftKings"
           },
           {
@@ -15785,25 +15485,25 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -176,
+            "price": -171,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 149,
+            "price": 145,
             "book": "MyBookie.ag"
           },
           {
             "side": "away",
             "line": 1.5,
-            "price": -182,
+            "price": -188,
             "book": "FanDuel"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 150,
+            "price": 155,
             "book": "FanDuel"
           },
           {
@@ -15869,27 +15569,27 @@
           {
             "side": "away",
             "line": 1.5,
-            "price": -185,
+            "price": -190,
             "book": "BetMGM"
           },
           {
             "side": "home",
             "line": -1.5,
-            "price": 150,
+            "price": 155,
             "book": "BetMGM"
           }
         ],
         "totals": [
           {
             "side": "Over",
-            "line": 8.5,
-            "price": -102,
+            "line": 8.0,
+            "price": -116,
             "book": "DraftKings"
           },
           {
             "side": "Under",
-            "line": 8.5,
-            "price": -118,
+            "line": 8.0,
+            "price": -104,
             "book": "DraftKings"
           },
           {
@@ -15918,17 +15618,17 @@
           },
           {
             "side": "Over",
-            "line": 8.0,
+            "line": 8.5,
+            "price": -103,
+            "book": "MyBookie.ag"
+          },
+          {
+            "side": "Under",
+            "line": 8.5,
             "price": -119,
             "book": "MyBookie.ag"
           },
           {
-            "side": "Under",
-            "line": 8.0,
-            "price": -102,
-            "book": "MyBookie.ag"
-          },
-          {
             "side": "Over",
             "line": 8.5,
             "price": -102,
@@ -15942,74 +15642,74 @@
           },
           {
             "side": "Over",
-            "line": 8.5,
-            "price": 105,
-            "book": "Bovada"
-          },
-          {
-            "side": "Under",
-            "line": 8.5,
-            "price": -125,
-            "book": "Bovada"
-          },
-          {
-            "side": "Over",
-            "line": 8.5,
-            "price": 100,
-            "book": "Caesars"
-          },
-          {
-            "side": "Under",
-            "line": 8.5,
-            "price": -120,
-            "book": "Caesars"
-          },
-          {
-            "side": "Over",
             "line": 8.0,
-            "price": -120,
-            "book": "Fanatics"
-          },
-          {
-            "side": "Under",
-            "line": 8.0,
-            "price": 100,
-            "book": "Fanatics"
-          },
-          {
-            "side": "Over",
-            "line": 8.5,
-            "price": -105,
-            "book": "BetUS"
-          },
-          {
-            "side": "Under",
-            "line": 8.5,
             "price": -115,
-            "book": "BetUS"
+            "book": "Bovada"
+          },
+          {
+            "side": "Under",
+            "line": 8.0,
+            "price": -105,
+            "book": "Bovada"
           },
           {
             "side": "Over",
             "line": 8.0,
-            "price": -108,
-            "book": "BetRivers"
+            "price": -110,
+            "book": "Caesars"
           },
           {
             "side": "Under",
             "line": 8.0,
             "price": -110,
+            "book": "Caesars"
+          },
+          {
+            "side": "Over",
+            "line": 8.0,
+            "price": -120,
+            "book": "Fanatics"
+          },
+          {
+            "side": "Under",
+            "line": 8.0,
+            "price": 100,
+            "book": "Fanatics"
+          },
+          {
+            "side": "Over",
+            "line": 8.0,
+            "price": -120,
+            "book": "BetUS"
+          },
+          {
+            "side": "Under",
+            "line": 8.0,
+            "price": 100,
+            "book": "BetUS"
+          },
+          {
+            "side": "Over",
+            "line": 8.0,
+            "price": -113,
+            "book": "BetRivers"
+          },
+          {
+            "side": "Under",
+            "line": 8.0,
+            "price": -106,
             "book": "BetRivers"
           },
           {
             "side": "Over",
-            "line": 8.5,
-            "price": 100,
+            "line": 8.0,
+            "price": -110,
             "book": "BetMGM"
           },
           {
             "side": "Under",
-            "line": 8.5,
-            "price": -120,
+            "line": 8.0,
+            "price": -110,
             "book": "BetMGM"
           }
         ],
@@ -16039,13 +15739,13 @@
           {
             "side": "away",
             "line": 0.5,
-            "price": -123,
+            "price": -120,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": 101,
+            "price": -102,
             "book": "MyBookie.ag"
           },
           {
@@ -16063,13 +15763,13 @@
           {
             "side": "away",
             "line": 0.5,
-            "price": -125,
+            "price": -130,
             "book": "Bovada"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": -105,
+            "price": 100,
             "book": "Bovada"
           },
           {
@@ -16099,13 +15799,13 @@
           {
             "side": "away",
             "line": 0.5,
-            "price": -125,
+            "price": -130,
             "book": "BetMGM"
           },
           {
             "side": "home",
             "line": -0.5,
-            "price": -102,
+            "price": 100,
             "book": "BetMGM"
           }
         ],
@@ -16125,13 +15825,13 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -119,
+            "price": -120,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -103,
+            "price": -102,
             "book": "MyBookie.ag"
           },
           {
@@ -16149,13 +15849,13 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -130,
+            "price": -125,
             "book": "Bovada"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": 100,
+            "price": -105,
             "book": "Bovada"
           },
           {
@@ -16184,20 +15884,20 @@
           },
           {
             "side": "Over",
-            "line": 5.0,
-            "price": -105,
+            "line": 4.5,
+            "price": -125,
             "book": "BetMGM"
           },
           {
             "side": "Under",
-            "line": 5.0,
-            "price": -125,
+            "line": 4.5,
+            "price": -105,
             "book": "BetMGM"
           }
         ],
         "batter": {
           "batter hr|corey seager|over|0.5": {
-            "price": 370,
+            "price": 350,
             "book": "Caesars"
           },
           "batter hr|carlos narvaez|over|0.5": {
@@ -16213,35 +15913,35 @@
             "book": "BetMGM"
           },
           "batter tb|pete alonso|under|1.5": {
-            "price": -158,
-            "book": "DraftKings"
+            "price": -150,
+            "book": "Bovada"
           },
           "batter tb|brandon nimmo|over|1.5": {
             "price": 130,
             "book": "BetMGM"
           },
           "batter tb|brandon nimmo|under|1.5": {
-            "price": -143,
-            "book": "Caesars"
+            "price": -145,
+            "book": "DraftKings"
           },
           "batter tb|christian encarnacion strand|over|1.5": {
-            "price": 164,
+            "price": 158,
             "book": "BetOnline.ag"
           },
           "batter tb|christian encarnacion strand|under|1.5": {
-            "price": -217,
+            "price": -208,
             "book": "BetOnline.ag"
           },
           "batter tb|corey seager|over|1.5": {
-            "price": 122,
-            "book": "BetOnline.ag"
+            "price": 120,
+            "book": "DraftKings"
           },
           "batter tb|corey seager|under|1.5": {
             "price": -154,
-            "book": "Caesars"
+            "book": "BetOnline.ag"
           },
           "batter tb|justin foscue|over|1.5": {
-            "price": 190,
+            "price": 195,
             "book": "BetRivers"
           }
         },
@@ -16255,7 +15955,7 @@
               },
               "under": {
                 "price": -105,
-                "book": "BetRivers"
+                "book": "BetMGM"
               }
             }
           ],
@@ -16263,12 +15963,12 @@
             {
               "line": 5.5,
               "over": {
-                "price": 115,
-                "book": "Bovada"
+                "price": 116,
+                "book": "FanDuel"
               },
               "under": {
-                "price": -138,
-                "book": "DraftKings"
+                "price": -140,
+                "book": "BetMGM"
               }
             }
           ]
@@ -16283,7 +15983,7 @@
               },
               "under": {
                 "price": -105,
-                "book": "BetRivers"
+                "book": "BetMGM"
               }
             }
           ],
@@ -16291,12 +15991,12 @@
             {
               "line": 5.5,
               "over": {
-                "price": 115,
-                "book": "Bovada"
+                "price": 116,
+                "book": "FanDuel"
               },
               "under": {
-                "price": -138,
-                "book": "DraftKings"
+                "price": -140,
+                "book": "BetMGM"
               }
             }
           ]
@@ -16382,7 +16082,7 @@
             "team": "Detroit Tigers",
             "side": "Over",
             "line": 3.5,
-            "price": -130,
+            "price": -132,
             "book": "FanDuel"
           },
           {
@@ -16391,7 +16091,7 @@
             "team": "Detroit Tigers",
             "side": "Under",
             "line": 3.5,
-            "price": 102,
+            "price": 104,
             "book": "FanDuel"
           },
           {
@@ -16769,14 +16469,14 @@
             "team": "San Francisco Giants",
             "side": "Under",
             "line": 3.5,
-            "price": -125,
+            "price": -130,
             "book": "BetMGM"
           }
         ],
         "h2h": {
           "away": {
-            "price": -114,
-            "book": "FanDuel"
+            "price": -116,
+            "book": "DraftKings"
           },
           "home": {
             "price": 108,
@@ -16823,13 +16523,13 @@
           {
             "side": "away",
             "line": -1.5,
-            "price": 142,
+            "price": 144,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": 1.5,
-            "price": -167,
+            "price": -170,
             "book": "MyBookie.ag"
           },
           {
@@ -16957,25 +16657,25 @@
           {
             "side": "Over",
             "line": 7.5,
-            "price": 101,
+            "price": 102,
             "book": "MyBookie.ag"
           },
           {
             "side": "Under",
             "line": 7.5,
-            "price": -123,
+            "price": -124,
             "book": "MyBookie.ag"
           },
           {
             "side": "Over",
             "line": 7.5,
-            "price": -106,
+            "price": -102,
             "book": "FanDuel"
           },
           {
             "side": "Under",
             "line": 7.5,
-            "price": -114,
+            "price": -120,
             "book": "FanDuel"
           },
           {
@@ -17077,13 +16777,13 @@
           {
             "side": "away",
             "line": -0.5,
-            "price": 116,
+            "price": 119,
             "book": "MyBookie.ag"
           },
           {
             "side": "home",
             "line": 0.5,
-            "price": -142,
+            "price": -145,
             "book": "MyBookie.ag"
           },
           {
@@ -17288,19 +16988,19 @@
                 "book": "BetOnline.ag"
               },
               "under": {
-                "price": -160,
-                "book": "BetMGM"
+                "price": -162,
+                "book": "DraftKings"
               }
             },
             {
               "line": 4.5,
               "over": {
-                "price": -140,
+                "price": -138,
                 "book": "FanDuel"
               },
               "under": {
-                "price": 114,
-                "book": "BetRivers"
+                "price": 115,
+                "book": "Fanatics"
               }
             }
           ],
@@ -17313,7 +17013,7 @@
               },
               "under": {
                 "price": 128,
-                "book": "BetOnline.ag"
+                "book": "BetRivers"
               }
             },
             {
@@ -17338,19 +17038,19 @@
                 "book": "BetOnline.ag"
               },
               "under": {
-                "price": -160,
-                "book": "BetMGM"
+                "price": -162,
+                "book": "DraftKings"
               }
             },
             {
               "line": 4.5,
               "over": {
-                "price": -140,
+                "price": -138,
                 "book": "FanDuel"
               },
               "under": {
-                "price": 114,
-                "book": "BetRivers"
+                "price": 115,
+                "book": "Fanatics"
               }
             }
           ],
@@ -17363,7 +17063,7 @@
               },
               "under": {
                 "price": 128,
-                "book": "BetOnline.ag"
+                "book": "BetRivers"
               }
             },
             {
@@ -17478,7 +17178,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Over",
             "line": 4.5,
-            "price": -118,
+            "price": -115,
             "book": "FanDuel"
           },
           {
@@ -17487,7 +17187,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 4.5,
-            "price": -108,
+            "price": -111,
             "book": "FanDuel"
           },
           {
@@ -17550,7 +17250,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Over",
             "line": 4.5,
-            "price": 137,
+            "price": 130,
             "book": "Caesars"
           },
           {
@@ -17568,7 +17268,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Over",
             "line": 6.5,
-            "price": 340,
+            "price": 333,
             "book": "Caesars"
           },
           {
@@ -17577,7 +17277,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Over",
             "line": 7.5,
-            "price": 550,
+            "price": 500,
             "book": "Caesars"
           },
           {
@@ -17595,7 +17295,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Under",
             "line": 2.5,
-            "price": 180,
+            "price": 187,
             "book": "Caesars"
           },
           {
@@ -17604,7 +17304,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Under",
             "line": 3.5,
-            "price": 100,
+            "price": 105,
             "book": "Caesars"
           },
           {
@@ -17631,7 +17331,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Under",
             "line": 6.5,
-            "price": -550,
+            "price": -500,
             "book": "Caesars"
           },
           {
@@ -17640,7 +17340,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Under",
             "line": 7.5,
-            "price": -1000,
+            "price": -900,
             "book": "Caesars"
           },
           {
@@ -17667,7 +17367,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Over",
             "line": 3.5,
-            "price": -200,
+            "price": -225,
             "book": "Caesars"
           },
           {
@@ -17676,7 +17376,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Over",
             "line": 4.5,
-            "price": -120,
+            "price": -125,
             "book": "Caesars"
           },
           {
@@ -17694,7 +17394,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Over",
             "line": 6.5,
-            "price": 210,
+            "price": 200,
             "book": "Caesars"
           },
           {
@@ -17703,7 +17403,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Over",
             "line": 7.5,
-            "price": 300,
+            "price": 290,
             "book": "Caesars"
           },
           {
@@ -17721,7 +17421,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 2.5,
-            "price": 260,
+            "price": 280,
             "book": "Caesars"
           },
           {
@@ -17739,7 +17439,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 4.5,
-            "price": -105,
+            "price": 100,
             "book": "Caesars"
           },
           {
@@ -17748,7 +17448,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 5.5,
-            "price": -175,
+            "price": -167,
             "book": "Caesars"
           },
           {
@@ -17757,7 +17457,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 6.5,
-            "price": -286,
+            "price": -275,
             "book": "Caesars"
           },
           {
@@ -17766,7 +17466,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 7.5,
-            "price": -450,
+            "price": -400,
             "book": "Caesars"
           },
           {
@@ -17775,7 +17475,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 8.5,
-            "price": -800,
+            "price": -700,
             "book": "Caesars"
           },
           {
@@ -17820,7 +17520,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Over",
             "line": 3.5,
-            "price": -140,
+            "price": -130,
             "book": "BetMGM"
           },
           {
@@ -17829,7 +17529,7 @@
             "team": "Arizona Diamondbacks",
             "side": "Under",
             "line": 3.5,
-            "price": 105,
+            "price": 100,
             "book": "BetMGM"
           },
           {
@@ -17838,7 +17538,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Over",
             "line": 4.5,
-            "price": -118,
+            "price": -125,
             "book": "BetMGM"
           },
           {
@@ -17847,7 +17547,7 @@
             "team": "Los Angeles Dodgers",
             "side": "Under",
             "line": 4.5,
-            "price": -110,
+            "price": -105,
             "book": "BetMGM"
           }
         ],
@@ -17913,25 +17613,25 @@
           {
             "side": "home",
             "line": 1.5,
-            "price": -142,
+            "price": -137,
             "book": "FanDuel"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": 118,
+            "price": 114,
             "book": "FanDuel"
           },
           {
             "side": "home",
             "line": 1.5,
-            "price": -135,
+            "price": -130,
             "book": "Bovada"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": 115,
+            "price": 110,
             "book": "Bovada"
           },
           {
@@ -17949,13 +17649,13 @@
           {
             "side": "home",
             "line": 1.5,
-            "price": -140,
+            "price": -135,
             "book": "Fanatics"
           },
           {
             "side": "away",
             "line": -1.5,
-            "price": 115,
+            "price": 110,
             "book": "Fanatics"
           },
           {
@@ -18059,37 +17759,37 @@
           {
             "side": "Over",
             "line": 9.0,
-            "price": 100,
+            "price": -105,
             "book": "Bovada"
           },
           {
             "side": "Under",
             "line": 9.0,
-            "price": -120,
+            "price": -115,
             "book": "Bovada"
           },
           {
             "side": "Over",
             "line": 9.0,
-            "price": 100,
+            "price": -105,
             "book": "Caesars"
           },
           {
             "side": "Under",
             "line": 9.0,
-            "price": -120,
+            "price": -115,
             "book": "Caesars"
           },
           {
             "side": "Over",
             "line": 9.0,
-            "price": 100,
+            "price": -105,
             "book": "Fanatics"
           },
           {
             "side": "Under",
             "line": 9.0,
-            "price": -120,
+            "price": -115,
             "book": "Fanatics"
           },
           {
@@ -18209,7 +17909,7 @@
           {
             "side": "away",
             "line": -0.5,
-            "price": -102,
+            "price": 100,
             "book": "BetMGM"
           },
           {
@@ -18253,13 +17953,13 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -115,
+            "price": -114,
             "book": "FanDuel"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -113,
+            "price": -114,
             "book": "FanDuel"
           },
           {
@@ -18289,13 +17989,13 @@
           {
             "side": "Over",
             "line": 4.5,
-            "price": -125,
+            "price": -130,
             "book": "BetMGM"
           },
           {
             "side": "Under",
             "line": 4.5,
-            "price": -105,
+            "price": -102,
             "book": "BetMGM"
           },
           {
@@ -18321,11 +18021,11 @@
             "book": "BetOnline.ag"
           },
           "batter tb|shohei ohtani|under|1.5": {
-            "price": -107,
+            "price": -114,
             "book": "Caesars"
           },
           "batter tb|corbin carroll|over|1.5": {
-            "price": 130,
+            "price": 132,
             "book": "BetOnline.ag"
           },
           "batter tb|corbin carroll|under|1.5": {
@@ -18334,7 +18034,7 @@
           },
           "batter tb|freddie freeman|over|1.5": {
             "price": 110,
-            "book": "BetOnline.ag"
+            "book": "BetMGM"
           },
           "batter tb|freddie freeman|under|1.5": {
             "price": -130,
@@ -18373,7 +18073,7 @@
                 "book": "BetMGM"
               },
               "under": {
-                "price": 130,
+                "price": 134,
                 "book": "FanDuel"
               }
             },
@@ -18409,7 +18109,7 @@
               },
               "under": {
                 "price": 120,
-                "book": "BetMGM"
+                "book": "FanDuel"
               }
             },
             {
@@ -18456,7 +18156,7 @@
                 "book": "BetMGM"
               },
               "under": {
-                "price": 130,
+                "price": 134,
                 "book": "FanDuel"
               }
             },
@@ -18492,7 +18192,7 @@
               },
               "under": {
                 "price": 120,
-                "book": "BetMGM"
+                "book": "FanDuel"
               }
             },
             {
@@ -18540,31 +18240,31 @@
     {
       "game_id": 822700,
       "matchup": "CIN @ WSH",
+      "market": "pitcher_strikeouts",
+      "selection": "Brady Singer strikeouts under 4.5",
+      "player": "Brady Singer",
+      "side": "under",
+      "line": 4.5,
+      "fair": -129,
+      "book_odds": -114,
+      "book": "BetRivers",
+      "tier": "bet",
+      "edge_probability": 0.041317,
+      "category": "Prop"
+    },
+    {
+      "game_id": 822700,
+      "matchup": "CIN @ WSH",
       "market": "run_line",
       "selection": "WSH run line +1.5",
       "side": "home",
       "line": 1.5,
       "fair": -185,
       "book_odds": -170,
-      "book": "BetOnline.ag",
+      "book": "Bovada",
       "tier": "bet",
       "edge_probability": 0.037612,
       "category": "Market"
-    },
-    {
-      "game_id": 822700,
-      "matchup": "CIN @ WSH",
-      "market": "pitcher_strikeouts",
-      "selection": "Brady Singer strikeouts under 4.5",
-      "player": "Brady Singer",
-      "side": "under",
-      "line": 4.5,
-      "fair": -130,
-      "book_odds": -114,
-      "book": "BetRivers",
-      "tier": "bet",
-      "edge_probability": 0.031347,
-      "category": "Prop"
     },
     {
       "game_id": 822700,
@@ -18591,7 +18291,7 @@
       "line": 4.5,
       "fair": -192,
       "book_odds": -105,
-      "book": "BetRivers",
+      "book": "BetMGM",
       "tier": "strong",
       "edge_probability": 0.16632,
       "category": "Prop"
@@ -18604,11 +18304,11 @@
       "player": "Kumar Rocker",
       "side": "under",
       "line": 5.5,
-      "fair": -164,
-      "book_odds": -138,
-      "book": "DraftKings",
+      "fair": -165,
+      "book_odds": -140,
+      "book": "BetMGM",
       "tier": "strong",
-      "edge_probability": 0.066322,
+      "edge_probability": 0.065119,
       "category": "Prop"
     },
     {
@@ -18633,25 +18333,11 @@
       "selection": "BAL run line +1.5",
       "side": "away",
       "line": 1.5,
-      "fair": -192,
-      "book_odds": -175,
-      "book": "BetUS",
-      "tier": "bet",
-      "edge_probability": 0.034247,
-      "category": "Market"
-    },
-    {
-      "game_id": 822862,
-      "matchup": "BAL @ TEX",
-      "market": "f5_run_line",
-      "selection": "BAL F5 run line +0.5",
-      "side": "away",
-      "line": 0.5,
-      "fair": -129,
-      "book_odds": -123,
+      "fair": -197,
+      "book_odds": -171,
       "book": "MyBookie.ag",
       "tier": "bet",
-      "edge_probability": 0.029028,
+      "edge_probability": 0.042003,
       "category": "Market"
     },
     {
@@ -18676,11 +18362,11 @@
       "selection": "COL run line +1.5",
       "side": "away",
       "line": 1.5,
-      "fair": -166,
+      "fair": -167,
       "book_odds": -138,
       "book": "LowVig.ag",
       "tier": "strong",
-      "edge_probability": 0.05258,
+      "edge_probability": 0.051869,
       "category": "Market"
     },
     {
@@ -18690,11 +18376,11 @@
       "selection": "COL F5 run line +0.5",
       "side": "away",
       "line": 0.5,
-      "fair": -112,
+      "fair": -111,
       "book_odds": 103,
       "book": "MyBookie.ag",
       "tier": "strong",
-      "edge_probability": 0.048873,
+      "edge_probability": 0.051519,
       "category": "Market"
     },
     {
@@ -18762,10 +18448,10 @@
       "team_side": "home",
       "line": 4.5,
       "fair": -114,
-      "book_odds": 113,
-      "book": "BetOnline.ag",
+      "book_odds": 115,
+      "book": "BetMGM",
       "tier": "strong",
-      "edge_probability": 0.082993,
+      "edge_probability": 0.085304,
       "category": "Market"
     },
     {
@@ -18809,7 +18495,7 @@
       "book_odds": 130,
       "book": "FanDuel",
       "tier": "bet",
-      "edge_probability": 0.037338,
+      "edge_probability": 0.03807,
       "category": "Prop"
     },
     {
@@ -18820,11 +18506,11 @@
       "player": "Shane Bieber",
       "side": "under",
       "line": 3.5,
-      "fair": -101,
-      "book_odds": 120,
+      "fair": -102,
+      "book_odds": 118,
       "book": "BetRivers",
       "tier": "strong",
-      "edge_probability": 0.060758,
+      "edge_probability": 0.060968,
       "category": "Prop"
     },
     {
@@ -18881,7 +18567,7 @@
       "book_odds": 190,
       "book": "FanDuel",
       "tier": "bet",
-      "edge_probability": 0.023688,
+      "edge_probability": 0.02229,
       "category": "Market"
     },
     {
@@ -18907,10 +18593,10 @@
       "side": "over",
       "line": 8.5,
       "fair": -114,
-      "book_odds": 100,
-      "book": "BetRivers",
+      "book_odds": -102,
+      "book": "FanDuel",
       "tier": "bet",
-      "edge_probability": 0.044338,
+      "edge_probability": 0.041876,
       "category": "Market"
     },
     {
@@ -18924,7 +18610,7 @@
       "book_odds": 109,
       "book": "LowVig.ag",
       "tier": "strong",
-      "edge_probability": 0.08538,
+      "edge_probability": 0.083391,
       "category": "Market"
     },
     {
@@ -18939,7 +18625,7 @@
       "book_odds": -110,
       "book": "DraftKings",
       "tier": "strong",
-      "edge_probability": 0.076849,
+      "edge_probability": 0.080516,
       "category": "Market"
     },
     {
@@ -18950,10 +18636,10 @@
       "side": "over",
       "line": 3.5,
       "fair": -143,
-      "book_odds": -120,
+      "book_odds": -125,
       "book": "BetOnline.ag",
       "tier": "strong",
-      "edge_probability": 0.052221,
+      "edge_probability": 0.047661,
       "category": "Market"
     },
     {
@@ -18963,10 +18649,10 @@
       "selection": "MIN F5 ML",
       "side": "away",
       "fair": 213,
-      "book_odds": 235,
-      "book": "FanDuel",
+      "book_odds": 250,
+      "book": "BetMGM",
       "tier": "strong",
-      "edge_probability": 0.02813,
+      "edge_probability": 0.036024,
       "category": "Market"
     },
     {
@@ -18995,7 +18681,7 @@
       "book_odds": -122,
       "book": "FanDuel",
       "tier": "bet",
-      "edge_probability": 0.028963,
+      "edge_probability": 0.034665,
       "category": "Prop"
     },
     {
@@ -19066,10 +18752,10 @@
       "side": "under",
       "line": 4.5,
       "fair": -108,
-      "book_odds": 115,
-      "book": "Bovada",
+      "book_odds": 116,
+      "book": "FanDuel",
       "tier": "strong",
-      "edge_probability": 0.076338,
+      "edge_probability": 0.076753,
       "category": "Prop"
     },
     {
@@ -19128,7 +18814,7 @@
       "book_odds": -120,
       "book": "BetRivers",
       "tier": "strong",
-      "edge_probability": 0.152809,
+      "edge_probability": 0.147971,
       "category": "Prop"
     },
     {
@@ -19139,10 +18825,10 @@
       "side": "home",
       "line": 1.5,
       "fair": -192,
-      "book_odds": -166,
+      "book_odds": -164,
       "book": "FanDuel",
       "tier": "bet",
-      "edge_probability": 0.043433,
+      "edge_probability": 0.044518,
       "category": "Market"
     },
     {
@@ -19155,9 +18841,9 @@
       "line": 5.5,
       "fair": -103,
       "book_odds": 100,
-      "book": "Fanatics",
+      "book": "BetMGM",
       "tier": "bet",
-      "edge_probability": 0.031909,
+      "edge_probability": 0.028177,
       "category": "Prop"
     },
     {
@@ -19169,7 +18855,7 @@
       "line": 9.0,
       "fair": -130,
       "book_odds": 100,
-      "book": "Bovada",
+      "book": "BetMGM",
       "tier": "strong",
       "edge_probability": 0.081054,
       "category": "Market"
@@ -19191,6 +18877,378 @@
     }
   ],
   "slate_history": [
+    {
+      "date": "2026-08-09",
+      "generated": "2026-08-09T13:18:00+00:00",
+      "type": "regular",
+      "label": "Regular slate",
+      "game_count": 12,
+      "games": [
+        {
+          "id": 822700,
+          "matchup": "CIN @ WSH",
+          "away": "CIN",
+          "home": "WSH",
+          "away_name": "Cincinnati Reds",
+          "home_name": "Washington Nationals",
+          "time": "12:15 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.6,
+          "home_score": 5.3,
+          "total": 9.9,
+          "favorite": {
+            "team": "WSH",
+            "probability": 0.513
+          }
+        },
+        {
+          "id": 823345,
+          "matchup": "NYM @ PIT",
+          "away": "NYM",
+          "home": "PIT",
+          "away_name": "New York Mets",
+          "home_name": "Pittsburgh Pirates",
+          "time": "1:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.7,
+          "home_score": 4.8,
+          "total": 8.5,
+          "favorite": {
+            "team": "PIT",
+            "probability": 0.579
+          }
+        },
+        {
+          "id": 823425,
+          "matchup": "TOR @ PHI",
+          "away": "TOR",
+          "home": "PHI",
+          "away_name": "Toronto Blue Jays",
+          "home_name": "Philadelphia Phillies",
+          "time": "1:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.4,
+          "home_score": 4.9,
+          "total": 8.3,
+          "favorite": {
+            "team": "PHI",
+            "probability": 0.655
+          }
+        },
+        {
+          "id": 823513,
+          "matchup": "ATL @ NYY",
+          "away": "ATL",
+          "home": "NYY",
+          "away_name": "Atlanta Braves",
+          "home_name": "New York Yankees",
+          "time": "1:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.2,
+          "home_score": 4.6,
+          "total": 8.8,
+          "favorite": {
+            "team": "NYY",
+            "probability": 0.562
+          }
+        },
+        {
+          "id": 823835,
+          "matchup": "LAA @ MIA",
+          "away": "LAA",
+          "home": "MIA",
+          "away_name": "Los Angeles Angels",
+          "home_name": "Miami Marlins",
+          "time": "1:40 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.1,
+          "home_score": 4.8,
+          "total": 8.9,
+          "favorite": {
+            "team": "MIA",
+            "probability": 0.579
+          }
+        },
+        {
+          "id": 824078,
+          "matchup": "CHC @ KC",
+          "away": "CHC",
+          "home": "KC",
+          "away_name": "Chicago Cubs",
+          "home_name": "Kansas City Royals",
+          "time": "2:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.4,
+          "home_score": 4.5,
+          "total": 9.9,
+          "favorite": {
+            "team": "CHC",
+            "probability": 0.6
+          }
+        },
+        {
+          "id": 824564,
+          "matchup": "CLE @ CWS",
+          "away": "CLE",
+          "home": "CWS",
+          "away_name": "Cleveland Guardians",
+          "home_name": "Chicago White Sox",
+          "time": "2:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.2,
+          "home_score": 4.3,
+          "total": 8.5,
+          "favorite": {
+            "team": "CLE",
+            "probability": 0.514
+          }
+        },
+        {
+          "id": 823751,
+          "matchup": "MIN @ MIL",
+          "away": "MIN",
+          "home": "MIL",
+          "away_name": "Minnesota Twins",
+          "home_name": "Milwaukee Brewers",
+          "time": "2:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 3.3,
+          "home_score": 4.7,
+          "total": 8.0,
+          "favorite": {
+            "team": "MIL",
+            "probability": 0.698
+          }
+        },
+        {
+          "id": 823020,
+          "matchup": "COL @ STL",
+          "away": "COL",
+          "home": "STL",
+          "away_name": "Colorado Rockies",
+          "home_name": "St. Louis Cardinals",
+          "time": "2:15 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.8,
+          "home_score": 4.8,
+          "total": 9.6,
+          "favorite": {
+            "team": "STL",
+            "probability": 0.584
+          }
+        },
+        {
+          "id": 822862,
+          "matchup": "BAL @ TEX",
+          "away": "BAL",
+          "home": "TEX",
+          "away_name": "Baltimore Orioles",
+          "home_name": "Texas Rangers",
+          "time": "2:35 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.2,
+          "home_score": 4.1,
+          "total": 8.3,
+          "favorite": {
+            "team": "TEX",
+            "probability": 0.542
+          }
+        },
+        {
+          "id": 823190,
+          "matchup": "DET @ SF",
+          "away": "DET",
+          "home": "SF",
+          "away_name": "Detroit Tigers",
+          "home_name": "San Francisco Giants",
+          "time": "4:05 PM ET",
+          "status": "Scheduled",
+          "away_score": 4.4,
+          "home_score": 3.6,
+          "total": 8.0,
+          "favorite": {
+            "team": "DET",
+            "probability": 0.538
+          }
+        },
+        {
+          "id": 825050,
+          "matchup": "LAD @ AZ",
+          "away": "LAD",
+          "home": "AZ",
+          "away_name": "Los Angeles Dodgers",
+          "home_name": "Arizona Diamondbacks",
+          "time": "4:10 PM ET",
+          "status": "Scheduled",
+          "away_score": 5.2,
+          "home_score": 4.4,
+          "total": 9.6,
+          "favorite": {
+            "team": "LAD",
+            "probability": 0.578
+          }
+        }
+      ],
+      "special_events": [],
+      "top_picks": [
+        {
+          "category": "Best HR bets",
+          "title": "Corey Seager HR",
+          "game": "BAL @ TEX",
+          "subtitle": "TEX vs Cade Povich · Curveball 21.4%",
+          "fair": 528,
+          "play_to": 538
+        },
+        {
+          "category": "Best HR bets",
+          "title": "Carlos Narváez HR",
+          "game": "BAL @ TEX",
+          "subtitle": "BAL vs Kumar Rocker · Cutter 15.5%",
+          "fair": 534,
+          "play_to": 544
+        },
+        {
+          "category": "Best HR bets",
+          "title": "Ben Rice HR",
+          "game": "ATL @ NYY",
+          "subtitle": "NYY vs Grant Holmes · 4-Seam Fastball 29.3%",
+          "fair": 540,
+          "play_to": 550
+        },
+        {
+          "category": "Best HR bets",
+          "title": "Christian Encarnacion-Strand HR",
+          "game": "BAL @ TEX",
+          "subtitle": "BAL vs Kumar Rocker · 4-Seam Fastball 12.3%",
+          "fair": 540,
+          "play_to": 550
+        },
+        {
+          "category": "Best HR bets",
+          "title": "Riley Greene HR",
+          "game": "DET @ SF",
+          "subtitle": "DET vs Logan Webb · Cutter 13.4%",
+          "fair": 590,
+          "play_to": 600
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Jesús Luzardo over Ks",
+          "game": "TOR @ PHI",
+          "subtitle": "Base 6.8 · ceiling 8.8 · fallback line 6.5",
+          "fair": -342,
+          "play_to": -332
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Cam Schlittler over Ks",
+          "game": "ATL @ NYY",
+          "subtitle": "Base 6.9 · ceiling 8.6 · fallback line 6.5",
+          "fair": -300,
+          "play_to": -290
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Jacob Misiorowski over Ks",
+          "game": "MIN @ MIL",
+          "subtitle": "Base 9.0 · ceiling 11.3 · fallback line 9.5",
+          "fair": -221,
+          "play_to": -211
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Joey Cantillo over Ks",
+          "game": "CLE @ CWS",
+          "subtitle": "Base 5.6 · ceiling 7.2 · fallback line 5.5",
+          "fair": -257,
+          "play_to": -247
+        },
+        {
+          "category": "Best pitcher K bets",
+          "title": "Kumar Rocker over Ks",
+          "game": "BAL @ TEX",
+          "subtitle": "Base 4.9 · ceiling 6.1 · fallback line 4.5",
+          "fair": -268,
+          "play_to": -258
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Gabriel Arias over 1.5 K",
+          "game": "NYM @ PIT",
+          "subtitle": "NYM vs Jared Jones · Slider 34.6%",
+          "fair": 168,
+          "play_to": 178
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Colton Cowser over 1.5 K",
+          "game": "BAL @ TEX",
+          "subtitle": "BAL vs Kumar Rocker · Slider 38.9%",
+          "fair": 173,
+          "play_to": 183
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Coby Mayo over 1.5 K",
+          "game": "BAL @ TEX",
+          "subtitle": "BAL vs Kumar Rocker · Slider 38.9%",
+          "fair": 181,
+          "play_to": 191
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Munetaka Murakami over 1.5 K",
+          "game": "CLE @ CWS",
+          "subtitle": "CWS vs Joey Cantillo · Changeup 25.7%",
+          "fair": 185,
+          "play_to": 195
+        },
+        {
+          "category": "Best batter K targets",
+          "title": "Randal Grichuk over 1.5 K",
+          "game": "CLE @ CWS",
+          "subtitle": "CWS vs Joey Cantillo · Changeup 25.7%",
+          "fair": 199,
+          "play_to": 209
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "CIN @ WSH",
+          "subtitle": "Fair total 9.9"
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "CHC @ KC",
+          "subtitle": "Fair total 9.9"
+        },
+        {
+          "category": "Best 3-leg parlay",
+          "title": "Over lean",
+          "game": "COL @ STL",
+          "subtitle": "Fair total 9.6"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "CIN @ WSH",
+          "subtitle": "Fair total 9.9"
+        },
+        {
+          "category": "Best total bets",
+          "title": "Over lean",
+          "game": "CHC @ KC",
+          "subtitle": "Fair total 9.9"
+        }
+      ],
+      "priced_wager_count": 45,
+      "no_priced_wagers": false,
+      "not_applicable": false,
+      "capture_status": "captured",
+      "summary": "12 games",
+      "revision_id": "83599fe49907aea463fa"
+    },
     {
       "date": "2026-08-09",
       "generated": "2026-08-09T12:54:47+00:00",
@@ -40789,7 +40847,7 @@
     ],
     "2026-08-09": [
       {
-        "id": "54c39b3d412a20afc962",
+        "id": "83599fe49907aea463fa",
         "matchup": "12 games",
         "resultDate": "2026-08-09",
         "savedBetCount": 28,
@@ -40844,8 +40902,8 @@
             "market": "team_total",
             "gameId": 823345,
             "gameTime": "1:35 PM ET",
-            "book": "BetOnline.ag",
-            "bookOdds": 113,
+            "book": "BetMGM",
+            "bookOdds": 115,
             "edgeTier": "strong",
             "result": "Pending",
             "riskUnits": 1.0
@@ -40857,7 +40915,7 @@
             "gameId": 823425,
             "gameTime": "1:35 PM ET",
             "book": "BetRivers",
-            "bookOdds": 120,
+            "bookOdds": 118,
             "edgeTier": "strong",
             "result": "Pending",
             "riskUnits": 1.0
@@ -40940,8 +40998,8 @@
             "market": "pitcher_strikeouts",
             "gameId": 824078,
             "gameTime": "2:10 PM ET",
-            "book": "Bovada",
-            "bookOdds": 115,
+            "book": "FanDuel",
+            "bookOdds": 116,
             "edgeTier": "strong",
             "result": "Pending",
             "riskUnits": 1.0
@@ -40976,8 +41034,8 @@
             "market": "f5_moneyline",
             "gameId": 823751,
             "gameTime": "2:10 PM ET",
-            "book": "FanDuel",
-            "bookOdds": 235,
+            "book": "BetMGM",
+            "bookOdds": 250,
             "edgeTier": "strong",
             "result": "Pending",
             "riskUnits": 1.0
@@ -40989,10 +41047,10 @@
             "gameId": 823751,
             "gameTime": "2:10 PM ET",
             "book": "BetOnline.ag",
-            "bookOdds": -120,
+            "bookOdds": -125,
             "edgeTier": "strong",
             "result": "Pending",
-            "riskUnits": 1.2
+            "riskUnits": 1.25
           },
           {
             "title": "Full-game total Over 7.5",
@@ -41072,7 +41130,7 @@
             "market": "pitcher_strikeouts",
             "gameId": 822862,
             "gameTime": "2:35 PM ET",
-            "book": "BetRivers",
+            "book": "BetMGM",
             "bookOdds": -105,
             "edgeTier": "strong",
             "result": "Pending",
@@ -41084,11 +41142,11 @@
             "market": "pitcher_strikeouts",
             "gameId": 822862,
             "gameTime": "2:35 PM ET",
-            "book": "DraftKings",
-            "bookOdds": -138,
+            "book": "BetMGM",
+            "bookOdds": -140,
             "edgeTier": "strong",
             "result": "Pending",
-            "riskUnits": 1.38
+            "riskUnits": 1.4
           },
           {
             "title": "Osleivis Basabe homerun Over 0.5",
@@ -41120,7 +41178,7 @@
             "market": "full_total",
             "gameId": 825050,
             "gameTime": "4:10 PM ET",
-            "book": "Bovada",
+            "book": "BetMGM",
             "bookOdds": 100,
             "edgeTier": "strong",
             "result": "Pending",

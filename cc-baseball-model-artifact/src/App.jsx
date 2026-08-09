@@ -405,18 +405,6 @@ const APP_CSS = `
   .angle-details { margin-top: 10px; color: var(--text-secondary); font-size: 12px; line-height: 1.45; }
   .angle-details summary { width: fit-content; cursor: pointer; color: var(--text-secondary); font-size: 12px; font-weight: 700; }
   .angle-details p { margin-top: 7px; }
-  .k-input-readout { display: grid; gap: 10px; margin-top: 12px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-muted); }
-  .k-input-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-  .k-input-head strong { color: var(--text-primary); font-size: 12px; }
-  .k-input-head span { color: var(--text-secondary); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .k-workload-track { position: relative; height: 8px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--border) 70%, transparent); }
-  .k-workload-fill { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
-  .k-workload-line { position: absolute; top: -3px; bottom: -3px; width: 2px; border-radius: 2px; background: var(--text-primary); }
-  .k-input-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
-  .k-input-stat { display: grid; gap: 2px; min-width: 0; }
-  .k-input-stat span { overflow: hidden; color: var(--text-tertiary); font-size: 10px; font-weight: 750; letter-spacing: .03em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
-  .k-input-stat b { overflow: hidden; color: var(--text-primary); font-size: 12px; font-variant-numeric: tabular-nums; text-overflow: ellipsis; white-space: nowrap; }
-  .k-input-copy { color: var(--text-secondary); font-size: 12px; line-height: 1.45; }
   .advanced-disclosure { scroll-margin-top: 54px; }
   .advanced-disclosure > summary, .performance-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 16px; cursor: pointer; list-style: none; }
   .advanced-disclosure > summary::-webkit-details-marker, .performance-disclosure > summary::-webkit-details-marker { display: none; }
@@ -2129,59 +2117,6 @@ function BatterKTargetsBoard({ targets }) {
   </section>;
 }
 
-function statPercent(value) {
-  const numeric = finiteNumber(value);
-  return numeric == null ? "—" : `${(numeric * 100).toFixed(1)}%`;
-}
-
-function PitcherKInputReadout({ row }) {
-  const analysis = row?.analysis;
-  if (!analysis || typeof analysis !== "object") return null;
-  const baseProjection = finiteNumber(analysis.base_projection ?? row.base_projected ?? row.projected);
-  const line = finiteNumber(row.line);
-  if (baseProjection == null || line == null) return null;
-  const scaleMax = Math.max(6, Math.ceil(Math.max(baseProjection, line) * 2) / 2 + 1);
-  const projectionWidth = clamp((baseProjection / scaleMax) * 100, 0, 100);
-  const lineOffset = clamp((line / scaleMax) * 100, 0, 100);
-  const lineGap = Math.abs(line - baseProjection).toFixed(1);
-  const lineDirection = line > baseProjection ? "above" : line < baseProjection ? "below" : "at";
-  const workload = [
-    analysis.avg_start_innings != null ? `${score(analysis.avg_start_innings)} IP` : null,
-    analysis.avg_start_batters_faced != null ? `${score(analysis.avg_start_batters_faced)} BF` : null,
-  ].filter(Boolean).join(" / ");
-  const traffic = [
-    analysis.hard_hit_allowed_rate != null ? `${statPercent(analysis.hard_hit_allowed_rate)} hard hit` : null,
-    analysis.xwoba_allowed != null ? `${Number(analysis.xwoba_allowed).toFixed(3)} xwOBA` : null,
-  ].filter(Boolean).join(" · ");
-  const explanation = [
-    `The current line sits ${lineGap} K ${lineDirection} the base workload.`,
-    workload && analysis.starts != null ? `Across ${analysis.starts} starts: ${workload}.` : workload ? `Average start: ${workload}.` : null,
-    analysis.strikeout_rate != null ? `${statPercent(analysis.strikeout_rate)} K/PA and ${statPercent(analysis.swinging_strike_rate)} swinging strikes set the strikeout baseline.` : null,
-    traffic ? `${traffic} are the contact-and-traffic inputs.` : null,
-  ].filter(Boolean).join(" ");
-  return <div className="k-input-readout">
-    <div className="k-input-head">
-      <strong>Statcast K matchup inputs</strong>
-      <span>Blue: base workload · marker: line</span>
-    </div>
-    <div className="k-workload-track" aria-label={`Base projection ${score(baseProjection)} strikeouts versus line ${score(line)}`}>
-      <span className="k-workload-fill" style={{ width: `${projectionWidth}%` }} />
-      <span className="k-workload-line" style={{ left: `${lineOffset}%` }} />
-    </div>
-    <div className="k-input-stats">
-      <span className="k-input-stat"><span>Base workload</span><b>{score(baseProjection)} K</b></span>
-      <span className="k-input-stat"><span>Average start</span><b>{workload || "—"}</b></span>
-      <span className="k-input-stat"><span>K conversion</span><b>{statPercent(analysis.strikeout_rate)} K/PA</b></span>
-      <span className="k-input-stat"><span>Whiff rate</span><b>{statPercent(analysis.swinging_strike_rate)} SwStr</b></span>
-      <span className="k-input-stat"><span>CSW</span><b>{statPercent(analysis.csw_rate)}</b></span>
-      <span className="k-input-stat"><span>Putaway rate</span><b>{statPercent(analysis.putaway_rate)}</b></span>
-      <span className="k-input-stat"><span>Chase generated</span><b>{statPercent(analysis.chase_rate)}</b></span>
-      <span className="k-input-stat"><span>Traffic risk</span><b>{traffic || "—"}</b></span>
-    </div>
-    <p className="k-input-copy">{explanation}</p>
-  </div>;
-}
-
 function PlayerPropAnglesBoard({ batterRows, pitcherRows, kMode, onKModeChange, lineOverrides, onLineChange }) {
   // Player props need a dedicated customer surface. The full list remains
   // book-price-gated; the separate posted-edge subset still drives the ledger
@@ -2236,7 +2171,6 @@ function PlayerPropAnglesBoard({ batterRows, pitcherRows, kMode, onKModeChange, 
             <span>{isManualFairOnly ? <>Book <b>No matching pregame price</b></> : <>Book <b>{pairedBookMeta("O", row.overBook)} / {pairedBookMeta("U", row.underBook)}</b></>}</span>
           </div>
           {isManualFairOnly ? <p className="muted">Fair price for this alternate K line. It will remain a reference only until this exact line has a pregame book price.</p> : row.designation?.detail ? <p className="muted">{row.designation.detail}</p> : null}
-          <PitcherKInputReadout row={row} />
           {row.explainer ? <details className="angle-details"><summary>Why this angle</summary><p>{row.explainer}</p></details> : null}
         </article>;
       })}
@@ -3573,7 +3507,6 @@ function buildGameDisplay(game, odds = blankOdds(), kMode = "base", kLineOverrid
       hasBook: validBookPrice(overBook?.price) || validBookPrice(underBook?.price),
       hasManualLine,
       explainer: angle.explainer,
-      analysis: angle.analysis,
       ...pricing,
     };
   }).filter((row) => row?.player && Number.isFinite(Number(row.fair)) && (row.hasBook || row.hasManualLine));
